@@ -1,8 +1,12 @@
 "use client"
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { motion } from "framer-motion"
 import { MONTH1_CITIES } from "@/lib/cities"
 import { Handshake, Bath, Moon, HeartHandshake, Brain, Hospital, Video, Clock, DollarSign, Phone, ShieldCheck, Heart, MapPin, Lock, Calendar, MessageCircle } from "lucide-react"
+import { FadeIn, Stagger, StaggerItem } from "@/components/motion"
+import { NeonLinkButton, neonButtonVariants, NeonGlowEdges } from "@/components/ui/neon-button"
+import { cn } from "@/lib/utils"
 
 const HERO_SLIDES = [
   { url:"https://images.pexels.com/photos/7551622/pexels-photo-7551622.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop", alt:"Compassionate caregiver holding hands with elderly woman with dementia at home" },
@@ -102,18 +106,18 @@ export default function HomePage() {
         <div className="relative z-10 h-full flex items-center">
           <div className="max-w-6xl mx-auto px-6 w-full">
             <div className="max-w-2xl">
-              <p className="text-teal-300 text-sm font-semibold uppercase tracking-widest mb-4">In-Home Dementia Care · Nationwide</p>
-              <h1 className="text-5xl sm:text-6xl font-bold text-white leading-none mb-6" style={{fontFamily:"var(--font-fraunces)"}}>Real caregivers.<br/><span className="text-teal-400">Free 72-hour</span><br/><span className="text-teal-400">matching.</span></h1>
-              <p className="text-lg text-slate-200 leading-relaxed mb-6 max-w-lg">We hand-pick vetted dementia caregivers and send you their video profiles within 72 hours. Free. No obligation. Transparent pricing.</p>
-              <div className="flex flex-wrap gap-2 mb-8">
+              <FadeIn><p className="text-teal-300 text-sm font-semibold uppercase tracking-widest mb-4">In-Home Dementia Care · Nationwide</p></FadeIn>
+              <FadeIn delay={0.1}><h1 className="text-5xl sm:text-6xl font-bold text-white leading-none mb-6" style={{fontFamily:"var(--font-fraunces)"}}>Real caregivers.<br/><span className="text-teal-400">Free 72-hour</span><br/><span className="text-teal-400">matching.</span></h1></FadeIn>
+              <FadeIn delay={0.2}><p className="text-lg text-slate-200 leading-relaxed mb-6 max-w-lg">We hand-pick vetted dementia caregivers and send you their video profiles within 72 hours. Free. No obligation. Transparent pricing.</p></FadeIn>
+              <Stagger className="flex flex-wrap gap-2 mb-8" stagger={0.06}>
                 {["Free matching","No obligation","Real caregiver videos","24/7 live answering"].map((b) => (
-                  <span key={b} className="bg-white/10 backdrop-blur text-white text-xs font-semibold px-3 py-1.5 rounded-full border border-white/20">✓ {b}</span>
+                  <StaggerItem key={b} className="bg-white/10 backdrop-blur text-white text-xs font-semibold px-3 py-1.5 rounded-full border border-white/20 inline-block">✓ {b}</StaggerItem>
                 ))}
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <Link href="#get-matched" className="px-8 py-4 rounded-xl bg-teal-600 text-white font-semibold text-base hover:bg-teal-500 transition-colors shadow-lg">Get Free Caregiver Profiles →</Link>
-                <Link href="/caregivers" className="px-8 py-4 rounded-xl bg-white/10 backdrop-blur text-white font-semibold text-base hover:bg-white/20 transition-colors border border-white/30">Meet Our Caregivers →</Link>
-              </div>
+              </Stagger>
+              <FadeIn delay={0.3} className="flex flex-wrap gap-3">
+                <NeonLinkButton href="#get-matched" variant="solid" size="lg">Get Free Caregiver Profiles →</NeonLinkButton>
+                <NeonLinkButton href="/caregivers" variant="default" size="lg">Meet Our Caregivers →</NeonLinkButton>
+              </FadeIn>
             </div>
           </div>
         </div>
@@ -363,14 +367,23 @@ export default function HomePage() {
 
       <section className="bg-slate-900 text-white bg-dark-wash">
         <div className="max-w-4xl mx-auto px-6 py-20 text-center">
-          <p className="eyebrow text-teal-400 mb-4">Your Journey Starts Here</p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6" style={{fontFamily:"var(--font-fraunces)"}}>Your family deserves the right caregiver.<br/><span className="text-teal-400">Let us find them.</span></h2>
-          <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto"><strong className="text-white">No waitlists.</strong> No judgment. Real support from vetted caregivers who understand dementia — ready this week.</p>
-          <div className="flex flex-wrap gap-4 justify-center mb-8">
-            <Link href="#get-matched" className="inline-flex items-center gap-2 px-10 py-4 rounded-xl bg-teal-600 text-white font-semibold text-base hover:bg-teal-500 transition-colors shadow-lg"><Calendar className="w-5 h-5" />Get Free Caregiver Profiles</Link>
-            <a href="tel:8005550100" className="inline-flex items-center gap-2 px-10 py-4 rounded-xl bg-white/10 text-white font-semibold text-base hover:bg-white/20 transition-colors border border-white/20"><Phone className="w-5 h-5" />Call (800) 555-0100</a>
-          </div>
-          <p className="text-slate-500 text-sm">New York · Los Angeles · Chicago · Houston · Phoenix · and growing</p>
+          <FadeIn><p className="eyebrow text-teal-400 mb-4">Your Journey Starts Here</p></FadeIn>
+          <FadeIn delay={0.1}><h2 className="text-3xl sm:text-4xl font-bold text-white mb-6" style={{fontFamily:"var(--font-fraunces)"}}>Your family deserves the right caregiver.<br/><span className="text-teal-400">Let us find them.</span></h2></FadeIn>
+          <FadeIn delay={0.2}><p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto"><strong className="text-white">No waitlists.</strong> No judgment. Real support from vetted caregivers who understand dementia — ready this week.</p></FadeIn>
+          <FadeIn delay={0.3} className="flex flex-wrap gap-4 justify-center mb-8">
+            <NeonLinkButton href="#get-matched" variant="solid" size="lg"><Calendar className="w-5 h-5" />Get Free Caregiver Profiles</NeonLinkButton>
+            <motion.a
+              href="tel:8005550100"
+              className={cn(neonButtonVariants({ variant: "default", size: "lg" }))}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Phone className="w-5 h-5" />Call (800) 555-0100
+              <NeonGlowEdges />
+            </motion.a>
+          </FadeIn>
+          <FadeIn delay={0.4}><p className="text-slate-500 text-sm">New York · Los Angeles · Chicago · Houston · Phoenix · and growing</p></FadeIn>
         </div>
       </section>
 
