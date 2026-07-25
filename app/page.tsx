@@ -35,7 +35,7 @@ const WHY_US = [
   { icon:Lock, title:"Zero Obligation", desc:"Review caregiver profiles at no cost. Move forward only when you are ready." },
 ]
 
-const TRUST_BADGES = ["Alzheimer Association Partner","Background Checked","Dementia Trained","HIPAA Aware","Reference Verified","Locally Matched","Video Interviewed","Family Approved","24/7 Support","Transparent Pricing"]
+const TRUST_BADGES = ["Background Checked","Dementia Trained","HIPAA Aware","Reference Verified","Locally Matched","Video Interviewed","Family Approved","24/7 Support","Transparent Pricing"]
 
 const HOW_STEPS = [
   { n:"1", title:"Tell Us Your Situation", time:"Takes 3 minutes", desc:"Fill out a short form or call us. Tell us about your loved one — their diagnosis, care needs, schedule, and location.", note:"A real person reads every submission. No bots." },
@@ -85,7 +85,7 @@ export default function HomePage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:8005550100" className="hidden xl:block text-sm font-semibold text-slate-700 hover:text-teal-600">(800) 555-0100</a>
+            <a href="tel:+17864325758" className="hidden xl:block text-sm font-semibold text-slate-700 hover:text-teal-600">(786) 432-5758</a>
             <Link href="#get-matched" className="px-5 py-2.5 rounded-xl bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition-colors shadow-sm whitespace-nowrap">Get Free Profiles →</Link>
           </div>
         </div>
@@ -140,7 +140,7 @@ export default function HomePage() {
             <p className="text-slate-600 leading-relaxed mb-4"><strong>Dementia In Home</strong> is a national in-home dementia care matching service. We connect families with vetted, compassionate caregivers — and we do something no other service does: we send you <strong>real 15-minute video interviews</strong> of each matched caregiver before you commit to anything.</p>
             <p className="text-slate-600 leading-relaxed mb-8">We specialize exclusively in dementia and Alzheimer care. Matching is <strong>free</strong>. Caregiver profiles arrive within <strong>72 hours</strong>. You move forward only when you feel completely confident.</p>
             <div className="flex flex-wrap gap-3">
-              <a href="tel:8005550100" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-600 text-white font-semibold text-sm hover:bg-teal-700 transition-colors"><Phone className="w-4 h-4" />(800) 555-0100</a>
+              <a href="tel:+17864325758" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-600 text-white font-semibold text-sm hover:bg-teal-700 transition-colors"><Phone className="w-4 h-4" />(786) 432-5758</a>
               <Link href="#get-matched" className="px-6 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:border-teal-400 hover:text-teal-600 transition-colors">Get Started →</Link>
             </div>
           </div>
@@ -329,7 +329,7 @@ export default function HomePage() {
                 </div>
                 <div className="p-5 bg-teal-700 rounded-xl">
                   <p className="text-teal-200 text-sm mb-1">Need to talk right now?</p>
-                  <a href="tel:8005550100" className="text-white font-bold text-2xl hover:text-teal-200 transition-colors">(800) 555-0100</a>
+                  <a href="tel:+17864325758" className="text-white font-bold text-2xl hover:text-teal-200 transition-colors">(786) 432-5758</a>
                   <p className="text-teal-300 text-xs mt-1">Available 24/7 · Real people answer every call</p>
                 </div>
               </div>
@@ -346,7 +346,7 @@ export default function HomePage() {
         <div className="text-center mb-14">
           <p className="eyebrow mb-3">FAQ</p>
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{fontFamily:"var(--font-fraunces)"}}>Frequently Asked Questions</h2>
-          <p className="text-slate-500">Still have questions? <a href="tel:8005550100" className="text-teal-600 font-semibold hover:underline">(800) 555-0100</a> · <Link href="/contact" className="text-teal-600 font-semibold hover:underline">Send a message →</Link></p>
+          <p className="text-slate-500">Still have questions? <a href="tel:+17864325758" className="text-teal-600 font-semibold hover:underline">(786) 432-5758</a> · <Link href="/contact" className="text-teal-600 font-semibold hover:underline">Send a message →</Link></p>
         </div>
         <div className="space-y-3">
           {FAQS.map((faq, i) => (
@@ -360,7 +360,7 @@ export default function HomePage() {
           ))}
         </div>
         <div className="mt-10 text-center flex flex-wrap gap-3 justify-center">
-          <a href="tel:8005550100" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-600 text-white font-semibold text-sm hover:bg-teal-700 transition-colors"><Phone className="w-4 h-4" />(800) 555-0100</a>
+          <a href="tel:+17864325758" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-600 text-white font-semibold text-sm hover:bg-teal-700 transition-colors"><Phone className="w-4 h-4" />(786) 432-5758</a>
           <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:border-teal-400 hover:text-teal-600 transition-colors"><MessageCircle className="w-4 h-4" />Send us a message →</Link>
         </div>
       </section>
@@ -373,13 +373,13 @@ export default function HomePage() {
           <FadeIn delay={0.3} className="flex flex-wrap gap-4 justify-center mb-8">
             <NeonLinkButton href="#get-matched" variant="solid" size="lg"><Calendar className="w-5 h-5" />Get Free Caregiver Profiles</NeonLinkButton>
             <motion.a
-              href="tel:8005550100"
+              href="tel:+17864325758"
               className={cn(neonButtonVariants({ variant: "default", size: "lg" }))}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             >
-              <Phone className="w-5 h-5" />Call (800) 555-0100
+              <Phone className="w-5 h-5" />Call (786) 432-5758
               <NeonGlowEdges />
             </motion.a>
           </FadeIn>
@@ -393,7 +393,7 @@ export default function HomePage() {
             <div>
               <Link href="/" className="font-bold text-white text-lg mb-4 block" style={{fontFamily:"var(--font-fraunces)"}}>Dementia In Home</Link>
               <p className="text-sm leading-relaxed mb-4">The national in-home dementia care matching service. Real caregivers. Real videos. Free 72-hour matching.</p>
-              <a href="tel:8005550100" className="text-teal-400 font-semibold block mb-1">(800) 555-0100</a>
+              <a href="tel:+17864325758" className="text-teal-400 font-semibold block mb-1">(786) 432-5758</a>
               <a href="mailto:hello@dementiainhome.com" className="text-teal-400 text-sm hover:text-teal-300 transition-colors">hello@dementiainhome.com</a>
             </div>
             <div>
