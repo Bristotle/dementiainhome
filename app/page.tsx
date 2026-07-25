@@ -20,7 +20,7 @@ const SERVICES = [
   { icon:Bath, tag:"Essential", title:"Personal Care", desc:"Dignified hands-on help with bathing, dressing, and daily activities as dementia progresses.", img:"https://images.pexels.com/photos/3768131/pexels-photo-3768131.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"Professional caregiver providing personal care assistance to senior with dementia" },
   { icon:Moon, tag:"High Acuity", title:"24-Hour & Live-In", desc:"Around-the-clock coverage for late-stage dementia or high wandering risk.", img:"https://images.pexels.com/photos/7578807/pexels-photo-7578807.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"24-hour caregiver providing overnight care for elderly person with Alzheimer" },
   { icon:HeartHandshake, tag:"Entry Point", title:"Respite Care", desc:"Short-term relief so family caregivers can rest. Often the first paid service families try.", img:"https://images.pexels.com/photos/7551622/pexels-photo-7551622.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"Respite care caregiver giving family caregiver a needed break from dementia care" },
-  { icon:Brain, tag:"Specialized", title:"Memory Care at Home", desc:"Evidence-based dementia techniques — structured routines, cognitive engagement, behavioral support.", img:"https://images.pexels.com/photos/7551617/pexels-photo-7551617.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"Memory care specialist engaging elderly person with dementia in cognitive activities" },
+  { icon:Brain, tag:"Specialized", title:"Memory Care at Home", desc:"Evidence-based dementia techniques - structured routines, cognitive engagement, behavioral support.", img:"https://images.pexels.com/photos/7551617/pexels-photo-7551617.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"Memory care specialist engaging elderly person with dementia in cognitive activities" },
   { icon:Hospital, tag:"Urgent", title:"Hospital Discharge", desc:"Emergency placement within 24-48 hours. We move as fast as your discharge planner.", img:"https://images.pexels.com/photos/3768131/pexels-photo-3768131.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"Caregiver helping elderly person with dementia transition safely from hospital to home" },
 ]
 
@@ -38,7 +38,7 @@ const WHY_US = [
 const TRUST_BADGES = ["Background Checked","Dementia Trained","HIPAA Aware","Reference Verified","Locally Matched","Video Interviewed","Family Approved","24/7 Support","Transparent Pricing"]
 
 const HOW_STEPS = [
-  { n:"1", title:"Tell Us Your Situation", time:"Takes 3 minutes", desc:"Fill out a short form or call us. Tell us about your loved one — their diagnosis, care needs, schedule, and location.", note:"A real person reads every submission. No bots." },
+  { n:"1", title:"Tell Us Your Situation", time:"Takes 3 minutes", desc:"Fill out a short form or call us. Tell us about your loved one - their diagnosis, care needs, schedule, and location.", note:"A real person reads every submission. No bots." },
   { n:"2", title:"We Hand-Pick Caregivers", time:"Within 72 hours", desc:"Our team personally searches our vetted network for the 2-3 best-fit caregivers for your specific situation. No algorithm.", note:"Background checked · Reference verified · Interviewed" },
   { n:"3", title:"Watch Video Profiles", time:"Delivered to your inbox", desc:"We send you real 15-minute recorded interviews. See and hear each caregiver before committing to anything.", note:"Zero obligation until you say yes." },
 ]
@@ -52,8 +52,8 @@ const CAREGIVERS_PREVIEW = [
 
 const FAQS = [
   { q:"How does the free 72-hour caregiver matching work?", a:"You fill out a short form telling us about your loved one needs, location, and schedule. Within 72 hours, we hand-pick 2-3 vetted caregivers in your city and send you their video profiles by email. No cost, no obligation." },
-  { q:"What does in-home dementia care cost?", a:"Rates vary by city and care level. Companion and personal care typically runs $22-$42/hr in our markets. We publish exact local rate ranges on every city page — no hidden fees, no surprises." },
-  { q:"Does Medicare cover in-home dementia care?", a:"Medicare does not cover ongoing custodial or personal care — the kind most dementia families need day-to-day. The majority of in-home dementia care is private pay. VA Aid and Attendance benefits can help veterans." },
+  { q:"What does in-home dementia care cost?", a:"Rates vary by city and care level. Companion and personal care typically runs $22-$42/hr in our markets. We publish exact local rate ranges on every city page - no hidden fees, no surprises." },
+  { q:"Does Medicare cover in-home dementia care?", a:"Medicare does not cover ongoing custodial or personal care - the kind most dementia families need day-to-day. The majority of in-home dementia care is private pay. VA Aid and Attendance benefits can help veterans." },
   { q:"How quickly can you place a caregiver?", a:"For standard placements we deliver caregiver profiles within 72 hours. For urgent situations like hospital discharge, we can often place within 24-48 hours. Call us directly for emergencies." },
   { q:"What makes your caregivers different?", a:"Every caregiver goes through a full background check, reference verification, and an in-person interview. We then record a 15-minute video interview so families can see and hear the caregiver before committing." },
   { q:"Is in-home care better than a memory care facility?", a:"For many families, keeping a loved one at home produces better outcomes. Familiar surroundings reduce confusion and agitation, care is one-on-one, and families control the schedule and level of care." },
@@ -137,7 +137,7 @@ export default function HomePage() {
           <div>
             <p className="eyebrow mb-4">About Us</p>
             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6 leading-tight" style={{fontFamily:"var(--font-fraunces)"}}>About <em className="not-italic text-teal-600">Dementia In Home</em></h2>
-            <p className="text-slate-600 leading-relaxed mb-4"><strong>Dementia In Home</strong> is a national in-home dementia care matching service. We connect families with vetted, compassionate caregivers — and we do something no other service does: we send you <strong>real 15-minute video interviews</strong> of each matched caregiver before you commit to anything.</p>
+            <p className="text-slate-600 leading-relaxed mb-4"><strong>Dementia In Home</strong> is a national in-home dementia care matching service. We connect families with vetted, compassionate caregivers - and we do something no other service does: we send you <strong>real 15-minute video interviews</strong> of each matched caregiver before you commit to anything.</p>
             <p className="text-slate-600 leading-relaxed mb-8">We specialize exclusively in dementia and Alzheimer care. Matching is <strong>free</strong>. Caregiver profiles arrive within <strong>72 hours</strong>. You move forward only when you feel completely confident.</p>
             <div className="flex flex-wrap gap-3">
               <a href="tel:+17864325758" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-600 text-white font-semibold text-sm hover:bg-teal-700 transition-colors"><Phone className="w-4 h-4" />(786) 432-5758</a>
@@ -323,7 +323,7 @@ export default function HomePage() {
                 <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6" style={{fontFamily:"var(--font-fraunces)"}}>Get Free Caregiver Profiles<br/><span className="text-teal-200">in 72 Hours</span></h2>
                 <p className="text-teal-100 text-lg leading-relaxed mb-8">No cost. No obligation. We hand-pick 2-3 vetted dementia caregivers matched to your situation and send you their video profiles.</p>
                 <div className="space-y-3 mb-8">
-                  {["Real 15-minute caregiver video interviews in your inbox","Local pricing breakdown for your city","A real person reads every submission","Zero obligation — move forward only when ready"].map((item) => (
+                  {["Real 15-minute caregiver video interviews in your inbox","Local pricing breakdown for your city","A real person reads every submission","Zero obligation - move forward only when ready"].map((item) => (
                     <div key={item} className="flex items-start gap-3"><span className="text-teal-300 font-bold mt-0.5">✓</span><p className="text-teal-100 text-sm">{item}</p></div>
                   ))}
                 </div>
@@ -369,7 +369,7 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto px-6 py-20 text-center">
           <FadeIn><p className="eyebrow text-teal-400 mb-4">Your Journey Starts Here</p></FadeIn>
           <FadeIn delay={0.1}><h2 className="text-3xl sm:text-4xl font-bold text-white mb-6" style={{fontFamily:"var(--font-fraunces)"}}>Your family deserves the right caregiver.<br/><span className="text-teal-400">Let us find them.</span></h2></FadeIn>
-          <FadeIn delay={0.2}><p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto"><strong className="text-white">No waitlists.</strong> No judgment. Real support from vetted caregivers who understand dementia — ready this week.</p></FadeIn>
+          <FadeIn delay={0.2}><p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto"><strong className="text-white">No waitlists.</strong> No judgment. Real support from vetted caregivers who understand dementia - ready this week.</p></FadeIn>
           <FadeIn delay={0.3} className="flex flex-wrap gap-4 justify-center mb-8">
             <NeonLinkButton href="#get-matched" variant="solid" size="lg"><Calendar className="w-5 h-5" />Get Free Caregiver Profiles</NeonLinkButton>
             <motion.a

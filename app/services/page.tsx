@@ -35,7 +35,7 @@ const SERVICES = [
   },
   {
     icon: Brain, tag: "Specialized", title: "Memory Care at Home",
-    desc: "Evidence-based dementia techniques — structured routines, cognitive engagement, behavioral support.",
+    desc: "Evidence-based dementia techniques - structured routines, cognitive engagement, behavioral support.",
     includes: ["Structured daily routines", "Validation-based communication techniques", "Behavioral symptom management", "Cognitive engagement activities", "Caregivers trained in dementia-specific methods"],
     img: "https://images.pexels.com/photos/7551617/pexels-photo-7551617.jpeg?auto=compress&cs=tinysrgb&w=800&h=560&fit=crop",
     imgAlt: "Memory care specialist engaging elderly person with dementia in cognitive activities",
@@ -57,7 +57,7 @@ export default function ServicesPage() {
         <div className="max-w-4xl mx-auto px-6 text-center">
           <FadeIn><p className="eyebrow mb-4">Our Services</p></FadeIn>
           <FadeIn delay={0.1}><h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">Comprehensive Dementia Care, All at Home</h1></FadeIn>
-          <FadeIn delay={0.2}><p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">We match families with vetted dementia caregivers across the full spectrum of in-home care — from a few hours of companionship to full 24-hour coverage.</p></FadeIn>
+          <FadeIn delay={0.2}><p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">We match families with vetted dementia caregivers across the full spectrum of in-home care - from a few hours of companionship to full 24-hour coverage.</p></FadeIn>
         </div>
       </section>
 
@@ -95,7 +95,7 @@ export default function ServicesPage() {
       <section className="bg-teal-600 bg-dark-wash py-16">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <FadeIn><h2 className="text-3xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-fraunces)" }}>Not sure which service fits your situation?</h2></FadeIn>
-          <FadeIn delay={0.1}><p className="text-teal-50 mb-8">Tell us what&apos;s going on — we&apos;ll recommend the right level of care and hand-pick matching caregivers, free.</p></FadeIn>
+          <FadeIn delay={0.1}><p className="text-teal-50 mb-8">Tell us what&apos;s going on - we&apos;ll recommend the right level of care and hand-pick matching caregivers, free.</p></FadeIn>
           <FadeIn delay={0.2}>
             <MotionLink {...hoverScale} href="/#get-matched" className="inline-flex items-center gap-2 px-10 py-4 rounded-xl bg-white text-teal-700 font-semibold text-base hover:bg-teal-50 transition-colors shadow-lg">Get Free Caregiver Profiles →</MotionLink>
           </FadeIn>

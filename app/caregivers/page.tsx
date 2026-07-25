@@ -21,7 +21,7 @@ const CITIES = ["All cities", "New York, NY", "Los Angeles, CA", "Chicago, IL", 
 
 const VETTING = [
   { icon: ShieldCheck, title: "Background Checked", desc: "Every caregiver passes a full criminal background check before joining our network." },
-  { icon: Award, title: "Dementia Trained", desc: "Specialized training in dementia behaviors, communication, and safety — not general elder care." },
+  { icon: Award, title: "Dementia Trained", desc: "Specialized training in dementia behaviors, communication, and safety - not general elder care." },
   { icon: Video, title: "Video Interviewed", desc: "We personally interview every caregiver on camera before they're ever matched with a family." },
 ]
 
@@ -100,7 +100,7 @@ export default function CaregiversPage() {
           </AnimatePresence>
         </motion.div>
         {filtered.length === 0 && (
-          <p className="text-center text-slate-500 mb-12">No caregivers found for that city yet — request a match and we&apos;ll find one near you.</p>
+          <p className="text-center text-slate-500 mb-12">No caregivers found for that city yet - request a match and we&apos;ll find one near you.</p>
         )}
       </section>
 

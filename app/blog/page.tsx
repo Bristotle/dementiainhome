@@ -14,7 +14,7 @@ export default function BlogPage() {
         <div className="max-w-4xl mx-auto px-6 text-center">
           <FadeIn><p className="eyebrow mb-4">Resources & Blog</p></FadeIn>
           <FadeIn delay={0.1}><h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">Dementia Care Guides for Families</h1></FadeIn>
-          <FadeIn delay={0.2}><p className="text-lg text-slate-600 max-w-2xl mx-auto">Honest, practical guides for families navigating in-home dementia care — from the first diagnosis to finding the right caregiver.</p></FadeIn>
+          <FadeIn delay={0.2}><p className="text-lg text-slate-600 max-w-2xl mx-auto">Honest, practical guides for families navigating in-home dementia care - from the first diagnosis to finding the right caregiver.</p></FadeIn>
         </div>
       </section>
       <section className="max-w-5xl mx-auto px-6 py-16">

@@ -11,14 +11,14 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto px-6 text-center">
           <FadeIn><p className="eyebrow mb-4">About Us</p></FadeIn>
           <FadeIn delay={0.1}><h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">The dementia care specialist families trust</h1></FadeIn>
-          <FadeIn delay={0.2}><p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">We are building the most trusted in-home dementia care matching service in the United States — one family, one caregiver, one city at a time.</p></FadeIn>
+          <FadeIn delay={0.2}><p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">We are building the most trusted in-home dementia care matching service in the United States - one family, one caregiver, one city at a time.</p></FadeIn>
         </div>
       </section>
       <section className="max-w-5xl mx-auto px-6 py-16 bg-glow-center">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-16">
           <FadeIn>
             <h2 className="text-2xl font-bold text-slate-900 mb-4">Our mission</h2>
-            <p className="text-slate-600 leading-relaxed mb-4">Dementia In Home exists because the current system fails families. We match families with vetted, compassionate dementia caregivers and send them real 15-minute video interviews of each caregiver — so families can see and hear who will be in their home before committing to anything.</p>
+            <p className="text-slate-600 leading-relaxed mb-4">Dementia In Home exists because the current system fails families. We match families with vetted, compassionate dementia caregivers and send them real 15-minute video interviews of each caregiver - so families can see and hear who will be in their home before committing to anything.</p>
             <p className="text-slate-600 leading-relaxed mb-6">We specialize exclusively in dementia and Alzheimer&apos;s care. Every caregiver in our network is selected for dementia experience, temperament, and values.</p>
             <p className="text-slate-900 font-bold text-lg">&ldquo;Dignity at home. Peace of mind for family.&rdquo;</p>
           </FadeIn>

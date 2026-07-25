@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://dementiainhome.com"),
   title: {
     template: "%s | Dementia In Home",
-    default: "Dementia In Home — Free 72-Hour In-Home Caregiver Matching",
+    default: "Dementia In Home - Free 72-Hour In-Home Caregiver Matching",
   },
   description: "Find vetted in-home dementia caregivers matched to your family within 72 hours. Free video profiles. Transparent pricing.",
   robots: { index: true, follow: true },

@@ -60,7 +60,7 @@ export default async function CityPage({ params }: Props) {
       <section className="bg-white border-y border-slate-200">
         <div className="max-w-5xl mx-auto px-6 py-12">
           <FadeIn><h2 className="text-2xl font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>What in-home dementia care costs in {city.name}</h2></FadeIn>
-          <FadeIn delay={0.05}><p className="text-slate-500 mb-8">Real local rates — no hidden fees.</p></FadeIn>
+          <FadeIn delay={0.05}><p className="text-slate-500 mb-8">Real local rates - no hidden fees.</p></FadeIn>
           <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <StaggerItem className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
               <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Light supervision</p>
@@ -86,7 +86,7 @@ export default async function CityPage({ params }: Props) {
         <FadeIn><h2 className="text-2xl font-bold text-slate-900 mb-10" style={{fontFamily:"var(--font-fraunces)"}}>How free 72-hour matching works</h2></FadeIn>
         <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-8" stagger={0.15}>
           {[
-            { n:"1", title:"Tell us your situation", desc:"Fill out a short form — takes 3 minutes.", note:"A real person reads every submission." },
+            { n:"1", title:"Tell us your situation", desc:"Fill out a short form - takes 3 minutes.", note:"A real person reads every submission." },
             { n:"2", title:"We hand-pick caregivers", desc:`Within 72 hours we select 2-3 vetted caregivers in ${city.name}.`, note:"Background checked · Reference verified." },
             { n:"3", title:"Watch video profiles", desc:"See and hear each caregiver before you commit.", note:"Zero obligation until you say yes." },
           ].map((step) => (

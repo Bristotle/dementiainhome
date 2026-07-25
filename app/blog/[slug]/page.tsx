@@ -59,7 +59,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <FadeIn className="mt-12 p-5 rounded-2xl bg-slate-50 border border-slate-200">
           <p className="text-xs text-slate-500 leading-relaxed">
             This article is for general educational purposes and is not medical, legal, or financial advice.
-            Every situation is different — please consult your loved one&apos;s physician, a qualified elder-law
+            Every situation is different - please consult your loved one&apos;s physician, a qualified elder-law
             attorney, or a benefits specialist for guidance specific to your circumstances.
           </p>
         </FadeIn>

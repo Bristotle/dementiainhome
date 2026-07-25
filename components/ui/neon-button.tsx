@@ -26,7 +26,7 @@ export const neonButtonVariants = cva(
 
 const HOVER_TRANSITION = { duration: 0.2, ease: [0.22, 1, 0.36, 1] as const }
 
-/** The glowing top/bottom hairlines that appear on hover — the signature "neon" effect. */
+/** The glowing top/bottom hairlines that appear on hover - the signature "neon" effect. */
 export function NeonGlowEdges({ neon = true }: { neon?: boolean }) {
   return (
     <>

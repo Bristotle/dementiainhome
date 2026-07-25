@@ -63,13 +63,13 @@ export const hoverLift = {
   whileTap: { y: -1, scale: 0.98, transition: { duration: 0.1 } },
 }
 
-/** Spread onto any motion.* element for a subtle hover scale — best for buttons/CTAs. */
+/** Spread onto any motion.* element for a subtle hover scale - best for buttons/CTAs. */
 export const hoverScale = {
   whileHover: { scale: 1.03, transition: { duration: 0.2, ease: EASE } },
   whileTap: { scale: 0.97, transition: { duration: 0.1 } },
 }
 
-/** Subtle hover for text links — small rightward shift. */
+/** Subtle hover for text links - small rightward shift. */
 export const hoverShift = {
   whileHover: { x: 4, transition: { duration: 0.2, ease: EASE } },
 }

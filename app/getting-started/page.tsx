@@ -6,10 +6,10 @@ import { MessageCircle, Search, Video, Phone } from "lucide-react"
 import { FadeIn, Stagger, StaggerItem } from "@/components/motion"
 
 const STEPS = [
-  { n: "1", icon: MessageCircle, title: "Tell Us Your Situation", time: "Takes 3 minutes", desc: "Fill out the short form below or call us directly. Tell us about your loved one — their diagnosis, care needs, schedule, and location. A real person reads every submission." },
-  { n: "2", icon: Search, title: "We Hand-Pick Caregivers", time: "Within 72 hours", desc: "Our team personally searches our vetted network for the 2-3 best-fit caregivers for your specific situation. No algorithm, no guessing — every caregiver is background checked, dementia trained, and reference verified." },
+  { n: "1", icon: MessageCircle, title: "Tell Us Your Situation", time: "Takes 3 minutes", desc: "Fill out the short form below or call us directly. Tell us about your loved one - their diagnosis, care needs, schedule, and location. A real person reads every submission." },
+  { n: "2", icon: Search, title: "We Hand-Pick Caregivers", time: "Within 72 hours", desc: "Our team personally searches our vetted network for the 2-3 best-fit caregivers for your specific situation. No algorithm, no guessing - every caregiver is background checked, dementia trained, and reference verified." },
   { n: "3", icon: Video, title: "Watch Video Profiles", time: "Delivered to your inbox", desc: "We send you real 15-minute recorded interviews of each matched caregiver. See their face, hear their voice, and get a feel for who they are before committing to anything." },
-  { n: "4", icon: Phone, title: "Move Forward When Ready", time: "Zero obligation", desc: "Like a caregiver? We'll help set up a meeting and coordinate the start of care. Not ready yet, or none feel like the right fit? No pressure — we'll keep looking." },
+  { n: "4", icon: Phone, title: "Move Forward When Ready", time: "Zero obligation", desc: "Like a caregiver? We'll help set up a meeting and coordinate the start of care. Not ready yet, or none feel like the right fit? No pressure - we'll keep looking." },
 ]
 
 export default function GettingStartedPage() {
@@ -58,10 +58,10 @@ export default function GettingStartedPage() {
                 <li>✓ Real 15-minute caregiver video interviews in your inbox</li>
                 <li>✓ Local pricing breakdown for your city</li>
                 <li>✓ A real person reads every submission</li>
-                <li>✓ Zero obligation — move forward only when ready</li>
+                <li>✓ Zero obligation - move forward only when ready</li>
               </ul>
               <p className="text-teal-100 text-sm font-semibold mb-1">Need to talk right now?</p>
-              <a href="tel:8005550100" className="text-white text-2xl font-bold block mb-1">(800) 555-0100</a>
+              <a href="tel:+17864325758" className="text-white text-2xl font-bold block mb-1">(786) 432-5758</a>
               <p className="text-teal-200 text-xs">Available 24/7 · Real people answer every call</p>
             </FadeIn>
             <FadeIn delay={0.15} className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl">
