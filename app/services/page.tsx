@@ -1,8 +1,8 @@
 "use client"
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
-import Link from "next/link"
 import { Handshake, Bath, Moon, HeartHandshake, Brain, Hospital, Check } from "lucide-react"
+import { FadeIn, MotionLink, hoverScale } from "@/components/motion"
 
 const SERVICES = [
   {
@@ -55,16 +55,16 @@ export default function ServicesPage() {
       <Nav />
       <section className="bg-slate-50 border-b border-slate-200 py-20 bg-soft-wash">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <p className="eyebrow mb-4">Our Services</p>
-          <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">Comprehensive Dementia Care, All at Home</h1>
-          <p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">We match families with vetted dementia caregivers across the full spectrum of in-home care — from a few hours of companionship to full 24-hour coverage.</p>
+          <FadeIn><p className="eyebrow mb-4">Our Services</p></FadeIn>
+          <FadeIn delay={0.1}><h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">Comprehensive Dementia Care, All at Home</h1></FadeIn>
+          <FadeIn delay={0.2}><p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">We match families with vetted dementia caregivers across the full spectrum of in-home care — from a few hours of companionship to full 24-hour coverage.</p></FadeIn>
         </div>
       </section>
 
       <section className="max-w-6xl mx-auto px-6 py-16">
         <div className="space-y-16">
           {SERVICES.map((s, i) => (
-            <div key={s.title} className={"grid grid-cols-1 lg:grid-cols-2 gap-10 items-center" + (i % 2 === 1 ? " lg:[&>*:first-child]:order-2" : "")}>
+            <FadeIn key={s.title} className={"grid grid-cols-1 lg:grid-cols-2 gap-10 items-center" + (i % 2 === 1 ? " lg:[&>*:first-child]:order-2" : "")}>
               <div className="rounded-3xl overflow-hidden border border-slate-200 shadow-sm">
                 <img src={s.img} alt={s.imgAlt} className="w-full h-72 object-cover" />
               </div>
@@ -85,18 +85,20 @@ export default function ServicesPage() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/#get-matched" className="btn-primary">Get Free Caregiver Profiles →</Link>
+                <MotionLink {...hoverScale} href="/#get-matched" className="btn-primary">Get Free Caregiver Profiles →</MotionLink>
               </div>
-            </div>
+            </FadeIn>
           ))}
         </div>
       </section>
 
       <section className="bg-teal-600 bg-dark-wash py-16">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-fraunces)" }}>Not sure which service fits your situation?</h2>
-          <p className="text-teal-50 mb-8">Tell us what&apos;s going on — we&apos;ll recommend the right level of care and hand-pick matching caregivers, free.</p>
-          <Link href="/#get-matched" className="inline-flex items-center gap-2 px-10 py-4 rounded-xl bg-white text-teal-700 font-semibold text-base hover:bg-teal-50 transition-colors shadow-lg">Get Free Caregiver Profiles →</Link>
+          <FadeIn><h2 className="text-3xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-fraunces)" }}>Not sure which service fits your situation?</h2></FadeIn>
+          <FadeIn delay={0.1}><p className="text-teal-50 mb-8">Tell us what&apos;s going on — we&apos;ll recommend the right level of care and hand-pick matching caregivers, free.</p></FadeIn>
+          <FadeIn delay={0.2}>
+            <MotionLink {...hoverScale} href="/#get-matched" className="inline-flex items-center gap-2 px-10 py-4 rounded-xl bg-white text-teal-700 font-semibold text-base hover:bg-teal-50 transition-colors shadow-lg">Get Free Caregiver Profiles →</MotionLink>
+          </FadeIn>
         </div>
       </section>
 
