@@ -81,13 +81,24 @@ export function ShapeBackgroundFull({ className }: { className?: string }) {
   );
 }
 
-/** Lighter set of shapes — for smaller secondary page-header sections. */
+/** Richer set of shapes + texture — for secondary page-header sections. */
 export function ShapeBackgroundCompact({ className }: { className?: string }) {
   return (
     <div className={cn("absolute inset-0 overflow-hidden pointer-events-none", className)}>
       <div className="absolute inset-0 bg-soft-wash" />
-      <ElegantShape borderRadius={20} className="top-[-20%] left-[-10%]" delay={0.2} gradient="from-teal-300/[0.18]" height={220} rotate={-10} width={260} />
-      <ElegantShape borderRadius={18} className="bottom-[-25%] right-[-10%]" delay={0.35} gradient="from-teal-200/[0.15]" height={180} rotate={14} width={320} />
+      <div className="absolute inset-0 bg-linear-to-br from-teal-500/[0.08] via-transparent to-teal-700/[0.12]" />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 opacity-[0.35]"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(13,148,136,0.12) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      />
+      <ElegantShape borderRadius={24} className="top-[-25%] left-[-8%]" delay={0.15} gradient="from-teal-300/[0.28]" height={260} rotate={-12} width={300} />
+      <ElegantShape borderRadius={20} className="bottom-[-30%] right-[-8%]" delay={0.3} gradient="from-teal-200/[0.22]" height={220} rotate={16} width={360} />
+      <ElegantShape borderRadius={18} className="top-[10%] right-[8%]" delay={0.45} gradient="from-amber-300/[0.18]" height={90} rotate={-18} width={180} />
+      <ElegantShape borderRadius={16} className="bottom-[5%] left-[15%]" delay={0.6} gradient="from-emerald-300/[0.2]" height={110} rotate={22} width={200} />
     </div>
   );
 }
