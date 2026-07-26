@@ -3,6 +3,7 @@ import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
 import { BLOG_POSTS } from "@/lib/blog"
 import { FadeIn, Stagger, StaggerItem, MotionLink, hoverLift, hoverScale, hoverShift } from "@/components/motion"
+import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 
 const POSTS = BLOG_POSTS
 
@@ -10,8 +11,9 @@ export default function BlogPage() {
   return (
     <main className="min-h-screen bg-warm-white">
       <Nav />
-      <section className="bg-slate-50 border-b border-slate-200 py-20 bg-soft-wash">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section className="relative overflow-hidden bg-slate-50 border-b border-slate-200 py-20">
+        <ShapeBackgroundCompact />
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <FadeIn><p className="eyebrow mb-4">Resources & Blog</p></FadeIn>
           <FadeIn delay={0.1}><h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">Dementia Care Guides for Families</h1></FadeIn>
           <FadeIn delay={0.2}><p className="text-lg text-slate-600 max-w-2xl mx-auto">Honest, practical guides for families navigating in-home dementia care - from the first diagnosis to finding the right caregiver.</p></FadeIn>

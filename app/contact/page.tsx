@@ -5,6 +5,7 @@ import Footer from "@/components/Footer"
 import { Phone, Mail, Clock } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { FadeIn, Stagger, StaggerItem, hoverScale } from "@/components/motion"
+import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 
 export default function ContactPage() {
   const [form, setForm] = useState({ first_name:"", last_name:"", email:"", phone:"", city:"", message:"" })
@@ -27,8 +28,9 @@ export default function ContactPage() {
   return (
     <main className="min-h-screen bg-warm-white">
       <Nav />
-      <section className="bg-slate-50 border-b border-slate-200 py-20 bg-soft-wash">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section className="relative overflow-hidden bg-slate-50 border-b border-slate-200 py-20">
+        <ShapeBackgroundCompact />
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <FadeIn><p className="eyebrow mb-4">Contact Us</p></FadeIn>
           <FadeIn delay={0.1}><h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">We are here to help</h1></FadeIn>
           <FadeIn delay={0.2}><p className="text-lg text-slate-600 max-w-2xl mx-auto">Real people answer every call and read every message. Reach out however is easiest.</p></FadeIn>

@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Inter, Fraunces, Geist } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,7 +31,7 @@ export const viewport: Viewport = { themeColor: "#0d9488" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
+    <html lang="en" className={cn(inter.variable, fraunces.variable, "font-sans", geist.variable)}>
       <body className="bg-slate-50 text-slate-700 antialiased">
         {children}
       </body>

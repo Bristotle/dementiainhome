@@ -2,6 +2,8 @@
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
 import { MotionLink, hoverScale } from "@/components/motion"
+import MobileNavDrawer from "@/components/ui/mobile-nav-drawer"
+import SearchModal from "@/components/ui/search-modal"
 
 const LINKS = [
   { href:"/about", label:"About" },
@@ -43,8 +45,10 @@ export default function Nav() {
           ))}
         </div>
         <div className="flex items-center gap-3">
+          <SearchModal />
           <a href="tel:+17864325758" className="hidden xl:block text-sm font-semibold text-slate-700 hover:text-teal-600">(786) 432-5758</a>
-          <MotionLink {...hoverScale} href="/#get-matched" className="px-5 py-2.5 rounded-xl bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition-colors shadow-sm whitespace-nowrap">Get Free Profiles →</MotionLink>
+          <MotionLink {...hoverScale} href="/#get-matched" className="hidden sm:block px-5 py-2.5 rounded-xl bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition-colors shadow-sm whitespace-nowrap">Get Free Profiles →</MotionLink>
+          <MobileNavDrawer />
         </div>
       </div>
     </motion.nav>

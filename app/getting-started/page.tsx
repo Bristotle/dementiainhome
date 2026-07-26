@@ -4,6 +4,7 @@ import Footer from "@/components/Footer"
 import LeadForm from "@/components/LeadForm"
 import { MessageCircle, Search, Video, Phone } from "lucide-react"
 import { FadeIn, Stagger, StaggerItem } from "@/components/motion"
+import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 
 const STEPS = [
   { n: "1", icon: MessageCircle, title: "Tell Us Your Situation", time: "Takes 3 minutes", desc: "Fill out the short form below or call us directly. Tell us about your loved one - their diagnosis, care needs, schedule, and location. A real person reads every submission." },
@@ -16,8 +17,9 @@ export default function GettingStartedPage() {
   return (
     <main className="min-h-screen bg-warm-white">
       <Nav />
-      <section className="bg-slate-50 border-b border-slate-200 py-20 bg-soft-wash">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section className="relative overflow-hidden bg-slate-50 border-b border-slate-200 py-20">
+        <ShapeBackgroundCompact />
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <FadeIn><p className="eyebrow mb-4">Getting Started</p></FadeIn>
           <FadeIn delay={0.1}><h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">Free 72-Hour Matching in 4 Simple Steps</h1></FadeIn>
           <FadeIn delay={0.2}><p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">Getting matched with a vetted dementia caregiver is fast, free, and completely pressure-free. Here&apos;s exactly what happens after you reach out.</p></FadeIn>

@@ -7,6 +7,9 @@ import { Handshake, Bath, Moon, HeartHandshake, Brain, Hospital, Video, Clock, D
 import { FadeIn, Stagger, StaggerItem } from "@/components/motion"
 import { NeonLinkButton, neonButtonVariants, NeonGlowEdges } from "@/components/ui/neon-button"
 import { cn } from "@/lib/utils"
+import MobileNavDrawer from "@/components/ui/mobile-nav-drawer"
+import SearchModal from "@/components/ui/search-modal"
+import SpotlightCards from "@/components/ui/spotlight-cards"
 
 const HERO_SLIDES = [
   { url:"https://images.pexels.com/photos/7551622/pexels-photo-7551622.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop", alt:"Compassionate caregiver holding hands with elderly woman with dementia at home" },
@@ -25,14 +28,14 @@ const SERVICES = [
 ]
 
 const WHY_US = [
-  { icon:Video, title:"Real Caregiver Videos", desc:"See and hear your caregiver before they walk through the door. No surprises." },
-  { icon:Clock, title:"72-Hour Matching", desc:"Hand-picked caregiver profiles delivered to your inbox within 72 hours." },
-  { icon:DollarSign, title:"Transparent Pricing", desc:"We publish real local rates. No hidden fees, no bait-and-switch, ever." },
-  { icon:Phone, title:"24/7 Live Answering", desc:"Real people answer every call, day or night. No bots, no voicemail." },
-  { icon:ShieldCheck, title:"Fully Vetted Caregivers", desc:"Background checks, reference calls, and in-person interviews. Every caregiver." },
-  { icon:Heart, title:"Dementia Specialists Only", desc:"We exclusively place dementia caregivers. This is all we do." },
-  { icon:MapPin, title:"Locally Matched", desc:"Every caregiver matched to your specific city, neighborhood, and schedule." },
-  { icon:Lock, title:"Zero Obligation", desc:"Review caregiver profiles at no cost. Move forward only when you are ready." },
+  { icon:Video, title:"Real Caregiver Videos", desc:"See and hear your caregiver before they walk through the door. No surprises.", color:"#0d9488" },
+  { icon:Clock, title:"72-Hour Matching", desc:"Hand-picked caregiver profiles delivered to your inbox within 72 hours.", color:"#0f766e" },
+  { icon:DollarSign, title:"Transparent Pricing", desc:"We publish real local rates. No hidden fees, no bait-and-switch, ever.", color:"#14b8a6" },
+  { icon:Phone, title:"24/7 Live Answering", desc:"Real people answer every call, day or night. No bots, no voicemail.", color:"#0d9488" },
+  { icon:ShieldCheck, title:"Fully Vetted Caregivers", desc:"Background checks, reference calls, and in-person interviews. Every caregiver.", color:"#0f766e" },
+  { icon:Heart, title:"Dementia Specialists Only", desc:"We exclusively place dementia caregivers. This is all we do.", color:"#14b8a6" },
+  { icon:MapPin, title:"Locally Matched", desc:"Every caregiver matched to your specific city, neighborhood, and schedule.", color:"#0d9488" },
+  { icon:Lock, title:"Zero Obligation", desc:"Review caregiver profiles at no cost. Move forward only when you are ready.", color:"#0f766e" },
 ]
 
 const TRUST_BADGES = ["Background Checked","Dementia Trained","HIPAA Aware","Reference Verified","Locally Matched","Video Interviewed","Family Approved","24/7 Support","Transparent Pricing"]
@@ -78,15 +81,20 @@ export default function HomePage() {
 
       <nav className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="font-bold text-teal-600 text-xl" style={{fontFamily:"var(--font-fraunces)"}}>Dementia In Home</Link>
+          <Link href="/" className="flex items-center gap-2.5 font-bold text-teal-600 text-xl" style={{fontFamily:"var(--font-fraunces)"}}>
+            <img src="/logo-mark.svg" alt="" width={32} height={32} className="rounded-lg" />
+            Dementia In Home
+          </Link>
           <div className="hidden lg:flex items-center gap-6">
             {[["/about","About"],["/getting-started","Getting Started"],["/caregivers","Our Caregivers"],["/services","Services"],["/blog","Blog"],["/contact","Contact"]].map(([href,label]) => (
               <Link key={href} href={href} className="text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors whitespace-nowrap">{label}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
+            <SearchModal />
             <a href="tel:+17864325758" className="hidden xl:block text-sm font-semibold text-slate-700 hover:text-teal-600">(786) 432-5758</a>
-            <Link href="#get-matched" className="px-5 py-2.5 rounded-xl bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition-colors shadow-sm whitespace-nowrap">Get Free Profiles →</Link>
+            <Link href="#get-matched" className="hidden sm:block px-5 py-2.5 rounded-xl bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition-colors shadow-sm whitespace-nowrap">Get Free Profiles →</Link>
+            <MobileNavDrawer />
           </div>
         </div>
       </nav>
@@ -94,13 +102,14 @@ export default function HomePage() {
       <section className="relative h-[88vh] min-h-[600px] overflow-hidden">
         {HERO_SLIDES.map((s, i) => (
           <div key={i} className="absolute inset-0 transition-opacity duration-1000" style={{opacity: i === slide ? 1 : 0}} aria-hidden={i !== slide}>
-            <img src={s.url} alt={s.alt} className="w-full h-full object-cover" loading={i === 0 ? "eager" : "lazy"} width="1920" height="1080" />
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/55 to-slate-900/10" />
+            <motion.img src={s.url} alt={s.alt} className="w-full h-full object-cover" loading={i === 0 ? "eager" : "lazy"} width="1920" height="1080" animate={{ scale: [1, 1.08, 1] }} transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }} />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-teal-900/45 to-slate-900/10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20" />
           </div>
         ))}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2.5 z-10 bg-black/20 backdrop-blur-sm px-3 py-2 rounded-full">
           {HERO_SLIDES.map((_, i) => (
-            <button key={i} onClick={() => setSlide(i)} aria-label={"Slide "+(i+1)} className={"rounded-full transition-all duration-300 h-2.5 " + (i === slide ? "bg-white w-6" : "bg-white/40 w-2.5 hover:bg-white/60")} />
+            <button key={i} onClick={() => setSlide(i)} aria-label={"Slide "+(i+1)} className={"rounded-full transition-all duration-300 h-2 " + (i === slide ? "bg-teal-300 w-7 shadow-[0_0_8px_rgba(94,234,212,0.8)]" : "bg-white/50 w-2 hover:bg-white/80")} />
           ))}
         </div>
         <div className="relative z-10 h-full flex items-center">
@@ -203,15 +212,7 @@ export default function HomePage() {
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{fontFamily:"var(--font-fraunces)"}}>We Put <em className="not-italic text-teal-600">Families First.</em> Always.</h2>
           <p className="text-slate-500 max-w-2xl mx-auto">Every feature we built exists because families told us what they actually needed.</p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {WHY_US.map((w) => (
-            <div key={w.title} className="text-center p-6 rounded-2xl hover:bg-teal-50 hover:border-teal-200 border border-transparent transition-all">
-              <div className="w-12 h-12 rounded-2xl bg-teal-50 flex items-center justify-center mx-auto mb-4"><w.icon className="w-6 h-6 text-teal-600" strokeWidth={1.75} /></div>
-              <h3 className="font-bold text-slate-900 mb-2 text-sm">{w.title}</h3>
-              <p className="text-slate-500 text-sm leading-relaxed">{w.desc}</p>
-            </div>
-          ))}
-        </div>
+        <SpotlightCards items={WHY_US} />
       </section>
 
       <section className="bg-slate-900 border-y border-slate-700 overflow-hidden py-5 bg-dark-wash">

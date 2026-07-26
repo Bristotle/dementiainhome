@@ -5,6 +5,7 @@ import Footer from "@/components/Footer"
 import { motion, AnimatePresence } from "framer-motion"
 import { ShieldCheck, Video, Award, MapPin } from "lucide-react"
 import { FadeIn, Stagger, StaggerItem, MotionLink, hoverScale, hoverLift } from "@/components/motion"
+import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 
 const CAREGIVERS = [
   { name: "Maria Gonzalez", credential: "Certified Dementia Practitioner", city: "New York, NY", exp: "12 years", img: "https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop", imgAlt: "Maria Gonzalez certified dementia practitioner caregiver New York" },
@@ -36,8 +37,9 @@ export default function CaregiversPage() {
   return (
     <main className="min-h-screen bg-warm-white">
       <Nav />
-      <section className="bg-slate-50 border-b border-slate-200 py-20 bg-soft-wash">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section className="relative overflow-hidden bg-slate-50 border-b border-slate-200 py-20">
+        <ShapeBackgroundCompact />
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <FadeIn><p className="eyebrow mb-4">Our Caregivers</p></FadeIn>
           <FadeIn delay={0.1}><h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">Real Caregivers. Real Videos. No Surprises.</h1></FadeIn>
           <FadeIn delay={0.2}><p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">Every caregiver in our network is background checked, dementia trained, and video interviewed before we ever recommend them to a family.</p></FadeIn>

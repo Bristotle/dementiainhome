@@ -3,6 +3,7 @@ import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
 import { Handshake, Bath, Moon, HeartHandshake, Brain, Hospital, Check } from "lucide-react"
 import { FadeIn, MotionLink, hoverScale } from "@/components/motion"
+import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 
 const SERVICES = [
   {
@@ -53,8 +54,9 @@ export default function ServicesPage() {
   return (
     <main className="min-h-screen bg-warm-white">
       <Nav />
-      <section className="bg-slate-50 border-b border-slate-200 py-20 bg-soft-wash">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section className="relative overflow-hidden bg-slate-50 border-b border-slate-200 py-20">
+        <ShapeBackgroundCompact />
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <FadeIn><p className="eyebrow mb-4">Our Services</p></FadeIn>
           <FadeIn delay={0.1}><h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">Comprehensive Dementia Care, All at Home</h1></FadeIn>
           <FadeIn delay={0.2}><p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">We match families with vetted dementia caregivers across the full spectrum of in-home care - from a few hours of companionship to full 24-hour coverage.</p></FadeIn>
