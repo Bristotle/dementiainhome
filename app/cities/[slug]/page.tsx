@@ -124,6 +124,9 @@ export default async function CityPage({ params }: Props) {
             ))}
           </div>
         </div>
+        <div className="pb-6 text-center">
+          <p className="text-xs text-slate-400">Made with <span aria-hidden="true">❤️</span> by <a href="http://www.manueltechnologies.com/" target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:text-teal-700 transition-colors font-medium">Manuel Technologies</a></p>
+        </div>
       </footer>
     </main>
   )

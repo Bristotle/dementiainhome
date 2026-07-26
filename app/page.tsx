@@ -9,6 +9,7 @@ import { NeonLinkButton, neonButtonVariants, NeonGlowEdges } from "@/components/
 import { cn } from "@/lib/utils"
 import MobileNavDrawer from "@/components/ui/mobile-nav-drawer"
 import SearchModal from "@/components/ui/search-modal"
+import ServicesDropdown from "@/components/ui/services-dropdown"
 import SpotlightCards from "@/components/ui/spotlight-cards"
 
 const HERO_SLIDES = [
@@ -86,7 +87,9 @@ export default function HomePage() {
             Dementia In Home
           </Link>
           <div className="hidden lg:flex items-center gap-6">
-            {[["/about","About"],["/getting-started","Getting Started"],["/caregivers","Our Caregivers"],["/services","Services"],["/blog","Blog"],["/contact","Contact"]].map(([href,label]) => (
+            <Link href="/about" className="text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors whitespace-nowrap">About</Link>
+            <ServicesDropdown />
+            {[["/caregivers","Our Caregivers"],["/getting-started","Getting Started"],["/blog","Blog"],["/contact","Contact"]].map(([href,label]) => (
               <Link key={href} href={href} className="text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors whitespace-nowrap">{label}</Link>
             ))}
           </div>
@@ -160,7 +163,7 @@ export default function HomePage() {
             </div>
             <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
               <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Our Mission</p>
-              <p className="text-2xl font-bold text-slate-900 leading-snug mb-4" style={{fontFamily:"var(--font-fraunces)"}}>"Dignity at home. Peace of mind for family."</p>
+              <p className="text-2xl font-bold text-slate-900 leading-snug mb-4" style={{fontFamily:"var(--font-fraunces)"}}>&ldquo;Dignity at home. Peace of mind for family.&rdquo;</p>
               <div className="grid grid-cols-2 gap-3">
                 {[["346","US cities in plan"],["7.4M","Americans with Alzheimer"],["$0","Cost to get matched"],["72hrs","Profile delivery"]].map(([val,label]) => (
                   <div key={label} className="bg-white rounded-xl p-3 border border-slate-200 text-center">
@@ -429,6 +432,9 @@ export default function HomePage() {
               <Link href="/terms" className="hover:text-teal-400 transition-colors">Terms of Service</Link>
               <Link href="/contact" className="hover:text-teal-400 transition-colors">Contact</Link>
             </div>
+          </div>
+          <div className="mt-6 text-center">
+            <p className="text-xs text-slate-500">Made with <span aria-hidden="true">❤️</span> by <a href="http://www.manueltechnologies.com/" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 transition-colors font-medium">Manuel Technologies</a></p>
           </div>
         </div>
       </footer>

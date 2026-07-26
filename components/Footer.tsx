@@ -57,6 +57,9 @@ export default function Footer() {
             <MotionLink {...hoverShift} href="/contact" className="hover:text-teal-400 transition-colors">Contact</MotionLink>
           </div>
         </div>
+        <div className="mt-6 text-center">
+          <p className="text-xs text-slate-500">Made with <span aria-hidden="true">❤️</span> by <a href="http://www.manueltechnologies.com/" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 transition-colors font-medium">Manuel Technologies</a></p>
+        </div>
       </div>
     </footer>
   )

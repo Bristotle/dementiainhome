@@ -4,10 +4,12 @@ import { motion } from "framer-motion"
 import { MotionLink, hoverScale } from "@/components/motion"
 import MobileNavDrawer from "@/components/ui/mobile-nav-drawer"
 import SearchModal from "@/components/ui/search-modal"
+import ServicesDropdown from "@/components/ui/services-dropdown"
 
-const LINKS = [
+const LINKS_BEFORE = [
   { href:"/about", label:"About" },
-  { href:"/services", label:"Services" },
+]
+const LINKS_AFTER = [
   { href:"/caregivers", label:"Our Caregivers" },
   { href:"/getting-started", label:"Getting Started" },
   { href:"/blog", label:"Blog" },
@@ -31,7 +33,20 @@ export default function Nav() {
           Dementia In Home
         </MotionLink>
         <div className="hidden lg:flex items-center gap-6">
-          {LINKS.map((link) => (
+          {LINKS_BEFORE.map((link) => (
+            <MotionLink
+              key={link.href}
+              href={link.href}
+              whileHover={{ y: -2 }}
+              whileTap={{ y: 0 }}
+              transition={{ duration: 0.2 }}
+              className={"text-sm font-medium transition-colors whitespace-nowrap " + (pathname === link.href ? "text-teal-600 font-semibold" : "text-slate-600 hover:text-teal-600")}
+            >
+              {link.label}
+            </MotionLink>
+          ))}
+          <ServicesDropdown />
+          {LINKS_AFTER.map((link) => (
             <MotionLink
               key={link.href}
               href={link.href}
