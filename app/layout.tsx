@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Fraunces, Geist } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +35,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={cn(inter.variable, fraunces.variable, "font-sans", geist.variable)}>
       <body className="bg-slate-50 text-slate-700 antialiased">
         {children}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-Z11TVVZBCL"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {"window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-Z11TVVZBCL');"}
+        </Script>
       </body>
     </html>
   );
