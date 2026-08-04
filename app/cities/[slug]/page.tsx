@@ -4,6 +4,8 @@ import LeadForm from "@/components/LeadForm"
 import Link from "next/link"
 import type { Metadata } from "next"
 import { FadeIn, Stagger, StaggerItem, MotionLink, hoverScale, hoverShift } from "@/components/motion"
+import { getStateFacts } from "@/lib/state-facts"
+import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -25,6 +27,7 @@ export default async function CityPage({ params }: Props) {
   const { slug } = await params
   const city = getCityBySlug(slug)
   if (!city) notFound()
+  const stateFacts = getStateFacts(city.state_abbrev)
 
   return (
     <main className="min-h-screen bg-warm-white">
@@ -38,8 +41,9 @@ export default async function CityPage({ params }: Props) {
         </div>
       </nav>
 
-      <section className="max-w-5xl mx-auto px-6 py-16 bg-glow-center">
-        <div className="max-w-2xl">
+      <section className="relative overflow-hidden max-w-5xl mx-auto px-6 py-16">
+        <ShapeBackgroundCompact />
+        <div className="relative z-10 max-w-2xl">
           <FadeIn><p className="eyebrow mb-4">{city.name}, {city.state_abbrev}</p></FadeIn>
           <FadeIn delay={0.1}>
             <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight mb-6" style={{fontFamily:"var(--font-fraunces)"}}>
@@ -82,6 +86,71 @@ export default async function CityPage({ params }: Props) {
         </div>
       </section>
 
+      {stateFacts && (
+        <section className="bg-slate-50 border-b border-slate-200">
+          <div className="max-w-5xl mx-auto px-6 py-14">
+            <FadeIn><h2 className="text-2xl font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>Dementia in {stateFacts.stateName}: what families should know</h2></FadeIn>
+            <FadeIn delay={0.05}><p className="text-slate-500 mb-8">Real state-specific data, not generic national averages.</p></FadeIn>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+              <FadeIn>
+                <div className="bg-white rounded-2xl p-6 border border-slate-200 h-full">
+                  <h3 className="font-bold text-slate-900 mb-4">Local prevalence</h3>
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <p className="text-2xl font-bold text-teal-600">{stateFacts.demographics.seniorsWithAlzheimers}</p>
+                      <p className="text-xs text-slate-500">Residents 65+ with Alzheimer&apos;s in {stateFacts.stateName}</p>
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-teal-600">{stateFacts.demographics.prevalenceRate}</p>
+                      <p className="text-xs text-slate-500">Prevalence among adults 65+</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-slate-600 leading-relaxed">{stateFacts.demographics.note}</p>
+                </div>
+              </FadeIn>
+              <FadeIn delay={0.1}>
+                <div className="bg-white rounded-2xl p-6 border border-slate-200 h-full">
+                  <h3 className="font-bold text-slate-900 mb-4">The unpaid caregiver reality</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    An estimated <span className="font-semibold text-slate-900">{stateFacts.demographics.unpaidCaregivers}</span> family caregivers in {stateFacts.stateName} are currently providing unpaid dementia care at home - which is exactly the exhaustion point where paid in-home support usually becomes necessary.
+                  </p>
+                </div>
+              </FadeIn>
+            </div>
+
+            <FadeIn>
+              <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 mb-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-xs font-semibold bg-teal-100 text-teal-700 px-2 py-1 rounded-full">{stateFacts.stateAbbrev} Medicaid</span>
+                  <h3 className="font-bold text-slate-900">{stateFacts.medicaidProgram.fullName} ({stateFacts.medicaidProgram.name})</h3>
+                </div>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">Administered by {stateFacts.medicaidProgram.administeredBy}.</p>
+                <div className="space-y-3">
+                  <div className="p-4 rounded-xl bg-teal-50 border border-teal-100">
+                    <p className="text-xs font-semibold text-teal-700 uppercase tracking-wide mb-1">Dementia-specific eligibility</p>
+                    <p className="text-sm text-slate-700 leading-relaxed">{stateFacts.medicaidProgram.dementiaThreshold}</p>
+                  </div>
+                  <p className="text-sm text-slate-600 leading-relaxed">{stateFacts.medicaidProgram.standardThreshold}</p>
+                  <p className="text-sm text-slate-600 leading-relaxed"><span className="font-semibold text-slate-900">Asset limits (2026):</span> {stateFacts.medicaidProgram.assetLimitSingle} for a single applicant, {stateFacts.medicaidProgram.assetLimitCouple} for a couple.</p>
+                  <p className="text-sm text-slate-600 leading-relaxed"><span className="font-semibold text-slate-900">What makes {stateFacts.stateAbbrev} different:</span> {stateFacts.medicaidProgram.uniqueFeature}</p>
+                  <p className="text-sm text-slate-600 leading-relaxed"><span className="font-semibold text-slate-900">How to apply:</span> {stateFacts.medicaidProgram.applicationProcess}</p>
+                </div>
+              </div>
+            </FadeIn>
+
+            <p className="text-xs text-slate-400">
+              Sources: {stateFacts.citations.map((c, i) => (
+                <span key={c.url}>
+                  <a href={c.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-600">{c.label}</a>
+                  {i < stateFacts.citations.length - 1 ? " · " : ""}
+                </span>
+              ))}
+            </p>
+          </div>
+        </section>
+      )}
+
       <section className="max-w-5xl mx-auto px-6 py-16">
         <FadeIn><h2 className="text-2xl font-bold text-slate-900 mb-10" style={{fontFamily:"var(--font-fraunces)"}}>How free 72-hour matching works</h2></FadeIn>
         <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-8" stagger={0.15}>
@@ -123,9 +192,6 @@ export default async function CityPage({ params }: Props) {
               <MotionLink key={c.slug} {...hoverShift} href={"/cities/"+c.slug} className="text-sm text-slate-500 hover:text-teal-600 transition-colors">{c.name}</MotionLink>
             ))}
           </div>
-        </div>
-        <div className="pb-6 text-center">
-          <p className="text-xs text-slate-400">Made with <span aria-hidden="true">❤️</span> by <a href="http://www.manueltechnologies.com/" target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:text-teal-700 transition-colors font-medium">Manuel Technologies</a></p>
         </div>
       </footer>
     </main>

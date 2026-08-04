@@ -31,9 +31,35 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#0d9488" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Dementia In Home",
+    "url": "https://dementiainhome.com",
+    "logo": "https://dementiainhome.com/logo-mark.svg",
+    "description": "A national in-home dementia care matching service. We hand-pick vetted, dementia-trained caregivers and send families real video profiles within 72 hours, free and with no obligation.",
+    "telephone": "+17864325758",
+    "email": "hello@dementiainhome.com",
+    "areaServed": {
+      "@type": "Country",
+      "name": "United States",
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+17864325758",
+      "contactType": "customer service",
+      "email": "hello@dementiainhome.com",
+      "areaServed": "US",
+      "availableLanguage": "English",
+    },
+  }
+
   return (
     <html lang="en" className={cn(inter.variable, fraunces.variable, "font-sans", geist.variable)}>
       <body className="bg-slate-50 text-slate-700 antialiased">
+        <Script id="organization-schema" type="application/ld+json" strategy="beforeInteractive">
+          {JSON.stringify(organizationSchema)}
+        </Script>
         {children}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-Z11TVVZBCL"

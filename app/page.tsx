@@ -9,6 +9,7 @@ import { NeonLinkButton, neonButtonVariants, NeonGlowEdges } from "@/components/
 import { cn } from "@/lib/utils"
 import MobileNavDrawer from "@/components/ui/mobile-nav-drawer"
 import SearchModal from "@/components/ui/search-modal"
+import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 import ServicesDropdown from "@/components/ui/services-dropdown"
 import SpotlightCards from "@/components/ui/spotlight-cards"
 
@@ -144,8 +145,9 @@ export default function HomePage() {
         </div>
       </div>
 
-      <section id="about" className="max-w-6xl mx-auto px-6 py-20 bg-glow-center">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <section id="about" className="relative overflow-hidden max-w-6xl mx-auto px-6 py-20">
+        <ShapeBackgroundCompact />
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <p className="eyebrow mb-4">About Us</p>
             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6 leading-tight" style={{fontFamily:"var(--font-fraunces)"}}>About <em className="not-italic text-teal-600">Dementia In Home</em></h2>
@@ -432,9 +434,6 @@ export default function HomePage() {
               <Link href="/terms" className="hover:text-teal-400 transition-colors">Terms of Service</Link>
               <Link href="/contact" className="hover:text-teal-400 transition-colors">Contact</Link>
             </div>
-          </div>
-          <div className="mt-6 text-center">
-            <p className="text-xs text-slate-500">Made with <span aria-hidden="true">❤️</span> by <a href="http://www.manueltechnologies.com/" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 transition-colors font-medium">Manuel Technologies</a></p>
           </div>
         </div>
       </footer>
