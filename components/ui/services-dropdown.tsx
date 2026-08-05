@@ -6,12 +6,12 @@ import { AnimatePresence, motion } from "motion/react"
 import { Handshake, Bath, Moon, HeartHandshake, Brain, Hospital, ChevronDown } from "lucide-react"
 
 const SERVICES_MENU = [
-  { icon: Handshake, title: "Companion Care", desc: "Supervision & activities", href: "/services" },
-  { icon: Bath, title: "Personal Care", desc: "Hands-on daily help", href: "/services" },
-  { icon: Moon, title: "24-Hour & Live-In", desc: "Around-the-clock coverage", href: "/services" },
-  { icon: HeartHandshake, title: "Respite Care", desc: "Short-term family relief", href: "/services" },
-  { icon: Brain, title: "Memory Care at Home", desc: "Evidence-based techniques", href: "/services" },
-  { icon: Hospital, title: "Hospital Discharge", desc: "24-48 hour placement", href: "/services" },
+  { icon: Handshake, title: "Companion Care", desc: "Supervision & activities", href: "/services/companion-care" },
+  { icon: Bath, title: "Personal Care", desc: "Hands-on daily help", href: "/services/personal-care" },
+  { icon: Moon, title: "24-Hour & Live-In", desc: "Around-the-clock coverage", href: "/services/24-hour-live-in-care" },
+  { icon: HeartHandshake, title: "Respite Care", desc: "Short-term family relief", href: "/services/respite-care" },
+  { icon: Brain, title: "Memory Care at Home", desc: "Evidence-based techniques", href: "/services/memory-care-at-home" },
+  { icon: Hospital, title: "Hospital Discharge", desc: "24-48 hour placement", href: "/services/hospital-discharge-care" },
 ]
 
 export default function ServicesDropdown() {

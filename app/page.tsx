@@ -21,12 +21,12 @@ const HERO_SLIDES = [
 ]
 
 const SERVICES = [
-  { icon:Handshake, tag:"Most Popular", title:"Companion Care", desc:"Supervision, conversation, activities, and safety monitoring. The foundation of in-home dementia care.", img:"https://images.pexels.com/photos/7551617/pexels-photo-7551617.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"Caregiver providing compassionate companion care to elderly person with dementia" },
-  { icon:Bath, tag:"Essential", title:"Personal Care", desc:"Dignified hands-on help with bathing, dressing, and daily activities as dementia progresses.", img:"https://images.pexels.com/photos/3768131/pexels-photo-3768131.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"Professional caregiver providing personal care assistance to senior with dementia" },
-  { icon:Moon, tag:"High Acuity", title:"24-Hour & Live-In", desc:"Around-the-clock coverage for late-stage dementia or high wandering risk.", img:"https://images.pexels.com/photos/7578807/pexels-photo-7578807.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"24-hour caregiver providing overnight care for elderly person with Alzheimer" },
-  { icon:HeartHandshake, tag:"Entry Point", title:"Respite Care", desc:"Short-term relief so family caregivers can rest. Often the first paid service families try.", img:"https://images.pexels.com/photos/7551622/pexels-photo-7551622.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"Respite care caregiver giving family caregiver a needed break from dementia care" },
-  { icon:Brain, tag:"Specialized", title:"Memory Care at Home", desc:"Evidence-based dementia techniques - structured routines, cognitive engagement, behavioral support.", img:"https://images.pexels.com/photos/7551617/pexels-photo-7551617.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"Memory care specialist engaging elderly person with dementia in cognitive activities" },
-  { icon:Hospital, tag:"Urgent", title:"Hospital Discharge", desc:"Emergency placement within 24-48 hours. We move as fast as your discharge planner.", img:"https://images.pexels.com/photos/3768131/pexels-photo-3768131.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"Caregiver helping elderly person with dementia transition safely from hospital to home" },
+  { slug:"companion-care", icon:Handshake, tag:"Most Popular", title:"Companion Care", desc:"Supervision, conversation, activities, and safety monitoring. The foundation of in-home dementia care.", img:"https://images.pexels.com/photos/7551617/pexels-photo-7551617.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"Caregiver providing compassionate companion care to elderly person with dementia" },
+  { slug:"personal-care", icon:Bath, tag:"Essential", title:"Personal Care", desc:"Dignified hands-on help with bathing, dressing, and daily activities as dementia progresses.", img:"https://images.pexels.com/photos/3768131/pexels-photo-3768131.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"Professional caregiver providing personal care assistance to senior with dementia" },
+  { slug:"24-hour-live-in-care", icon:Moon, tag:"High Acuity", title:"24-Hour & Live-In", desc:"Around-the-clock coverage for late-stage dementia or high wandering risk.", img:"https://images.pexels.com/photos/7578807/pexels-photo-7578807.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"24-hour caregiver providing overnight care for elderly person with Alzheimer" },
+  { slug:"respite-care", icon:HeartHandshake, tag:"Entry Point", title:"Respite Care", desc:"Short-term relief so family caregivers can rest. Often the first paid service families try.", img:"https://images.pexels.com/photos/7551622/pexels-photo-7551622.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"Respite care caregiver giving family caregiver a needed break from dementia care" },
+  { slug:"memory-care-at-home", icon:Brain, tag:"Specialized", title:"Memory Care at Home", desc:"Evidence-based dementia techniques - structured routines, cognitive engagement, behavioral support.", img:"https://images.pexels.com/photos/7551617/pexels-photo-7551617.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"Memory care specialist engaging elderly person with dementia in cognitive activities" },
+  { slug:"hospital-discharge-care", icon:Hospital, tag:"Urgent", title:"Hospital Discharge", desc:"Emergency placement within 24-48 hours. We move as fast as your discharge planner.", img:"https://images.pexels.com/photos/3768131/pexels-photo-3768131.jpeg?auto=compress&cs=tinysrgb&w=400&h=280&fit=crop", imgAlt:"Caregiver helping elderly person with dementia transition safely from hospital to home" },
 ]
 
 const WHY_US = [
@@ -200,7 +200,7 @@ export default function HomePage() {
                     <h3 className="font-bold text-slate-900 text-base">{s.title}</h3>
                   </div>
                   <p className="text-slate-500 text-sm leading-relaxed mb-4">{s.desc}</p>
-                  <Link href="/services" className="text-teal-600 text-sm font-semibold hover:underline">Learn More →</Link>
+                  <Link href={`/services/${s.slug}`} className="text-teal-600 text-sm font-semibold hover:underline">Learn More →</Link>
                 </div>
               </div>
             ))}
@@ -405,7 +405,7 @@ export default function HomePage() {
             <div>
               <p className="font-semibold text-white mb-4">Services</p>
               <div className="space-y-2 text-sm">
-                {[["Companion Care","/services"],["Personal Care","/services"],["24-Hour & Live-In","/services"],["Respite Care","/services"],["Memory Care at Home","/services"],["Hospital Discharge Care","/services"]].map(([label,href]) => (
+                {[["Companion Care","/services/companion-care"],["Personal Care","/services/personal-care"],["24-Hour & Live-In","/services/24-hour-live-in-care"],["Respite Care","/services/respite-care"],["Memory Care at Home","/services/memory-care-at-home"],["Hospital Discharge Care","/services/hospital-discharge-care"]].map(([label,href]) => (
                   <Link key={label} href={href} className="block hover:text-teal-400 transition-colors">{label}</Link>
                 ))}
               </div>

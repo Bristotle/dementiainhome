@@ -1,48 +1,49 @@
 "use client"
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
+import Link from "next/link"
 import { Handshake, Bath, Moon, HeartHandshake, Brain, Hospital, Check } from "lucide-react"
 import { FadeIn, MotionLink, hoverScale } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 
 const SERVICES = [
   {
-    icon: Handshake, tag: "Most Popular", title: "Companion Care",
+    slug: "companion-care", icon: Handshake, tag: "Most Popular", title: "Companion Care",
     desc: "Supervision, conversation, activities, and safety monitoring. The foundation of in-home dementia care.",
     includes: ["Safety supervision & fall prevention", "Conversation & cognitive engagement", "Light housekeeping & meal prep", "Transportation to appointments", "Medication reminders"],
     img: "https://images.pexels.com/photos/7551617/pexels-photo-7551617.jpeg?auto=compress&cs=tinysrgb&w=800&h=560&fit=crop",
     imgAlt: "Caregiver providing compassionate companion care to elderly person with dementia",
   },
   {
-    icon: Bath, tag: "Essential", title: "Personal Care",
+    slug: "personal-care", icon: Bath, tag: "Essential", title: "Personal Care",
     desc: "Dignified hands-on help with bathing, dressing, and daily activities as dementia progresses.",
     includes: ["Bathing & hygiene assistance", "Dressing & grooming", "Toileting & continence care", "Mobility & transfer assistance", "Feeding assistance"],
     img: "https://images.pexels.com/photos/3768131/pexels-photo-3768131.jpeg?auto=compress&cs=tinysrgb&w=800&h=560&fit=crop",
     imgAlt: "Professional caregiver providing personal care assistance to senior with dementia",
   },
   {
-    icon: Moon, tag: "High Acuity", title: "24-Hour & Live-In Care",
+    slug: "24-hour-live-in-care", icon: Moon, tag: "High Acuity", title: "24-Hour & Live-In Care",
     desc: "Around-the-clock coverage for late-stage dementia or high wandering risk.",
     includes: ["Awake overnight supervision", "Wandering & exit-seeking prevention", "Sundowning management", "Full daily care routine", "Live-in or rotating-shift options"],
     img: "https://images.pexels.com/photos/7578807/pexels-photo-7578807.jpeg?auto=compress&cs=tinysrgb&w=800&h=560&fit=crop",
     imgAlt: "24-hour caregiver providing overnight care for elderly person with Alzheimer's",
   },
   {
-    icon: HeartHandshake, tag: "Entry Point", title: "Respite Care",
+    slug: "respite-care", icon: HeartHandshake, tag: "Entry Point", title: "Respite Care",
     desc: "Short-term relief so family caregivers can rest. Often the first paid service families try.",
     includes: ["A few hours to several days of coverage", "No long-term commitment", "Same vetting as full-time caregivers", "Flexible, as-needed scheduling", "Ideal first step before committing further"],
     img: "https://images.pexels.com/photos/7551622/pexels-photo-7551622.jpeg?auto=compress&cs=tinysrgb&w=800&h=560&fit=crop",
     imgAlt: "Respite care caregiver giving family caregiver a needed break from dementia care",
   },
   {
-    icon: Brain, tag: "Specialized", title: "Memory Care at Home",
+    slug: "memory-care-at-home", icon: Brain, tag: "Specialized", title: "Memory Care at Home",
     desc: "Evidence-based dementia techniques - structured routines, cognitive engagement, behavioral support.",
     includes: ["Structured daily routines", "Validation-based communication techniques", "Behavioral symptom management", "Cognitive engagement activities", "Caregivers trained in dementia-specific methods"],
     img: "https://images.pexels.com/photos/7551617/pexels-photo-7551617.jpeg?auto=compress&cs=tinysrgb&w=800&h=560&fit=crop",
     imgAlt: "Memory care specialist engaging elderly person with dementia in cognitive activities",
   },
   {
-    icon: Hospital, tag: "Urgent", title: "Hospital Discharge Care",
+    slug: "hospital-discharge-care", icon: Hospital, tag: "Urgent", title: "Hospital Discharge Care",
     desc: "Emergency placement within 24-48 hours. We move as fast as your discharge planner.",
     includes: ["24-48 hour emergency placement", "Coordination with discharge planners", "Fall-risk reduction at home", "Post-hospital recovery support", "Bridges the gap until longer-term care is arranged"],
     img: "https://images.pexels.com/photos/3768131/pexels-photo-3768131.jpeg?auto=compress&cs=tinysrgb&w=800&h=560&fit=crop",
@@ -87,7 +88,10 @@ export default function ServicesPage() {
                     </li>
                   ))}
                 </ul>
-                <MotionLink {...hoverScale} href="/#get-matched" className="btn-primary">Get Free Caregiver Profiles →</MotionLink>
+                <div className="flex flex-wrap gap-3">
+                  <MotionLink {...hoverScale} href="/#get-matched" className="btn-primary">Get Free Caregiver Profiles →</MotionLink>
+                  <Link href={`/services/${s.slug}`} className="inline-flex items-center gap-1 text-teal-600 font-semibold text-sm hover:underline px-2">Learn more about {s.title} →</Link>
+                </div>
               </div>
             </FadeIn>
           ))}
