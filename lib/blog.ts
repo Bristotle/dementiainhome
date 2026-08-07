@@ -1,10 +1,13 @@
+export type BlogCitation = { label: string; url: string }
+
 export type BlogPost = {
   slug: string
   category: string
   title: string
   desc: string
   date: string
-  sections: { heading: string; paragraphs: string[] }[]
+  sections: { heading: string; paragraphs: string[]; stats?: { value: string; label: string }[] }[]
+  citations?: BlogCitation[]
 }
 
 export const BLOG_POSTS: BlogPost[] = [
@@ -12,77 +15,109 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: "hospital-discharge-dementia-plan",
     category: "Crisis Guide",
     title: "Hospital Discharge with Dementia: A 48-Hour Action Plan",
-    desc: "Discharge planners give you 24-72 hours. Here is exactly what to do - who to call, what to ask, and how to get a caregiver in place before your loved one gets home.",
-    date: "June 2026",
+    desc: "Discharge planners give you 24-72 hours. Real readmission and fall-risk data, the exact questions to ask, and how to get a caregiver in place before your loved one gets home.",
+    date: "July 2026",
     sections: [
-      { heading: "Why discharge day feels like an ambush", paragraphs: [
-        "Hospital discharge is one of the most common moments families first realize they need paid in-home dementia care - and it usually arrives with almost no warning. A discharge planner may give you as little as a day or two to arrange safe care at home, right when you're already exhausted from a hospital stay.",
-        "The good news: this is a well-worn path. Discharge planners handle this every day, and there's a clear sequence of steps that gets a safe plan in place fast."
+      { heading: "Why discharge day is riskier than it looks", paragraphs: [
+        "Hospital discharge is one of the most common moments families first realize they need paid in-home dementia care - and it usually arrives with almost no warning. A discharge planner may give you as little as a day or two to arrange safe care at home, right when you're already exhausted from the hospital stay itself.",
+        "The risk in this window is not just theoretical. A large Medicare claims analysis covering 2015-2019 found the 30-day readmission rate for beneficiaries with a dementia diagnosis was 8.2%, compared to 7.9% for those without dementia - and a separate study of pneumonia discharges found patients with dementia faced a 129% higher risk of death within 30 days of discharge, with the highest risk concentrated in the first few days home. Research on dementia readmissions broadly estimates that 20-40% of them are preventable with better discharge planning and follow-through.",
+      ], stats: [
+        { value: "8.2%", label: "30-day readmission rate with dementia diagnosis" },
+        { value: "129%", label: "Higher 30-day mortality risk after pneumonia discharge" },
       ]},
       { heading: "Hour 1: Ask the discharge planner these exact questions", paragraphs: [
         "Before your loved one leaves the hospital, get clear, written answers to: What level of supervision do they need at home - companionship, hands-on personal care, or 24-hour coverage? Are there new mobility restrictions or fall risks? Are there new medications, and who will manage them? Is a follow-up appointment already scheduled, and how will they get there?",
-        "A person recovering from a hospital stay is at meaningfully higher risk of a fall in the days right after they return home - which is exactly why supervision matters more in this window than it did before the hospitalization."
+        "This matters even more for dementia specifically: people with dementia have roughly twice the fall risk of someone without cognitive impairment, and that risk climbs further in the disorientation of a new post-hospital routine.",
+        "You also have a legal right worth knowing about here. Federal Medicare regulations (42 CFR 482.43) require hospitals to run \"an effective discharge planning process\" that treats the patient and their caregivers as \"active partners\" in planning post-discharge care - not just a form to sign on the way out. If a discharge planner is rushing you through without answering these questions, you're entitled to push back and ask for more time.",
       ]},
       { heading: "Hours 2-6: Line up care before you leave the parking lot", paragraphs: [
         "If your loved one doesn't already have a caregiver, this is the moment to move fast. Look for services built specifically around emergency placement timelines - some in-home care matching services can turn around caregiver options within 24-48 hours specifically because they know discharge is often this rushed.",
-        "If cost is a concern, ask the discharge planner directly about any short-term home health benefits Medicare may cover for the recovery period - this is different from long-term custodial care, which Medicare generally does not cover, but it can bridge the first days home."
+        "If cost is a concern, ask the discharge planner directly about any short-term Medicare home health benefits for the recovery period - this is different from long-term custodial care, which Medicare generally does not cover, but it can bridge the first days home if your loved one qualifies as homebound and needs skilled nursing or therapy."
       ]},
       { heading: "Day 1-2 at home: what actually matters most", paragraphs: [
         "Prioritize immediate physical safety over everything else: clear pathways, a stable place to sit near the bathroom, medications organized and out of easy unsupervised reach, and someone present who understands dementia-specific risks like wandering or confusion about where they are.",
-        "It's normal for dementia symptoms to look temporarily worse right after a hospital stay - new environments, medication changes, and disrupted routines are disorienting. This usually settles as routine returns, but keep a close eye on any sudden, severe change and loop in their physician if something feels seriously wrong."
+        "It's normal for dementia symptoms to look temporarily worse right after a hospital stay - new environments, medication changes, and disrupted routines are disorienting. This usually settles as routine returns, but keep a close eye on any sudden, severe change and loop in their physician if something feels seriously wrong - especially in these first few days, since that's exactly when the research shows risk is highest."
       ]},
       { heading: "When you don't have a plan yet", paragraphs: [
-        "If you're reading this because discharge is happening today, don't wait to have everything figured out - just get one competent, background-checked person in the home for the first 24-48 hours while you sort out the longer-term plan. That single step prevents the vast majority of immediate post-discharge risk."
+        "If you're reading this because discharge is happening today, don't wait to have everything figured out - just get one competent, background-checked person in the home for the first 24-48 hours while you sort out the longer-term plan. Given that preventable readmissions cluster so heavily in this early window, that single step addresses a meaningful share of the immediate risk."
       ]},
+    ],
+    citations: [
+      { label: "Medicare claims study - dementia and 30-day readmission risk (NCBI)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10738812/" },
+      { label: "Dementia and 30-day mortality/readmission after pneumonia discharge (NCBI)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7842970/" },
+      { label: "Determinants of hospital readmissions in dementia - narrative review (NCBI)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11015733/" },
+      { label: "CMS discharge planning requirements, 42 CFR 482.43", url: "https://www.cms.gov/files/document/qso-23-16-hospitals.pdf" },
     ],
   },
   {
     slug: "in-home-dementia-care-cost-2026",
     category: "Pricing",
     title: "What Does In-Home Dementia Care Cost in 2026?",
-    desc: "A transparent breakdown of companion care, personal care, and 24-hour live-in rates across major US cities. Real numbers - no hidden fees.",
-    date: "June 2026",
+    desc: "Real 2025 national survey data on companion care, personal care, and 24-hour rates - not vague estimates. What drives the price, and how families actually pay for it.",
+    date: "July 2026",
     sections: [
-      { heading: "Why pricing is so hard to pin down", paragraphs: [
-        "Most home-care websites make you call in for pricing. We think that's backwards for a decision this important, so here's the real, honest range families are seeing in 2026 - with the caveat that your city, the caregiver's experience, and the hours you need will all move the number."
+      { heading: "The real national numbers, not a vague range", paragraphs: [
+        "Most home-care websites make you call in for pricing. We think that's backwards for a decision this important. According to CareScout's 2025 Cost of Care Survey - one of the most comprehensive surveys of its kind, drawing on more than 25,000 rates collected from providers across all 50 states and DC - the national median hourly rate for non-medical caregiver services is $35 per hour, up 3% from the prior year. At that rate, a family using 44 hours of care a week is looking at roughly $80,080 a year.",
+        "For comparison, skilled in-home nursing care (a registered or licensed nurse, not a non-medical caregiver) runs a national median of $90 per hour, or $160 for a shorter, task-based visit. Adult day health programs run a median of $95 per day nationally.",
+      ], stats: [
+        { value: "$35/hr", label: "National median rate, non-medical care (2025)" },
+        { value: "$80,080", label: "Annual cost at 44 hrs/week" },
       ]},
-      { heading: "Typical hourly rates by care level", paragraphs: [
-        "Companion care (supervision, conversation, light housekeeping, no hands-on care) generally runs in the high-$20s to mid-$30s per hour in most US metros. Personal care (bathing, dressing, toileting, transferring) tends to run a few dollars higher per hour, since it requires more training and carries more responsibility.",
-        "24-hour and live-in care is priced differently: instead of a straight hourly multiple, most agencies quote a daily or weekly rate, since overnight coverage doesn't require the caregiver to be awake and active the entire time the way a daytime shift does."
+      { heading: "Why your city's number will look different", paragraphs: [
+        "Geography moves this number more than almost anything else. The same 2025 survey data shows real regional swings: West Coast metro areas typically run 10-20% above the national median, while a state like Louisiana can run closer to $20-21 an hour. Hawaii, driven by its remote logistics, runs among the highest in the country at roughly $40-43 an hour.",
+        "Beyond location, the acuity of care needed and how many hours per week you use both move the total - a few hours of companionship a week costs a fraction of what full-time personal care or overnight coverage runs."
       ]},
-      { heading: "What actually drives the price up or down", paragraphs: [
-        "Geography is the single biggest factor - coastal metros and affluent retirement destinations tend to run meaningfully above the national average, while parts of the Deep South and Mountain West run below it. Beyond location, the acuity of care needed and how many hours per week you need both move the total."
+      { heading: "How 24-hour and live-in care is priced differently", paragraphs: [
+        "24-hour and live-in care isn't simply the hourly rate multiplied by 24 - most agencies quote a daily or weekly rate instead, since overnight coverage doesn't require a caregiver to be awake and actively working every hour the way a daytime shift does. This is worth asking about directly, since the math families often assume (hourly rate times 24) overstates what agencies actually charge for this tier."
       ]},
       { heading: "How most families actually pay for it", paragraphs: [
-        "In-home dementia care is overwhelmingly private-pay. Medicare generally does not cover ongoing custodial home care - a common and costly misconception. Medicaid can cover home care for those who qualify financially, through state waivers, but these often carry waiting lists. Veterans and surviving spouses may qualify for the VA's Aid and Attendance benefit."
+        "In-home dementia care is overwhelmingly private-pay. Medicare generally does not cover ongoing custodial home care - a common and costly misconception, and one we cover in full in our companion guide on what Medicare actually covers. Medicaid can cover home care for those who qualify financially, through state waivers, but these often carry waiting lists and vary significantly by state. Veterans and surviving spouses may qualify for the VA's Aid and Attendance benefit."
       ]},
       { heading: "The bottom line", paragraphs: [
-        "There's no getting around it: in-home dementia care is a real financial commitment. Getting a transparent, city-specific number early - before you're in a crisis - gives you time to plan financing rather than scrambling for it."
+        "There's no getting around it: in-home dementia care is a real financial commitment, and the national numbers above are exactly that - national. Getting a transparent, city-specific number early, before you're in a crisis, gives you time to plan financing rather than scrambling for it."
       ]},
+    ],
+    citations: [
+      { label: "CareScout 2025 Cost of Care Survey Results (Genworth)", url: "https://investor.genworth.com/news-events/press-releases/detail/1054/carescout-releases-2025-cost-of-care-survey-results" },
+      { label: "CareScout - Calculate the cost of long-term care", url: "https://www.carescout.com/cost-of-care" },
     ],
   },
   {
     slug: "does-medicare-cover-dementia-care",
     category: "Financing",
     title: "Does Medicare Cover In-Home Dementia Care?",
-    desc: "The honest answer most services will not give you. Medicare, Medicaid, VA benefits, and private pay explained clearly.",
-    date: "June 2026",
+    desc: "The precise coverage rules most services won't explain clearly - what \"homebound\" and \"intermittent\" actually mean, what changed in 2026, and how Medicare, Medicaid, and VA benefits fit together.",
+    date: "July 2026",
     sections: [
       { heading: "The short, honest answer", paragraphs: [
-        "No - Medicare does not cover ongoing, day-to-day custodial dementia care at home. This is the single most common and most costly misconception families have."
+        "No - Medicare does not cover ongoing, day-to-day custodial dementia care at home when that's the only kind of help someone needs. This is the single most common and most costly misconception families have, and the rules for what Medicare does cover are more specific than most people realize."
       ]},
-      { heading: "What Medicare does cover", paragraphs: [
-        "Medicare covers intermittent, medically necessary skilled home health care but only under strict criteria, typically after a hospital stay, and only for a limited period. It does not cover ongoing custodial supervision."
+      { heading: "What \"homebound\" and \"intermittent\" actually mean", paragraphs: [
+        "To qualify for Medicare home health coverage at all, a person must be homebound - meaning leaving home takes a considerable and taxing effort - and must need skilled nursing or therapy on an intermittent basis. Intermittent has a specific technical meaning: up to 28 hours per week of combined skilled nursing and home health aide visits, needed anywhere from once every 60 days to once a day for up to three weeks. It is not a program for continuous or daily long-term supervision.",
+        "Critically, a home health aide is only covered when it accompanies a qualifying skilled service - physical therapy, speech-language pathology, or intermittent skilled nursing. An aide alone, for someone who just needs help with bathing or dressing, is not covered on its own; that specific gap is often called the custodial care gap.",
+      ]},
+      { heading: "What Medicare covers - and what it costs you", paragraphs: [
+        "When the criteria above are met, Medicare Part A and Part B cover skilled nursing, physical therapy, occupational therapy, speech-language pathology, medical social services, and durable medical equipment, ordered by a physician and delivered through a Medicare-certified home health agency. For all covered home health services themselves, there is no deductible, copay, or coinsurance - though a 20% coinsurance still applies to durable medical equipment.",
+        "It's worth understanding a separate, often-confused benefit too: Medicare Part A's skilled nursing facility coverage. That's a different thing entirely - it applies to a facility stay (not home care), only after a qualifying inpatient hospital stay of at least 3 days, and only for up to 100 days per benefit period.",
+      ]},
+      { heading: "What changed for 2026", paragraphs: [
+        "For 2026, the Centers for Medicare & Medicaid Services finalized a 1.3% aggregate payment decrease to home health agencies. In practice, this has made many agencies more selective about which cases they take on - families report more denials or a harder time finding an agency willing to accept a case, even when it technically qualifies. This continues a longer-term trend: home health aide visits per 30-day care episode have fallen roughly 94% since 1998, from an average of 6.7 visits to under 0.5, largely attributed to a payment model change called PDGM.",
+        "If a home health claim is denied and you believe it shouldn't be, you have the right to request a Redetermination from your Medicare Administrative Contractor within 120 days - the first step of a five-level appeals process.",
       ]},
       { heading: "What Medicaid can cover - if you qualify", paragraphs: [
-        "Medicaid is means-tested. Many states offer Home- and Community-Based Services waivers that can cover in-home personal care for dementia, but these commonly have waiting lists and eligibility rules that vary by state."
+        "Medicaid is different from Medicare and is means-tested. Many states offer Home- and Community-Based Services (HCBS) waivers that can cover in-home personal care for dementia specifically - the kind of custodial support Medicare won't touch - but these commonly have waiting lists and eligibility rules that vary significantly state by state."
       ]},
       { heading: "VA benefits for veterans and surviving spouses", paragraphs: [
-        "The VA's Aid and Attendance benefit is a pension supplement for wartime veterans and surviving spouses needing help with daily activities, applicable toward home care."
+        "The VA's Aid and Attendance benefit is a pension supplement for wartime veterans and surviving spouses who need help with daily activities, and it can be applied toward the cost of in-home care."
       ]},
       { heading: "So how do most families actually pay?", paragraphs: [
-        "Most in-home dementia care is paid privately, sometimes supplemented by long-term care insurance, VA benefits, or Medicaid waivers for those who qualify."
+        "Given how narrow Medicare's home health benefit actually is once you understand \"homebound,\" \"intermittent,\" and the skilled-service trigger requirement, most ongoing in-home dementia care is paid privately, sometimes supplemented by long-term care insurance, VA benefits, or Medicaid waivers for those who qualify financially."
       ]},
+    ],
+    citations: [
+      { label: "Medicare Rights Center - Understanding Medicare Home Health Care", url: "https://www.medicarerights.org/medicare-answers/2026/01/28/understanding-medicare-home-health-care" },
+      { label: "Medicare Coverage for Home Health Aides in 2026", url: "https://www.paulbinsurance.com/medicare-coverage-for-home-health-aides-in-2026-a-clear-and-simple-guide/" },
+      { label: "Does Medicare Pay for Long-Term Nursing Home Care? (Brevy Care)", url: "https://brevy.com/medicare/long-term-care-coverage" },
     ],
   },
   {

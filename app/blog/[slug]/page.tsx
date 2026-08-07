@@ -65,6 +65,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     <p key={i} className="text-slate-700 leading-relaxed">{p}</p>
                   ))}
                 </div>
+                {s.stats && (
+                  <div className="mt-5 grid grid-cols-2 gap-4">
+                    {s.stats.map((stat) => (
+                      <div key={stat.label} className="bg-teal-50 border border-teal-100 rounded-xl p-4">
+                        <p className="text-2xl font-bold text-teal-600">{stat.value}</p>
+                        <p className="text-xs text-slate-600 mt-1">{stat.label}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </StaggerItem>
             ))}
           </Stagger>
@@ -76,6 +86,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               attorney, or a benefits specialist for guidance specific to your circumstances.
             </p>
           </FadeIn>
+
+          {post.citations && post.citations.length > 0 && (
+            <FadeIn className="mt-4">
+              <p className="text-xs text-slate-400">
+                Sources: {post.citations.map((c, i) => (
+                  <span key={c.url}>
+                    <a href={c.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-600">{c.label}</a>
+                    {i < post.citations!.length - 1 ? " · " : ""}
+                  </span>
+                ))}
+              </p>
+            </FadeIn>
+          )}
         </article>
       </div>
 
