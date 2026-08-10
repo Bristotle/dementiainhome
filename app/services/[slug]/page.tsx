@@ -50,7 +50,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
     "provider": {
       "@type": "Organization",
       "name": "Dementia In Home",
-      "url": "https://dementiainhome.com",
+      "url": "https://www.dementiainhome.com",
       "telephone": "+17864325758",
     },
     "areaServed": {

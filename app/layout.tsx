@@ -19,7 +19,7 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://dementiainhome.com"),
+  metadataBase: new URL("https://www.dementiainhome.com"),
   title: {
     template: "%s | Dementia In Home",
     default: "Dementia In Home - Free 72-Hour In-Home Caregiver Matching",
@@ -35,8 +35,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Dementia In Home",
-    "url": "https://dementiainhome.com",
-    "logo": "https://dementiainhome.com/logo-mark.svg",
+    "url": "https://www.dementiainhome.com",
+    "logo": "https://www.dementiainhome.com/logo-mark.svg",
     "description": "A national in-home dementia care matching service. We hand-pick vetted, dementia-trained caregivers and send families real video profiles within 72 hours, free and with no obligation.",
     "telephone": "+17864325758",
     "email": "hello@dementiainhome.com",

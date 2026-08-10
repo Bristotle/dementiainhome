@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next"
 import { BLOG_POSTS } from "@/lib/blog"
 import { MONTH1_CITIES } from "@/lib/cities"
 
-const BASE_URL = "https://dementiainhome.com"
+const BASE_URL = "https://www.dementiainhome.com"
 
 // Static pages: dated to their last meaningful content update, not build time.
 // Update these dates manually when a page's actual content changes.

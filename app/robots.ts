@@ -26,6 +26,6 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "Amazonbot", allow: "/" },
       { userAgent: "Meta-ExternalAgent", allow: "/" },
     ],
-    sitemap: "https://dementiainhome.com/sitemap.xml",
+    sitemap: "https://www.dementiainhome.com/sitemap.xml",
   }
 }
