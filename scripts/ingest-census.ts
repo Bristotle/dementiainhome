@@ -15,7 +15,8 @@
 // should cross-check the variable code against:
 // https://api.census.gov/data/2023/acs/acs5/profile/variables.html
 
-import "dotenv/config"
+import { config } from "dotenv"
+config({ path: ".env.local" })
 import { getSupabaseAdmin } from "../lib/ingestion/supabase-admin"
 import { getCityFips } from "../lib/ingestion/city-fips"
 
@@ -28,7 +29,7 @@ const ACS_DETAIL_BASE = `https://api.census.gov/data/${ACS_YEAR}/acs/acs5`
 
 // DP05 = Demographic and Housing Estimates (profile table).
 const VAR_65_PLUS = "DP05_0024E"
-const VAR_85_PLUS = "DP05_0027E"
+const VAR_85_PLUS = "DP05_0017E"
 // B19013 = Median Household Income (detail table).
 const VAR_MEDIAN_INCOME = "B19013_001E"
 // B11007 = Households with one or more people 65+, living alone variant (detail table).
