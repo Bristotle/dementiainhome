@@ -11,7 +11,8 @@
     "ingest:npi": "tsx scripts/ingest-npi.ts",
     "ingest:cms": "tsx scripts/ingest-cms.ts",
     "dossier": "tsx scripts/dossier.ts",
-    "test:gate": "tsx scripts/test-gate.ts"
+    "test:gate": "tsx scripts/test-gate.ts",
+    "test:auditor": "tsx scripts/test-auditor.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.116.0",
