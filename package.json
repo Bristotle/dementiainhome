@@ -12,7 +12,8 @@
     "ingest:cms": "tsx scripts/ingest-cms.ts",
     "dossier": "tsx scripts/dossier.ts",
     "test:gate": "tsx scripts/test-gate.ts",
-    "test:auditor": "tsx scripts/test-auditor.ts"
+    "test:auditor": "tsx scripts/test-auditor.ts",
+    "test:models": "tsx scripts/test-model-comparison.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.116.0",
@@ -27,6 +28,7 @@
     "lucide-react": "^1.24.0",
     "motion": "^12.42.2",
     "next": "16.2.10",
+    "openai": "^7.4.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "shadcn": "^4.15.0",
