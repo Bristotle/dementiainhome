@@ -1,21 +1,25 @@
 import { notFound } from "next/navigation"
-import { getCityBySlug, getAllSlugs, MONTH1_CITIES } from "@/lib/cities"
+import { getCityBySlug, getAllCitySlugs, getAllCities, getCityDemographics, getMedicaidWaiver, getMedicaidCitations } from "@/lib/db-cities"
 import LeadForm from "@/components/LeadForm"
 import Link from "next/link"
 import type { Metadata } from "next"
 import { FadeIn, Stagger, StaggerItem, MotionLink, hoverScale, hoverShift } from "@/components/motion"
-import { getStateFacts } from "@/lib/state-facts"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 
 type Props = { params: Promise<{ slug: string }> }
 
+// ISR: pages revalidate hourly so ingestion/dossier updates appear without
+// a full rebuild, per the sprint spec.
+export const revalidate = 3600
+
 export async function generateStaticParams() {
-  return getAllSlugs().map((slug) => ({ slug }))
+  const slugs = await getAllCitySlugs()
+  return slugs.map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const city = getCityBySlug(slug)
+  const city = await getCityBySlug(slug)
   if (!city) return {}
   return {
     title: `In-Home Dementia Care in ${city.name}, ${city.state_abbrev}`,
@@ -25,9 +29,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CityPage({ params }: Props) {
   const { slug } = await params
-  const city = getCityBySlug(slug)
+  const city = await getCityBySlug(slug)
   if (!city) notFound()
-  const stateFacts = getStateFacts(city.state_abbrev)
+
+  const [demographics, waiver, citations, allCities] = await Promise.all([
+    getCityDemographics(slug),
+    getMedicaidWaiver(city.state_abbrev),
+    getMedicaidCitations(city.state_abbrev),
+    getAllCities(),
+  ])
 
   return (
     <main className="min-h-screen bg-warm-white">
@@ -86,67 +96,81 @@ export default async function CityPage({ params }: Props) {
         </div>
       </section>
 
-      {stateFacts && (
+      {(demographics || waiver) && (
         <section className="bg-slate-50 border-b border-slate-200">
           <div className="max-w-5xl mx-auto px-6 py-14">
-            <FadeIn><h2 className="text-2xl font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>Dementia in {stateFacts.stateName}: what families should know</h2></FadeIn>
-            <FadeIn delay={0.05}><p className="text-slate-500 mb-8">Real state-specific data, not generic national averages.</p></FadeIn>
+            <FadeIn><h2 className="text-2xl font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>Dementia in {city.name}: what families should know</h2></FadeIn>
+            <FadeIn delay={0.05}><p className="text-slate-500 mb-8">Real local data, not generic national averages.</p></FadeIn>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-              <FadeIn>
-                <div className="bg-white rounded-2xl p-6 border border-slate-200 h-full">
-                  <h3 className="font-bold text-slate-900 mb-4">Local prevalence</h3>
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <p className="text-2xl font-bold text-teal-600">{stateFacts.demographics.seniorsWithAlzheimers}</p>
-                      <p className="text-xs text-slate-500">Residents 65+ with Alzheimer&apos;s in {stateFacts.stateName}</p>
+            {demographics && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                <FadeIn>
+                  <div className="bg-white rounded-2xl p-6 border border-slate-200 h-full">
+                    <h3 className="font-bold text-slate-900 mb-4">Local senior population</h3>
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <p className="text-2xl font-bold text-teal-600">{demographics.population_65_plus?.toLocaleString() ?? "—"}</p>
+                        <p className="text-xs text-slate-500">Residents 65+ in {city.name}</p>
+                      </div>
+                      <div>
+                        <p className="text-2xl font-bold text-teal-600">{demographics.population_85_plus?.toLocaleString() ?? "—"}</p>
+                        <p className="text-xs text-slate-500">Residents 85+ (highest dementia risk group)</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-2xl font-bold text-teal-600">{stateFacts.demographics.prevalenceRate}</p>
-                      <p className="text-xs text-slate-500">Prevalence among adults 65+</p>
-                    </div>
+                    <p className="text-sm text-slate-600 leading-relaxed">U.S. Census Bureau, American Community Survey 5-Year Estimates.</p>
                   </div>
-                  <p className="text-sm text-slate-600 leading-relaxed">{stateFacts.demographics.note}</p>
-                </div>
-              </FadeIn>
-              <FadeIn delay={0.1}>
-                <div className="bg-white rounded-2xl p-6 border border-slate-200 h-full">
-                  <h3 className="font-bold text-slate-900 mb-4">The unpaid caregiver reality</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    An estimated <span className="font-semibold text-slate-900">{stateFacts.demographics.unpaidCaregivers}</span> family caregivers in {stateFacts.stateName} are currently providing unpaid dementia care at home - which is exactly the exhaustion point where paid in-home support usually becomes necessary.
-                  </p>
-                </div>
-              </FadeIn>
-            </div>
-
-            <FadeIn>
-              <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 mb-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-xs font-semibold bg-teal-100 text-teal-700 px-2 py-1 rounded-full">{stateFacts.stateAbbrev} Medicaid</span>
-                  <h3 className="font-bold text-slate-900">{stateFacts.medicaidProgram.fullName} ({stateFacts.medicaidProgram.name})</h3>
-                </div>
-                <p className="text-sm text-slate-600 leading-relaxed mb-4">Administered by {stateFacts.medicaidProgram.administeredBy}.</p>
-                <div className="space-y-3">
-                  <div className="p-4 rounded-xl bg-teal-50 border border-teal-100">
-                    <p className="text-xs font-semibold text-teal-700 uppercase tracking-wide mb-1">Dementia-specific eligibility</p>
-                    <p className="text-sm text-slate-700 leading-relaxed">{stateFacts.medicaidProgram.dementiaThreshold}</p>
+                </FadeIn>
+                <FadeIn delay={0.1}>
+                  <div className="bg-white rounded-2xl p-6 border border-slate-200 h-full">
+                    <h3 className="font-bold text-slate-900 mb-4">Estimated local impact</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      Based on national prevalence rates applied to {city.name}&apos;s senior population, an estimated <span className="font-semibold text-slate-900">{demographics.estimated_dementia_cases?.toLocaleString() ?? "—"}</span> residents may be living with dementia. Separately, <span className="font-semibold text-slate-900">{demographics.seniors_living_alone?.toLocaleString() ?? "—"}</span> senior households in {city.name} have someone 65+ living alone - exactly the situation where in-home supervision matters most.
+                    </p>
                   </div>
-                  <p className="text-sm text-slate-600 leading-relaxed">{stateFacts.medicaidProgram.standardThreshold}</p>
-                  <p className="text-sm text-slate-600 leading-relaxed"><span className="font-semibold text-slate-900">Asset limits (2026):</span> {stateFacts.medicaidProgram.assetLimitSingle} for a single applicant, {stateFacts.medicaidProgram.assetLimitCouple} for a couple.</p>
-                  <p className="text-sm text-slate-600 leading-relaxed"><span className="font-semibold text-slate-900">What makes {stateFacts.stateAbbrev} different:</span> {stateFacts.medicaidProgram.uniqueFeature}</p>
-                  <p className="text-sm text-slate-600 leading-relaxed"><span className="font-semibold text-slate-900">How to apply:</span> {stateFacts.medicaidProgram.applicationProcess}</p>
-                </div>
+                </FadeIn>
               </div>
-            </FadeIn>
+            )}
 
-            <p className="text-xs text-slate-400">
-              Sources: {stateFacts.citations.map((c, i) => (
-                <span key={c.url}>
-                  <a href={c.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-600">{c.label}</a>
-                  {i < stateFacts.citations.length - 1 ? " · " : ""}
-                </span>
-              ))}
-            </p>
+            {waiver && (
+              <FadeIn>
+                <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 mb-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-xs font-semibold bg-teal-100 text-teal-700 px-2 py-1 rounded-full">{city.state_abbrev} Medicaid</span>
+                    <h3 className="font-bold text-slate-900">{waiver.program_full_name} ({waiver.program_name})</h3>
+                  </div>
+                  {waiver.administered_by && <p className="text-sm text-slate-600 leading-relaxed mb-4">Administered by {waiver.administered_by}.</p>}
+                  <div className="space-y-3">
+                    {waiver.eligibility_threshold && (
+                      <div className="p-4 rounded-xl bg-teal-50 border border-teal-100">
+                        <p className="text-xs font-semibold text-teal-700 uppercase tracking-wide mb-1">Dementia-specific eligibility</p>
+                        <p className="text-sm text-slate-700 leading-relaxed">{waiver.eligibility_threshold}</p>
+                      </div>
+                    )}
+                    {(waiver.asset_limit_single || waiver.asset_limit_couple) && (
+                      <p className="text-sm text-slate-600 leading-relaxed"><span className="font-semibold text-slate-900">Asset limits (2026):</span> {waiver.asset_limit_single} for a single applicant, {waiver.asset_limit_couple} for a couple.</p>
+                    )}
+                    {waiver.unique_feature && (
+                      <p className="text-sm text-slate-600 leading-relaxed"><span className="font-semibold text-slate-900">What makes {city.state_abbrev} different:</span> {waiver.unique_feature}</p>
+                    )}
+                    {waiver.application_process && (
+                      <p className="text-sm text-slate-600 leading-relaxed"><span className="font-semibold text-slate-900">How to apply:</span> {waiver.application_process}</p>
+                    )}
+                  </div>
+                </div>
+              </FadeIn>
+            )}
+
+            {citations.length > 0 && (
+              <p className="text-xs text-slate-400">
+                Sources: {citations.map((c, i) => (
+                  <span key={c.url}>
+                    <a href={c.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-600">{c.label}</a>
+                    {i < citations.length - 1 ? " · " : ""}
+                  </span>
+                ))}
+                {waiver && (<> · <a href={waiver.source_url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-600">{waiver.program_name} program details</a></>)}
+              </p>
+            )}
           </div>
         </section>
       )}
@@ -188,7 +212,7 @@ export default async function CityPage({ params }: Props) {
         <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-slate-500">© 2026 Dementia In Home. Serving {city.name} and surrounding areas.</p>
           <div className="flex gap-4 flex-wrap">
-            {MONTH1_CITIES.map((c) => (
+            {allCities.map((c) => (
               <MotionLink key={c.slug} {...hoverShift} href={"/cities/"+c.slug} className="text-sm text-slate-500 hover:text-teal-600 transition-colors">{c.name}</MotionLink>
             ))}
           </div>
