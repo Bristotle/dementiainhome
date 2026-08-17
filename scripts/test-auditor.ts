@@ -4,7 +4,7 @@
 // Loads the city's real cached dossier, then runs the LLM auditor
 // against a deliberately flawed example page that should trigger at
 // least the claim-scope and implied-endorsement checks, followed by a
-// cleaner page that should pass. Requires ANTHROPIC_API_KEY to be set.
+// cleaner page that should pass. Requires XAI_API_KEY to be set.
 
 import { config } from "dotenv"
 config({ path: ".env.local" })

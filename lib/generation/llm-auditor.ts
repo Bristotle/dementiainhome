@@ -11,18 +11,16 @@
 //     was never actually given?
 //   - Any fabricated reviews, or direct diagnosis/treatment advice?
 //
-// Uses Claude's tool-use (forced tool_choice) to get a reliable,
-// structured verdict rather than parsing free-text output.
+// Originally built against Claude's tool-use API. Switched to Grok
+// (xAI's OpenAI-compatible API) after the model-selection decision landed
+// on Grok 4.6 for generation, and no Anthropic key was available yet -
+// using forced tool_choice for a reliable structured verdict either way.
 //
-// NOTE ON VERIFICATION: this was written without an Anthropic API key
-// available in the development sandbox, so it has not been executed
-// against the live API yet. The SDK usage pattern and message/tool
-// structure follow the current @anthropic-ai/sdk (v0.116.0) API as
-// installed in package.json - this should be correct, but the actual
-// model behavior (does it correctly catch claim-scope issues in
-// practice) can only be confirmed by running it for real.
+// NOTE: uses XAI_API_KEY as the judge model. The judge model does not have
+// to match the generation model - this could be pointed at any capable
+// model with reliable structured tool-calling.
 
-import Anthropic from "@anthropic-ai/sdk"
+import OpenAI from "openai"
 import type { GeneratedPage, CityDossierForGate } from "./citation-gate"
 
 export type AuditFinding = {
@@ -73,56 +71,58 @@ ${expertContext || "(none)"}
 Audit this page now using the submit_audit tool.`
 }
 
-const SUBMIT_AUDIT_TOOL: Anthropic.Tool = {
-  name: "submit_audit",
-  description: "Submit the structured audit findings for this page.",
-  input_schema: {
-    type: "object",
-    properties: {
-      findings: {
-        type: "array",
-        description: "One entry for each of the 5 required checks, always all 5 even if passed.",
-        items: {
-          type: "object",
-          properties: {
-            check: {
-              type: "string",
-              enum: ["source_supports_claim", "claim_scope", "implied_endorsement", "fabricated_review", "diagnosis_or_treatment_advice"],
-            },
-            passed: { type: "boolean" },
-            detail: { type: "string", description: "Specific explanation, even if passed (e.g. 'No issues found - all claims match their sources')." },
+const SUBMIT_AUDIT_TOOL_PARAMETERS = {
+  type: "object" as const,
+  properties: {
+    findings: {
+      type: "array",
+      description: "One entry for each of the 5 required checks, always all 5 even if passed.",
+      items: {
+        type: "object",
+        properties: {
+          check: {
+            type: "string",
+            enum: ["source_supports_claim", "claim_scope", "implied_endorsement", "fabricated_review", "diagnosis_or_treatment_advice"],
           },
-          required: ["check", "passed", "detail"],
+          passed: { type: "boolean" },
+          detail: { type: "string", description: "Specific explanation, even if passed (e.g. 'No issues found - all claims match their sources')." },
         },
+        required: ["check", "passed", "detail"],
       },
     },
-    required: ["findings"],
   },
+  required: ["findings"],
 }
 
 export async function runLlmAuditor(page: GeneratedPage, dossier: CityDossierForGate): Promise<AuditResult> {
-  const apiKey = process.env.ANTHROPIC_API_KEY
+  // Uses Grok (via xAI's OpenAI-compatible API) as the judge model. Originally
+  // built against Claude, switched after the model-selection decision landed
+  // on Grok 4.6 for generation and no Anthropic key was available - using
+  // whichever capable model we actually have access to, rather than blocking
+  // real testing on a key we do not have yet.
+  const apiKey = process.env.XAI_API_KEY
   if (!apiKey) {
-    throw new Error("ANTHROPIC_API_KEY not set in environment")
+    throw new Error("XAI_API_KEY not set in environment")
   }
 
-  const client = new Anthropic({ apiKey })
+  const client = new OpenAI({ apiKey, baseURL: "https://api.x.ai/v1" })
 
-  const response = await client.messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 1500,
-    system: AUDITOR_SYSTEM_PROMPT,
-    tools: [SUBMIT_AUDIT_TOOL],
-    tool_choice: { type: "tool", name: "submit_audit" },
-    messages: [{ role: "user", content: buildAuditPrompt(page, dossier) }],
+  const response = await client.chat.completions.create({
+    model: "grok-4.6",
+    messages: [
+      { role: "system", content: AUDITOR_SYSTEM_PROMPT },
+      { role: "user", content: buildAuditPrompt(page, dossier) },
+    ],
+    tools: [{ type: "function", function: { name: "submit_audit", description: "Submit the structured audit findings for this page.", parameters: SUBMIT_AUDIT_TOOL_PARAMETERS } }],
+    tool_choice: { type: "function", function: { name: "submit_audit" } },
   })
 
-  const toolUseBlock = response.content.find((block) => block.type === "tool_use")
-  if (!toolUseBlock || toolUseBlock.type !== "tool_use") {
-    throw new Error("Auditor did not return a tool_use block - unexpected response shape")
+  const toolCall = response.choices[0]?.message?.tool_calls?.[0]
+  if (!toolCall || toolCall.type !== "function") {
+    throw new Error("Auditor did not return a tool call - unexpected response shape")
   }
 
-  const input = toolUseBlock.input as { findings: { check: string; passed: boolean; detail: string }[] }
+  const input = JSON.parse(toolCall.function.arguments) as { findings: { check: string; passed: boolean; detail: string }[] }
 
   const findings: AuditFinding[] = input.findings
     .filter((f) => !f.passed)

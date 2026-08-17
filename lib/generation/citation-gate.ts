@@ -50,19 +50,26 @@ function getAllValidSourceUrls(dossier: CityDossierForGate): Set<string> {
   return urls
 }
 
+const BROWSER_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+async function tryFetch(url: string, useUserAgent: boolean): Promise<Response> {
+  const headers: Record<string, string> = useUserAgent ? { "User-Agent": BROWSER_USER_AGENT } : {}
+  return fetch(url, { method: "GET", headers, signal: AbortSignal.timeout(10000) })
+}
+
 async function checkUrlsResolve(urls: string[]): Promise<GateFailure[]> {
   const failures: GateFailure[] = []
   for (const url of urls) {
     try {
-      const res = await fetch(url, {
-        method: "GET",
-        headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        },
-        signal: AbortSignal.timeout(10000),
-      })
+      let res = await tryFetch(url, true)
       if (!res.ok) {
-        failures.push({ check: "url_resolves", detail: `${url} returned HTTP ${res.status}` })
+        const resWithoutUA = await tryFetch(url, false)
+        if (resWithoutUA.ok) {
+          res = resWithoutUA
+        }
+      }
+      if (!res.ok) {
+        failures.push({ check: "url_resolves", detail: `${url} returned HTTP ${res.status} (tried both with and without a browser User-Agent)` })
       }
     } catch (err) {
       failures.push({ check: "url_resolves", detail: `${url} failed to resolve: ${err instanceof Error ? err.message : String(err)}` })

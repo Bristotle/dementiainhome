@@ -100,6 +100,7 @@ REQUIREMENTS:
 - Title 60 characters or fewer
 - Meta description 155 characters or fewer
 - Exactly one <h1> tag
+- Break the body into clearly labeled sections using <h2> subheadings (for example: local demographics, specialists and research centers, home care agencies, Medicaid/financial support, community resources) - do not write this as one continuous block of paragraphs with no section breaks
 - At least 600 words - this page must genuinely synthesize the specialists, clinics, and resources above into something a family could actually use, not just list them
 - Every URL in citedUrls must be copied exactly from the citation list above
 - Do not give medical diagnosis or treatment advice, and do not imply any listed provider personally endorses this service
