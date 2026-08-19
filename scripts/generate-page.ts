@@ -94,6 +94,12 @@ ${dossierContext || "(no city-specific facts required for this page type)"}
 
 AVAILABLE CITATION SOURCES (cite ONLY from this list): ${availableCitations}
 
+SOURCE-SCOPE PRECISION (read carefully - a previous generation failed audit on exactly this):
+- The demographics data above is CITY-level (from the U.S. Census ACS), not statewide. Do not describe city-level figures as if they represent the whole state.
+- "estimated_dementia_cases" is OUR OWN calculation (a national prevalence rate applied to the local 65+ population) - it is NOT a figure the Census itself measures or publishes. Present it explicitly as an estimate ("based on national prevalence rates, an estimated X residents may be living with dementia"), never as if the Census source states this number directly.
+- Some citation sources are specific to Alzheimer's disease specifically (state Alzheimer's-focused press releases, Alzheimer's Association materials), not all-cause dementia. Before citing one of these to support a claim about "dementia" broadly, check whether the source is actually Alzheimer's-specific - if so, either scope the claim to Alzheimer's specifically, or find a source that actually covers dementia broadly. Do not use an Alzheimer's-specific source to support a general dementia eligibility rule or statistic unless the source itself states that rule applies to dementia broadly, not just Alzheimer's.
+- Only attach a citation to a specific numeric claim (like an asset limit or percentage) if that specific source actually publishes that specific number. A general program-overview page is not a valid citation for a precise dollar figure unless it actually states that figure.
+
 Use the generate_page tool to submit your output.`
 }
 
