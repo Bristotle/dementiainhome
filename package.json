@@ -13,7 +13,8 @@
     "dossier": "tsx scripts/dossier.ts",
     "test:gate": "tsx scripts/test-gate.ts",
     "test:auditor": "tsx scripts/test-auditor.ts",
-    "test:models": "tsx scripts/test-model-comparison.ts"
+    "test:models": "tsx scripts/test-model-comparison.ts",
+    "generate": "tsx scripts/generate-page.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.116.0",

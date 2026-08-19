@@ -1,0 +1,208 @@
+// Page Generation Pipeline
+// Usage: npm run generate <city-slug> <template-slug>
+//
+// The real pipeline: loads a city's cached dossier and a master template,
+// dynamically pulls only the dossier fields that template actually needs
+// (per its design_block.dossier_fields), generates a page with Grok using
+// forced structured output, runs it through both citation-gate layers,
+// and stores the result in the `pages` table with full gate logs - whether
+// it passed or not, so failures are visible and auditable, not silent.
+
+import { config } from "dotenv"
+config({ path: ".env.local" })
+
+import OpenAI from "openai"
+import { getSupabaseAdmin } from "../lib/ingestion/supabase-admin"
+import { runDeterministicGate, type GeneratedPage, type CityDossierForGate } from "../lib/generation/citation-gate"
+import { runLlmAuditor } from "../lib/generation/llm-auditor"
+
+const GENERATE_PAGE_TOOL_PARAMETERS = {
+  type: "object" as const,
+  properties: {
+    title: { type: "string", description: "Page title, 60 characters or fewer" },
+    metaDescription: { type: "string", description: "Meta description, 155 characters or fewer" },
+    htmlContent: { type: "string", description: "Full page body as HTML, with exactly one <h1> tag and H2 subheadings for each section" },
+    citedUrls: { type: "array", items: { type: "string" }, description: "Every source URL actually cited - must come only from the provided dossier facts and citation pool" },
+  },
+  required: ["title", "metaDescription", "htmlContent", "citedUrls"],
+}
+
+type MasterTemplate = {
+  id: string
+  topic_type: string
+  intent: string
+  master_brief: string
+  required_citation_slots: number
+  design_block: { title_template: string; dossier_fields: string[] }
+}
+
+type CityRow = { id: string; slug: string; name: string; state: string; state_abbrev: string }
+
+async function loadCity(citySlug: string): Promise<CityRow> {
+  const supabase = getSupabaseAdmin()
+  const { data, error } = await supabase.from("cities").select("id, slug, name, state, state_abbrev").eq("slug", citySlug).single()
+  if (error || !data) throw new Error(`City "${citySlug}" not found: ${error?.message}`)
+  return data
+}
+
+async function loadTemplate(templateSlug: string): Promise<MasterTemplate> {
+  const supabase = getSupabaseAdmin()
+  const { data, error } = await supabase.from("master_templates").select("*").eq("topic_type", templateSlug).single()
+  if (error || !data) throw new Error(`Template "${templateSlug}" not found: ${error?.message}`)
+  return data
+}
+
+async function loadDossier(citySlug: string): Promise<CityDossierForGate> {
+  const supabase = getSupabaseAdmin()
+  const { data, error } = await supabase.from("dossiers").select("dossier_json").eq("city_slug", citySlug).single()
+  if (error || !data) throw new Error(`No cached dossier for "${citySlug}" - run "npm run dossier ${citySlug}" first`)
+  return data.dossier_json as CityDossierForGate
+}
+
+function buildDossierContext(dossier: CityDossierForGate, fields: string[]): string {
+  const parts: string[] = []
+  if (fields.includes("demographics") && dossier.demographics) {
+    parts.push(`Demographics: ${JSON.stringify(dossier.demographics)}`)
+  }
+  if (fields.includes("experts") && dossier.experts?.length) {
+    parts.push(`Local specialists: ${JSON.stringify(dossier.experts.slice(0, 8))}`)
+  }
+  if (fields.includes("clinics") && dossier.clinics?.length) {
+    parts.push(`Local clinics/agencies: ${JSON.stringify(dossier.clinics.slice(0, 8))}`)
+  }
+  if (fields.includes("local_resources") && dossier.local_resources?.length) {
+    parts.push(`Local resources: ${JSON.stringify(dossier.local_resources)}`)
+  }
+  if (fields.includes("medicaid_waiver") && dossier.medicaid_waiver) {
+    parts.push(`Medicaid program: ${JSON.stringify(dossier.medicaid_waiver)}`)
+  }
+  return parts.join("\n\n")
+}
+
+function buildPrompt(template: MasterTemplate, city: CityRow, dossier: CityDossierForGate): string {
+  const filledBrief = template.master_brief.replace(/\{city\}/g, city.name).replace(/\{state\}/g, city.state)
+  const filledTitle = template.design_block.title_template.replace(/\{city\}/g, city.name).replace(/\{state\}/g, city.state)
+  const dossierContext = buildDossierContext(dossier, template.design_block.dossier_fields || [])
+  const availableCitations = dossier.citations.map((c) => c.url).join(", ")
+
+  return `${filledBrief}
+
+SUGGESTED TITLE PATTERN (use this or something very close to it): "${filledTitle}"
+
+REAL FACTS YOU MAY USE (do not invent anything beyond this):
+${dossierContext || "(no city-specific facts required for this page type)"}
+
+AVAILABLE CITATION SOURCES (cite ONLY from this list): ${availableCitations}
+
+Use the generate_page tool to submit your output.`
+}
+
+// Grok 4.6 pricing per the model-selection decision: $2/M input, $6/M output.
+const GROK_INPUT_PRICE_PER_M = 2.0
+const GROK_OUTPUT_PRICE_PER_M = 6.0
+
+async function generatePage(prompt: string): Promise<{ page: GeneratedPage; inputTokens: number; outputTokens: number; costUsd: number }> {
+  const apiKey = process.env.XAI_API_KEY
+  if (!apiKey) throw new Error("XAI_API_KEY not set")
+  const client = new OpenAI({ apiKey, baseURL: "https://api.x.ai/v1" })
+
+  const response = await client.chat.completions.create({
+    model: "grok-4.6",
+    messages: [{ role: "user", content: prompt }],
+    tools: [{ type: "function", function: { name: "generate_page", description: "Submit the generated page", parameters: GENERATE_PAGE_TOOL_PARAMETERS } }],
+    tool_choice: { type: "function", function: { name: "generate_page" } },
+  })
+
+  const toolCall = response.choices[0]?.message?.tool_calls?.[0]
+  if (!toolCall || toolCall.type !== "function") throw new Error("Grok did not return a tool call")
+  const output = JSON.parse(toolCall.function.arguments) as Omit<GeneratedPage, "jsonLd">
+
+  const inputTokens = response.usage?.prompt_tokens ?? 0
+  const outputTokens = response.usage?.completion_tokens ?? 0
+  const costUsd = (inputTokens * GROK_INPUT_PRICE_PER_M + outputTokens * GROK_OUTPUT_PRICE_PER_M) / 1_000_000
+
+  return {
+    page: { ...output, jsonLd: { "@context": "https://schema.org", "@type": "Article" } },
+    inputTokens,
+    outputTokens,
+    costUsd,
+  }
+}
+
+async function resolveCitationIds(citedUrls: string[]): Promise<string[]> {
+  if (citedUrls.length === 0) return []
+  const supabase = getSupabaseAdmin()
+  const { data, error } = await supabase.from("citations").select("id, url").in("url", citedUrls)
+  if (error || !data) return []
+  return data.map((c) => c.id)
+}
+
+async function main() {
+  const citySlug = process.argv[2]
+  const templateSlug = process.argv[3]
+  if (!citySlug || !templateSlug) {
+    console.error("Usage: npm run generate <city-slug> <template-slug>")
+    process.exit(1)
+  }
+
+  console.log(`\nGenerating: ${templateSlug} for ${citySlug}`)
+  const [city, template, dossier] = await Promise.all([
+    loadCity(citySlug),
+    loadTemplate(templateSlug),
+    loadDossier(citySlug),
+  ])
+
+  const prompt = buildPrompt(template, city, dossier)
+  console.log(`  Calling Grok...`)
+  const { page, inputTokens, outputTokens, costUsd } = await generatePage(prompt)
+  console.log(`  Tokens: ${inputTokens} in / ${outputTokens} out. Cost: $${costUsd.toFixed(6)}`)
+  console.log(`  Title: "${page.title}"`)
+
+  console.log(`  Running deterministic gate...`)
+  const deterministicResult = await runDeterministicGate(page, dossier)
+  console.log(`  Deterministic gate: ${deterministicResult.passed ? "PASSED" : "FAILED"}`)
+  deterministicResult.failures.forEach((f) => console.log(`    - [${f.check}] ${f.detail}`))
+
+  let auditResult: { passed: boolean; findings: unknown[] } | null = null
+  if (deterministicResult.passed) {
+    console.log(`  Running LLM audit...`)
+    auditResult = await runLlmAuditor(page, dossier)
+    console.log(`  LLM audit: ${auditResult.passed ? "PASSED" : "FAILED"}`)
+    auditResult.findings.forEach((f) => console.log(`    - ${JSON.stringify(f)}`))
+  }
+
+  const bothPassed = deterministicResult.passed && (auditResult?.passed ?? false)
+  const gateStatus = !deterministicResult.passed
+    ? "failed_deterministic"
+    : bothPassed
+      ? "passed"
+      : "failed_llm"
+
+  const citationIds = await resolveCitationIds(page.citedUrls)
+
+  const supabase = getSupabaseAdmin()
+  const { error: upsertError } = await supabase.from("pages").upsert([{
+    city_id: city.id,
+    master_template_id: template.id,
+    title: page.title,
+    meta_description: page.metaDescription,
+    content_json: page,
+    citation_ids: citationIds,
+    gate_status: gateStatus,
+    gate_log: { deterministic: deterministicResult, llm_audit: auditResult, cost_usd: costUsd, input_tokens: inputTokens, output_tokens: outputTokens },
+    published: false,
+    generated_at: new Date().toISOString(),
+  }], { onConflict: "city_id,master_template_id" })
+
+  if (upsertError) {
+    console.error(`\nFailed to store page:`, upsertError.message)
+    process.exit(1)
+  }
+
+  console.log(`\nStored with gate_status = "${gateStatus}". ${bothPassed ? "Ready for publish review." : "Needs attention before publishing."}`)
+}
+
+main().catch((err) => {
+  console.error("Generation failed:", err instanceof Error ? err.message : err)
+  process.exit(1)
+})
