@@ -3,9 +3,9 @@ import { useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { hoverScale } from "@/components/motion"
 
-type Props = { cityName: string; cityState: string }
+type Props = { cityName: string; cityState: string; pageType?: string; sourcePage?: string }
 
-export default function LeadForm({ cityName, cityState }: Props) {
+export default function LeadForm({ cityName, cityState, pageType, sourcePage }: Props) {
   const [form, setForm] = useState({ first_name:"", last_name:"", email:"", phone:"", message:"" })
   const [status, setStatus] = useState<"idle"|"loading"|"success"|"error">("idle")
   const [errorMsg, setErrorMsg] = useState("")
@@ -18,7 +18,7 @@ export default function LeadForm({ cityName, cityState }: Props) {
     e.preventDefault()
     setStatus("loading")
     try {
-      const res = await fetch("/api/leads", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({...form, city:cityName, state:cityState}) })
+      const res = await fetch("/api/leads", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({...form, city:cityName, state:cityState, page_type: pageType, source_page: sourcePage || (typeof window !== "undefined" ? window.location.pathname : undefined)}) })
       const data = await res.json()
       if (!res.ok) { setStatus("error"); setErrorMsg(data.error||"Something went wrong."); return }
       setStatus("success")
