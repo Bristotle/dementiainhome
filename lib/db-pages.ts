@@ -59,3 +59,20 @@ export async function getAllPublishedPageParams(): Promise<{ slug: string; templ
     template: (row.master_templates as unknown as { topic_type: string }).topic_type,
   }))
 }
+
+export type PublishedPageLink = { template: string; title: string }
+
+export async function getPublishedPagesForCity(citySlug: string): Promise<PublishedPageLink[]> {
+  const { data, error } = await supabase
+    .from("pages")
+    .select("title, master_templates!inner(topic_type), cities!inner(slug)")
+    .eq("cities.slug", citySlug)
+    .eq("published", true)
+
+  if (error || !data) return []
+
+  return data.map((row) => ({
+    template: (row.master_templates as unknown as { topic_type: string }).topic_type,
+    title: row.title,
+  }))
+}

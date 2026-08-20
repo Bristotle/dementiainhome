@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation"
 import { getCityBySlug, getAllCitySlugs, getAllCities, getCityDemographics, getMedicaidWaiver, getMedicaidCitations } from "@/lib/db-cities"
+import { getPublishedPagesForCity } from "@/lib/db-pages"
 import LeadForm from "@/components/LeadForm"
 import Link from "next/link"
 import type { Metadata } from "next"
@@ -32,11 +33,12 @@ export default async function CityPage({ params }: Props) {
   const city = await getCityBySlug(slug)
   if (!city) notFound()
 
-  const [demographics, waiver, citations, allCities] = await Promise.all([
+  const [demographics, waiver, citations, allCities, publishedPages] = await Promise.all([
     getCityDemographics(slug),
     getMedicaidWaiver(city.state_abbrev),
     getMedicaidCitations(city.state_abbrev),
     getAllCities(),
+    getPublishedPagesForCity(slug),
   ])
 
   return (
@@ -207,6 +209,21 @@ export default async function CityPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {publishedPages.length > 0 && (
+        <section className="max-w-5xl mx-auto px-6 py-16">
+          <FadeIn><h2 className="text-2xl font-bold text-slate-900 mb-8" style={{fontFamily:"var(--font-fraunces)"}}>More resources for {city.name} families</h2></FadeIn>
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {publishedPages.map((p) => (
+              <StaggerItem key={p.template}>
+                <MotionLink {...hoverShift} href={`/cities/${slug}/${p.template}`} className="block p-4 rounded-xl border border-slate-200 hover:border-teal-300 hover:bg-teal-50 transition-colors">
+                  <span className="text-sm font-semibold text-slate-900">{p.title}</span>
+                </MotionLink>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </section>
+      )}
 
       <footer className="border-t border-slate-200 bg-white">
         <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">

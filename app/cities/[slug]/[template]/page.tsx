@@ -55,16 +55,20 @@ export default async function GeneratedPage({ params }: Props) {
         </div>
       </nav>
 
-      <section className="relative overflow-hidden max-w-3xl mx-auto px-6 pt-14 pb-4">
+      <section className="relative overflow-hidden max-w-3xl mx-auto px-6 pt-16 pb-8">
         <ShapeBackgroundCompact />
         <div className="relative z-10">
           <FadeIn><Link href={`/cities/${page.city.slug}`} className="text-sm text-teal-600 hover:underline">← {page.city.name}, {page.city.state_abbrev}</Link></FadeIn>
+          <FadeIn delay={0.1}><p className="eyebrow mt-4 mb-2">{page.city.name}, {page.city.state_abbrev}</p></FadeIn>
+          <FadeIn delay={0.2}>
+            <MotionLink {...hoverScale} href="#get-matched" className="inline-block mt-6 btn-primary">Get free caregiver profiles →</MotionLink>
+          </FadeIn>
         </div>
       </section>
 
       <FadeIn>
         <article
-          className="max-w-3xl mx-auto px-6 pb-12 text-slate-700 leading-relaxed [&_h1]:text-4xl [&_h1]:font-bold [&_h1]:text-slate-900 [&_h1]:mb-6 [&_h1]:leading-tight [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-10 [&_h2]:mb-4 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_li]:mb-2 [&_a]:text-teal-600 [&_a]:underline [&_strong]:font-semibold [&_strong]:text-slate-900"
+          className="max-w-3xl mx-auto px-6 pb-12 text-slate-700 leading-relaxed [&_h1]:text-5xl [&_h1]:font-bold [&_h1]:text-slate-900 [&_h1]:mb-8 [&_h1]:leading-tight [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-10 [&_h2]:mb-4 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_li]:mb-2 [&_a]:text-teal-600 [&_a]:underline [&_strong]:font-semibold [&_strong]:text-slate-900"
           dangerouslySetInnerHTML={{ __html: page.content_json.htmlContent }}
         />
       </FadeIn>
