@@ -79,11 +79,22 @@ function buildDossierContext(dossier: CityDossierForGate, fields: string[]): str
   return parts.join("\n\n")
 }
 
+const REAL_SERVICE_LINKS = [
+  { path: "/services/companion-care", label: "companion care" },
+  { path: "/services/personal-care", label: "personal care" },
+  { path: "/services/24-hour-live-in-care", label: "24-hour live-in care" },
+  { path: "/services/respite-care", label: "respite care" },
+  { path: "/services/memory-care-at-home", label: "memory care at home" },
+  { path: "/services/hospital-discharge-care", label: "hospital discharge care" },
+]
+
 function buildPrompt(template: MasterTemplate, city: CityRow, dossier: CityDossierForGate): string {
   const filledBrief = template.master_brief.replace(/\{city\}/g, city.name).replace(/\{state\}/g, city.state)
   const filledTitle = template.design_block.title_template.replace(/\{city\}/g, city.name).replace(/\{state\}/g, city.state)
   const dossierContext = buildDossierContext(dossier, template.design_block.dossier_fields || [])
   const availableCitations = dossier.citations.map((c) => c.url).join(", ")
+  const serviceLinksList = REAL_SERVICE_LINKS.map((s) => `${s.label}: ${s.path}`).join(", ")
+  const cityHubPath = `/cities/${city.slug}`
 
   return `${filledBrief}
 
@@ -102,6 +113,14 @@ SOURCE-SCOPE PRECISION (read carefully - previous generations failed audit/gate 
 - Some citation sources are specific to Alzheimer's disease specifically (state Alzheimer's-focused press releases, Alzheimer's Association materials), not all-cause dementia. Before citing one of these to support a claim about "dementia" broadly, check whether the source is actually Alzheimer's-specific - if so, either scope the claim to Alzheimer's specifically, or find a source that actually covers dementia broadly. Do not use an Alzheimer's-specific source to support a general dementia eligibility rule or statistic unless the source itself states that rule applies to dementia broadly, not just Alzheimer's.
 - Only attach a citation to a specific numeric claim (like an asset limit or percentage) if that specific source actually publishes that specific number. A general program-overview page is not a valid citation for a precise dollar figure unless it actually states that figure.
 - IMPORTANT ON MEDICAID PROGRAM DETAILS: the Medicaid program data (asset limits, the dementia-specific ADL/functional threshold, look-back period, application process, CDPAP/self-direction details, etc.) all come from our own research, but we only have ONE general program-overview citation URL for it - that general page does not necessarily state each specific number or rule itself. Do NOT pin any of these specific figures or rules to that URL as if the page states them verbatim. Instead: present all Medicaid program specifics (asset limits, thresholds, look-back, application process, CDPAP) as general informational content in your own words, without an inline citation attached to each specific number or rule. You may still cite the general program URL once, broadly, as a "learn more about this program" reference for the program's existence and overall structure - just not as the source for each granular figure within it.
+
+FORMATTING AND LINKING REQUIREMENTS:
+- LINKS MUST BE HTML, NEVER MARKDOWN: every link in htmlContent must be a proper HTML anchor tag, exactly like <a href="URL">anchor text</a>. Never use Markdown link syntax like [anchor text](URL) anywhere - it will render as broken literal text on the live page, not a clickable link. Also always put a normal space between the end of a sentence and the start of the next link or word - never let a period or word run directly into a link or tag with no space.
+- NO EN-DASHES: do not use the en-dash character (\u2013) anywhere in the content. Use a regular hyphen (-) or restructure the sentence instead.
+- INTERNAL LINKS (include at least 3 naturally within the body, using real HTML anchor tags): link to this city's main hub page at ${cityHubPath} at least once, and to 2-3 of these real service pages where topically relevant: ${serviceLinksList}. Only link to these exact paths - do not invent other internal URLs. IMPORTANT: internal links are relative paths on our own site, not external citations - do NOT add them to the citedUrls array in your output. The citedUrls array is only for the external citation sources listed above.
+- EXTERNAL LINKS: aim for at least 2 distinct external citation links from the available citation sources list above, properly attributed per the scope rules already given.
+- FAQ SECTION: end the page with an "<h2>Frequently Asked Questions</h2>" section containing at least 5 question-and-answer pairs relevant to this topic and city. Each question should be a realistic thing a family would actually search for. Each answer must be grounded in the real facts already provided above (or general, safe, non-diagnostic guidance) - do not invent new specific facts, statistics, or citations not already given just to answer a FAQ.
+- WRITE FOR BOTH HUMAN READERS AND AI ANSWER ENGINES: keep paragraphs short and make sure the first sentence of each section directly and completely answers the question that section's heading implies, so the passage could be quoted on its own by a search engine's AI overview and still make complete sense out of context.
 
 Use the generate_page tool to submit your output.`
 }
