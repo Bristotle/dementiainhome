@@ -63,6 +63,7 @@ function buildDossierContext(dossier: CityDossierForGate, fields: string[]): str
   const parts: string[] = []
   if (fields.includes("demographics") && dossier.demographics) {
     parts.push(`Demographics: ${JSON.stringify(dossier.demographics)}`)
+    parts.push(`IMPORTANT: the "source_url" field inside that demographics object above is the ONLY correct citation for the population counts, median income, and living-alone figures (it is the real U.S. Census Bureau source for those exact numbers). Cite that specific URL for those specific figures - do not attach CDC, NIA, or any other general health source to city population/income/living-alone counts, since those general sources do not publish city-level Census figures.`)
   }
   if (fields.includes("experts") && dossier.experts?.length) {
     parts.push(`Local specialists: ${JSON.stringify(dossier.experts.slice(0, 8))}`)
