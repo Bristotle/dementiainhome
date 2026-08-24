@@ -18,7 +18,14 @@
 import { config } from "dotenv"
 config({ path: ".env.local" })
 import { getSupabaseAdmin } from "../lib/ingestion/supabase-admin"
-import { getCityFips } from "../lib/ingestion/city-fips"
+
+async function getCityFipsFromDb(citySlug: string): Promise<{ stateFips: string; placeFips: string } | null> {
+  const supabase = getSupabaseAdmin()
+  const { data, error } = await supabase.from("cities").select("census_place_fips").eq("slug", citySlug).maybeSingle()
+  if (error || !data?.census_place_fips) return null
+  const combined = data.census_place_fips
+  return { stateFips: combined.slice(0, 2), placeFips: combined.slice(2) }
+}
 
 const ACS_YEAR = "2023" // most recent 5-year ACS vintage available at time of writing
 // DP05 variables live in the "profile" dataset - a different endpoint from
@@ -100,9 +107,9 @@ async function logGap(citySlug: string, fieldName: string, reason: string) {
 async function ingestCity(citySlug: string) {
   console.log(`\nIngesting Census demographics for: ${citySlug}`)
 
-  const fips = getCityFips(citySlug)
+  const fips = await getCityFipsFromDb(citySlug)
   if (!fips) {
-    console.error(`No FIPS mapping found for city "${citySlug}" in lib/ingestion/city-fips.ts`)
+    console.error(`No census_place_fips found in the cities table for "${citySlug}" - add the city row with this GEOID before ingesting`)
     process.exit(1)
   }
 
