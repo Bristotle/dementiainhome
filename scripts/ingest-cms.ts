@@ -33,20 +33,12 @@ import { getSupabaseAdmin } from "../lib/ingestion/supabase-admin"
 const DATASET_IDENTIFIER = "6jpm-sxkc" // "Home Health Care Agencies" in the CMS Provider Data Catalog
 const METASTORE_URL = `https://data.cms.gov/provider-data/api/1/metastore/schemas/dataset/items/${DATASET_IDENTIFIER}`
 
-// Some cities have data spread across multiple city-name variants in
-// government datasets - most notably New York City, where CMS (and many
-// other federal datasets) list agencies under the specific borough name
-// (Bronx, Brooklyn, Queens, Staten Island) rather than "New York" itself.
-// Confirmed via live query: New York state's home health data is
-// dominated by "BRONX" and "BROOKLYN" entries, with very few literally
-// labeled "NEW YORK".
-const CITY_SEARCH_INFO: Record<string, { cities: string[]; state: string }> = {
-  "new-york-ny": { cities: ["New York", "Manhattan", "Bronx", "Brooklyn", "Queens", "Staten Island"], state: "NY" },
-  "los-angeles-ca": { cities: ["Los Angeles"], state: "CA" },
-  "chicago-il": { cities: ["Chicago"], state: "IL" },
-  "houston-tx": { cities: ["Houston"], state: "TX" },
-  "phoenix-az": { cities: ["Phoenix"], state: "AZ" },
-}
+// City name variants + state now come from the cities table itself
+// (see getCityNamesAndState below) instead of a hardcoded per-city list -
+// this is what makes npm run add-city work for any new city with zero
+// manual file editing. Special multi-name cases (like New York's boroughs,
+// where CMS data lists agencies under borough names rather than "New York"
+// itself) are set via the cms_city_names column on that city's row.
 
 type CmsCsvRow = {
   "State": string
@@ -102,12 +94,20 @@ async function logGap(citySlug: string, fieldName: string, reason: string) {
   else console.log(`  Gap logged: ${fieldName} - ${reason}`)
 }
 
+async function getCityNamesAndState(citySlug: string): Promise<{ cities: string[]; state: string } | null> {
+  const supabase = getSupabaseAdmin()
+  const { data, error } = await supabase.from("cities").select("name, state_abbrev, cms_city_names").eq("slug", citySlug).maybeSingle()
+  if (error || !data) return null
+  const cities = data.cms_city_names && data.cms_city_names.length > 0 ? data.cms_city_names : [data.name]
+  return { cities, state: data.state_abbrev }
+}
+
 async function ingestCity(citySlug: string, allRows: CmsCsvRow[]) {
   console.log(`\nIngesting CMS home health agencies for: ${citySlug}`)
 
-  const info = CITY_SEARCH_INFO[citySlug]
+  const info = await getCityNamesAndState(citySlug)
   if (!info) {
-    console.error(`No city search info found for "${citySlug}" in scripts/ingest-cms.ts`)
+    console.error(`City "${citySlug}" not found in the cities table - add the city row first`)
     return
   }
 

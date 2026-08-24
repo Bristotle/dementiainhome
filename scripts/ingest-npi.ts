@@ -33,15 +33,10 @@ const SPECIALTY_SEARCH_TERMS: Record<Specialty, string> = {
   geriatric_psychiatrist: "Geriatric Psychiatry",
 }
 
-// City name + state abbreviation, since the NPI API searches by these,
-// not FIPS codes (unlike the Census API).
-const CITY_SEARCH_INFO: Record<string, { city: string; state: string }> = {
-  "new-york-ny": { city: "New York", state: "NY" },
-  "los-angeles-ca": { city: "Los Angeles", state: "CA" },
-  "chicago-il": { city: "Chicago", state: "IL" },
-  "houston-tx": { city: "Houston", state: "TX" },
-  "phoenix-az": { city: "Phoenix", state: "AZ" },
-}
+// City name + state abbreviation now come directly from the cities table
+// (see getCityNameAndState below) instead of a hardcoded per-city list -
+// this is what makes npm run add-city work for any new city with zero
+// manual file editing.
 
 type NpiAddress = {
   address_purpose: string
@@ -179,12 +174,19 @@ async function ingestSpecialty(citySlug: string, cityName: string, state: string
   return rows.length
 }
 
+async function getCityNameAndState(citySlug: string): Promise<{ city: string; state: string } | null> {
+  const supabase = getSupabaseAdmin()
+  const { data, error } = await supabase.from("cities").select("name, state_abbrev").eq("slug", citySlug).maybeSingle()
+  if (error || !data) return null
+  return { city: data.name, state: data.state_abbrev }
+}
+
 async function ingestCity(citySlug: string) {
   console.log(`\nIngesting NPI experts for: ${citySlug}`)
 
-  const info = CITY_SEARCH_INFO[citySlug]
+  const info = await getCityNameAndState(citySlug)
   if (!info) {
-    console.error(`No city search info found for "${citySlug}" in scripts/ingest-npi.ts`)
+    console.error(`City "${citySlug}" not found in the cities table - add the city row first`)
     process.exit(1)
   }
 
