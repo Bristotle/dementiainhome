@@ -166,6 +166,17 @@ async function resolveCitationIds(citedUrls: string[]): Promise<string[]> {
   return data.map((c) => c.id)
 }
 
+function checkRequiredDataPresent(template: MasterTemplate, dossier: CityDossierForGate): string[] {
+  const missing: string[] = []
+  const fields = template.design_block.dossier_fields || []
+  if (fields.includes("medicaid_waiver") && !dossier.medicaid_waiver) missing.push("medicaid_waiver")
+  if (fields.includes("local_resources") && (!dossier.local_resources || dossier.local_resources.length === 0)) missing.push("local_resources")
+  if (fields.includes("demographics") && !dossier.demographics) missing.push("demographics")
+  if (fields.includes("experts") && (!dossier.experts || dossier.experts.length === 0)) missing.push("experts")
+  if (fields.includes("clinics") && (!dossier.clinics || dossier.clinics.length === 0)) missing.push("clinics")
+  return missing
+}
+
 async function main() {
   const citySlug = process.argv[2]
   const templateSlug = process.argv[3]
@@ -180,6 +191,12 @@ async function main() {
     loadTemplate(templateSlug),
     loadDossier(citySlug),
   ])
+
+  const missingData = checkRequiredDataPresent(template, dossier)
+  if (missingData.length > 0) {
+    console.log(`  Skipping: this template requires ${missingData.join(", ")}, which is missing for this city (logged in gaps). Generating anyway risks the model filling in from its own general knowledge instead of verified local data. Add the real data first, then re-run.`)
+    return
+  }
 
   const prompt = buildPrompt(template, city, dossier)
   console.log(`  Calling Grok...`)
