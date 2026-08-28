@@ -274,7 +274,7 @@ async function main() {
   console.log(`\n=== Generating ${queue.length} pages, ${opts.concurrency} at a time ===`)
   const failures: Job[] = []
   const touched = new Set<string>()
-  const outcomes = { passed: 0, failed_deterministic: 0, failed_llm: 0, skipped: 0 }
+  const outcomes = { passed: 0, failed_deterministic: 0, failed_llm: 0, skipped: 0, kept: 0 }
   const startedAt = Date.now()
   let done = 0
   let next = 0
@@ -302,6 +302,9 @@ async function main() {
       } else if (stdout.includes("Skipping:")) {
         outcomes.skipped++
         line = "skipped (missing dossier data)"
+      } else if (stdout.includes("Keeping the live page")) {
+        outcomes.kept++
+        line = "failed the gates - live version kept"
       } else {
         line = "finished with no gate result"
       }
@@ -322,7 +325,7 @@ async function main() {
     }),
   )
 
-  console.log(`\n  Gate results: ${outcomes.passed} passed, ${outcomes.failed_llm} failed the auditor, ${outcomes.failed_deterministic} failed the deterministic gate, ${outcomes.skipped} skipped.`)
+  console.log(`\n  Gate results: ${outcomes.passed} passed, ${outcomes.failed_llm} failed the auditor, ${outcomes.failed_deterministic} failed the deterministic gate, ${outcomes.skipped} skipped, ${outcomes.kept} left live unchanged.`)
 
   let published = 0
   if (opts.publish) {
