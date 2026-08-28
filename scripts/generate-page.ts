@@ -109,7 +109,22 @@ function buildPrompt(template: MasterTemplate, city: CityRow, dossier: CityDossi
   const filledBrief = template.master_brief.replace(/\{city\}/g, city.name).replace(/\{state\}/g, city.state)
   const filledTitle = template.design_block.title_template.replace(/\{city\}/g, city.name).replace(/\{state\}/g, city.state)
   const dossierContext = buildDossierContext(dossier, template.design_block.dossier_fields || [])
-  const availableCitations = dossier.citations.map((c) => c.url).join(", ")
+  // The model used to be handed a comma-separated list of bare URLs and left to
+  // infer from the path what each source covered. Every remaining audit
+  // rejection was a scope error - an Alzheimer's-specific source used to
+  // underwrite a claim about dementia generally - which is exactly the mistake
+  // a reader of bare URLs would make. Each source is now named, and the ones
+  // that only cover Alzheimer's disease say so on their own line.
+  const availableCitations = dossier.citations
+    .map((c) => {
+      const name = c.source_name ? ` - ${c.source_name}` : ""
+      const alzheimersOnly = /alzheimer/i.test(`${c.source_name ?? ""} ${c.url}`) && !/dementia/i.test(c.source_name ?? "")
+      const scope = alzheimersOnly
+        ? "  [ALZHEIMER'S-SPECIFIC: cite only for claims scoped to Alzheimer's disease. Using it for a general dementia claim is a scope error and the page will be rejected.]"
+        : ""
+      return `- ${c.url}${name}${scope}`
+    })
+    .join("\n")
   const serviceLinksList = REAL_SERVICE_LINKS.map((s) => `${s.label}: ${s.path}`).join(", ")
   const cityHubPath = `/cities/${city.slug}`
 
@@ -152,7 +167,8 @@ SUGGESTED TITLE PATTERN (use this or something very close to it): "${filledTitle
 REAL FACTS YOU MAY USE (do not invent anything beyond this):
 ${dossierContext || "(no city-specific facts required for this page type)"}
 
-AVAILABLE CITATION SOURCES (cite ONLY from this list): ${availableCitations}
+AVAILABLE CITATION SOURCES - cite ONLY from this list, and respect each one's scope:
+${availableCitations}
 
 Use the generate_page tool to submit your output.`
 }

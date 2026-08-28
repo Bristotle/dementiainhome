@@ -26,7 +26,7 @@ export type CityDossierForGate = {
   clinics: { name: string; cms_provider_id?: string; phone?: string | null; address?: string | null; source_url: string }[]
   medicaid_waiver: { source_url: string } | null
   local_resources: { source_url: string; resource_type?: string; phone?: string | null; address?: string | null }[]
-  citations: { url: string }[]
+  citations: { url: string; source_name?: string; source_org?: string; topic_tags?: string[] | null }[]
 }
 
 export type GateFailure = {
