@@ -12,6 +12,9 @@
 // Options:
 //   --city <slug>        only this city (repeatable)
 //   --state <ABBREV>     only cities in this state (repeatable)
+//   --template <slug>    only this template (repeatable)
+//   --force              regenerate even pages that already passed - use when a
+//                        template's brief or title pattern has changed
 //   --retry <what>       also regenerate pages that did not pass the gates:
 //                        "deterministic" (formatting-only failures, cheap and
 //                        near-certain to pass), "llm" (auditor rejections, real
@@ -20,12 +23,20 @@
 //                        adding a medicaid_waivers or local_resources row)
 //   --limit <n>          stop after generating n pages this run
 //   --dry-run            print the plan and exit without calling the model
+//   --concurrency <n>    pages to generate at once (default 4). Each page is a
+//                        Grok call plus an auditor call and takes ~4 minutes,
+//                        so serial runs measure in hours; the work is entirely
+//                        network-bound, so running several at once is the
+//                        difference between an afternoon and overnight.
 //   --no-publish         skip the publish step at the end
 
 import { config } from "dotenv"
 config({ path: ".env.local" })
 
-import { execSync } from "child_process"
+import { execFile, execSync } from "child_process"
+import { promisify } from "util"
+
+const execFileAsync = promisify(execFile)
 import { getSupabaseAdmin } from "../lib/ingestion/supabase-admin"
 import { checkRequiredDataPresent } from "../lib/generation/required-data"
 import type { CityDossierForGate } from "../lib/generation/citation-gate"
@@ -33,20 +44,25 @@ import type { CityDossierForGate } from "../lib/generation/citation-gate"
 type Options = {
   cities: string[]
   states: string[]
+  templates: string[]
   retry: "none" | "deterministic" | "llm" | "all"
   refreshDossier: boolean
   limit: number
   dryRun: boolean
   publish: boolean
+  concurrency: number
+  force: boolean
 }
 
 function parseOptions(): Options {
   const argv = process.argv.slice(2)
-  const opts: Options = { cities: [], states: [], retry: "none", refreshDossier: false, limit: Infinity, dryRun: false, publish: true }
+  const opts: Options = { cities: [], states: [], templates: [], retry: "none", refreshDossier: false, limit: Infinity, dryRun: false, publish: true, concurrency: 4, force: false }
   for (let i = 0; i < argv.length; i++) {
     switch (argv[i]) {
       case "--city": opts.cities.push(argv[++i]); break
       case "--state": opts.states.push(argv[++i].toUpperCase()); break
+      case "--template": opts.templates.push(argv[++i]); break
+      case "--force": opts.force = true; break
       case "--retry-failed": opts.retry = "all"; break
       case "--retry": {
         const value = argv[++i]
@@ -61,9 +77,15 @@ function parseOptions(): Options {
       case "--limit": opts.limit = parseInt(argv[++i], 10); break
       case "--dry-run": opts.dryRun = true; break
       case "--no-publish": opts.publish = false; break
+      case "--concurrency": {
+        const n = parseInt(argv[++i], 10)
+        if (!Number.isFinite(n) || n < 1) { console.error("--concurrency expects a positive integer"); process.exit(1) }
+        opts.concurrency = n
+        break
+      }
       default:
         console.error(`Unknown option: ${argv[i]}`)
-        console.error("Usage: npm run backfill -- [--city <slug>] [--state <XX>] [--retry <deterministic|llm|all>] [--refresh-dossier] [--limit <n>] [--dry-run] [--no-publish]")
+        console.error("Usage: npm run backfill -- [--city <slug>] [--state <XX>] [--template <slug>] [--force] [--retry <deterministic|llm|all>] [--refresh-dossier] [--limit <n>] [--concurrency <n>] [--dry-run] [--no-publish]")
         process.exit(1)
     }
   }
@@ -94,9 +116,17 @@ async function buildPlan(opts: Options) {
     if (!selected.some((c) => c.slug === wanted)) throw new Error(`City "${wanted}" is not in the cities table - add it with "npm run add-city" first.`)
   }
 
-  const { data: templates, error: tplErr } = await supabase
+  const { data: allTemplates, error: tplErr } = await supabase
     .from("master_templates").select("id, topic_type, design_block").order("topic_type")
-  if (tplErr || !templates) throw new Error(`Failed to load templates: ${tplErr?.message}`)
+  if (tplErr || !allTemplates) throw new Error(`Failed to load templates: ${tplErr?.message}`)
+
+  const templates = opts.templates.length === 0
+    ? allTemplates
+    : allTemplates.filter((t) => opts.templates.includes(t.topic_type))
+
+  for (const wanted of opts.templates) {
+    if (!templates.some((t) => t.topic_type === wanted)) throw new Error(`Template "${wanted}" is not in the master_templates table.`)
+  }
 
   const { data: pages, error: pageErr } = await supabase
     .from("pages").select("city_id, master_template_id, gate_status, published")
@@ -120,7 +150,7 @@ async function buildPlan(opts: Options) {
       const page = existing.get(template.id)
       const reason: Job["reason"] | null = !page
         ? "missing"
-        : shouldRetry(page.gate_status as string, opts.retry)
+        : opts.force || shouldRetry(page.gate_status as string, opts.retry)
           ? "retry"
           : null
       if (!reason) continue
@@ -138,6 +168,30 @@ async function buildPlan(opts: Options) {
   }
 
   return { selected, templates, jobs, blocked, noDossier }
+}
+
+// Publishing straight after a page passes, rather than in one sweep at the
+// end, matters when regenerating pages that are already live: generate-page
+// upserts with published = false, so a page is briefly down between being
+// rewritten and being republished. Per-job that window is under a second;
+// batched to the end of a multi-hour run it would be the whole run.
+async function publishIfPassed(citySlug: string, templateSlug: string): Promise<boolean> {
+  const supabase = getSupabaseAdmin()
+  const { data: city } = await supabase.from("cities").select("id").eq("slug", citySlug).single()
+  const { data: template } = await supabase.from("master_templates").select("id").eq("topic_type", templateSlug).single()
+  if (!city || !template) return false
+
+  const { count, error } = await supabase
+    .from("pages")
+    .update({ published: true, published_at: new Date().toISOString() }, { count: "exact" })
+    .eq("city_id", city.id).eq("master_template_id", template.id)
+    .eq("gate_status", "passed").eq("published", false)
+
+  if (error) {
+    console.error(`  Could not publish ${citySlug}/${templateSlug}: ${error.message}`)
+    return false
+  }
+  return (count ?? 0) > 0
 }
 
 async function publishPassedPages(citySlugs: string[]) {
@@ -176,8 +230,13 @@ async function main() {
 
   console.log(`\n=== Backfill plan ===`)
   console.log(`  Cities in scope: ${selected.length}   Templates: ${templates.length}   Target pages: ${selected.length * templates.length}`)
-  console.log(`  To generate: ${jobs.filter((j) => j.reason === "missing").length} never generated` +
-    (opts.retry !== "none" ? `, ${jobs.filter((j) => j.reason === "retry").length} gate-failure retries (--retry ${opts.retry})` : ` (add --retry deterministic|llm|all to also redo gate failures)`))
+  const regenerating = jobs.filter((j) => j.reason === "retry").length
+  const regenLabel = opts.force
+    ? `, ${regenerating} regenerated (--force)`
+    : opts.retry !== "none"
+      ? `, ${regenerating} gate-failure retries (--retry ${opts.retry})`
+      : ` (add --retry deterministic|llm|all to also redo gate failures)`
+  console.log(`  To generate: ${jobs.filter((j) => j.reason === "missing").length} never generated` + regenLabel)
 
   if (noDossier.length > 0) {
     console.log(`\n  Skipped - no dossier assembled yet (run "npm run dossier <slug>"): ${noDossier.join(", ")}`)
@@ -212,19 +271,58 @@ async function main() {
     return
   }
 
-  console.log(`\n=== Generating ${queue.length} pages ===`)
+  console.log(`\n=== Generating ${queue.length} pages, ${opts.concurrency} at a time ===`)
   const failures: Job[] = []
   const touched = new Set<string>()
-  for (const [i, job] of queue.entries()) {
-    console.log(`\n[${i + 1}/${queue.length}] ${job.citySlug} / ${job.templateSlug}${job.reason === "retry" ? " (retry)" : ""}`)
+  const outcomes = { passed: 0, failed_deterministic: 0, failed_llm: 0, skipped: 0 }
+  const startedAt = Date.now()
+  let done = 0
+  let next = 0
+
+  // Output is captured rather than inherited: several generators run at once,
+  // and interleaved multi-line logs from all of them are unreadable. Each job
+  // reports one line with the gate result parsed back out of its output.
+  async function runJob(job: Job) {
     touched.add(job.citySlug)
+    let line: string
     try {
-      execSync(`npm run generate ${job.citySlug} ${job.templateSlug}`, { stdio: "inherit" })
-    } catch {
-      console.error(`  FAILED: ${job.citySlug} / ${job.templateSlug} - left outstanding, a later run will retry it.`)
+      const { stdout } = await execFileAsync(
+        "node_modules/.bin/tsx",
+        ["scripts/generate-page.ts", job.citySlug, job.templateSlug],
+        { maxBuffer: 32 * 1024 * 1024 },
+      )
+      const status = /gate_status = "([a-z_]+)"/.exec(stdout)?.[1]
+      if (status && status in outcomes) {
+        outcomes[status as keyof typeof outcomes]++
+        if (status === "passed" && opts.publish) {
+          line = (await publishIfPassed(job.citySlug, job.templateSlug)) ? "passed, published" : "passed, already live"
+        } else {
+          line = status
+        }
+      } else if (stdout.includes("Skipping:")) {
+        outcomes.skipped++
+        line = "skipped (missing dossier data)"
+      } else {
+        line = "finished with no gate result"
+      }
+    } catch (err) {
+      const stderr = (err as { stderr?: string }).stderr ?? ""
+      line = `ERROR ${stderr.trim().split("\n").pop() ?? "generator exited non-zero"}`
       failures.push(job)
     }
+    done++
+    const elapsed = (Date.now() - startedAt) / 1000
+    const eta = done > 0 ? Math.round(((elapsed / done) * (queue.length - done)) / 60) : 0
+    console.log(`[${String(done).padStart(3)}/${queue.length}] ${job.citySlug}/${job.templateSlug}${job.reason === "retry" ? " (retry)" : ""} - ${line}  (~${eta}m left)`)
   }
+
+  await Promise.all(
+    Array.from({ length: Math.min(opts.concurrency, queue.length) }, async () => {
+      while (next < queue.length) await runJob(queue[next++])
+    }),
+  )
+
+  console.log(`\n  Gate results: ${outcomes.passed} passed, ${outcomes.failed_llm} failed the auditor, ${outcomes.failed_deterministic} failed the deterministic gate, ${outcomes.skipped} skipped.`)
 
   let published = 0
   if (opts.publish) {
