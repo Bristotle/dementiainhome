@@ -1,0 +1,30 @@
+[
+  {
+    "state_abbrev": "OH",
+    "state_name": "Ohio",
+    "program_name": "PASSPORT",
+    "program_full_name": "Pre-Admission Screening System Providing Options and Resources Today",
+    "administered_by": "the Ohio Department of Aging, through regional Area Agencies on Aging that assign each participant a case manager",
+    "eligibility_threshold": "Ohio does not publish a separate, lower functional threshold for dementia. Participants must be age 60 or older, be frail enough to require a nursing home level of care, and be able to remain safely at home with their physician's consent.",
+    "asset_limit_single": "Not published on the cited Ohio Department of Aging page; set by Ohio Medicaid institutional-care financial eligibility rules",
+    "asset_limit_couple": "Not published on the cited page; spousal rules apply",
+    "look_back_period": "Not published on the cited page; standard Medicaid transfer-of-asset rules apply",
+    "application_process": "A local Area Agency on Aging screens the applicant and, once eligible, assigns a case manager who builds the in-home service package with local providers and checks in on quality.",
+    "unique_feature": "PASSPORT is delivered through the regional Area Agency on Aging rather than a statewide office, so the same program is administered by the agency covering your county, and a case manager stays involved after enrollment to adjust the service package.",
+    "source_url": "https://aging.ohio.gov/care-and-living/get-help/home-and-community-care/passport-1"
+  },
+  {
+    "state_abbrev": "WA",
+    "state_name": "Washington",
+    "program_name": "CFC and COPES",
+    "program_full_name": "Community First Choice and the Community Options Program Entry System",
+    "administered_by": "the Aging and Long-Term Support Administration at the Washington State Department of Social and Health Services, through local Home and Community Services offices",
+    "eligibility_threshold": "Washington does not publish a separate, lower functional threshold for dementia. Both programs require a nursing-facility level of care determined by assessment; COPES is generally provided to people already enrolled in Community First Choice.",
+    "asset_limit_single": "Not published on the cited DSHS page; set by Washington Apple Health long-term care financial eligibility rules",
+    "asset_limit_couple": "Not published on the cited DSHS page; spousal impoverishment rules apply",
+    "look_back_period": "Not published on the cited page; standard Medicaid transfer-of-asset rules apply",
+    "application_process": "Apply at a local Home and Community Services office, by requesting a paper application, or online at washingtonconnection.org. Community Living Connections (waclc.org, 1-855-567-0252) is the state's entry point for finding services.",
+    "unique_feature": "Community First Choice lets participants choose who provides their care, including hiring family members as paid caregivers. Washington also runs a Medicaid Specialized Dementia Care Program, a dementia-specific benefit most states do not have.",
+    "source_url": "https://www.dshs.wa.gov/altsa/long-term-care-services-information"
+  }
+]

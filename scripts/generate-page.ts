@@ -101,16 +101,14 @@ function buildPrompt(template: MasterTemplate, city: CityRow, dossier: CityDossi
   const serviceLinksList = REAL_SERVICE_LINKS.map((s) => `${s.label}: ${s.path}`).join(", ")
   const cityHubPath = `/cities/${city.slug}`
 
-  return `${filledBrief}
-
-SUGGESTED TITLE PATTERN (use this or something very close to it): "${filledTitle}"
-
-REAL FACTS YOU MAY USE (do not invent anything beyond this):
-${dossierContext || "(no city-specific facts required for this page type)"}
-
-AVAILABLE CITATION SOURCES (cite ONLY from this list): ${availableCitations}
-
-SOURCE-SCOPE PRECISION (read carefully - previous generations failed audit/gate on exactly these issues):
+  // Prompt order matters for cost: xAI caches identical prefixes automatically
+  // and reports the hit as usage.prompt_tokens_details.cached_tokens. The two
+  // instruction blocks below are byte-identical on every single generation, so
+  // putting them FIRST turns roughly 1,500 tokens per page into a cache hit
+  // instead of a fresh charge. The city- and template-specific material has to
+  // follow them, not precede them, or the shared prefix is broken and nothing
+  // is cacheable.
+  return `SOURCE-SCOPE PRECISION (read carefully - previous generations failed audit/gate on exactly these issues):
 - CRITICAL FORMATTING REQUIREMENT: your htmlContent MUST begin with a literal "<h1>...</h1>" tag containing the page's main heading. Multiple prior generations have been rejected for omitting this entirely - double-check your output contains exactly one <h1> tag before submitting.
 - The demographics data above is CITY-level (from the U.S. Census ACS), not statewide. Do not describe city-level figures as if they represent the whole state.
 - "estimated_dementia_cases" is OUR OWN calculation using a 1-in-9 rate applied to the local 65+ population. IMPORTANT ACCURACY NOTE: that 1-in-9 rate is specifically an ALZHEIMER'S DISEASE prevalence rate (Alzheimer's Association), not an all-cause dementia rate - Alzheimer's is the most common cause of dementia but not the only one. Present this figure scoped specifically to Alzheimer's disease ("an estimated X residents may be living with Alzheimer's disease specifically, based on national Alzheimer's Association prevalence rates"), not as a general "dementia" headcount. It is also NOT a figure the Census itself measures or publishes - it is our own derived estimate.
@@ -126,6 +124,17 @@ FORMATTING AND LINKING REQUIREMENTS:
 - EXTERNAL LINKS: aim for at least 2 distinct external citation links from the available citation sources list above, properly attributed per the scope rules already given.
 - FAQ SECTION: end the page with an "<h2>Frequently Asked Questions</h2>" section containing at least 5 question-and-answer pairs relevant to this topic and city. Each question should be a realistic thing a family would actually search for. Each answer must be grounded in the real facts already provided above (or general, safe, non-diagnostic guidance) - do not invent new specific facts, statistics, or citations not already given just to answer a FAQ.
 - WRITE FOR BOTH HUMAN READERS AND AI ANSWER ENGINES: keep paragraphs short and make sure the first sentence of each section directly and completely answers the question that section's heading implies, so the passage could be quoted on its own by a search engine's AI overview and still make complete sense out of context.
+
+=== END OF STANDING INSTRUCTIONS. THIS PAGE'S BRIEF FOLLOWS. ===
+
+${filledBrief}
+
+SUGGESTED TITLE PATTERN (use this or something very close to it): "${filledTitle}"
+
+REAL FACTS YOU MAY USE (do not invent anything beyond this):
+${dossierContext || "(no city-specific facts required for this page type)"}
+
+AVAILABLE CITATION SOURCES (cite ONLY from this list): ${availableCitations}
 
 Use the generate_page tool to submit your output.`
 }
@@ -149,7 +158,7 @@ function trimMetaDescription(meta: string): string {
 const GROK_INPUT_PRICE_PER_M = 2.0
 const GROK_OUTPUT_PRICE_PER_M = 6.0
 
-async function generatePage(prompt: string): Promise<{ page: GeneratedPage; inputTokens: number; outputTokens: number; costUsd: number }> {
+async function generatePage(prompt: string): Promise<{ page: GeneratedPage; inputTokens: number; cachedInputTokens: number; outputTokens: number; costUsd: number }> {
   const apiKey = process.env.XAI_API_KEY
   if (!apiKey) throw new Error("XAI_API_KEY not set")
   const client = new OpenAI({ apiKey, baseURL: "https://api.x.ai/v1" })
@@ -166,12 +175,18 @@ async function generatePage(prompt: string): Promise<{ page: GeneratedPage; inpu
   const output = JSON.parse(toolCall.function.arguments) as Omit<GeneratedPage, "jsonLd">
 
   const inputTokens = response.usage?.prompt_tokens ?? 0
-  const outputTokens = response.usage?.completion_tokens ?? 0
+  const cachedInputTokens = response.usage?.prompt_tokens_details?.cached_tokens ?? 0
+  const reasoningTokens = response.usage?.completion_tokens_details?.reasoning_tokens ?? 0
+  // completion_tokens does NOT include reasoning tokens, but reasoning tokens
+  // are generated and billed - counting only completion_tokens understated the
+  // real cost of every page.
+  const outputTokens = (response.usage?.completion_tokens ?? 0) + reasoningTokens
   const costUsd = (inputTokens * GROK_INPUT_PRICE_PER_M + outputTokens * GROK_OUTPUT_PRICE_PER_M) / 1_000_000
 
   return {
     page: { ...output, jsonLd: { "@context": "https://schema.org", "@type": "Article" } },
     inputTokens,
+    cachedInputTokens,
     outputTokens,
     costUsd,
   }
@@ -208,8 +223,9 @@ async function main() {
 
   const prompt = buildPrompt(template, city, dossier)
   console.log(`  Calling Grok...`)
-  const { page, inputTokens, outputTokens, costUsd } = await generatePage(prompt)
-  console.log(`  Tokens: ${inputTokens} in / ${outputTokens} out. Cost: $${costUsd.toFixed(6)}`)
+  const { page, inputTokens, cachedInputTokens, outputTokens, costUsd } = await generatePage(prompt)
+  const cacheHitPct = inputTokens > 0 ? Math.round((cachedInputTokens / inputTokens) * 100) : 0
+  console.log(`  Tokens: ${inputTokens} in (${cacheHitPct}% cached) / ${outputTokens} out. Cost: $${costUsd.toFixed(6)}`)
 
   const rawMetaLength = page.metaDescription.length
   page.metaDescription = trimMetaDescription(page.metaDescription)
@@ -249,7 +265,7 @@ async function main() {
     content_json: page,
     citation_ids: citationIds,
     gate_status: gateStatus,
-    gate_log: { deterministic: deterministicResult, llm_audit: auditResult, cost_usd: costUsd, input_tokens: inputTokens, output_tokens: outputTokens, meta_trimmed_from: metaTrimmed ? rawMetaLength : null },
+    gate_log: { deterministic: deterministicResult, llm_audit: auditResult, cost_usd: costUsd, input_tokens: inputTokens, cached_input_tokens: cachedInputTokens, output_tokens: outputTokens, meta_trimmed_from: metaTrimmed ? rawMetaLength : null },
     published: false,
     generated_at: new Date().toISOString(),
   }], { onConflict: "city_id,master_template_id" })
