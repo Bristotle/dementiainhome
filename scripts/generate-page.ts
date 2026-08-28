@@ -15,12 +15,13 @@ import OpenAI from "openai"
 import { getSupabaseAdmin } from "../lib/ingestion/supabase-admin"
 import { runDeterministicGate, type GeneratedPage, type CityDossierForGate } from "../lib/generation/citation-gate"
 import { runLlmAuditor } from "../lib/generation/llm-auditor"
+import { checkRequiredDataPresent } from "../lib/generation/required-data"
 
 const GENERATE_PAGE_TOOL_PARAMETERS = {
   type: "object" as const,
   properties: {
     title: { type: "string", description: "Page title, 60 characters or fewer" },
-    metaDescription: { type: "string", description: "Meta description, 155 characters or fewer" },
+    metaDescription: { type: "string", description: "Meta description, 150 characters or fewer - this is a hard limit, count the characters before submitting" },
     htmlContent: { type: "string", description: "Full page body as HTML, with exactly one <h1> tag and H2 subheadings for each section" },
     citedUrls: { type: "array", items: { type: "string" }, description: "Every source URL actually cited - must come only from the provided dossier facts and citation pool" },
   },
@@ -126,6 +127,21 @@ FORMATTING AND LINKING REQUIREMENTS:
 Use the generate_page tool to submit your output.`
 }
 
+// Meta-description length was the sole cause of every deterministic gate
+// failure to date - Grok overshoots the limit no matter how the prompt and
+// tool schema state it. Length is a formatting constraint, not a factual one,
+// so normalise it here at a word boundary instead of burning a whole
+// regeneration on it. The gate still checks the result afterwards.
+const META_MAX = 155
+
+function trimMetaDescription(meta: string): string {
+  if (meta.length <= META_MAX) return meta
+  const cut = meta.slice(0, META_MAX + 1)
+  const lastSpace = cut.lastIndexOf(" ")
+  const trimmed = lastSpace > 0 ? cut.slice(0, lastSpace) : meta.slice(0, META_MAX)
+  return trimmed.replace(/[\s,;:.\u2013-]+$/, "")
+}
+
 // Grok 4.6 pricing per the model-selection decision: $2/M input, $6/M output.
 const GROK_INPUT_PRICE_PER_M = 2.0
 const GROK_OUTPUT_PRICE_PER_M = 6.0
@@ -166,17 +182,6 @@ async function resolveCitationIds(citedUrls: string[]): Promise<string[]> {
   return data.map((c) => c.id)
 }
 
-function checkRequiredDataPresent(template: MasterTemplate, dossier: CityDossierForGate): string[] {
-  const missing: string[] = []
-  const fields = template.design_block.dossier_fields || []
-  if (fields.includes("medicaid_waiver") && !dossier.medicaid_waiver) missing.push("medicaid_waiver")
-  if (fields.includes("local_resources") && (!dossier.local_resources || dossier.local_resources.length === 0)) missing.push("local_resources")
-  if (fields.includes("demographics") && !dossier.demographics) missing.push("demographics")
-  if (fields.includes("experts") && (!dossier.experts || dossier.experts.length === 0)) missing.push("experts")
-  if (fields.includes("clinics") && (!dossier.clinics || dossier.clinics.length === 0)) missing.push("clinics")
-  return missing
-}
-
 async function main() {
   const citySlug = process.argv[2]
   const templateSlug = process.argv[3]
@@ -192,7 +197,7 @@ async function main() {
     loadDossier(citySlug),
   ])
 
-  const missingData = checkRequiredDataPresent(template, dossier)
+  const missingData = checkRequiredDataPresent(template.design_block.dossier_fields, dossier)
   if (missingData.length > 0) {
     console.log(`  Skipping: this template requires ${missingData.join(", ")}, which is missing for this city (logged in gaps). Generating anyway risks the model filling in from its own general knowledge instead of verified local data. Add the real data first, then re-run.`)
     return
@@ -202,6 +207,12 @@ async function main() {
   console.log(`  Calling Grok...`)
   const { page, inputTokens, outputTokens, costUsd } = await generatePage(prompt)
   console.log(`  Tokens: ${inputTokens} in / ${outputTokens} out. Cost: $${costUsd.toFixed(6)}`)
+
+  const rawMetaLength = page.metaDescription.length
+  page.metaDescription = trimMetaDescription(page.metaDescription)
+  const metaTrimmed = page.metaDescription.length !== rawMetaLength
+  if (metaTrimmed) console.log(`  Meta description trimmed: ${rawMetaLength} -> ${page.metaDescription.length} chars`)
+
   console.log(`  Title: "${page.title}"`)
 
   console.log(`  Running deterministic gate...`)
@@ -235,7 +246,7 @@ async function main() {
     content_json: page,
     citation_ids: citationIds,
     gate_status: gateStatus,
-    gate_log: { deterministic: deterministicResult, llm_audit: auditResult, cost_usd: costUsd, input_tokens: inputTokens, output_tokens: outputTokens },
+    gate_log: { deterministic: deterministicResult, llm_audit: auditResult, cost_usd: costUsd, input_tokens: inputTokens, output_tokens: outputTokens, meta_trimmed_from: metaTrimmed ? rawMetaLength : null },
     published: false,
     generated_at: new Date().toISOString(),
   }], { onConflict: "city_id,master_template_id" })

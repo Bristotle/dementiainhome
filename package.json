@@ -15,6 +15,9 @@
     "test:auditor": "tsx scripts/test-auditor.ts",
     "test:models": "tsx scripts/test-model-comparison.ts",
     "generate": "tsx scripts/generate-page.ts",
+    "backfill": "tsx scripts/backfill.ts",
+    "status": "tsx scripts/status.ts",
+    "add-waiver": "tsx scripts/add-waiver.ts",
     "add-city": "tsx scripts/add-city.ts"
   },
   "dependencies": {
