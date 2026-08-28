@@ -5,12 +5,12 @@ import { getPublishedPage, getAllPublishedPageParams, getPublishedPagesForCity }
 import LeadForm from "@/components/LeadForm"
 import { FadeIn, MotionLink, hoverScale } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
-import { buildGeneratedPageJsonLd, splitAtMidpointHeading, addHeadingIds } from "@/lib/generation/page-schema"
+import { buildGeneratedPageJsonLd, splitAtMidpointHeading, addHeadingIds, extractH1 } from "@/lib/generation/page-schema"
 import TableOfContents from "@/components/ui/table-of-contents"
 
 type Props = { params: Promise<{ slug: string; template: string }> }
 
-const PROSE_CLASSNAME = "max-w-3xl mx-auto px-6 pb-12 text-slate-700 leading-relaxed [&_h1]:text-5xl [&_h1]:font-bold [&_h1]:text-slate-900 [&_h1]:mb-8 [&_h1]:leading-tight [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-slate-900 [&_h3]:mt-6 [&_h3]:mb-2 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_li]:mb-2 [&_a]:text-teal-600 [&_a]:underline [&_strong]:font-semibold [&_strong]:text-slate-900"
+const PROSE_CLASSNAME = "max-w-3xl mx-auto px-6 pb-12 text-slate-700 leading-relaxed [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-slate-900 [&_h3]:mt-6 [&_h3]:mb-2 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_li]:mb-2 [&_a]:text-teal-600 [&_a]:underline [&_strong]:font-semibold [&_strong]:text-slate-900"
 
 // ISR: new pages appear without a full rebuild as more get published,
 // per the sprint spec's staged-publishing design.
@@ -48,8 +48,10 @@ export default async function GeneratedPage({ params }: Props) {
   const isLeadIntent = page.template.intent === "lead"
   // Heading ids must be added before the article is split, or the second half
   // loses them and half the table of contents stops working.
-  const { html: articleHtml, items: tocItems } = addHeadingIds(page.content_json.htmlContent)
+  const { heading, html: bodyHtml } = extractH1(page.content_json.htmlContent)
+  const { html: articleHtml, items: tocItems } = addHeadingIds(bodyHtml)
   const [articleTop, articleBottom] = splitAtMidpointHeading(articleHtml)
+  const pageHeading = heading ?? page.title
 
   const siblingGuides = (await getPublishedPagesForCity(slug))
     .filter((g) => g.template !== template)
@@ -92,7 +94,15 @@ export default async function GeneratedPage({ params }: Props) {
             </nav>
           </FadeIn>
           <FadeIn delay={0.1}><p className="eyebrow mt-4 mb-2">{page.city.name}, {page.city.state_abbrev}</p></FadeIn>
+          <FadeIn delay={0.15}>
+            <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight mb-5" style={{fontFamily:"var(--font-fraunces)"}}>
+              {pageHeading}
+            </h1>
+          </FadeIn>
           <FadeIn delay={0.2}>
+            <p className="text-lg text-slate-600 leading-relaxed max-w-2xl">{page.meta_description}</p>
+          </FadeIn>
+          <FadeIn delay={0.25}>
             <MotionLink {...hoverScale} href="#get-matched" className="inline-block mt-6 btn-primary">Get free caregiver profiles →</MotionLink>
           </FadeIn>
         </div>

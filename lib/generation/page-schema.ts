@@ -193,3 +193,16 @@ export function addHeadingIds(htmlContent: string): { html: string; items: Headi
 
   return { html, items }
 }
+
+// The generated HTML carries its own <h1>, which meant the rendered page had no
+// heading until after the hero, the lead form and the table of contents - a
+// reader met a form before they were told what the page was about. Pulling the
+// H1 out lets it be rendered where a headline belongs, and stripping it from
+// the body keeps the page to exactly one H1.
+export function extractH1(htmlContent: string): { heading: string | null; html: string } {
+  const match = /<h1[^>]*>([\s\S]*?)<\/h1>/i.exec(htmlContent)
+  if (!match) return { heading: null, html: htmlContent }
+  const heading = stripTags(match[1])
+  if (!heading) return { heading: null, html: htmlContent }
+  return { heading, html: htmlContent.replace(match[0], "") }
+}
