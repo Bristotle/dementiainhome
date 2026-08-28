@@ -5,6 +5,8 @@
 // there, it just was not being described to search engines, which is what
 // makes a page eligible for an FAQ rich result.
 
+import { heroImageFor, heroAltFor } from "../hero-images"
+
 export type Faq = { question: string; answer: string }
 
 function stripTags(html: string): string {
@@ -128,6 +130,11 @@ export function buildCityHubJsonLd(args: {
       provider: { "@type": "Organization", name: "Dementia In Home", url: BASE_URL },
       areaServed: { "@type": "City", name: args.cityName, containedInPlace: { "@type": "State", name: args.stateName } },
       url: cityUrl,
+      image: {
+        "@type": "ImageObject",
+        url: heroImageFor(args.citySlug).url,
+        caption: heroAltFor(args.citySlug, `${args.cityName}, ${args.stateAbbrev}`),
+      },
     },
   ]
 }

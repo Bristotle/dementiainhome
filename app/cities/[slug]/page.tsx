@@ -7,6 +7,7 @@ import type { Metadata } from "next"
 import { FadeIn, Stagger, StaggerItem, MotionLink, hoverScale, hoverShift } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 import { buildCityHubJsonLd } from "@/lib/generation/page-schema"
+import PageHero from "@/components/PageHero"
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -66,7 +67,8 @@ export default async function CityPage({ params }: Props) {
 
       <section className="relative overflow-hidden max-w-5xl mx-auto px-6 py-16">
         <ShapeBackgroundCompact />
-        <div className="relative z-10 max-w-2xl">
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_420px] gap-10 lg:gap-12 items-center">
+        <div className="max-w-2xl">
           <FadeIn>
             <p className="text-sm text-slate-500 mb-3">
               <Link href="/cities" className="text-teal-600 hover:underline">Cities</Link>
@@ -88,6 +90,10 @@ export default async function CityPage({ params }: Props) {
           <FadeIn delay={0.3}>
             <MotionLink {...hoverScale} href="#get-matched" className="btn-primary">Get free caregiver profiles →</MotionLink>
           </FadeIn>
+        </div>
+        <FadeIn delay={0.15} className="hidden lg:block">
+          <PageHero imageKey={city.slug} placeName={`${city.name}, ${city.state_abbrev}`} />
+        </FadeIn>
         </div>
       </section>
 

@@ -2,6 +2,7 @@
 import { useState, useMemo } from "react"
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
+import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { ShieldCheck, Video, Award, MapPin } from "lucide-react"
 import { FadeIn, Stagger, StaggerItem, MotionLink, hoverScale, hoverLift } from "@/components/motion"
@@ -91,7 +92,9 @@ export default function CaregiversPage() {
                 className="card"
               >
                 <div className="relative mb-4">
-                  <img src={c.img} alt={c.imgAlt} className="w-full h-44 object-cover rounded-xl" />
+                  <div className="relative h-44 rounded-xl overflow-hidden bg-slate-100">
+                    <Image src={c.img} alt={c.imgAlt} fill sizes="(max-width: 768px) 100vw, 300px" className="object-cover" />
+                  </div>
                   <span className="absolute bottom-3 right-3 bg-white/90 backdrop-blur text-xs font-semibold text-slate-700 px-2 py-1 rounded-lg">{c.exp}</span>
                 </div>
                 <h3 className="font-bold text-slate-900">{c.name}</h3>

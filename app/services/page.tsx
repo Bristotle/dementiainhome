@@ -2,6 +2,7 @@
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
 import Link from "next/link"
+import Image from "next/image"
 import { Handshake, Bath, Moon, HeartHandshake, Brain, Hospital, Check } from "lucide-react"
 import { FadeIn, MotionLink, hoverScale } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
@@ -68,8 +69,8 @@ export default function ServicesPage() {
         <div className="space-y-16">
           {SERVICES.map((s, i) => (
             <FadeIn key={s.title} className={"grid grid-cols-1 lg:grid-cols-2 gap-10 items-center" + (i % 2 === 1 ? " lg:[&>*:first-child]:order-2" : "")}>
-              <div className="rounded-3xl overflow-hidden border border-slate-200 shadow-sm">
-                <img src={s.img} alt={s.imgAlt} className="w-full h-72 object-cover" />
+              <div className="relative h-72 rounded-3xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100">
+                <Image src={s.img} alt={s.imgAlt} fill sizes="(max-width: 1024px) 100vw, 560px" className="object-cover" />
               </div>
               <div>
                 <span className="inline-block text-xs font-semibold uppercase tracking-wide text-teal-600 bg-teal-50 px-3 py-1 rounded-full mb-4">{s.tag}</span>

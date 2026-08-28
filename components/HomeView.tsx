@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { motion } from "framer-motion"
 import type { City } from "@/lib/db-cities"
 import { Handshake, Bath, Moon, HeartHandshake, Brain, Hospital, Video, Clock, DollarSign, Phone, ShieldCheck, Heart, MapPin, Lock, Calendar, MessageCircle } from "lucide-react"
@@ -160,7 +161,7 @@ export default function HomeView({ cities }: { cities: City[] }) {
           </div>
           <div className="space-y-4">
             <div className="relative rounded-3xl overflow-hidden shadow-xl h-64">
-              <img src="https://images.pexels.com/photos/7551622/pexels-photo-7551622.jpeg?auto=compress&cs=tinysrgb&w=700&h=400&fit=crop" alt="Dementia In Home caregiver providing compassionate in-home care to elderly patient" className="w-full h-full object-cover" width="700" height="400" />
+              <Image src="https://images.pexels.com/photos/7551622/pexels-photo-7551622.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="A caregiver in scrubs supporting an older man's arm during a gentle stretching exercise at home" fill sizes="(max-width: 1024px) 100vw, 700px" className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent" />
             </div>
             <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
@@ -190,7 +191,7 @@ export default function HomeView({ cities }: { cities: City[] }) {
             {SERVICES.map((s) => (
               <div key={s.title} className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:border-teal-300 hover:shadow-lg transition-all group">
                 <div className="relative h-44 overflow-hidden">
-                  <img src={s.img} alt={s.imgAlt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" width="400" height="280" />
+                  <Image src={s.img} alt={s.imgAlt} fill sizes="(max-width: 768px) 100vw, 400px" className="object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent" />
                   <span className={"absolute top-3 left-3 text-xs font-semibold px-2 py-1 rounded-full " + (s.tag === "Urgent" ? "bg-red-500 text-white" : s.tag === "Most Popular" ? "bg-teal-600 text-white" : "bg-white/90 text-slate-700")}>{s.tag}</span>
                 </div>
@@ -272,8 +273,8 @@ export default function HomeView({ cities }: { cities: City[] }) {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10">
             {CAREGIVERS_PREVIEW.map((c) => (
               <div key={c.name} className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:border-teal-300 hover:shadow-md transition-all group text-center">
-                <div className="relative">
-                  <img src={c.img} alt={c.imgAlt} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" width="300" height="192" />
+                <div className="relative h-48 overflow-hidden">
+                  <Image src={c.img} alt={c.imgAlt} fill sizes="(max-width: 768px) 100vw, 300px" className="object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
                   <div className="absolute bottom-3 left-3 right-3">
                     <span className="text-xs font-semibold bg-teal-600 text-white px-2 py-0.5 rounded-full">{c.exp}</span>

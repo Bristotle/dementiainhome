@@ -7,6 +7,7 @@ import { getAllStates, getStateBySlug, getMedicaidWaiver } from "@/lib/db-cities
 import { getPublishedPagesForCity } from "@/lib/db-pages"
 import { FadeIn } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
+import PageHero from "@/components/PageHero"
 
 type Props = { params: Promise<{ state: string }> }
 
@@ -57,7 +58,8 @@ export default async function StateHubPage({ params }: Props) {
 
       <section className="relative overflow-hidden max-w-5xl mx-auto px-6 pt-16 pb-8">
         <ShapeBackgroundCompact />
-        <div className="relative z-10 max-w-2xl">
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_420px] gap-10 lg:gap-12 items-center">
+        <div className="max-w-2xl">
           <FadeIn><p className="eyebrow mb-3">{found.name}</p></FadeIn>
           <FadeIn delay={0.1}>
             <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-5 leading-tight" style={{ fontFamily: "var(--font-fraunces)" }}>
@@ -69,6 +71,10 @@ export default async function StateHubPage({ params }: Props) {
               {totalGuides} local guides across {found.cities.length} {found.cities.length === 1 ? "city" : "cities"} in {found.name}, built on verified local data. Free caregiver video profiles within 72 hours.
             </p>
           </FadeIn>
+        </div>
+        <FadeIn delay={0.15} className="hidden lg:block">
+          <PageHero imageKey={found.slug} placeName={found.name} />
+        </FadeIn>
         </div>
       </section>
 

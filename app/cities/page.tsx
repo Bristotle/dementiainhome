@@ -6,6 +6,7 @@ import { getAllCities, stateSlug } from "@/lib/db-cities"
 import { getPublishedPageCountsByCity } from "@/lib/db-pages"
 import { FadeIn } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
+import PageHero from "@/components/PageHero"
 
 // The crawl hub for every city. Before this existed the only internal links to
 // city pages were a hardcoded list of five in the homepage and footer, so the
@@ -38,7 +39,8 @@ export default async function CitiesIndexPage() {
 
       <section className="relative overflow-hidden max-w-5xl mx-auto px-6 pt-16 pb-10">
         <ShapeBackgroundCompact />
-        <div className="relative z-10">
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_420px] gap-10 lg:gap-12 items-center">
+        <div>
           <FadeIn><p className="eyebrow mb-3">Cities We Serve</p></FadeIn>
           <FadeIn delay={0.1}>
             <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4 leading-tight" style={{ fontFamily: "var(--font-fraunces)" }}>
@@ -50,6 +52,10 @@ export default async function CitiesIndexPage() {
               {totalGuides} local guides across {cities.length} cities, each built on verified local data: Census demographics, licensed local specialists, Medicare-rated home health agencies, and the state&apos;s own Medicaid program rules.
             </p>
           </FadeIn>
+        </div>
+        <FadeIn delay={0.15} className="hidden lg:block">
+          <PageHero imageKey="cities-index" placeName="cities across the United States" />
+        </FadeIn>
         </div>
       </section>
 
