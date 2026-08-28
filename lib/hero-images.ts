@@ -49,3 +49,16 @@ export function heroImageFor(key: string): HeroImage {
 export function heroAltFor(key: string, placeName: string): string {
   return `${heroImageFor(key).alt} - in-home dementia care in ${placeName}`
 }
+
+// Open Graph cards want 1200x630. Pexels crops server-side, so the social card
+// is a differently-cropped request for the same photograph the page already
+// shows - no second asset, and it is usually already warm in their CDN.
+export function heroOgImage(key: string): { url: string; width: number; height: number; alt: string } {
+  const image = heroImageFor(key)
+  return {
+    url: image.url.replace(/w=\d+/, "w=1200&h=630&fit=crop"),
+    width: 1200,
+    height: 630,
+    alt: image.alt,
+  }
+}

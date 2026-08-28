@@ -8,6 +8,7 @@ import { getPublishedPagesForCity } from "@/lib/db-pages"
 import { FadeIn } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 import PageHero from "@/components/PageHero"
+import { heroOgImage } from "@/lib/hero-images"
 
 type Props = { params: Promise<{ state: string }> }
 
@@ -27,6 +28,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `In-Home Dementia Care in ${found.name}`,
     description: `Vetted in-home dementia caregivers across ${found.name}. Local guides for ${found.cities.map((c) => c.name).join(", ")}, plus ${found.name} Medicaid options. Free caregiver video profiles within 72 hours.`,
     alternates: { canonical: `/states/${found.slug}` },
+    openGraph: {
+      title: `In-Home Dementia Care in ${found.name}`,
+      description: `Vetted in-home dementia caregivers across ${found.name}, with local guides for ${found.cities.map((c) => c.name).join(", ")}.`,
+      url: `/states/${found.slug}`,
+      images: [heroOgImage(found.slug)],
+    },
+    twitter: { card: "summary_large_image", images: [heroOgImage(found.slug).url] },
   }
 }
 

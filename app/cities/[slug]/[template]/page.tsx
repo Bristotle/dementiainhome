@@ -6,6 +6,7 @@ import LeadForm from "@/components/LeadForm"
 import { FadeIn, MotionLink, hoverScale } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 import { buildGeneratedPageJsonLd, splitAtMidpointHeading, addHeadingIds, extractH1 } from "@/lib/generation/page-schema"
+import { heroOgImage } from "@/lib/hero-images"
 import TableOfContents from "@/components/ui/table-of-contents"
 
 type Props = { params: Promise<{ slug: string; template: string }> }
@@ -30,6 +31,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: page.title,
     description: page.meta_description,
     alternates: { canonical: `/cities/${slug}/${template}` },
+    openGraph: {
+      type: "article",
+      title: page.title,
+      description: page.meta_description,
+      url: `/cities/${slug}/${template}`,
+      images: [heroOgImage(slug)],
+    },
+    twitter: { card: "summary_large_image", title: page.title, description: page.meta_description, images: [heroOgImage(slug).url] },
   }
 }
 

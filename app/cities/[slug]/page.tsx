@@ -8,6 +8,7 @@ import { FadeIn, Stagger, StaggerItem, MotionLink, hoverScale, hoverShift } from
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 import { buildCityHubJsonLd } from "@/lib/generation/page-schema"
 import PageHero from "@/components/PageHero"
+import { heroOgImage } from "@/lib/hero-images"
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -42,6 +43,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `In-Home Dementia Care in ${city.name}, ${city.state_abbrev}`,
     description: city.meta_description,
     alternates: { canonical: `/cities/${city.slug}` },
+    openGraph: {
+      title: `In-Home Dementia Care in ${city.name}, ${city.state_abbrev}`,
+      description: city.meta_description,
+      url: `/cities/${city.slug}`,
+      images: [heroOgImage(city.slug)],
+    },
+    twitter: { card: "summary_large_image", title: `In-Home Dementia Care in ${city.name}, ${city.state_abbrev}`, description: city.meta_description, images: [heroOgImage(city.slug).url] },
   }
 }
 

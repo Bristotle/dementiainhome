@@ -26,6 +26,24 @@ export const metadata: Metadata = {
   },
   description: "Find vetted in-home dementia caregivers matched to your family within 72 hours. Free video profiles. Transparent pricing.",
   robots: { index: true, follow: true },
+  // The site had no Open Graph or Twitter tags at all, so every link shared to
+  // a sibling over text, WhatsApp or Facebook - which is exactly how families
+  // pass these pages around - rendered as a bare URL with no title, no
+  // description and no image. Pages override title/description/image through
+  // their own generateMetadata; these are the defaults everything inherits.
+  openGraph: {
+    type: "website",
+    siteName: "Dementia In Home",
+    locale: "en_US",
+    url: "https://www.dementiainhome.com",
+    title: "Dementia In Home - Free 72-Hour In-Home Caregiver Matching",
+    description: "Find vetted in-home dementia caregivers matched to your family within 72 hours. Free video profiles. Transparent pricing.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dementia In Home - Free 72-Hour In-Home Caregiver Matching",
+    description: "Find vetted in-home dementia caregivers matched to your family within 72 hours. Free video profiles. Transparent pricing.",
+  },
 };
 
 export const viewport: Viewport = { themeColor: "#0d9488" };

@@ -7,6 +7,7 @@ import { getPublishedPageCountsByCity } from "@/lib/db-pages"
 import { FadeIn } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 import PageHero from "@/components/PageHero"
+import { heroOgImage } from "@/lib/hero-images"
 
 // The crawl hub for every city. Before this existed the only internal links to
 // city pages were a hardcoded list of five in the homepage and footer, so the
@@ -17,6 +18,13 @@ export const metadata: Metadata = {
   title: "Cities We Serve",
   description: "In-home dementia care guides and vetted caregiver matching, city by city. Local pricing, local specialists, and free caregiver video profiles within 72 hours.",
   alternates: { canonical: "/cities" },
+  openGraph: {
+    title: "Cities We Serve",
+    description: "In-home dementia care guides and vetted caregiver matching, city by city.",
+    url: "/cities",
+    images: [heroOgImage("cities-index")],
+  },
+  twitter: { card: "summary_large_image", images: [heroOgImage("cities-index").url] },
 }
 
 export default async function CitiesIndexPage() {
