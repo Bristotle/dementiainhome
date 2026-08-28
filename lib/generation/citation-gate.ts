@@ -175,11 +175,20 @@ function decodeEntities(value: string): string {
 
 // The gate checked the citedUrls array the model declares, and nothing else -
 // so any external link the model wrote directly into the body was never
-// examined. A scan of the live site found 36 links to naela.org and
-// aginglifecare.org: real organisations, plausible pages, and sources nobody
-// gave the model. That is precisely what the trace-to-dossier rule exists to
-// stop, leaking through a hole beside it. Every external href in the body is
-// now held to the same rule as a declared citation.
+// examined at all. That is a real hole: the trace-to-dossier rule applied to
+// declared citations while anything written straight into the prose went
+// unchecked.
+//
+// A correction, recorded because the first version of this comment got it
+// wrong: the naela.org and aginglifecare.org links that prompted this check
+// were NOT invented. They are the source_url of the elder_law_attorney and
+// geriatric_care_manager rows seeded for the original six cities - the NAELA
+// and Aging Life Care Association directories - so the model was citing
+// supplied sources correctly, and this check passes them. Re-gating the whole
+// corpus found exactly one body link that genuinely traced to nothing. The
+// hole was worth closing; the scale of what fell through it was not what the
+// first scan suggested, because that scan compared body links against
+// citedUrls rather than against the dossier.
 function checkBodyLinksTraceToDossier(page: GeneratedPage, dossier: CityDossierForGate): GateFailure[] {
   const validUrls = getAllValidSourceUrls(dossier)
   const failures: GateFailure[] = []
