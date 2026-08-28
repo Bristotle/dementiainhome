@@ -22,10 +22,10 @@ export type GeneratedPage = {
 
 export type CityDossierForGate = {
   demographics: { source_url: string } | null
-  experts: { name: string; specialty: string; npi_number: string | null; source_url: string }[]
-  clinics: { name: string; cms_provider_id?: string; source_url: string }[]
+  experts: { name: string; specialty: string; npi_number: string | null; phone?: string | null; source_url: string }[]
+  clinics: { name: string; cms_provider_id?: string; phone?: string | null; source_url: string }[]
   medicaid_waiver: { source_url: string } | null
-  local_resources: { source_url: string; resource_type?: string }[]
+  local_resources: { source_url: string; resource_type?: string; phone?: string | null }[]
   citations: { url: string }[]
 }
 
@@ -199,6 +199,46 @@ function checkBodyLinksTraceToDossier(page: GeneratedPage, dossier: CityDossierF
   return failures
 }
 
+// Our own numbers, which a page may print without them coming from the dossier.
+const OWN_PHONE_NUMBERS = ["786-432-5758"]
+
+function phoneDigits(value: string): string {
+  return value.replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "")
+}
+
+// Phone numbers belong to the same class as NPI numbers - an exact-format
+// identifier where a wrong value is unambiguous and does real harm. A scan of
+// the live site found 45 numbers on memory-clinic pages that trace to nothing
+// we supplied; the dossier did not even carry clinic phone numbers, so the
+// model had produced them from memory. A family reading a crisis page and
+// dialling a number we invented is the worst failure this site can have, so
+// this is a hard failure, not a warning.
+function checkPhoneNumbersAreGrounded(page: GeneratedPage, dossier: CityDossierForGate): GateFailure[] {
+  const known = new Set<string>(OWN_PHONE_NUMBERS.map(phoneDigits))
+  for (const clinic of dossier.clinics ?? []) if (clinic.phone) known.add(phoneDigits(clinic.phone))
+  for (const expert of dossier.experts ?? []) if (expert.phone) known.add(phoneDigits(expert.phone))
+  for (const resource of dossier.local_resources ?? []) if (resource.phone) known.add(phoneDigits(resource.phone))
+
+  // The Medicaid rows describe how to apply, often including the state's own
+  // intake line, so numbers written there are grounded too.
+  const waiverText = JSON.stringify(dossier.medicaid_waiver ?? {})
+  for (const match of waiverText.matchAll(/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/g)) known.add(phoneDigits(match[0]))
+
+  const failures: GateFailure[] = []
+  const seen = new Set<string>()
+  for (const match of page.htmlContent.matchAll(/\(?\b\d{3}\)?[-.\s]\d{3}[-.\s]\d{4}\b/g)) {
+    const normalized = phoneDigits(match[0])
+    if (known.has(normalized) || seen.has(normalized)) continue
+    seen.add(normalized)
+    failures.push({
+      check: "phone_number_grounded",
+      detail: `Phone number "${match[0]}" is not in this city's dossier. Families call the numbers on these pages - a number we cannot trace to a verified record must not appear.`,
+      severity: "fail",
+    })
+  }
+  return failures
+}
+
 export async function runDeterministicGate(page: GeneratedPage, dossier: CityDossierForGate): Promise<GateResult> {
   const results: GateFailure[] = []
 
@@ -206,6 +246,7 @@ export async function runDeterministicGate(page: GeneratedPage, dossier: CityDos
   results.push(...checkCitationsTraceToDossier(page, dossier))
   results.push(...checkBodyLinksTraceToDossier(page, dossier))
   results.push(...checkNoUngroundedFacts(page, dossier))
+  results.push(...checkPhoneNumbersAreGrounded(page, dossier))
 
   // Only live-check resolution for URLs that are ALREADY confirmed to be
   // from our own vetted citation pool (checkCitationsTraceToDossier passed

@@ -106,7 +106,7 @@ async function assembleDossier(citySlug: string): Promise<CityDossier> {
 
   const { data: clinicRows } = await supabase
     .from("clinics")
-    .select("clinic_type, name, rating, address, source_url")
+    .select("clinic_type, name, rating, address, phone, source_url")
     .eq("city_slug", citySlug)
 
   if (!clinicRows || clinicRows.length === 0) gaps.push("No clinic rows found for this city")
