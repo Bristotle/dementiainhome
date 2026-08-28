@@ -319,8 +319,14 @@ async function main() {
       .eq("master_template_id", template.id)
       .maybeSingle()
 
-    if (existing?.published && existing.gate_status === "passed") {
-      console.log(`\nRegeneration failed the gates (${gateStatus}), but a passing version of this page is live.`)
+    // Keyed on published alone, deliberately. Keying it on gate_status ===
+    // "passed" created a hole: regate marks a live page failed_deterministic to
+    // queue it for regeneration, which switched this guard off for exactly the
+    // pages it was protecting, and four live pages went dark when their
+    // rewrites failed. A page that is live is live - a failing rewrite never
+    // replaces it, whatever its stored status says.
+    if (existing?.published) {
+      console.log(`\nRegeneration failed the gates (${gateStatus}), but this page is live.`)
       console.log(`  Keeping the live page and discarding this attempt. Re-run to try again.`)
       return
     }
