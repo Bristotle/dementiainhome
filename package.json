@@ -18,6 +18,7 @@
     "generate": "tsx scripts/generate-page.ts",
     "backfill": "tsx scripts/backfill.ts",
     "status": "tsx scripts/status.ts",
+    "retitle": "tsx scripts/retitle-pages.ts",
     "publish-wave": "tsx scripts/publish-wave.ts",
     "cost-report": "tsx scripts/cost-report.ts",
     "audit-published": "tsx scripts/audit-published.ts",
