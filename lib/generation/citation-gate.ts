@@ -22,10 +22,10 @@ export type GeneratedPage = {
 
 export type CityDossierForGate = {
   demographics: { source_url: string } | null
-  experts: { name: string; specialty: string; npi_number: string | null; phone?: string | null; source_url: string }[]
-  clinics: { name: string; cms_provider_id?: string; phone?: string | null; source_url: string }[]
+  experts: { name: string; specialty: string; npi_number: string | null; phone?: string | null; address?: string | null; source_url: string }[]
+  clinics: { name: string; cms_provider_id?: string; phone?: string | null; address?: string | null; source_url: string }[]
   medicaid_waiver: { source_url: string } | null
-  local_resources: { source_url: string; resource_type?: string; phone?: string | null }[]
+  local_resources: { source_url: string; resource_type?: string; phone?: string | null; address?: string | null }[]
   citations: { url: string }[]
 }
 
@@ -249,6 +249,56 @@ export type GateOptions = {
   checkUrlResolution?: boolean
 }
 
+// Street addresses are the third member of the same family as NPI and phone
+// numbers, and the spec names them alongside both. A scan found the model
+// giving Northwestern Memorial Hospital's address as 300 E. Superior Street
+// across seven Chicago pages when CMS lists it at 251 E HURON ST - a real
+// building on that campus, and the wrong answer for a family told to go there.
+//
+// Matching is deliberately tolerant, on the street number plus the first
+// significant word of the street name, because the model reformats what it is
+// given ("251 E HURON ST" becomes "251 E. Huron Street") and failing a page for
+// expanding an abbreviation would be worse than useless. What it catches is an
+// address whose number and street simply are not in the dossier at all.
+const STREET_ADDRESS = /\b(\d{1,5})\s+((?:[A-Za-z.]+\s+){1,4}?)(?:Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Drive|Dr|Lane|Ln|Way|Parkway|Pkwy|Circle|Cir|Place|Pl|Court|Ct|Highway|Hwy)\b/gi
+const DIRECTIONS = new Set(["n", "s", "e", "w", "ne", "nw", "se", "sw", "north", "south", "east", "west"])
+
+function addressKeys(address: string): string[] {
+  const keys: string[] = []
+  for (const match of address.matchAll(STREET_ADDRESS)) {
+    const number = match[1]
+    const word = match[2]
+      .toLowerCase().replace(/[^a-z\s]/g, " ").split(/\s+/)
+      .filter((w) => w && !DIRECTIONS.has(w))[0]
+    if (word) keys.push(`${number} ${word}`)
+  }
+  return keys
+}
+
+function checkAddressesAreGrounded(page: GeneratedPage, dossier: CityDossierForGate): GateFailure[] {
+  const known = new Set<string>()
+  for (const group of [dossier.clinics ?? [], dossier.local_resources ?? [], dossier.experts ?? []]) {
+    for (const row of group as { address?: string | null }[]) {
+      if (row.address) for (const key of addressKeys(row.address)) known.add(key)
+    }
+  }
+
+  const text = page.htmlContent.replace(/<[^>]*>/g, " ")
+  const failures: GateFailure[] = []
+  const seen = new Set<string>()
+  for (const match of text.matchAll(STREET_ADDRESS)) {
+    const [key] = addressKeys(match[0])
+    if (!key || known.has(key) || seen.has(key)) continue
+    seen.add(key)
+    failures.push({
+      check: "address_grounded",
+      detail: `Address "${match[0].trim()}" is not in this city's dossier. Addresses send families to a physical door - it must come from a verified record, not from what the model recalls.`,
+      severity: "fail",
+    })
+  }
+  return failures
+}
+
 export async function runDeterministicGate(
   page: GeneratedPage,
   dossier: CityDossierForGate,
@@ -262,6 +312,7 @@ export async function runDeterministicGate(
   results.push(...checkBodyLinksTraceToDossier(page, dossier))
   results.push(...checkNoUngroundedFacts(page, dossier))
   results.push(...checkPhoneNumbersAreGrounded(page, dossier))
+  results.push(...checkAddressesAreGrounded(page, dossier))
 
   // Only live-check resolution for URLs that are ALREADY confirmed to be
   // from our own vetted citation pool (checkCitationsTraceToDossier passed
