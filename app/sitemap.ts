@@ -5,14 +5,19 @@ import { getPublishedPagesForSitemap } from "@/lib/db-pages"
 
 const BASE_URL = "https://www.dementiainhome.com"
 
-// A sitemap is a cached Route Handler in this version of Next - without this
-// it is generated once at build time and then never again, so every city and
-// page published after the last deploy stays invisible to search engines even
-// though the pages themselves render fine on demand (they are ISR with
-// dynamicParams). That is exactly what happened: the deployed sitemap listed
-// 54 of 503 live pages. Revalidating hourly keeps discovery in step with
-// publishing without needing a redeploy per city.
-export const revalidate = 3600
+// A sitemap is a cached Route Handler in this version of Next, so by default it
+// is generated once at build time and never again - every city and page
+// published afterwards stays invisible to search engines even though the pages
+// themselves render fine on demand. The deployed sitemap listed 54 of 503 live
+// pages when that was found.
+//
+// An hourly revalidate was the first fix and it was not enough: the response
+// kept being served from cache with its age climbing past 5,500 seconds and no
+// regeneration, so publishing still outran discovery. The docs list a dynamic
+// config option as the way a sitemap opts out of caching entirely, which is
+// what this route actually needs - it is two database queries, fetched rarely
+// and only by crawlers, and being correct matters far more than being cached.
+export const dynamic = "force-dynamic"
 
 // Static pages: dated to their last meaningful content update, not build time.
 // Update these dates manually when a page's actual content changes.
