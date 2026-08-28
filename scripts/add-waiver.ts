@@ -18,6 +18,23 @@ config({ path: ".env.local" })
 import { readFileSync } from "fs"
 import { getSupabaseAdmin } from "../lib/ingestion/supabase-admin"
 
+const BROWSER_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+// Checked with the same browser User-Agent the deterministic gate uses, because
+// several state sites answer differently depending on it - and some (michigan.gov,
+// mass.gov, medicaid.gov) return 403 to any automated request, for real and
+// nonexistent paths alike. A URL that 403s here would fail the gate on every page
+// that cited it, so it is rejected at write time rather than three hours into a
+// generation run.
+async function urlResolves(url: string): Promise<string | null> {
+  try {
+    const res = await fetch(url, { headers: { "User-Agent": BROWSER_USER_AGENT }, signal: AbortSignal.timeout(20000) })
+    return res.ok ? null : `returned HTTP ${res.status}`
+  } catch (err) {
+    return err instanceof Error ? err.message : String(err)
+  }
+}
+
 const REQUIRED_FIELDS = [
   "state_abbrev", "state_name", "program_name", "program_full_name",
   "administered_by", "eligibility_threshold", "asset_limit_single",
@@ -63,6 +80,13 @@ async function main() {
     if (missing.length > 0) throw new Error(`${record.state_abbrev ?? "record"} is missing required fields: ${missing.join(", ")}`)
     if (!/^https?:\/\//.test(record.source_url)) throw new Error(`${record.state_abbrev}: source_url must be a full URL`)
     if (!/^[A-Z]{2}$/.test(record.state_abbrev)) throw new Error(`${record.state_abbrev}: state_abbrev must be a two-letter code`)
+  }
+
+  console.log(`Checking ${records.length} source URL(s) resolve...`)
+  for (const record of records) {
+    const problem = await urlResolves(record.source_url)
+    if (problem) throw new Error(`${record.state_abbrev}: source_url ${record.source_url} ${problem}. The citation gate rejects any page citing a URL that does not return 200, so this would fail every page that used it.`)
+    console.log(`  OK  ${record.source_url}`)
   }
 
   const supabase = getSupabaseAdmin()
