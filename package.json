@@ -10,6 +10,7 @@
     "ingest:census": "tsx scripts/ingest-census.ts",
     "ingest:npi": "tsx scripts/ingest-npi.ts",
     "ingest:cms": "tsx scripts/ingest-cms.ts",
+    "ingest:hospitals": "tsx scripts/ingest-hospitals.ts",
     "dossier": "tsx scripts/dossier.ts",
     "test:gate": "tsx scripts/test-gate.ts",
     "test:auditor": "tsx scripts/test-auditor.ts",

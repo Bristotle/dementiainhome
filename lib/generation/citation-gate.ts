@@ -25,7 +25,7 @@ export type CityDossierForGate = {
   experts: { name: string; specialty: string; npi_number: string | null; source_url: string }[]
   clinics: { name: string; cms_provider_id?: string; source_url: string }[]
   medicaid_waiver: { source_url: string } | null
-  local_resources: { source_url: string }[]
+  local_resources: { source_url: string; resource_type?: string }[]
   citations: { url: string }[]
 }
 

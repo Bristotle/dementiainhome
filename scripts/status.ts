@@ -49,7 +49,7 @@ async function main() {
     if (dossier) {
       for (const t of templates) {
         if (have.has(t.id)) continue
-        const missing = checkRequiredDataPresent(t.design_block?.dossier_fields ?? [], dossier)
+        const missing = checkRequiredDataPresent(t.design_block, dossier)
         if (missing.length === 0) continue
         blocked++
         for (const f of missing) {

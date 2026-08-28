@@ -74,6 +74,9 @@ function buildDossierContext(dossier: CityDossierForGate, fields: string[]): str
   }
   if (fields.includes("local_resources") && dossier.local_resources?.length) {
     parts.push(`Local resources: ${JSON.stringify(dossier.local_resources)}`)
+    if (dossier.local_resources.some((r) => r.resource_type === "hospital_memory_unit")) {
+      parts.push(`IMPORTANT ABOUT THE HOSPITAL ENTRIES ABOVE: these come from CMS Hospital General Information, which publishes the hospital's name, address, type, ownership and overall star rating - and NOTHING about whether it has a dedicated memory, dementia or geriatric unit. Do NOT state or imply that any named hospital has a memory unit, geriatric psychiatry unit, or dementia program. Present them as the hospitals serving this city, with what CMS does publish, and tell families to ask each hospital directly whether it has a dedicated memory unit and what its discharge planning looks like for a patient with dementia.`)
+    }
   }
   if (fields.includes("medicaid_waiver") && dossier.medicaid_waiver) {
     parts.push(`Medicaid program: ${JSON.stringify(dossier.medicaid_waiver)}`)
@@ -197,7 +200,7 @@ async function main() {
     loadDossier(citySlug),
   ])
 
-  const missingData = checkRequiredDataPresent(template.design_block.dossier_fields, dossier)
+  const missingData = checkRequiredDataPresent(template.design_block, dossier)
   if (missingData.length > 0) {
     console.log(`  Skipping: this template requires ${missingData.join(", ")}, which is missing for this city (logged in gaps). Generating anyway risks the model filling in from its own general knowledge instead of verified local data. Add the real data first, then re-run.`)
     return

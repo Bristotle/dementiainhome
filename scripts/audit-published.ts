@@ -42,7 +42,7 @@ async function main() {
     const dossier = city ? dossierBySlug.get(city.slug) : undefined
     if (!city || !template || !dossier) continue
 
-    const missing = checkRequiredDataPresent(template.design_block?.dossier_fields ?? [], dossier)
+    const missing = checkRequiredDataPresent(template.design_block, dossier)
     if (missing.length > 0) {
       offenders.push({ id: page.id as string, citySlug: city.slug, topic: template.topic_type, missing })
     }

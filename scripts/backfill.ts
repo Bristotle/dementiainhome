@@ -158,7 +158,7 @@ async function buildPlan(opts: Options) {
       // Only report as blocked what we would otherwise have generated on this
       // run, so the count is "held back now", not every template the city can
       // never do.
-      const missing = checkRequiredDataPresent(template.design_block?.dossier_fields ?? [], dossier)
+      const missing = checkRequiredDataPresent(template.design_block, dossier)
       if (missing.length > 0) {
         blocked.push({ citySlug: city.slug, templateSlug: template.topic_type, missing })
         continue
