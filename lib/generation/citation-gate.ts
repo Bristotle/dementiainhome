@@ -167,11 +167,44 @@ function checkMetadata(page: GeneratedPage): GateFailure[] {
   return failures
 }
 
+function decodeEntities(value: string): string {
+  return value
+    .replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#0?39;/g, "'")
+    .replace(/&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+}
+
+// The gate checked the citedUrls array the model declares, and nothing else -
+// so any external link the model wrote directly into the body was never
+// examined. A scan of the live site found 36 links to naela.org and
+// aginglifecare.org: real organisations, plausible pages, and sources nobody
+// gave the model. That is precisely what the trace-to-dossier rule exists to
+// stop, leaking through a hole beside it. Every external href in the body is
+// now held to the same rule as a declared citation.
+function checkBodyLinksTraceToDossier(page: GeneratedPage, dossier: CityDossierForGate): GateFailure[] {
+  const validUrls = getAllValidSourceUrls(dossier)
+  const failures: GateFailure[] = []
+  const seen = new Set<string>()
+
+  for (const match of page.htmlContent.matchAll(/href="(https?:\/\/[^"]+)"/gi)) {
+    const raw = decodeEntities(match[1])
+    const normalized = normalizeUrl(raw)
+    if (validUrls.has(normalized) || seen.has(normalized)) continue
+    seen.add(normalized)
+    failures.push({
+      check: "body_link_traces_to_dossier",
+      detail: `The page links to "${raw}", which is not in this city's dossier or the citation pool. Every external link must come from the provided sources, not just the ones listed in citedUrls.`,
+      severity: "fail",
+    })
+  }
+  return failures
+}
+
 export async function runDeterministicGate(page: GeneratedPage, dossier: CityDossierForGate): Promise<GateResult> {
   const results: GateFailure[] = []
 
   results.push(...checkMetadata(page))
   results.push(...checkCitationsTraceToDossier(page, dossier))
+  results.push(...checkBodyLinksTraceToDossier(page, dossier))
   results.push(...checkNoUngroundedFacts(page, dossier))
 
   // Only live-check resolution for URLs that are ALREADY confirmed to be
@@ -187,7 +220,10 @@ export async function runDeterministicGate(page: GeneratedPage, dossier: CityDos
   // cites a real, pre-vetted source because of one stubborn site's bot
   // protection would be a worse failure mode than logging it and moving on.
   const validUrls = getAllValidSourceUrls(dossier)
-  const vettedCitedUrls = page.citedUrls.filter((u) => validUrls.has(u))
+  // normalizeUrl is applied on both sides here: getAllValidSourceUrls returns a
+  // normalised set, so testing a raw URL against it silently matched almost
+  // nothing and quietly skipped the resolution check for most pages.
+  const vettedCitedUrls = page.citedUrls.filter((u) => validUrls.has(normalizeUrl(u)))
   const resolutionIssues = await checkUrlsResolve(vettedCitedUrls)
   results.push(...resolutionIssues.map((f) => ({ ...f, severity: "warning" as const })))
 
