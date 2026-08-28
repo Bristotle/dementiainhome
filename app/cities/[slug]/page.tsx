@@ -15,6 +15,20 @@ type Props = { params: Promise<{ slug: string }> }
 // a full rebuild, per the sprint spec.
 export const revalidate = 3600
 
+// Several states do not publish asset limits on their own program page, and the
+// stored value says so rather than inventing one. Splicing that sentence into
+// "X for a single applicant, Y for a couple" produced unreadable copy, so the
+// two cases are rendered differently.
+function formatAssetLimits(single: string | null, couple: string | null): string {
+  const notPublished = (v: string | null) => !v || /^not published/i.test(v)
+  if (notPublished(single) && notPublished(couple)) {
+    return "This state does not publish asset limits on its own program page. Confirm the current figures with the office that administers the program."
+  }
+  if (notPublished(couple)) return `${single} for a single applicant. The limit for a couple is not published on the state's program page.`
+  if (notPublished(single)) return `${couple} for a couple. The limit for a single applicant is not published on the state's program page.`
+  return `${single} for a single applicant, ${couple} for a couple.`
+}
+
 export async function generateStaticParams() {
   const slugs = await getAllCitySlugs()
   return slugs.map((slug) => ({ slug }))
@@ -148,9 +162,18 @@ export default async function CityPage({ params }: Props) {
                 </FadeIn>
                 <FadeIn delay={0.1}>
                   <div className="bg-white rounded-2xl p-6 border border-slate-200 h-full">
-                    <h3 className="font-bold text-slate-900 mb-4">Estimated local impact</h3>
+                    <h3 className="font-bold text-slate-900 mb-4">Who this affects locally</h3>
+                    {/* This card used to present our own derived figure - a national
+                        Alzheimer's prevalence rate applied to the local 65+ count - as
+                        an estimate of residents "living with dementia". Two problems:
+                        no cited source publishes that number for any city, and an
+                        Alzheimer's rate is not an all-cause dementia rate. The same
+                        figure was removed from page generation after it caused 72% of
+                        all audit rejections; leaving it on twenty city hubs would have
+                        been the same claim in a place the auditor never looks. What
+                        remains is what the Census actually publishes. */}
                     <p className="text-sm text-slate-600 leading-relaxed">
-                      Based on national prevalence rates applied to {city.name}&apos;s senior population, an estimated <span className="font-semibold text-slate-900">{demographics.estimated_dementia_cases?.toLocaleString() ?? "—"}</span> residents may be living with dementia. Separately, <span className="font-semibold text-slate-900">{demographics.seniors_living_alone?.toLocaleString() ?? "—"}</span> senior households in {city.name} have someone 65+ living alone - exactly the situation where in-home supervision matters most.
+                      <span className="font-semibold text-slate-900">{demographics.seniors_living_alone?.toLocaleString() ?? "—"}</span> senior households in {city.name} have someone 65 or older living alone - exactly the situation where in-home supervision matters most. With <span className="font-semibold text-slate-900">{demographics.population_85_plus?.toLocaleString() ?? "—"}</span> residents aged 85 and over, the group at highest risk of dementia, the need for local care is concentrated and growing.
                     </p>
                   </div>
                 </FadeIn>
@@ -173,7 +196,7 @@ export default async function CityPage({ params }: Props) {
                       </div>
                     )}
                     {(waiver.asset_limit_single || waiver.asset_limit_couple) && (
-                      <p className="text-sm text-slate-600 leading-relaxed"><span className="font-semibold text-slate-900">Asset limits (2026):</span> {waiver.asset_limit_single} for a single applicant, {waiver.asset_limit_couple} for a couple.</p>
+                      <p className="text-sm text-slate-600 leading-relaxed"><span className="font-semibold text-slate-900">Asset limits:</span> {formatAssetLimits(waiver.asset_limit_single, waiver.asset_limit_couple)}</p>
                     )}
                     {waiver.unique_feature && (
                       <p className="text-sm text-slate-600 leading-relaxed"><span className="font-semibold text-slate-900">What makes {city.state_abbrev} different:</span> {waiver.unique_feature}</p>
