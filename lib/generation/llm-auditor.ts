@@ -94,6 +94,12 @@ const SUBMIT_AUDIT_TOOL_PARAMETERS = {
   required: ["findings"],
 }
 
+// Model tiering (spec 5). Generation writes; auditing only judges what is
+// already written against a fixed checklist, which is the cheaper half of the
+// work. AUDITOR_MODEL is separated from the generation model so the tier can be
+// set - and A/B-tested against the strong model - without touching generation.
+const AUDITOR_MODEL = process.env.AUDITOR_MODEL || "grok-4.6"
+
 export async function runLlmAuditor(page: GeneratedPage, dossier: CityDossierForGate): Promise<AuditResult> {
   // Uses Grok (via xAI's OpenAI-compatible API) as the judge model. Originally
   // built against Claude, switched after the model-selection decision landed
@@ -108,7 +114,7 @@ export async function runLlmAuditor(page: GeneratedPage, dossier: CityDossierFor
   const client = new OpenAI({ apiKey, baseURL: "https://api.x.ai/v1" })
 
   const response = await client.chat.completions.create({
-    model: "grok-4.6",
+    model: AUDITOR_MODEL,
     messages: [
       { role: "system", content: AUDITOR_SYSTEM_PROMPT },
       { role: "user", content: buildAuditPrompt(page, dossier) },
