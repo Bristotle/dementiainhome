@@ -1,0 +1,16 @@
+[
+  {
+    "state_abbrev": "MA",
+    "state_name": "Massachusetts",
+    "program_name": "FEW",
+    "program_full_name": "Frail Elder Waiver",
+    "administered_by": "MassHealth, through the Executive Office of Aging & Independence",
+    "eligibility_threshold": "Massachusetts does not publish a separate, lower functional threshold for dementia. The Frail Elder Waiver is for people aged 65 and over, or 60 to 64 with a disability, who meet the level of care for a nursing facility but prefer to remain in the community. Applicants must meet clinical eligibility, need waiver services and go on receiving at least one each month, and live in a community setting that meets the federal Community Rule - which does not include assisted living, group homes or rest homes.",
+    "asset_limit_single": "Not published on the cited page; the requirement is to meet the financial rules for MassHealth Standard in the community, and special financial rules apply to waiver applicants",
+    "asset_limit_couple": "Not published on the cited page; spousal rules apply",
+    "look_back_period": "Not published on the cited page; standard MassHealth transfer-of-asset rules apply",
+    "application_process": "MassHealth applicants and members can apply for the Frail Elder Waiver at any time - there is no enrolment window. Clinical eligibility is assessed before enrolment, and a participant must keep receiving at least one waiver service each month to stay eligible.",
+    "unique_feature": "Enrolment is open year-round rather than through a waitlist or registry, and eligibility continues only while the person actually uses the services - so a family that stops using them can lose the waiver even though the person still qualifies clinically.",
+    "source_url": "https://www.mass.gov/info-details/frail-elder-waiver-information-for-applicants-and-participants"
+  }
+]

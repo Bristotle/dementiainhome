@@ -82,11 +82,30 @@ async function main() {
     if (!/^[A-Z]{2}$/.test(record.state_abbrev)) throw new Error(`${record.state_abbrev}: state_abbrev must be a two-letter code`)
   }
 
+  // A 404 means the page is not there and the row is wrong. A 403 means the
+  // site refuses automation - michigan.gov, mass.gov, hhs.texas.gov and
+  // azahcccs.gov all return 403 for every request, including for paths that do
+  // not exist, so it says nothing about whether the page is real. Refusing
+  // those outright meant thirteen states whose sites tolerate bots got a
+  // citation from their own government while four whose sites do not were left
+  // with nothing - a rule about our crawler, not about evidence quality. The
+  // deterministic gate already treats a resolution failure as a warning for
+  // exactly this reason. So a 403 is allowed through only with
+  // --allow-blocked-source, which forces whoever runs it to have confirmed the
+  // page in a browser first, and says so in the output.
+  const allowBlocked = argv.includes("--allow-blocked-source")
   console.log(`Checking ${records.length} source URL(s) resolve...`)
   for (const record of records) {
     const problem = await urlResolves(record.source_url)
-    if (problem) throw new Error(`${record.state_abbrev}: source_url ${record.source_url} ${problem}. The citation gate rejects any page citing a URL that does not return 200, so this would fail every page that used it.`)
-    console.log(`  OK  ${record.source_url}`)
+    if (!problem) { console.log(`  OK  ${record.source_url}`); continue }
+
+    const isBotBlock = /HTTP 40[13]$/.test(problem) && !/HTTP 404$/.test(problem)
+    if (isBotBlock && allowBlocked) {
+      console.log(`  BLOCKED-TO-BOTS (allowed) ${record.source_url}`)
+      console.log(`     ${problem} - this site refuses automated requests. Confirm it in a browser before trusting this row.`)
+      continue
+    }
+    throw new Error(`${record.state_abbrev}: source_url ${record.source_url} ${problem}. ${isBotBlock ? "This looks like bot blocking rather than a missing page; re-run with --allow-blocked-source once you have opened it in a browser and confirmed it is the right page." : "The citation gate rejects any page citing a URL that does not return 200, so this would fail every page that used it."}`)
   }
 
   const supabase = getSupabaseAdmin()
