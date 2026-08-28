@@ -40,6 +40,29 @@ export type GateResult = {
   failures: GateFailure[]
 }
 
+// Two spellings of the same URL should compare equal. A generation was
+// rejected for citing "...&d=ACS+5-Year+Estimates..." when the dossier held
+// "...&d=ACS%205-Year%20Estimates..." - the same Census page, the same
+// resource, just the other legal encoding of a space in a query string. That
+// is a false failure, and it burned a full regeneration. Normalising the
+// encoding, the trailing slash, the fragment and a www prefix does not loosen
+// what the check is actually for: whether the cited URL is one we approved.
+function normalizeUrl(raw: string): string {
+  try {
+    const url = new URL(raw.trim())
+    url.hash = ""
+    url.protocol = url.protocol.toLowerCase()
+    url.hostname = url.hostname.toLowerCase().replace(/^www\./, "")
+    // URLSearchParams decodes %20 and + alike, then re-encodes one way.
+    const query = url.searchParams.toString()
+    url.search = query ? `?${query}` : ""
+    if (url.pathname.length > 1 && url.pathname.endsWith("/")) url.pathname = url.pathname.slice(0, -1)
+    return url.toString()
+  } catch {
+    return raw.trim()
+  }
+}
+
 function getAllValidSourceUrls(dossier: CityDossierForGate): Set<string> {
   const urls = new Set<string>()
   if (dossier.demographics) urls.add(dossier.demographics.source_url)
@@ -48,7 +71,7 @@ function getAllValidSourceUrls(dossier: CityDossierForGate): Set<string> {
   dossier.clinics.forEach((c) => urls.add(c.source_url))
   dossier.local_resources.forEach((r) => urls.add(r.source_url))
   dossier.citations.forEach((c) => urls.add(c.url))
-  return urls
+  return new Set([...urls].map(normalizeUrl))
 }
 
 const BROWSER_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -83,7 +106,7 @@ function checkCitationsTraceToDossier(page: GeneratedPage, dossier: CityDossierF
   const validUrls = getAllValidSourceUrls(dossier)
   const failures: GateFailure[] = []
   for (const url of page.citedUrls) {
-    if (!validUrls.has(url)) {
+    if (!validUrls.has(normalizeUrl(url))) {
       failures.push({ check: "citation_traces_to_dossier", detail: `Cited URL "${url}" does not appear in this city's dossier or the citation pool`, severity: "fail" })
     }
   }

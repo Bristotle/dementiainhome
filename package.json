@@ -17,6 +17,7 @@
     "generate": "tsx scripts/generate-page.ts",
     "backfill": "tsx scripts/backfill.ts",
     "status": "tsx scripts/status.ts",
+    "cost-report": "tsx scripts/cost-report.ts",
     "audit-published": "tsx scripts/audit-published.ts",
     "add-waiver": "tsx scripts/add-waiver.ts",
     "add-resources": "tsx scripts/add-resources.ts",
