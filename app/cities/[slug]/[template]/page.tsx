@@ -51,7 +51,15 @@ export default async function GeneratedPage({ params }: Props) {
   const { heading, html: bodyHtml } = extractH1(page.content_json.htmlContent)
   const { html: articleHtml, items: tocItems } = addHeadingIds(bodyHtml)
   const [articleTop, articleBottom] = splitAtMidpointHeading(articleHtml)
-  const pageHeading = heading ?? page.title
+  // 266 pages were retitled to name their city without being regenerated, so
+  // their stored title says "Stages of Dementia: What San Diego Families
+  // Expect" while the H1 still inside their content says "Stages of Dementia:
+  // What to Expect". Showing the content H1 unconditionally would put a
+  // headline on screen that contradicts the browser tab. Prefer the written
+  // headline when it names the city, and fall back to the title - which always
+  // does - when it does not.
+  const headingNamesCity = heading?.toLowerCase().includes(page.city.name.toLowerCase()) ?? false
+  const pageHeading = headingNamesCity ? heading! : page.title
 
   const siblingGuides = (await getPublishedPagesForCity(slug))
     .filter((g) => g.template !== template)
