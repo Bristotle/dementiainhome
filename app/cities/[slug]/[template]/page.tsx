@@ -5,7 +5,8 @@ import { getPublishedPage, getAllPublishedPageParams, getPublishedPagesForCity }
 import LeadForm from "@/components/LeadForm"
 import { FadeIn, MotionLink, hoverScale } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
-import { buildGeneratedPageJsonLd, splitAtMidpointHeading } from "@/lib/generation/page-schema"
+import { buildGeneratedPageJsonLd, splitAtMidpointHeading, addHeadingIds } from "@/lib/generation/page-schema"
+import TableOfContents from "@/components/ui/table-of-contents"
 
 type Props = { params: Promise<{ slug: string; template: string }> }
 
@@ -45,7 +46,10 @@ export default async function GeneratedPage({ params }: Props) {
   // Those are exactly the 28 templates whose intent is "lead"; the 22
   // educational ones keep the lighter treatment so the guide reads as a guide.
   const isLeadIntent = page.template.intent === "lead"
-  const [articleTop, articleBottom] = splitAtMidpointHeading(page.content_json.htmlContent)
+  // Heading ids must be added before the article is split, or the second half
+  // loses them and half the table of contents stops working.
+  const { html: articleHtml, items: tocItems } = addHeadingIds(page.content_json.htmlContent)
+  const [articleTop, articleBottom] = splitAtMidpointHeading(articleHtml)
 
   const siblingGuides = (await getPublishedPagesForCity(slug))
     .filter((g) => g.template !== template)
@@ -80,7 +84,13 @@ export default async function GeneratedPage({ params }: Props) {
       <section className="relative overflow-hidden max-w-3xl mx-auto px-6 pt-16 pb-8">
         <ShapeBackgroundCompact />
         <div className="relative z-10">
-          <FadeIn><Link href={`/cities/${page.city.slug}`} className="text-sm text-teal-600 hover:underline">← {page.city.name}, {page.city.state_abbrev}</Link></FadeIn>
+          <FadeIn>
+            <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
+              <Link href="/cities" className="text-teal-600 hover:underline">Cities</Link>
+              <span className="mx-2 text-slate-300">/</span>
+              <Link href={`/cities/${page.city.slug}`} className="text-teal-600 hover:underline">{page.city.name}, {page.city.state_abbrev}</Link>
+            </nav>
+          </FadeIn>
           <FadeIn delay={0.1}><p className="eyebrow mt-4 mb-2">{page.city.name}, {page.city.state_abbrev}</p></FadeIn>
           <FadeIn delay={0.2}>
             <MotionLink {...hoverScale} href="#get-matched" className="inline-block mt-6 btn-primary">Get free caregiver profiles →</MotionLink>
@@ -98,6 +108,12 @@ export default async function GeneratedPage({ params }: Props) {
             <LeadForm cityName={page.city.name} cityState={page.city.state_abbrev} pageType={page.template.topic_type} sourcePage={`/cities/${slug}/${template}`} />
           </div>
         </section>
+      )}
+
+      {tocItems.length >= 3 && (
+        <div className="max-w-3xl mx-auto px-6 pb-2">
+          <TableOfContents items={tocItems} />
+        </div>
       )}
 
       <FadeIn>

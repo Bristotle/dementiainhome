@@ -157,3 +157,39 @@ export function splitAtMidpointHeading(htmlContent: string): [string, string] {
   if (best < htmlContent.length * 0.25 || best > htmlContent.length * 0.75) return [htmlContent, ""]
   return [htmlContent.slice(0, best), htmlContent.slice(best)]
 }
+
+export type HeadingItem = { id: string; label: string }
+
+function slugifyHeading(text: string): string {
+  return text.toLowerCase().replace(/[^a-z0-9\s-]/g, "").trim().replace(/\s+/g, "-").slice(0, 60)
+}
+
+// Generated HTML has no ids on its headings, so nothing could link into a
+// section and the table of contents component - already used on blog and
+// service pages - could not be used on the 900 city guides, which are the
+// longest content on the site at about 1,400 words each. This adds a stable id
+// to every H2 and returns the list, so the guides get in-page navigation and
+// section anchors search engines can link to directly.
+export function addHeadingIds(htmlContent: string): { html: string; items: HeadingItem[] } {
+  const items: HeadingItem[] = []
+  const seen = new Set<string>()
+
+  const html = htmlContent.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (match, attrs: string, inner: string) => {
+    const label = stripTags(inner)
+    if (!label) return match
+    if (/\bid\s*=/.test(attrs)) return match
+
+    let id = slugifyHeading(label)
+    if (!id) return match
+    // Duplicate headings would produce duplicate ids, which breaks both the
+    // anchor and the scroll-spy observer.
+    let suffix = 2
+    while (seen.has(id)) id = `${slugifyHeading(label)}-${suffix++}`
+    seen.add(id)
+
+    items.push({ id, label })
+    return `<h2${attrs} id="${id}">${inner}</h2>`
+  })
+
+  return { html, items }
+}
