@@ -15,6 +15,9 @@
 //   --template <slug>    only this template (repeatable)
 //   --force              regenerate even pages that already passed - use when a
 //                        template's brief or title pattern has changed
+//   --contains <regex>   only pages whose stored content matches - for "every
+//                        page that still says X", after a rule changes about
+//                        what may be said. Implies --force.
 //   --retry <what>       also regenerate pages that did not pass the gates:
 //                        "deterministic" (formatting-only failures, cheap and
 //                        near-certain to pass), "llm" (auditor rejections, real
@@ -52,17 +55,26 @@ type Options = {
   publish: boolean
   concurrency: number
   force: boolean
+  contains: RegExp | null
 }
 
 function parseOptions(): Options {
   const argv = process.argv.slice(2)
-  const opts: Options = { cities: [], states: [], templates: [], retry: "none", refreshDossier: false, limit: Infinity, dryRun: false, publish: true, concurrency: 4, force: false }
+  const opts: Options = { cities: [], states: [], templates: [], retry: "none", refreshDossier: false, limit: Infinity, dryRun: false, publish: true, concurrency: 4, force: false, contains: null }
   for (let i = 0; i < argv.length; i++) {
     switch (argv[i]) {
       case "--city": opts.cities.push(argv[++i]); break
       case "--state": opts.states.push(argv[++i].toUpperCase()); break
       case "--template": opts.templates.push(argv[++i]); break
       case "--force": opts.force = true; break
+      case "--contains": {
+        try { opts.contains = new RegExp(argv[++i], "i") } catch (err) {
+          console.error(`--contains is not a valid regular expression: ${err instanceof Error ? err.message : err}`)
+          process.exit(1)
+        }
+        opts.force = true
+        break
+      }
       case "--retry-failed": opts.retry = "all"; break
       case "--retry": {
         const value = argv[++i]
@@ -85,7 +97,7 @@ function parseOptions(): Options {
       }
       default:
         console.error(`Unknown option: ${argv[i]}`)
-        console.error("Usage: npm run backfill -- [--city <slug>] [--state <XX>] [--template <slug>] [--force] [--retry <deterministic|llm|all>] [--refresh-dossier] [--limit <n>] [--concurrency <n>] [--dry-run] [--no-publish]")
+        console.error("Usage: npm run backfill -- [--city <slug>] [--state <XX>] [--template <slug>] [--force] [--contains <regex>] [--retry <deterministic|llm|all>] [--refresh-dossier] [--limit <n>] [--concurrency <n>] [--dry-run] [--no-publish]")
         process.exit(1)
     }
   }
@@ -132,6 +144,18 @@ async function buildPlan(opts: Options) {
     .from("pages").select("city_id, master_template_id, gate_status, published")
   if (pageErr) throw new Error(`Failed to load pages: ${pageErr.message}`)
 
+  // Page bodies are large, so they are only fetched when --contains needs them
+  // to decide scope - loading a thousand articles to plan a run that does not
+  // read them would be pointless.
+  const contentByPage = new Map<string, string>()
+  if (opts.contains) {
+    const { data: contents } = await supabase.from("pages").select("city_id, master_template_id, content_json")
+    for (const row of contents ?? []) {
+      const html = (row.content_json as { htmlContent?: string } | null)?.htmlContent ?? ""
+      contentByPage.set(`${row.city_id}:${row.master_template_id}`, html)
+    }
+  }
+
   const jobs: Job[] = []
   const blocked: { citySlug: string; templateSlug: string; missing: string[] }[] = []
   const noDossier: string[] = []
@@ -148,6 +172,14 @@ async function buildPlan(opts: Options) {
 
     for (const template of templates) {
       const page = existing.get(template.id)
+      // With --contains, only existing pages whose content matches are in
+      // scope; a page that never mentioned the thing does not need rewriting.
+      if (opts.contains) {
+        if (!page) continue
+        const html = contentByPage.get(`${city.id}:${template.id}`) ?? ""
+        if (!opts.contains.test(html)) continue
+      }
+
       const reason: Job["reason"] | null = !page
         ? "missing"
         : opts.force || shouldRetry(page.gate_status as string, opts.retry)
