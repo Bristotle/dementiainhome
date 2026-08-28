@@ -1,9 +1,18 @@
 import type { MetadataRoute } from "next"
 import { BLOG_POSTS } from "@/lib/blog"
 import { getAllCities } from "@/lib/db-cities"
-import { getAllPublishedPageParams } from "@/lib/db-pages"
+import { getPublishedPagesForSitemap } from "@/lib/db-pages"
 
 const BASE_URL = "https://www.dementiainhome.com"
+
+// A sitemap is a cached Route Handler in this version of Next - without this
+// it is generated once at build time and then never again, so every city and
+// page published after the last deploy stays invisible to search engines even
+// though the pages themselves render fine on demand (they are ISR with
+// dynamicParams). That is exactly what happened: the deployed sitemap listed
+// 54 of 503 live pages. Revalidating hourly keeps discovery in step with
+// publishing without needing a redeploy per city.
+export const revalidate = 3600
 
 // Static pages: dated to their last meaningful content update, not build time.
 // Update these dates manually when a page's actual content changes.
@@ -17,6 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/getting-started", lastModified: SITE_LAUNCH_DATE, priority: 0.8 },
     { path: "/caregivers", lastModified: SITE_LAUNCH_DATE, priority: 0.8 },
     { path: "/services", lastModified: RECENT_UPDATE_DATE, priority: 0.85 },
+    { path: "/cities", lastModified: RECENT_UPDATE_DATE, priority: 0.9 },
     { path: "/blog", lastModified: RECENT_UPDATE_DATE, priority: 0.7 },
     { path: "/contact", lastModified: SITE_LAUNCH_DATE, priority: 0.6 },
     { path: "/privacy", lastModified: SITE_LAUNCH_DATE, priority: 0.3 },
@@ -43,10 +53,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }))
 
-  const publishedPages = await getAllPublishedPageParams()
+  // lastModified is the page's own publish date, not the time this sitemap was
+  // built. Stamping every URL with "now" on an hourly revalidate would tell
+  // Google the whole site changes every hour, which teaches it to ignore the
+  // field entirely.
+  const publishedPages = await getPublishedPagesForSitemap()
   const generatedRoutes = publishedPages.map((p) => ({
     url: `${BASE_URL}/cities/${p.slug}/${p.template}`,
-    lastModified: new Date(),
+    lastModified: p.lastModified,
     changeFrequency: "monthly" as const,
     priority: 0.8,
   }))

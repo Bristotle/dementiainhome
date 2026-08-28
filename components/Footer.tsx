@@ -1,6 +1,10 @@
 "use client"
 import { Stagger, StaggerItem, MotionLink, hoverShift } from "@/components/motion"
 
+// A short highlight list only - /cities is the complete, database-driven
+// index, and this component is a client component used by client pages, so it
+// cannot fetch the full list itself. The "All cities" link below is what keeps
+// every city within two clicks of any page on the site.
 const CITIES = [
   { name:"New York", state:"NY", slug:"new-york-ny" },
   { name:"Los Angeles", state:"CA", slug:"los-angeles-ca" },
@@ -38,6 +42,7 @@ export default function Footer() {
               {CITIES.map((c) => (
                 <MotionLink key={c.slug} {...hoverShift} href={"/cities/"+c.slug} className="block hover:text-teal-400 transition-colors w-fit">{c.name}, {c.state}</MotionLink>
               ))}
+              <MotionLink {...hoverShift} href="/cities" className="block text-teal-400 font-semibold hover:text-teal-300 transition-colors w-fit">All cities →</MotionLink>
             </div>
           </StaggerItem>
           <StaggerItem>

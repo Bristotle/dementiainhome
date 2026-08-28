@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `In-Home Dementia Care in ${city.name}, ${city.state_abbrev}`,
     description: city.meta_description,
+    alternates: { canonical: `/cities/${city.slug}` },
   }
 }
 

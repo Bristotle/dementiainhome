@@ -10,6 +10,7 @@ const LINKS_BEFORE = [
   { href:"/about", label:"About" },
 ]
 const LINKS_AFTER = [
+  { href:"/cities", label:"Cities" },
   { href:"/caregivers", label:"Our Caregivers" },
   { href:"/getting-started", label:"Getting Started" },
   { href:"/blog", label:"Blog" },

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import type { Metadata } from "next"
-import { getPublishedPage, getAllPublishedPageParams } from "@/lib/db-pages"
+import { getPublishedPage, getAllPublishedPageParams, getPublishedPagesForCity } from "@/lib/db-pages"
 import LeadForm from "@/components/LeadForm"
 import { FadeIn, MotionLink, hoverScale } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: page.title,
     description: page.meta_description,
+    alternates: { canonical: `/cities/${slug}/${template}` },
   }
 }
 
@@ -32,6 +33,14 @@ export default async function GeneratedPage({ params }: Props) {
   const { slug, template } = await params
   const page = await getPublishedPage(slug, template)
   if (!page) notFound()
+
+  // Every guide used to end at its own CTA, so each one was a crawl dead-end:
+  // the only outbound internal links were the ones the model happened to write
+  // into the body. Linking the city's other live guides gives search engines a
+  // real path between them and gives readers the obvious next step.
+  const siblingGuides = (await getPublishedPagesForCity(slug))
+    .filter((g) => g.template !== template)
+    .slice(0, 12)
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -86,6 +95,28 @@ export default async function GeneratedPage({ params }: Props) {
         </div>
       )}
 
+      {siblingGuides.length > 0 && (
+        <section className="border-t border-slate-200 bg-white">
+          <div className="max-w-3xl mx-auto px-6 py-12">
+            <h2 className="text-xl font-bold text-slate-900 mb-5" style={{fontFamily:"var(--font-fraunces)"}}>
+              More dementia care guides for {page.city.name}
+            </h2>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+              {siblingGuides.map((guide) => (
+                <li key={guide.template}>
+                  <Link href={`/cities/${slug}/${guide.template}`} className="text-sm text-teal-700 hover:text-teal-900 hover:underline">
+                    {guide.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Link href={`/cities/${slug}`} className="inline-block mt-6 text-sm font-semibold text-teal-600 hover:underline">
+              All {page.city.name} resources →
+            </Link>
+          </div>
+        </section>
+      )}
+
       <section id="get-matched" className="bg-teal-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-teal-500/40 via-transparent to-teal-800/40 pointer-events-none" />
         <div className="relative z-10">
@@ -101,6 +132,14 @@ export default async function GeneratedPage({ params }: Props) {
 
       <footer className="border-t border-slate-200 bg-white">
         <div className="max-w-3xl mx-auto px-6 py-8 text-center">
+          <nav className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-slate-600 mb-4" aria-label="Footer">
+            <Link href="/" className="hover:text-teal-600">Home</Link>
+            <Link href="/cities" className="hover:text-teal-600">All cities</Link>
+            <Link href={`/cities/${slug}`} className="hover:text-teal-600">{page.city.name} care</Link>
+            <Link href="/services" className="hover:text-teal-600">Services</Link>
+            <Link href="/getting-started" className="hover:text-teal-600">Getting started</Link>
+            <Link href="/contact" className="hover:text-teal-600">Contact</Link>
+          </nav>
           <p className="text-sm text-slate-500">© 2026 Dementia In Home. Serving {page.city.name} and surrounding areas.</p>
         </div>
       </footer>

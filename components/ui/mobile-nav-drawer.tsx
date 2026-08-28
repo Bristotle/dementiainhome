@@ -27,6 +27,7 @@ import {
 const LINKS = [
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
+  { href: "/cities", label: "Cities" },
   { href: "/caregivers", label: "Our Caregivers" },
   { href: "/getting-started", label: "Getting Started" },
   { href: "/blog", label: "Blog" },
