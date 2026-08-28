@@ -63,7 +63,19 @@ async function loadDossier(citySlug: string): Promise<CityDossierForGate> {
 function buildDossierContext(dossier: CityDossierForGate, fields: string[]): string {
   const parts: string[] = []
   if (fields.includes("demographics") && dossier.demographics) {
-    parts.push(`Demographics: ${JSON.stringify(dossier.demographics)}`)
+    // estimated_dementia_cases is our own arithmetic - a national 1-in-9
+    // Alzheimer's prevalence rate applied to the local Census 65+ count. No
+    // cited source publishes it, and no amount of prompt instruction made that
+    // safe: it caused 137 of 189 LLM audit rejections, 72% of every audit
+    // failure on the project. The auditor was right every time. On a site whose
+    // whole claim is that every figure traces to a source, a number that traces
+    // to our own spreadsheet should not be on the page, so it is withheld from
+    // the generator entirely rather than explained around.
+    const demographics = dossier.demographics as { data?: Record<string, unknown> } & Record<string, unknown>
+    const safeDemographics = demographics.data
+      ? { ...demographics, data: Object.fromEntries(Object.entries(demographics.data).filter(([k]) => k !== "estimated_dementia_cases")) }
+      : demographics
+    parts.push(`Demographics: ${JSON.stringify(safeDemographics)}`)
     parts.push(`IMPORTANT: the "source_url" field inside that demographics object above is the ONLY correct citation for the population counts, median income, and living-alone figures (it is the real U.S. Census Bureau source for those exact numbers). Cite that specific URL for those specific figures - do not attach CDC, NIA, or any other general health source to city population/income/living-alone counts, since those general sources do not publish city-level Census figures.`)
   }
   if (fields.includes("experts") && dossier.experts?.length) {
@@ -109,10 +121,10 @@ function buildPrompt(template: MasterTemplate, city: CityRow, dossier: CityDossi
   // follow them, not precede them, or the shared prefix is broken and nothing
   // is cacheable.
   return `SOURCE-SCOPE PRECISION (read carefully - previous generations failed audit/gate on exactly these issues):
+- ATTACH CITATIONS ONLY TO STATED FACTS, NEVER TO INFERENCES. A citation belongs on a sentence the cited page itself states. It does not belong on your reasoning FROM that page. "CDC describes memory and daily-function difficulties [cite]" is fine; "which is why care progresses from companion visits to constant supervision [cite]" is not - the CDC page says nothing about care progression. Advice, recommendations, cost implications, and "which means..." sentences are your own synthesis: write them with no citation attached. This is the single most common reason pages are rejected.
+- NEVER state a count or estimate of how many people in this city have dementia or Alzheimer's disease. We have no source that publishes such a figure for any city, so any number you give would be unsupported. Write about the local population using only the Census figures provided, or describe scale qualitatively without inventing a headcount.
 - CRITICAL FORMATTING REQUIREMENT: your htmlContent MUST begin with a literal "<h1>...</h1>" tag containing the page's main heading. Multiple prior generations have been rejected for omitting this entirely - double-check your output contains exactly one <h1> tag before submitting.
 - The demographics data above is CITY-level (from the U.S. Census ACS), not statewide. Do not describe city-level figures as if they represent the whole state.
-- "estimated_dementia_cases" is OUR OWN calculation using a 1-in-9 rate applied to the local 65+ population. IMPORTANT ACCURACY NOTE: that 1-in-9 rate is specifically an ALZHEIMER'S DISEASE prevalence rate (Alzheimer's Association), not an all-cause dementia rate - Alzheimer's is the most common cause of dementia but not the only one. Present this figure scoped specifically to Alzheimer's disease ("an estimated X residents may be living with Alzheimer's disease specifically, based on national Alzheimer's Association prevalence rates"), not as a general "dementia" headcount. It is also NOT a figure the Census itself measures or publishes - it is our own derived estimate.
-- CRITICAL: do NOT attach ANY citation URL to the estimated_dementia_cases/Alzheimer's-estimate sentence specifically - not Census, not CDC, not any other source in the pool. None of them publish this specific derived number. Present this one specific sentence with no inline citation at all. You may still cite other sources elsewhere in the page for claims they do support.
 - Some citation sources are specific to Alzheimer's disease specifically (state Alzheimer's-focused press releases, Alzheimer's Association materials), not all-cause dementia. Before citing one of these to support a claim about "dementia" broadly, check whether the source is actually Alzheimer's-specific - if so, either scope the claim to Alzheimer's specifically, or find a source that actually covers dementia broadly. Do not use an Alzheimer's-specific source to support a general dementia eligibility rule or statistic unless the source itself states that rule applies to dementia broadly, not just Alzheimer's.
 - Only attach a citation to a specific numeric claim (like an asset limit or percentage) if that specific source actually publishes that specific number. A general program-overview page is not a valid citation for a precise dollar figure unless it actually states that figure.
 - IMPORTANT ON MEDICAID PROGRAM DETAILS: the Medicaid program data (asset limits, the dementia-specific ADL/functional threshold, look-back period, application process, CDPAP/self-direction details, etc.) all come from our own research, but we only have ONE general program-overview citation URL for it - that general page does not necessarily state each specific number or rule itself. Do NOT pin any of these specific figures or rules to that URL as if the page states them verbatim. Instead: present all Medicaid program specifics (asset limits, thresholds, look-back, application process, CDPAP) as general informational content in your own words, without an inline citation attached to each specific number or rule. You may still cite the general program URL once, broadly, as a "learn more about this program" reference for the program's existence and overall structure - just not as the source for each granular figure within it.
