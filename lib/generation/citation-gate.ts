@@ -239,7 +239,22 @@ function checkPhoneNumbersAreGrounded(page: GeneratedPage, dossier: CityDossierF
   return failures
 }
 
-export async function runDeterministicGate(page: GeneratedPage, dossier: CityDossierForGate): Promise<GateResult> {
+export type GateOptions = {
+  /**
+   * Live-check that cited URLs still resolve. On by default. Re-gating a whole
+   * corpus turns it off: resolution only ever produces warnings, so it cannot
+   * change a verdict, and a network round trip per citation across a thousand
+   * stored pages would take hours to learn nothing.
+   */
+  checkUrlResolution?: boolean
+}
+
+export async function runDeterministicGate(
+  page: GeneratedPage,
+  dossier: CityDossierForGate,
+  options: GateOptions = {},
+): Promise<GateResult> {
+  const { checkUrlResolution = true } = options
   const results: GateFailure[] = []
 
   results.push(...checkMetadata(page))
@@ -260,13 +275,15 @@ export async function runDeterministicGate(page: GeneratedPage, dossier: CityDos
   // not evidence the citation itself is fake. Blocking every page that
   // cites a real, pre-vetted source because of one stubborn site's bot
   // protection would be a worse failure mode than logging it and moving on.
-  const validUrls = getAllValidSourceUrls(dossier)
-  // normalizeUrl is applied on both sides here: getAllValidSourceUrls returns a
-  // normalised set, so testing a raw URL against it silently matched almost
-  // nothing and quietly skipped the resolution check for most pages.
-  const vettedCitedUrls = page.citedUrls.filter((u) => validUrls.has(normalizeUrl(u)))
-  const resolutionIssues = await checkUrlsResolve(vettedCitedUrls)
-  results.push(...resolutionIssues.map((f) => ({ ...f, severity: "warning" as const })))
+  if (checkUrlResolution) {
+    const validUrls = getAllValidSourceUrls(dossier)
+    // normalizeUrl is applied on both sides here: getAllValidSourceUrls returns
+    // a normalised set, so testing a raw URL against it silently matched almost
+    // nothing and quietly skipped the resolution check for most pages.
+    const vettedCitedUrls = page.citedUrls.filter((u) => validUrls.has(normalizeUrl(u)))
+    const resolutionIssues = await checkUrlsResolve(vettedCitedUrls)
+    results.push(...resolutionIssues.map((f) => ({ ...f, severity: "warning" as const })))
+  }
 
   const failures = results.filter((f) => f.severity !== "warning")
 

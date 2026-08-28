@@ -22,6 +22,7 @@
     "publish-wave": "tsx scripts/publish-wave.ts",
     "cost-report": "tsx scripts/cost-report.ts",
     "audit-published": "tsx scripts/audit-published.ts",
+    "regate": "tsx scripts/regate.ts",
     "add-waiver": "tsx scripts/add-waiver.ts",
     "add-resources": "tsx scripts/add-resources.ts",
     "add-city": "tsx scripts/add-city.ts"
