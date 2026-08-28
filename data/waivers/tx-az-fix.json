@@ -1,0 +1,30 @@
+[
+  {
+    "state_abbrev": "TX",
+    "state_name": "Texas",
+    "program_name": "STAR+PLUS HCBS",
+    "program_full_name": "STAR+PLUS Home and Community Based Services",
+    "administered_by": "the Texas Health and Human Services Commission, through managed care organizations that carry out the eligibility determination and coordinate services",
+    "eligibility_threshold": "Texas does not publish a separate, lower functional threshold for dementia. Assessment for STAR+PLUS HCBS begins only when a person's name reaches the top of the program interest list; the managed care organization then carries out the eligibility determination.",
+    "asset_limit_single": "Not published on the cited eligibility handbook section; set by Texas Medicaid financial eligibility rules",
+    "asset_limit_couple": "Not published on the cited eligibility handbook section; spousal impoverishment rules apply",
+    "look_back_period": "Not published on the cited eligibility handbook section; standard Medicaid transfer-of-asset rules apply",
+    "application_process": "Ask to be placed on the STAR+PLUS HCBS interest list by contacting the HHSC Interest List Management unit, or the managed care organization directly if the person is already enrolled in STAR+PLUS. Nothing else happens until the name reaches the top of that list, so getting on it early is the step that matters.",
+    "unique_feature": "Texas runs the programme from an interest list rather than open enrolment, and the wait is the defining feature of applying - families who assume they can apply when care is needed find the assessment cannot even begin until their turn comes.",
+    "source_url": "https://www.hhs.texas.gov/handbooks/starplus-program-support-unit-operational-procedures-handbook/1200-starplus-hcbs-program-eligibility"
+  },
+  {
+    "state_abbrev": "AZ",
+    "state_name": "Arizona",
+    "program_name": "ALTCS",
+    "program_full_name": "Arizona Long Term Care System",
+    "administered_by": "the Arizona Health Care Cost Containment System (AHCCCS), through contracted managed care program contractors",
+    "eligibility_threshold": "Arizona does not publish a separate, lower functional threshold for dementia on the source cited here. ALTCS requires a medical and functional assessment establishing a need for nursing-facility level of care, alongside Medicaid financial eligibility.",
+    "asset_limit_single": "Not published on the cited page; set by AHCCCS financial eligibility rules, which are revised annually",
+    "asset_limit_couple": "Not published on the cited page; spousal impoverishment rules apply",
+    "look_back_period": "Not published on the cited page; standard Medicaid transfer-of-asset rules apply",
+    "application_process": "Apply through AHCCCS for an ALTCS determination, which includes a medical and functional assessment as well as the financial review. Confirm current figures and criteria with AHCCCS directly, as the programme's dollar thresholds change each year.",
+    "unique_feature": "ALTCS is a single statewide long-term care programme delivered through contracted managed care organisations rather than a standalone waiver a family enrols in separately.",
+    "source_url": "https://www.medicaidplanningassistance.org/arizona-long-term-care-system/"
+  }
+]
