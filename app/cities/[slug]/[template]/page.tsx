@@ -11,7 +11,11 @@ import TableOfContents from "@/components/ui/table-of-contents"
 
 type Props = { params: Promise<{ slug: string; template: string }> }
 
-const PROSE_CLASSNAME = "max-w-3xl mx-auto px-6 pb-12 text-slate-700 leading-relaxed [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-slate-900 [&_h3]:mt-6 [&_h3]:mb-2 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_li]:mb-2 [&_a]:text-teal-600 [&_a]:underline [&_strong]:font-semibold [&_strong]:text-slate-900"
+const PROSE_BASE = "text-slate-700 leading-relaxed [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-slate-900 [&_h3]:mt-6 [&_h3]:mb-2 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_li]:mb-2 [&_a]:text-teal-600 [&_a]:underline [&_strong]:font-semibold [&_strong]:text-slate-900"
+
+// The article sits in the right-hand column of the contents layout, so it no
+// longer centres itself or carries page padding - the grid does both.
+const PROSE_CLASSNAME = PROSE_BASE
 
 // ISR: new pages appear without a full rebuild as more get published,
 // per the sprint spec's staged-publishing design.
@@ -137,41 +141,37 @@ export default async function GeneratedPage({ params }: Props) {
         </section>
       )}
 
-      {tocItems.length >= 3 && (
-        <div className="max-w-3xl mx-auto px-6 pb-2">
-          <TableOfContents items={tocItems} />
-        </div>
-      )}
+      {/* Contents in a sticky left rail beside the article, matching the service
+          pages, rather than a block dropped into the reading column. */}
+      <div className="max-w-5xl mx-auto px-6 py-10 flex flex-col lg:flex-row gap-10">
+        {tocItems.length >= 3 && <TableOfContents items={tocItems} />}
 
-      <FadeIn>
-        <article
-          className={PROSE_CLASSNAME}
-          dangerouslySetInnerHTML={{ __html: articleTop }}
-        />
-      </FadeIn>
-
-      {articleBottom && (
-        <>
-          <div className="max-w-3xl mx-auto px-6 py-8">
-            <div className="rounded-2xl bg-teal-50 border border-teal-200 p-6 flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
-              <div>
-                <p className="font-bold text-slate-900">Still deciding what {page.city.name} care should look like?</p>
-                <p className="text-sm text-slate-600">We will send 3 hand-picked caregiver video profiles within 72 hours. Free, no obligation.</p>
-              </div>
-              <MotionLink {...hoverScale} href="#get-matched" className="shrink-0 px-5 py-3 rounded-xl bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition-colors whitespace-nowrap">
-                Get free profiles →
-              </MotionLink>
-            </div>
-          </div>
-
+        <div className="flex-1 min-w-0 max-w-3xl">
           <FadeIn>
-            <article
-              className={PROSE_CLASSNAME}
-              dangerouslySetInnerHTML={{ __html: articleBottom }}
-            />
+            <article className={PROSE_CLASSNAME} dangerouslySetInnerHTML={{ __html: articleTop }} />
           </FadeIn>
-        </>
-      )}
+
+          {articleBottom && (
+            <>
+              <div className="py-8">
+                <div className="rounded-2xl bg-teal-50 border border-teal-200 p-6 flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
+                  <div>
+                    <p className="font-bold text-slate-900">Still deciding what {page.city.name} care should look like?</p>
+                    <p className="text-sm text-slate-600">We will send 3 hand-picked caregiver video profiles within 72 hours. Free, no obligation.</p>
+                  </div>
+                  <MotionLink {...hoverScale} href="#get-matched" className="shrink-0 px-5 py-3 rounded-xl bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition-colors whitespace-nowrap">
+                    Get free profiles →
+                  </MotionLink>
+                </div>
+              </div>
+
+              <FadeIn>
+                <article className={PROSE_CLASSNAME} dangerouslySetInnerHTML={{ __html: articleBottom }} />
+              </FadeIn>
+            </>
+          )}
+        </div>
+      </div>
 
       {page.content_json.citedUrls.length > 0 && (
         <div className="max-w-3xl mx-auto px-6 pb-10">
