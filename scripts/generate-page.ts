@@ -297,6 +297,29 @@ async function main() {
   const citationIds = await resolveCitationIds(page.citedUrls)
 
   const supabase = getSupabaseAdmin()
+
+  // Never replace a live, gate-passed page with one that just failed. The
+  // upsert below overwrites content_json and sets published = false, so a
+  // regeneration that fails takes the page off the site AND destroys the
+  // passing content it replaced - the old version is not recoverable. That
+  // made --force a gamble on every page it touched: at an 85% pass rate,
+  // regenerating 250 live pages would have quietly lost 35 of them. A failed
+  // regeneration now leaves the good page exactly where it was.
+  if (!bothPassed) {
+    const { data: existing } = await supabase
+      .from("pages")
+      .select("gate_status, published")
+      .eq("city_id", city.id)
+      .eq("master_template_id", template.id)
+      .maybeSingle()
+
+    if (existing?.published && existing.gate_status === "passed") {
+      console.log(`\nRegeneration failed the gates (${gateStatus}), but a passing version of this page is live.`)
+      console.log(`  Keeping the live page and discarding this attempt. Re-run to try again.`)
+      return
+    }
+  }
+
   const { error: upsertError } = await supabase.from("pages").upsert([{
     city_id: city.id,
     master_template_id: template.id,
