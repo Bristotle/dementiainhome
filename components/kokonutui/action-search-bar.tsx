@@ -12,10 +12,10 @@
 import { Search, Send } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/use-debounce";
-import { SEARCH_ENTRIES, iconForType, type SearchAction } from "@/lib/search-data";
+import { STATIC_SEARCH_ENTRIES, cityEntries, iconForType, type SearchAction, type SearchCity } from "@/lib/search-data";
 
 const ANIMATION_VARIANTS = {
   container: {
@@ -40,7 +40,19 @@ const ANIMATION_VARIANTS = {
 
 export default function ActionSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   const router = useRouter();
+  const [cities, setCities] = useState<SearchCity[]>([]);
   const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    let cancelled = false
+    fetch("/api/cities")
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data: SearchCity[]) => { if (!cancelled) setCities(data) })
+      .catch(() => { /* search still works without city entries */ })
+    return () => { cancelled = true }
+  }, []);
+
+  const SEARCH_ENTRIES = useMemo(() => [...cityEntries(cities), ...STATIC_SEARCH_ENTRIES], [cities]);
   const [isFocused, setIsFocused] = useState(true);
   const [activeIndex, setActiveIndex] = useState(-1);
   const debouncedQuery = useDebounce(query, 150);
