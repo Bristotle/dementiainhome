@@ -222,22 +222,50 @@ async function main() {
   }
 
   const prompt = buildPrompt(template, city, dossier)
-  console.log(`  Calling Grok...`)
-  const { page, inputTokens, cachedInputTokens, outputTokens, costUsd } = await generatePage(prompt)
+
+  // The spec's gate routing: a deterministic failure auto-regenerates rather
+  // than waiting in a queue. These failures are mechanical and self-describing
+  // (a meta description four characters over, a citation outside the pool), so
+  // handing the model its own failure list and asking again fixes most of them
+  // on the second try, for one extra call and only on pages that failed.
+  const MAX_ATTEMPTS = 2
+  let page!: GeneratedPage
+  let deterministicResult!: Awaited<ReturnType<typeof runDeterministicGate>>
+  let inputTokens = 0, cachedInputTokens = 0, outputTokens = 0, costUsd = 0
+  let metaTrimmed = false, rawMetaLength = 0, attempts = 0
+
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    attempts = attempt
+    const hardFailures = attempt === 1 ? [] : deterministicResult.failures.filter((f) => f.severity === "fail")
+    const attemptPrompt = attempt === 1
+      ? prompt
+      : `${prompt}\n\n=== YOUR PREVIOUS ATTEMPT WAS REJECTED BY AN AUTOMATED CHECK ===\nRegenerate the page correcting every point below. Everything else about the brief still applies.\n${hardFailures.map((f) => `- [${f.check}] ${f.detail}`).join("\n")}`
+
+    console.log(`  Calling Grok${attempt > 1 ? ` (attempt ${attempt}, correcting ${hardFailures.length} gate failure(s))` : ""}...`)
+    const result = await generatePage(attemptPrompt)
+    page = result.page
+    inputTokens += result.inputTokens
+    cachedInputTokens += result.cachedInputTokens
+    outputTokens += result.outputTokens
+    costUsd += result.costUsd
+
+    rawMetaLength = page.metaDescription.length
+    page.metaDescription = trimMetaDescription(page.metaDescription)
+    if (page.metaDescription.length !== rawMetaLength) {
+      metaTrimmed = true
+      console.log(`  Meta description trimmed: ${rawMetaLength} -> ${page.metaDescription.length} chars`)
+    }
+    console.log(`  Title: "${page.title}"`)
+
+    console.log(`  Running deterministic gate...`)
+    deterministicResult = await runDeterministicGate(page, dossier)
+    console.log(`  Deterministic gate: ${deterministicResult.passed ? "PASSED" : "FAILED"}`)
+    deterministicResult.failures.forEach((f) => console.log(`    - [${f.check}] ${f.detail}`))
+    if (deterministicResult.passed) break
+  }
+
   const cacheHitPct = inputTokens > 0 ? Math.round((cachedInputTokens / inputTokens) * 100) : 0
-  console.log(`  Tokens: ${inputTokens} in (${cacheHitPct}% cached) / ${outputTokens} out. Cost: $${costUsd.toFixed(6)}`)
-
-  const rawMetaLength = page.metaDescription.length
-  page.metaDescription = trimMetaDescription(page.metaDescription)
-  const metaTrimmed = page.metaDescription.length !== rawMetaLength
-  if (metaTrimmed) console.log(`  Meta description trimmed: ${rawMetaLength} -> ${page.metaDescription.length} chars`)
-
-  console.log(`  Title: "${page.title}"`)
-
-  console.log(`  Running deterministic gate...`)
-  const deterministicResult = await runDeterministicGate(page, dossier)
-  console.log(`  Deterministic gate: ${deterministicResult.passed ? "PASSED" : "FAILED"}`)
-  deterministicResult.failures.forEach((f) => console.log(`    - [${f.check}] ${f.detail}`))
+  console.log(`  Tokens across ${attempts} attempt(s): ${inputTokens} in (${cacheHitPct}% cached) / ${outputTokens} out. Cost: $${costUsd.toFixed(6)}`)
 
   let auditResult: { passed: boolean; findings: unknown[] } | null = null
   if (deterministicResult.passed) {
@@ -265,7 +293,7 @@ async function main() {
     content_json: page,
     citation_ids: citationIds,
     gate_status: gateStatus,
-    gate_log: { deterministic: deterministicResult, llm_audit: auditResult, cost_usd: costUsd, input_tokens: inputTokens, cached_input_tokens: cachedInputTokens, output_tokens: outputTokens, meta_trimmed_from: metaTrimmed ? rawMetaLength : null },
+    gate_log: { deterministic: deterministicResult, llm_audit: auditResult, cost_usd: costUsd, input_tokens: inputTokens, cached_input_tokens: cachedInputTokens, output_tokens: outputTokens, attempts, meta_trimmed_from: metaTrimmed ? rawMetaLength : null },
     published: false,
     generated_at: new Date().toISOString(),
   }], { onConflict: "city_id,master_template_id" })
