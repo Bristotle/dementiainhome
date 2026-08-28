@@ -21,13 +21,13 @@ export type GeneratedPageRecord = {
 
 export type PublishedPageWithContext = GeneratedPageRecord & {
   city: { slug: string; name: string; state_abbrev: string }
-  template: { topic_type: string }
+  template: { topic_type: string; intent: string }
 }
 
 export async function getPublishedPage(citySlug: string, templateSlug: string): Promise<PublishedPageWithContext | null> {
   const { data, error } = await supabase
     .from("pages")
-    .select("id, title, meta_description, content_json, published_at, cities!inner(slug, name, state_abbrev), master_templates!inner(topic_type)")
+    .select("id, title, meta_description, content_json, published_at, cities!inner(slug, name, state_abbrev), master_templates!inner(topic_type, intent)")
     .eq("cities.slug", citySlug)
     .eq("master_templates.topic_type", templateSlug)
     .eq("published", true)
@@ -42,7 +42,7 @@ export async function getPublishedPage(citySlug: string, templateSlug: string): 
     content_json: data.content_json,
     published_at: data.published_at,
     city: data.cities as unknown as { slug: string; name: string; state_abbrev: string },
-    template: data.master_templates as unknown as { topic_type: string },
+    template: data.master_templates as unknown as { topic_type: string; intent: string },
   }
 }
 

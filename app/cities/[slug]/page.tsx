@@ -1,11 +1,12 @@
 import { notFound } from "next/navigation"
-import { getCityBySlug, getAllCitySlugs, getAllCities, getCityDemographics, getMedicaidWaiver, getMedicaidCitations } from "@/lib/db-cities"
+import { getCityBySlug, getAllCitySlugs, getAllCities, getCityDemographics, getMedicaidWaiver, getMedicaidCitations, stateSlug } from "@/lib/db-cities"
 import { getPublishedPagesForCity } from "@/lib/db-pages"
 import LeadForm from "@/components/LeadForm"
 import Link from "next/link"
 import type { Metadata } from "next"
 import { FadeIn, Stagger, StaggerItem, MotionLink, hoverScale, hoverShift } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
+import { buildCityHubJsonLd } from "@/lib/generation/page-schema"
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -42,8 +43,17 @@ export default async function CityPage({ params }: Props) {
     getPublishedPagesForCity(slug),
   ])
 
+  const jsonLd = buildCityHubJsonLd({
+    citySlug: city.slug,
+    cityName: city.name,
+    stateAbbrev: city.state_abbrev,
+    stateName: city.state,
+  })
+
   return (
     <main className="min-h-screen bg-warm-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+
       <nav className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 font-bold text-teal-600 text-xl" style={{fontFamily:"var(--font-fraunces)"}}>
@@ -57,6 +67,13 @@ export default async function CityPage({ params }: Props) {
       <section className="relative overflow-hidden max-w-5xl mx-auto px-6 py-16">
         <ShapeBackgroundCompact />
         <div className="relative z-10 max-w-2xl">
+          <FadeIn>
+            <p className="text-sm text-slate-500 mb-3">
+              <Link href="/cities" className="text-teal-600 hover:underline">Cities</Link>
+              <span className="mx-2 text-slate-300">/</span>
+              <Link href={`/states/${stateSlug(city.state)}`} className="text-teal-600 hover:underline">{city.state}</Link>
+            </p>
+          </FadeIn>
           <FadeIn><p className="eyebrow mb-4">{city.name}, {city.state_abbrev}</p></FadeIn>
           <FadeIn delay={0.1}>
             <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight mb-6" style={{fontFamily:"var(--font-fraunces)"}}>

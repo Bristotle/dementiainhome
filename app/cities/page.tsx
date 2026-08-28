@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
-import { getAllCities } from "@/lib/db-cities"
+import { getAllCities, stateSlug } from "@/lib/db-cities"
 import { getPublishedPageCountsByCity } from "@/lib/db-pages"
 import { FadeIn } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
@@ -56,7 +56,9 @@ export default async function CitiesIndexPage() {
       <section className="max-w-5xl mx-auto px-6 pb-16">
         {states.map((state) => (
           <div key={state} className="mb-12">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4">{state}</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4">
+              <Link href={`/states/${stateSlug(state)}`} className="hover:text-teal-600 transition-colors">{state}</Link>
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {byState.get(state)!.map((city) => (
                 <Link

@@ -93,3 +93,34 @@ export async function getMedicaidCitations(stateAbbrev: string): Promise<Citatio
     .filter((c) => c.topic_tags?.includes(stateAbbrev.toLowerCase()))
     .map((c) => ({ label: c.source_name, url: c.url }))
 }
+
+export type StateSummary = {
+  slug: string
+  name: string
+  abbrev: string
+  cities: City[]
+}
+
+export function stateSlug(stateName: string): string {
+  return stateName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")
+}
+
+// State hubs are the top of the internal link structure the spec asks for
+// (state hub -> city hub -> page types). They are derived from the cities
+// table rather than a separate list, so a new city in a new state creates its
+// state hub automatically.
+export async function getAllStates(): Promise<StateSummary[]> {
+  const cities = await getAllCities()
+  const byState = new Map<string, StateSummary>()
+  for (const city of cities) {
+    const slug = stateSlug(city.state)
+    if (!byState.has(slug)) byState.set(slug, { slug, name: city.state, abbrev: city.state_abbrev, cities: [] })
+    byState.get(slug)!.cities.push(city)
+  }
+  return [...byState.values()].sort((a, b) => a.name.localeCompare(b.name))
+}
+
+export async function getStateBySlug(slug: string): Promise<StateSummary | null> {
+  const states = await getAllStates()
+  return states.find((s) => s.slug === slug) ?? null
+}

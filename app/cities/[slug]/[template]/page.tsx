@@ -5,8 +5,11 @@ import { getPublishedPage, getAllPublishedPageParams, getPublishedPagesForCity }
 import LeadForm from "@/components/LeadForm"
 import { FadeIn, MotionLink, hoverScale } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
+import { buildGeneratedPageJsonLd, splitAtMidpointHeading } from "@/lib/generation/page-schema"
 
 type Props = { params: Promise<{ slug: string; template: string }> }
+
+const PROSE_CLASSNAME = "max-w-3xl mx-auto px-6 pb-12 text-slate-700 leading-relaxed [&_h1]:text-5xl [&_h1]:font-bold [&_h1]:text-slate-900 [&_h1]:mb-8 [&_h1]:leading-tight [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-slate-900 [&_h3]:mt-6 [&_h3]:mb-2 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_li]:mb-2 [&_a]:text-teal-600 [&_a]:underline [&_strong]:font-semibold [&_strong]:text-slate-900"
 
 // ISR: new pages appear without a full rebuild as more get published,
 // per the sprint spec's staged-publishing design.
@@ -38,17 +41,27 @@ export default async function GeneratedPage({ params }: Props) {
   // the only outbound internal links were the ones the model happened to write
   // into the body. Linking the city's other live guides gives search engines a
   // real path between them and gives readers the obvious next step.
+  // The spec puts the form above the fold on commercial and crisis page types.
+  // Those are exactly the 28 templates whose intent is "lead"; the 22
+  // educational ones keep the lighter treatment so the guide reads as a guide.
+  const isLeadIntent = page.template.intent === "lead"
+  const [articleTop, articleBottom] = splitAtMidpointHeading(page.content_json.htmlContent)
+
   const siblingGuides = (await getPublishedPagesForCity(slug))
     .filter((g) => g.template !== template)
     .slice(0, 12)
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: page.title,
-    description: page.meta_description,
-    citation: page.content_json.citedUrls,
-  }
+  const jsonLd = buildGeneratedPageJsonLd({
+    title: page.title,
+    metaDescription: page.meta_description,
+    citedUrls: page.content_json.citedUrls,
+    htmlContent: page.content_json.htmlContent,
+    citySlug: slug,
+    cityName: page.city.name,
+    stateAbbrev: page.city.state_abbrev,
+    templateSlug: template,
+    publishedAt: page.published_at,
+  })
 
   return (
     <main className="min-h-screen bg-warm-white">
@@ -75,12 +88,47 @@ export default async function GeneratedPage({ params }: Props) {
         </div>
       </section>
 
+      {isLeadIntent && (
+        <section className="max-w-3xl mx-auto px-6 pb-4">
+          <div className="bg-white rounded-2xl border border-teal-200 shadow-sm p-6 sm:p-8">
+            <h2 className="text-xl font-bold text-slate-900 mb-1" style={{fontFamily:"var(--font-fraunces)"}}>
+              Get 3 dementia caregiver video profiles in {page.city.name} - free
+            </h2>
+            <p className="text-sm text-slate-500 mb-5">Hand-picked, available near you, sent within 72 hours. No cost, no obligation. Takes 60 seconds.</p>
+            <LeadForm cityName={page.city.name} cityState={page.city.state_abbrev} pageType={page.template.topic_type} sourcePage={`/cities/${slug}/${template}`} />
+          </div>
+        </section>
+      )}
+
       <FadeIn>
         <article
-          className="max-w-3xl mx-auto px-6 pb-12 text-slate-700 leading-relaxed [&_h1]:text-5xl [&_h1]:font-bold [&_h1]:text-slate-900 [&_h1]:mb-8 [&_h1]:leading-tight [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-10 [&_h2]:mb-4 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_li]:mb-2 [&_a]:text-teal-600 [&_a]:underline [&_strong]:font-semibold [&_strong]:text-slate-900"
-          dangerouslySetInnerHTML={{ __html: page.content_json.htmlContent }}
+          className={PROSE_CLASSNAME}
+          dangerouslySetInnerHTML={{ __html: articleTop }}
         />
       </FadeIn>
+
+      {articleBottom && (
+        <>
+          <div className="max-w-3xl mx-auto px-6 py-8">
+            <div className="rounded-2xl bg-teal-50 border border-teal-200 p-6 flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
+              <div>
+                <p className="font-bold text-slate-900">Still deciding what {page.city.name} care should look like?</p>
+                <p className="text-sm text-slate-600">We will send 3 hand-picked caregiver video profiles within 72 hours. Free, no obligation.</p>
+              </div>
+              <MotionLink {...hoverScale} href="#get-matched" className="shrink-0 px-5 py-3 rounded-xl bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition-colors whitespace-nowrap">
+                Get free profiles →
+              </MotionLink>
+            </div>
+          </div>
+
+          <FadeIn>
+            <article
+              className={PROSE_CLASSNAME}
+              dangerouslySetInnerHTML={{ __html: articleBottom }}
+            />
+          </FadeIn>
+        </>
+      )}
 
       {page.content_json.citedUrls.length > 0 && (
         <div className="max-w-3xl mx-auto px-6 pb-10">
@@ -130,7 +178,18 @@ export default async function GeneratedPage({ params }: Props) {
         </div>
       </section>
 
-      <footer className="border-t border-slate-200 bg-white">
+      {/* Sticky click-to-call, mobile only. pb-24 on the footer keeps it from
+          covering the last line of the page. */}
+      <div className="sm:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-t border-slate-200 px-4 py-3 flex gap-3">
+        <a href="tel:+17864325758" className="flex-1 text-center py-3 rounded-xl border border-teal-600 text-teal-700 font-semibold text-sm">
+          Call (786) 432-5758
+        </a>
+        <a href="#get-matched" className="flex-1 text-center py-3 rounded-xl bg-teal-600 text-white font-semibold text-sm">
+          Free profiles
+        </a>
+      </div>
+
+      <footer className="border-t border-slate-200 bg-white pb-24 sm:pb-0">
         <div className="max-w-3xl mx-auto px-6 py-8 text-center">
           <nav className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-slate-600 mb-4" aria-label="Footer">
             <Link href="/" className="hover:text-teal-600">Home</Link>

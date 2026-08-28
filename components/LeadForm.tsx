@@ -6,11 +6,14 @@ import { hoverScale } from "@/components/motion"
 type Props = { cityName: string; cityState: string; pageType?: string; sourcePage?: string }
 
 export default function LeadForm({ cityName, cityState, pageType, sourcePage }: Props) {
-  const [form, setForm] = useState({ first_name:"", last_name:"", email:"", phone:"", message:"" })
+  // relationship and urgency were columns on the leads table from the start but
+  // the form never asked for them, so every lead came in without the two fields
+  // that decide who to call first and what to send them.
+  const [form, setForm] = useState({ first_name:"", last_name:"", email:"", phone:"", relationship:"", urgency:"", message:"" })
   const [status, setStatus] = useState<"idle"|"loading"|"success"|"error">("idle")
   const [errorMsg, setErrorMsg] = useState("")
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
@@ -53,6 +56,30 @@ export default function LeadForm({ cityName, cityState, pageType, sourcePage }: 
       </div>
       <div><label htmlFor="lf_em" className="block text-xs font-medium text-slate-700 mb-1">Email address</label><input id="lf_em" name="email" type="email" placeholder="jane@example.com" required value={form.email} onChange={handleChange} className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" /></div>
       <div><label htmlFor="lf_ph" className="block text-xs font-medium text-slate-700 mb-1">Phone number</label><input id="lf_ph" name="phone" type="tel" placeholder="(555) 000-0000" required value={form.phone} onChange={handleChange} className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" /></div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label htmlFor="lf_rel" className="block text-xs font-medium text-slate-700 mb-1">Who needs care?</label>
+          <select id="lf_rel" name="relationship" required value={form.relationship} onChange={handleChange} className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <option value="">Select one</option>
+            <option value="parent">My parent</option>
+            <option value="spouse">My spouse or partner</option>
+            <option value="grandparent">My grandparent</option>
+            <option value="myself">Myself</option>
+            <option value="other_relative">Another relative</option>
+            <option value="client">A client of mine</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="lf_urg" className="block text-xs font-medium text-slate-700 mb-1">How soon?</label>
+          <select id="lf_urg" name="urgency" required value={form.urgency} onChange={handleChange} className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <option value="">Select one</option>
+            <option value="immediately">Immediately - it is a crisis</option>
+            <option value="within_a_week">Within a week</option>
+            <option value="within_a_month">Within a month</option>
+            <option value="planning_ahead">Just planning ahead</option>
+          </select>
+        </div>
+      </div>
       <div><label htmlFor="lf_ms" className="block text-xs font-medium text-slate-700 mb-1">Tell us about your situation</label><textarea id="lf_ms" name="message" rows={3} placeholder="My father has Alzheimer's and needs help Monday-Friday..." value={form.message} onChange={handleChange} className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none" /></div>
       <AnimatePresence>
         {status === "error" && (

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next"
 import { BLOG_POSTS } from "@/lib/blog"
-import { getAllCities } from "@/lib/db-cities"
+import { getAllCities, getAllStates } from "@/lib/db-cities"
 import { getPublishedPagesForSitemap } from "@/lib/db-pages"
 
 const BASE_URL = "https://www.dementiainhome.com"
@@ -57,6 +57,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // built. Stamping every URL with "now" on an hourly revalidate would tell
   // Google the whole site changes every hour, which teaches it to ignore the
   // field entirely.
+  const states = await getAllStates()
+  const stateRoutes = states.map((state) => ({
+    url: `${BASE_URL}/states/${state.slug}`,
+    lastModified: RECENT_UPDATE_DATE,
+    changeFrequency: "weekly" as const,
+    priority: 0.85,
+  }))
+
   const publishedPages = await getPublishedPagesForSitemap()
   const generatedRoutes = publishedPages.map((p) => ({
     url: `${BASE_URL}/cities/${p.slug}/${p.template}`,
@@ -65,5 +73,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }))
 
-  return [...staticRoutes, ...cityRoutes, ...generatedRoutes, ...blogRoutes]
+  return [...staticRoutes, ...stateRoutes, ...cityRoutes, ...generatedRoutes, ...blogRoutes]
 }
