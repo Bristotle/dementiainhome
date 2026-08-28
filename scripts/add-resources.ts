@@ -8,9 +8,15 @@
 //     hospitals with addresses and ratings, but nothing in it says a hospital
 //     has a memory unit. Ingesting it would mean asserting something the
 //     source does not support - the exact failure the gates exist to catch.
-//   - geriatric_care_manager: NPPES taxonomy search for "Case Management" in
-//     Baltimore returns meal providers, counselors and mental health clinics.
-//     Not usable.
+//   - geriatric_care_manager: tested twice. NPPES taxonomy_description search
+//     for "Case Management" in Baltimore returns meal providers, counselors and
+//     mental health clinics - the parameter is a fuzzy match, not an exact one.
+//     Filtering client-side to providers whose primary taxonomy is exactly
+//     "Case Manager/Care Coordinator" does return clean records, but they are
+//     substance-abuse and behavioural-health case managers: NPPES has no
+//     geriatric case-management taxonomy at all, so no query against it can
+//     identify a geriatric care manager. Presenting those providers as such on
+//     a dementia site is the unsupported claim the gates exist to catch.
 //   - elder_law_attorney, support_group: no open directory API at all.
 //
 // What is tractable: these resources are mostly one per STATE, not per city -
