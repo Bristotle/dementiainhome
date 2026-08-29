@@ -1,0 +1,16 @@
+[
+  {
+    "state_abbrev": "MI",
+    "state_name": "Michigan",
+    "program_name": "MI Choice",
+    "program_full_name": "MI Choice Waiver Program",
+    "administered_by": "the Michigan Department of Health and Human Services, delivered through regional waiver agencies - for Detroit, the five Grosse Pointes, Hamtramck, Harper Woods and Highland Park, that agency is the Detroit Area Agency on Aging",
+    "eligibility_threshold": "Michigan does not publish a separate, lower functional threshold for dementia. MI Choice is for people aged 65 and over, or adults 18 and over with a disability, who have multiple medical and service needs and who need the programme to avoid moving into a nursing home. A care manager coordinates the services once someone is enrolled.",
+    "asset_limit_single": "$9,950 in personal assets, excluding the home the person lives in and one vehicle, as published by the Detroit Area Agency on Aging effective 1 February 2026",
+    "asset_limit_couple": "$14,910 in combined countable assets for a married couple, per the same February 2026 figures",
+    "look_back_period": "Not published on the cited page; standard Michigan Medicaid transfer-of-asset rules apply",
+    "application_process": "Contact the regional waiver agency for where the person lives - the Detroit Area Agency on Aging covers Detroit, the five Grosse Pointes, Hamtramck, Harper Woods and Highland Park. The agency screens for eligibility and assigns a care manager who builds and coordinates the service package. MDHHS makes the financial eligibility decision separately, so expect correspondence from them as well as from the agency.",
+    "unique_feature": "MI Choice is delivered by the regional Area Agency on Aging rather than a single statewide office, so which agency a family deals with depends on their address - and Detroit itself is served by a different agency from most of the surrounding metro counties.",
+    "source_url": "https://www.detroitseniorsolution.org/clinical-services/mi-choice-waiver-mi-health-link/"
+  }
+]
