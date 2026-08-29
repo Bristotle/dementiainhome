@@ -115,6 +115,25 @@ function buildPrompt(template: MasterTemplate, city: CityRow, dossier: CityDossi
   // underwrite a claim about dementia generally - which is exactly the mistake
   // a reader of bare URLs would make. Each source is now named, and the ones
   // that only cover Alzheimer's disease say so on their own line.
+  // The gate accepts any source URL from the dossier - the Medicaid programme
+  // page, a clinic's Care Compare listing, the Census table - but the prompt
+  // only ever listed the citations pool. So the model was handed Michigan's
+  // asset limits and the Detroit agency page they came from, and no way to know
+  // it was allowed to cite it; it stated the figures bare and the auditor
+  // rejected them as attributed to a source "not among the listed cited
+  // sources". The dossier's own sources are now listed alongside the pool.
+  const dossierSources: { url: string; label: string }[] = []
+  if (dossier.demographics?.source_url) dossierSources.push({ url: dossier.demographics.source_url, label: "U.S. Census ACS data for this city" })
+  if (dossier.medicaid_waiver?.source_url) dossierSources.push({ url: dossier.medicaid_waiver.source_url, label: "the Medicaid programme record above - cite this for its figures and rules" })
+  for (const r of dossier.local_resources ?? []) if (r.source_url) dossierSources.push({ url: r.source_url, label: "a local resource listed above" })
+  for (const c of dossier.clinics ?? []) if (c.source_url) dossierSources.push({ url: c.source_url, label: "a listed local agency's Medicare Care Compare record" })
+  for (const e of dossier.experts ?? []) if (e.source_url) dossierSources.push({ url: e.source_url, label: "a listed specialist's NPI record" })
+
+  const seenSource = new Set<string>()
+  const dossierCitationLines = dossierSources
+    .filter((x) => !seenSource.has(x.url) && seenSource.add(x.url))
+    .map((x) => `- ${x.url} - ${x.label}`)
+
   const availableCitations = dossier.citations
     .map((c) => {
       const name = c.source_name ? ` - ${c.source_name}` : ""
@@ -125,6 +144,7 @@ function buildPrompt(template: MasterTemplate, city: CityRow, dossier: CityDossi
       return `- ${c.url}${name}${scope}`
     })
     .join("\n")
+  const allCitationLines = [...availableCitations.split("\n").filter(Boolean), ...dossierCitationLines].join("\n")
   const serviceLinksList = REAL_SERVICE_LINKS.map((s) => `${s.label}: ${s.path}`).join(", ")
   const cityHubPath = `/cities/${city.slug}`
 
@@ -169,7 +189,7 @@ REAL FACTS YOU MAY USE (do not invent anything beyond this):
 ${dossierContext || "(no city-specific facts required for this page type)"}
 
 AVAILABLE CITATION SOURCES - cite ONLY from this list, and respect each one's scope:
-${availableCitations}
+${allCitationLines}
 
 Use the generate_page tool to submit your output.`
 }
