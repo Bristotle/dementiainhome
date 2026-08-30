@@ -18,6 +18,7 @@
 import { config } from "dotenv"
 config({ path: ".env.local" })
 import { getSupabaseAdmin } from "../lib/ingestion/supabase-admin"
+import { politeFetch } from "../lib/ingestion/http"
 
 async function getCityFipsFromDb(citySlug: string): Promise<{ stateFips: string; placeFips: string } | null> {
   const supabase = getSupabaseAdmin()
@@ -58,7 +59,7 @@ async function fetchFromEndpoint(
   url.searchParams.set("in", `state:${stateFips}`)
   if (CENSUS_API_KEY) url.searchParams.set("key", CENSUS_API_KEY)
 
-  const res = await fetch(url.toString())
+  const res = await politeFetch(url.toString())
   const rawText = await res.text()
 
   if (!res.ok) {

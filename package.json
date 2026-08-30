@@ -11,6 +11,7 @@
     "ingest:npi": "tsx scripts/ingest-npi.ts",
     "ingest:cms": "tsx scripts/ingest-cms.ts",
     "ingest:hospitals": "tsx scripts/ingest-hospitals.ts",
+    "ingest": "tsx scripts/ingest-all.ts",
     "dossier": "tsx scripts/dossier.ts",
     "test:gate": "tsx scripts/test-gate.ts",
     "test:auditor": "tsx scripts/test-auditor.ts",

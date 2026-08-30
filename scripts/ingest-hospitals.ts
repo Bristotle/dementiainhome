@@ -19,6 +19,7 @@ config({ path: ".env.local" })
 
 import { parse } from "csv-parse/sync"
 import { getSupabaseAdmin } from "../lib/ingestion/supabase-admin"
+import { politeFetch } from "../lib/ingestion/http"
 
 const DATASET_IDENTIFIER = "xubh-q36u" // "Hospital General Information" in the CMS Provider Data Catalog
 const METASTORE_URL = `https://data.cms.gov/provider-data/api/1/metastore/schemas/dataset/items/${DATASET_IDENTIFIER}`
@@ -39,7 +40,7 @@ type HospitalRow = {
 }
 
 async function getCurrentDownloadUrl(): Promise<string> {
-  const res = await fetch(METASTORE_URL)
+  const res = await politeFetch(METASTORE_URL)
   if (!res.ok) throw new Error(`Failed to fetch dataset metadata: ${res.status} ${res.statusText}`)
   const data = await res.json()
   const downloadUrl = data?.distribution?.[0]?.downloadURL
@@ -49,7 +50,7 @@ async function getCurrentDownloadUrl(): Promise<string> {
 
 async function fetchAndParseCsv(downloadUrl: string): Promise<HospitalRow[]> {
   console.log(`  Downloading CSV from: ${downloadUrl}`)
-  const res = await fetch(downloadUrl)
+  const res = await politeFetch(downloadUrl)
   if (!res.ok) throw new Error(`Failed to download CSV: ${res.status} ${res.statusText}`)
   const csvText = await res.text()
   console.log(`  Downloaded ${(csvText.length / 1024 / 1024).toFixed(1)} MB, parsing...`)

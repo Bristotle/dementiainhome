@@ -19,6 +19,7 @@ import { config } from "dotenv"
 config({ path: ".env.local" })
 
 import { getSupabaseAdmin } from "../lib/ingestion/supabase-admin"
+import { politeFetch } from "../lib/ingestion/http"
 
 const NPI_API_BASE = "https://npiregistry.cms.hhs.gov/api/"
 
@@ -78,7 +79,7 @@ async function fetchNpiResults(city: string, state: string, taxonomyTerm: string
   url.searchParams.set("enumeration_type", "NPI-1") // individual providers, not organizations
   url.searchParams.set("limit", "20")
 
-  const res = await fetch(url.toString())
+  const res = await politeFetch(url.toString())
   const rawText = await res.text()
 
   if (!res.ok) {

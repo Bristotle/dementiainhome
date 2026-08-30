@@ -20,6 +20,8 @@ config({ path: ".env.local" })
 import { getSupabaseAdmin } from "../lib/ingestion/supabase-admin"
 
 type DossierFact<T> = {
+  /** One line saying what the cited source actually holds - see the note above evidenceForExpert. */
+  evidence?: string
   data: T
   source_url: string
   verified_at: string
@@ -44,13 +46,16 @@ type CityDossier = {
     npi_number: string | null
     address: string | null
     source_url: string
+    evidence: string
   }[]
   clinics: {
     clinic_type: string
     name: string
     rating: number | null
     address: string | null
+    phone?: string | null
     source_url: string
+    evidence: string
   }[]
   medicaid_waiver: DossierFact<{
     program_name: string
@@ -70,9 +75,55 @@ type CityDossier = {
     address: string | null
     phone: string | null
     source_url: string
+    evidence: string
   }[]
   citations: { source_name: string; source_org: string; url: string; topic_tags: string[] | null }[]
   gaps: string[]
+}
+
+
+// The spec asks every fact to carry its source URL AND an evidence snippet.
+// The URL says where a fact came from; the snippet says what that source
+// actually holds, in one line, so the generator and the auditor can both check
+// a sentence against the record rather than against a link they cannot open.
+//
+// This is the check that would have caught Detroit soonest: an asset limit
+// written out as "$9,950 per month" reads obviously wrong on the page next to
+// an income limit of $2,982, in a way it never does buried in a JSON field.
+function evidenceForExpert(r: { name: string; specialty: string; npi_number: string | null; address: string | null }): string {
+  const bits = [`NPPES lists ${r.name} under the ${r.specialty} taxonomy`]
+  if (r.npi_number) bits.push(`NPI ${r.npi_number}`)
+  if (r.address) bits.push(`at ${r.address}`)
+  return `${bits.join(", ")}.`
+}
+
+function evidenceForClinic(r: { name: string; clinic_type: string; rating: number | null; address: string | null; phone?: string | null }): string {
+  const bits = [`Medicare Care Compare lists ${r.name} as a ${r.clinic_type.replace(/_/g, " ")}`]
+  if (r.address) bits.push(`at ${r.address}`)
+  if (r.phone) bits.push(`telephone ${r.phone}`)
+  bits.push(r.rating != null ? `with a quality rating of ${r.rating} out of 5` : "with no quality rating published")
+  return `${bits.join(", ")}.`
+}
+
+function evidenceForResource(r: { name: string; resource_type: string; description: string | null; address: string | null; phone: string | null }): string {
+  const bits = [`${r.name}, a ${r.resource_type.replace(/_/g, " ")} on file for this city`]
+  if (r.address) bits.push(`at ${r.address}`)
+  if (r.phone) bits.push(`telephone ${r.phone}`)
+  const base = `${bits.join(", ")}.`
+  return r.description ? `${base} ${r.description}` : base
+}
+
+function evidenceForDemographics(city: string, d: Record<string, number | null>): string {
+  const parts: string[] = []
+  if (d.population_65_plus != null) parts.push(`${d.population_65_plus.toLocaleString()} residents aged 65 and over`)
+  if (d.population_85_plus != null) parts.push(`${d.population_85_plus.toLocaleString()} aged 85 and over`)
+  if (d.median_household_income != null) parts.push(`a median household income of $${d.median_household_income.toLocaleString()}`)
+  if (d.seniors_living_alone != null) parts.push(`${d.seniors_living_alone.toLocaleString()} senior households where someone 65+ lives alone`)
+  return `The U.S. Census ACS 5-Year Estimates report, for ${city}: ${parts.join("; ")}.`
+}
+
+function evidenceForWaiver(state: string, w: Record<string, string | null>): string {
+  return `${state}'s programme record, taken from the page cited on it: ${w.program_full_name} (${w.program_name}), administered by ${w.administered_by ?? "the state"}. Asset limit, single applicant: ${w.asset_limit_single ?? "not recorded"}. Couple: ${w.asset_limit_couple ?? "not recorded"}. Look-back: ${w.look_back_period ?? "not recorded"}.`
 }
 
 async function assembleDossier(citySlug: string): Promise<CityDossier> {
@@ -146,9 +197,10 @@ async function assembleDossier(citySlug: string): Promise<CityDossier> {
       },
       source_url: demoRow.source_url,
       verified_at: demoRow.verified_at,
+      evidence: evidenceForDemographics(cityRow.name, demoRow),
     } : null,
-    experts: expertRows || [],
-    clinics: clinicRows || [],
+    experts: (expertRows || []).map((r) => ({ ...r, evidence: evidenceForExpert(r) })),
+    clinics: (clinicRows || []).map((r) => ({ ...r, evidence: evidenceForClinic(r) })),
     medicaid_waiver: waiverRow ? {
       data: {
         program_name: waiverRow.program_name,
@@ -163,8 +215,9 @@ async function assembleDossier(citySlug: string): Promise<CityDossier> {
       },
       source_url: waiverRow.source_url,
       verified_at: waiverRow.verified_at,
+      evidence: evidenceForWaiver(cityRow.state, waiverRow),
     } : null,
-    local_resources: resourceRows || [],
+    local_resources: (resourceRows || []).map((r) => ({ ...r, evidence: evidenceForResource(r) })),
     citations: citationRows || [],
     gaps,
   }
