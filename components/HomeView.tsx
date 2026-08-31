@@ -140,7 +140,11 @@ export default function HomeView({ cities }: { cities: City[] }) {
       <div className="bg-teal-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-teal-500/30 via-transparent to-teal-700/30 pointer-events-none" />
         <div className="relative max-w-6xl mx-auto px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
-          {[["72hrs","Free profile delivery"],["$0","Cost to get matched"],["5+","Major cities served"],["24/7","Live call answering"]].map(([val,label]) => (
+          {/* Counts come from the cities the site actually serves. This said
+              "5+" while twenty cities were live and a thousand pages were
+              published - a number written once and never revisited, on the one
+              page that has to establish we are real. */}
+          {[["72hrs","Free profile delivery"],["$0","Cost to get matched"],[`${cities.length}`,"Cities served"],["24/7","Live call answering"]].map(([val,label]) => (
             <div key={label}><p className="text-3xl font-bold mb-1" style={{fontFamily:"var(--font-fraunces)"}}>{val}</p><p className="text-teal-100 text-sm">{label}</p></div>
           ))}
         </div>
@@ -168,7 +172,13 @@ export default function HomeView({ cities }: { cities: City[] }) {
               <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Our Mission</p>
               <p className="text-2xl font-bold text-slate-900 leading-snug mb-4" style={{fontFamily:"var(--font-fraunces)"}}>&ldquo;Dignity at home. Peace of mind for family.&rdquo;</p>
               <div className="grid grid-cols-2 gap-3">
-                {[["346","US cities in plan"],["7.4M","Americans with Alzheimer"],["$0","Cost to get matched"],["72hrs","Profile delivery"]].map(([val,label]) => (
+                {/* "7.4M Americans with Alzheimer's" was an unsourced figure sitting
+                    on the homepage. Every one of the thousand generated pages is
+                    refused publication for exactly that - a specific number with no
+                    citation behind it - and the hand-written pages were never held
+                    to the same rule. Replaced with counts from our own database,
+                    which are true by construction. */}
+                {[[`${cities.length}`,"Cities served"],["50","Local guides per city"],["$0","Cost to get matched"],["72hrs","Profile delivery"]].map(([val,label]) => (
                   <div key={label} className="bg-white rounded-xl p-3 border border-slate-200 text-center">
                     <p className="text-xl font-bold text-teal-600 mb-0.5">{val}</p>
                     <p className="text-xs text-slate-500">{label}</p>
