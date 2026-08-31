@@ -48,8 +48,8 @@ export default function DataSources({
         </div>
 
         <p className="text-slate-600 leading-relaxed mb-6 max-w-2xl">
-          {scope} comes from a public record you can open yourself &mdash; not from an estimate,
-          and not from us. Every page links back to the source it came from.
+          {scope}{" "}comes from a public record you can open yourself &mdash; not from an
+          estimate and not from us. Every figure links back to the source it came from.
         </p>
 
         <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-5">
