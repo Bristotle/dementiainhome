@@ -8,6 +8,7 @@ import { FadeIn, Stagger, StaggerItem, MotionLink, hoverScale, hoverShift } from
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 import { buildCityHubJsonLd } from "@/lib/generation/page-schema"
 import PageHero from "@/components/PageHero"
+import DataSources from "@/components/DataSources"
 import { heroOgImage } from "@/lib/hero-images"
 
 type Props = { params: Promise<{ slug: string }> }
@@ -279,6 +280,8 @@ export default async function CityPage({ params }: Props) {
           </Stagger>
         </section>
       )}
+
+      <DataSources cityName={city.name} verifiedOn={demographics?.verified_at ?? null} />
 
       <footer className="border-t border-slate-200 bg-white">
         <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">

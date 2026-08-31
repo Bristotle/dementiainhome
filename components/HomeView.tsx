@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import DataSources from "@/components/DataSources"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import type { City } from "@/lib/db-cities"
@@ -149,6 +150,8 @@ export default function HomeView({ cities }: { cities: City[] }) {
           ))}
         </div>
       </div>
+
+      <DataSources />
 
       <section id="about" className="relative overflow-hidden max-w-6xl mx-auto px-6 py-20">
         <ShapeBackgroundCompact />

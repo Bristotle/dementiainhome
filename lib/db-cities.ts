@@ -23,6 +23,8 @@ export type City = {
 }
 
 export type CityDemographics = {
+  /** When the Census row was last confirmed - shown to the reader, so it has to be real. */
+  verified_at: string | null
   population_65_plus: number | null
   population_85_plus: number | null
   median_household_income: number | null
