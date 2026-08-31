@@ -21,13 +21,18 @@ import { config } from "dotenv"
 config({ path: ".env.local" })
 
 import { getSupabaseAdmin } from "../lib/ingestion/supabase-admin"
-import { getAccessToken, loadServiceAccount } from "../lib/ingestion/google-auth"
+import { getAccessToken, getAccessTokenFromRefreshToken, loadServiceAccount } from "../lib/ingestion/google-auth"
 
 const SITE_URL = process.env.GSC_SITE_URL || "sc-domain:dementiainhome.com"
 const SCOPE = "https://www.googleapis.com/auth/webmasters.readonly"
 
 const SETUP = `
-This report needs read access to Search Console. One-time setup:
+This report needs read access to Search Console.
+
+  Easiest route (no key file, works with organisations that block them):
+      npm run gsc-auth
+
+  Or with a service account, if your organisation allows downloadable keys:
 
   1. Google Cloud Console -> create a service account -> add a JSON key
   2. Enable the "Google Search Console API" for that project
@@ -76,9 +81,15 @@ async function main() {
   const sampleSize = parseInt(argv[argv.indexOf("--inspect") + 1] ?? "25", 10)
   const days = parseInt(argv[argv.indexOf("--days") + 1] ?? "28", 10)
 
-  let account
-  try { account = loadServiceAccount() } catch (err) { console.error(`\n${err instanceof Error ? err.message : err}\n${SETUP}`); process.exit(1) }
-  if (!account) { console.log(SETUP); process.exit(1) }
+  // OAuth first: Workspace organisations usually block service-account keys, so
+  // that is the route most people will actually have.
+  let token: string | null = await getAccessTokenFromRefreshToken()
+  if (!token) {
+    let account
+    try { account = loadServiceAccount() } catch (err) { console.error(`\n${err instanceof Error ? err.message : err}\n${SETUP}`); process.exit(1) }
+    if (!account) { console.log(SETUP); process.exit(1) }
+    token = await getAccessToken(account, SCOPE)
+  }
 
   const supabase = getSupabaseAdmin()
   const { data: pages } = await supabase
@@ -90,7 +101,6 @@ async function main() {
     intent: (p.master_templates as unknown as { intent: string }).intent,
   }))
 
-  const token = await getAccessToken(account, SCOPE)
 
   console.log(`\n=== Search performance, last ${days} days ===`)
   const rows = await searchAnalytics(token, days)

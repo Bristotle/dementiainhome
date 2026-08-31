@@ -40,6 +40,29 @@ export async function getAccessToken(account: ServiceAccount, scope: string): Pr
   return body.access_token
 }
 
+// Most Workspace organisations enforce iam.disableServiceAccountKeyCreation,
+// which blocks downloadable service-account keys - a sensible default, since a
+// leaked key file is a standing credential nobody rotates. The OAuth route
+// below needs no key: the user authorises once in their own browser and we keep
+// a refresh token, which they can revoke from their Google account at any time.
+export async function getAccessTokenFromRefreshToken(): Promise<string | null> {
+  const clientId = process.env.GOOGLE_OAUTH_CLIENT_ID
+  const clientSecret = process.env.GOOGLE_OAUTH_CLIENT_SECRET
+  const refreshToken = process.env.GOOGLE_OAUTH_REFRESH_TOKEN
+  if (!clientId || !clientSecret || !refreshToken) return null
+
+  const res = await fetch("https://oauth2.googleapis.com/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ client_id: clientId, client_secret: clientSecret, refresh_token: refreshToken, grant_type: "refresh_token" }),
+    signal: AbortSignal.timeout(30000),
+  })
+  if (!res.ok) throw new Error(`Google refresh failed: ${res.status} ${await res.text().catch(() => "")}`)
+  const body = await res.json() as { access_token?: string }
+  if (!body.access_token) throw new Error("Google returned no access token on refresh")
+  return body.access_token
+}
+
 export function loadServiceAccount(): ServiceAccount | null {
   const raw = process.env.GOOGLE_SERVICE_ACCOUNT_JSON
   if (!raw) return null
