@@ -78,8 +78,16 @@ async function inspect(token: string, url: string): Promise<string> {
 
 async function main() {
   const argv = process.argv.slice(2)
-  const sampleSize = parseInt(argv[argv.indexOf("--inspect") + 1] ?? "25", 10)
-  const days = parseInt(argv[argv.indexOf("--days") + 1] ?? "28", 10)
+  // indexOf returns -1 when a flag is absent, and argv[-1 + 1] is argv[0] -
+  // so a missing --days silently read the value of whatever flag came first.
+  const numberArg = (flag: string, fallback: number) => {
+    const i = argv.indexOf(flag)
+    if (i === -1) return fallback
+    const parsed = parseInt(argv[i + 1] ?? "", 10)
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
+  }
+  const sampleSize = numberArg("--inspect", 25)
+  const days = numberArg("--days", 28)
 
   // OAuth first: Workspace organisations usually block service-account keys, so
   // that is the route most people will actually have.
@@ -122,18 +130,47 @@ async function main() {
   // Sample the live URLs rather than all of them - URL Inspection is rate
   // limited, and a random sample answers "roughly how much is indexed" without
   // spending the day's quota to answer it exactly.
-  const sample = [...live].sort(() => Math.random() - 0.5).slice(0, sampleSize)
+  // Hubs and guides are sampled separately. A single blended number hides the
+  // question that matters: whether Google is declining the deep pages while
+  // taking the linked-to ones, which would point at internal linking rather
+  // than content.
+  const hubs = [...new Set(live.map((p) => p.url.split("/").slice(0, 5).join("/")))].map((url) => ({ url, kind: "hub" as const }))
+  const guides = live.map((p) => ({ url: p.url, kind: "guide" as const }))
+  const half = Math.max(1, Math.floor(sampleSize / 2))
+  const sample = [
+    ...hubs.sort(() => Math.random() - 0.5).slice(0, Math.min(half, hubs.length)),
+    ...guides.sort(() => Math.random() - 0.5).slice(0, sampleSize - Math.min(half, hubs.length)),
+  ]
+
   console.log(`\n=== Index status, sample of ${sample.length} live pages ===`)
   const states: Record<string, number> = {}
+  const byKind: Record<string, { indexed: number; total: number }> = { hub: { indexed: 0, total: 0 }, guide: { indexed: 0, total: 0 } }
   for (const page of sample) {
     const state = await inspect(token, page.url)
     states[state] = (states[state] ?? 0) + 1
+    byKind[page.kind].total++
+    if (/^Submitted and indexed|^Indexed/i.test(state)) byKind[page.kind].indexed++
   }
   for (const [state, n] of Object.entries(states).sort((a, b) => b[1] - a[1])) {
     console.log(`  ${String(n).padStart(3)}  ${Math.round((n / sample.length) * 100).toString().padStart(3)}%  ${state}`)
   }
+  console.log(`\n  by page type:`)
+  for (const [kind, v] of Object.entries(byKind)) {
+    if (v.total === 0) continue
+    console.log(`    ${kind.padEnd(6)} ${v.indexed}/${v.total} indexed  (${Math.round((v.indexed / v.total) * 100)}%)`)
+  }
+
+  // The sample deliberately over-represents hubs - there are 20 of them and
+  // ~980 guides - so a blended rate would flatter the estimate badly. Each rate
+  // is applied to its own population instead.
   const indexed = Object.entries(states).filter(([k]) => /^Submitted and indexed|^Indexed/i.test(k)).reduce((a, [, v]) => a + v, 0)
-  console.log(`\n  indexed in sample: ${indexed}/${sample.length}  -> roughly ${Math.round((indexed / sample.length) * live.length)} of ${live.length} live pages`)
+  const hubRate = byKind.hub.total ? byKind.hub.indexed / byKind.hub.total : 0
+  const guideRate = byKind.guide.total ? byKind.guide.indexed / byKind.guide.total : 0
+  const guidePopulation = Math.max(0, live.length - hubs.length)
+  const estimate = Math.round(hubRate * hubs.length + guideRate * guidePopulation)
+  console.log(`\n  indexed in sample: ${indexed}/${sample.length}`)
+  console.log(`  weighted estimate: about ${estimate} of ${live.length} live pages`)
+  console.log(`    (${hubs.length} hubs at ${Math.round(hubRate * 100)}%, ${guidePopulation} guides at ${Math.round(guideRate * 100)}%)`)
   console.log(`\n  Re-run with --inspect 100 for a tighter estimate (quota is about 2,000 inspections a day).\n`)
 }
 
