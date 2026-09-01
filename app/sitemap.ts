@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next"
 import { BLOG_POSTS } from "@/lib/blog"
+import { SERVICES_DETAIL } from "@/lib/services"
 import { getAllCities, getAllStates } from "@/lib/db-cities"
 import { getPublishedPagesForSitemap } from "@/lib/db-pages"
 
@@ -43,6 +44,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: r.priority,
   }))
 
+  // The six service pages were the one route type missing from this file. They
+  // carry 2,200 words each with FAQ and Service schema, they are linked from the
+  // nav and from every generated guide, and Google was never told they exist -
+  // the same omission as the cities, in a corner nobody checked.
+  const serviceRoutes = SERVICES_DETAIL.map((service) => ({
+    url: `${BASE_URL}/services/${service.slug}`,
+    lastModified: RECENT_UPDATE_DATE,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }))
+
   const blogRoutes = BLOG_POSTS.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
     lastModified: RECENT_UPDATE_DATE,
@@ -78,5 +90,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }))
 
-  return [...staticRoutes, ...stateRoutes, ...cityRoutes, ...generatedRoutes, ...blogRoutes]
+  return [...staticRoutes, ...stateRoutes, ...serviceRoutes, ...cityRoutes, ...generatedRoutes, ...blogRoutes]
 }
