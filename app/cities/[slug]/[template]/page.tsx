@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import type { Metadata } from "next"
-import { getPublishedPage, getAllPublishedPageParams, getPublishedPagesForCity, getSameGuideInOtherCities, rotateForEvenSpread } from "@/lib/db-pages"
+import { getPublishedPage, getAllPublishedPageParams, getPublishedPagesForCity, getSameGuideInOtherCities, getRelatedGuidesElsewhere, rotateForEvenSpread } from "@/lib/db-pages"
+import { clusterFor, relatedTopics } from "@/lib/topic-clusters"
 import LeadForm from "@/components/LeadForm"
 import { FadeIn, MotionLink, hoverScale } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
@@ -81,6 +82,16 @@ export default async function GeneratedPage({ params }: Props) {
   // The same guide elsewhere. Rotated by this city's position in the list so
   // the outbound links spread across all twenty rather than twenty pages all
   // pointing at the same six.
+  // Same-city siblings, ordered so topically adjacent ones come first - someone
+  // reading about cost wants "paying for care" before "home safety checklist".
+  const cluster = clusterFor(template)
+  const related = relatedTopics(template)
+  siblingGuides.sort((a, b) => Number(related.includes(b.template)) - Number(related.includes(a.template)))
+
+  // The diagonal link: a related subject in a different city. Crosses both axes
+  // at once, which is the route most likely to reach a page nothing points at.
+  const relatedElsewhere = await getRelatedGuidesElsewhere(slug, related, 5)
+
   const otherCities = await getSameGuideInOtherCities(slug, template)
   const seed = otherCities.findIndex((c) => c.cityName.localeCompare(page.city.name) > 0)
   const crossCityGuides = rotateForEvenSpread(otherCities, seed < 0 ? 0 : seed, 6)
@@ -234,6 +245,23 @@ export default async function GeneratedPage({ params }: Props) {
                 </li>
               ))}
             </ul>
+            {relatedElsewhere.length > 0 && cluster && (
+              <div className="mt-8 pt-6 border-t border-slate-200">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">
+                  {cluster.label}, in other cities
+                </h3>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+                  {relatedElsewhere.map((r) => (
+                    <li key={`${r.citySlug}-${r.topic}`}>
+                      <Link href={`/cities/${r.citySlug}/${r.topic}`} className="text-sm text-teal-700 hover:text-teal-900 hover:underline">
+                        {r.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             <Link href="/cities" className="inline-block mt-6 text-sm font-semibold text-teal-600 hover:underline">
               Every city we cover →
             </Link>

@@ -155,3 +155,54 @@ export function rotateForEvenSpread<T>(items: T[], seedIndex: number, take: numb
   const offset = ((seedIndex % items.length) + items.length) % items.length
   return [...items.slice(offset), ...items.slice(0, offset)].slice(0, take)
 }
+
+/** A related guide elsewhere carries its own topic, since it is a different page type. */
+export type RelatedGuideLink = CrossCityLink & { topic: string }
+
+// Topically-related guides in other cities - the diagonal link.
+//
+// Same-guide-other-city meshes along one axis. This crosses both at once, which
+// is the densest route a crawler can be given and the one most likely to reach
+// a page nothing currently points at.
+export async function getRelatedGuidesElsewhere(
+  citySlug: string,
+  topics: string[],
+  take = 5,
+): Promise<RelatedGuideLink[]> {
+  if (topics.length === 0) return []
+
+  const { data, error } = await supabase
+    .from("pages")
+    .select("title, cities!inner(slug, name, state_abbrev), master_templates!inner(topic_type)")
+    .in("master_templates.topic_type", topics)
+    .eq("published", true)
+
+  if (error || !data) return []
+
+  const rows = data
+    .map((row) => {
+      const city = row.cities as unknown as { slug: string; name: string; state_abbrev: string }
+      const tpl = row.master_templates as unknown as { topic_type: string }
+      return {
+        citySlug: city.slug, cityName: city.name, stateAbbrev: city.state_abbrev,
+        title: row.title as string, topic: tpl.topic_type,
+      }
+    })
+    .filter((r) => r.citySlug !== citySlug)
+    .sort((a, b) => a.cityName.localeCompare(b.cityName))
+
+  // One per city and one per topic, so five links reach five different cities
+  // covering five different questions - rather than five topics from whichever
+  // city happens to sort first, which would concentrate the links again.
+  const usedCities = new Set<string>()
+  const usedTopics = new Set<string>()
+  const chosen: RelatedGuideLink[] = []
+  for (const r of rows) {
+    if (usedCities.has(r.citySlug) || usedTopics.has(r.topic)) continue
+    usedCities.add(r.citySlug)
+    usedTopics.add(r.topic)
+    chosen.push(r)
+    if (chosen.length >= take) break
+  }
+  return chosen
+}
