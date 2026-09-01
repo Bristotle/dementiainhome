@@ -51,12 +51,6 @@ const HOW_STEPS = [
  { n:"3", title:"Watch Video Profiles", time:"Delivered to your inbox", desc:"We send you real 15-minute recorded interviews. See and hear each caregiver before committing to anything.", note:"Zero obligation until you say yes." },
 ]
 
-const CAREGIVERS_PREVIEW = [
- { name:"Maria Gonzalez", credential:"Certified Dementia Practitioner", city:"New York, NY", exp:"12 years", img:"https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop", imgAlt:"Maria Gonzalez certified dementia practitioner caregiver New York" },
- { name:"James Thompson", credential:"Home Health Aide, CNA", city:"Chicago, IL", exp:"8 years", img:"https://images.pexels.com/photos/6749773/pexels-photo-6749773.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop", imgAlt:"James Thompson CNA dementia caregiver Chicago" },
- { name:"Priya Patel", credential:"Alzheimer Care Specialist", city:"Houston, TX", exp:"10 years", img:"https://images.pexels.com/photos/5327656/pexels-photo-5327656.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop", imgAlt:"Priya Patel Alzheimer care specialist caregiver Houston" },
- { name:"Sandra Williams", credential:"Home Health Aide, CDP", city:"Phoenix, AZ", exp:"15 years", img:"https://images.pexels.com/photos/5327921/pexels-photo-5327921.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop", imgAlt:"Sandra Williams experienced dementia caregiver Phoenix" },
-]
 
 const FAQS = [
  { q:"How does the free 72-hour caregiver matching work?", a:"You fill out a short form telling us about your loved one needs, location, and schedule. Within 72 hours, we hand-pick 2-3 vetted caregivers in your city and send you their video profiles by email. No cost, no obligation." },
@@ -317,27 +311,18 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{fontFamily:"var(--font-fraunces)"}}><em className="not-italic text-teal-600">Real Caregivers.</em> Real Support.</h2>
  <p className="text-slate-500 max-w-2xl mx-auto">Every caregiver in our network is carefully vetted, dementia-trained, and video-interviewed.</p>
  </div>
- <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10">
- {CAREGIVERS_PREVIEW.map((c) => (
- <div key={c.name} className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:border-teal-300 hover:shadow-md transition-all group text-center">
- <div className="relative h-48 overflow-hidden">
- <Image src={c.img} alt={c.imgAlt} fill sizes="(max-width: 768px) 100vw, 300px" className="object-cover group-hover:scale-105 transition-transform duration-500" />
- <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
- <div className="absolute bottom-3 left-3 right-3">
- <span className="text-xs font-semibold bg-teal-600 text-white px-2 py-0.5 rounded-full">{c.exp}</span>
- </div>
- </div>
- <div className="p-4">
- <h3 className="font-bold text-slate-900 text-sm">{c.name}</h3>
- <p className="text-teal-600 text-xs font-medium mt-0.5">{c.credential}</p>
- <p className="text-slate-400 text-xs mt-1">📍 {c.city}</p>
- </div>
- </div>
- ))}
- </div>
- <div className="text-center">
- <Link href="/caregivers" className="inline-flex items-center px-8 py-3 rounded-xl border-2 border-teal-600 text-teal-600 font-semibold hover:bg-teal-600 hover:text-white transition-all">Meet All Our Caregivers →</Link>
- </div>
+ <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              {[
+                ["Background checked", "A full criminal background check before anyone joins the network."],
+                ["Dementia trained", "Trained in dementia behaviours, communication and safety - not general elder care."],
+                ["Interviewed on camera", "We interview every caregiver ourselves, on video, before any family sees them."],
+              ].map(([title, detail]) => (
+                <div key={title} className="bg-white rounded-2xl border border-slate-200 p-6">
+                  <h3 className="font-bold text-slate-900 mb-2">{title}</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">{detail}</p>
+                </div>
+              ))}
+            </div>
  </div>
  </section>
 

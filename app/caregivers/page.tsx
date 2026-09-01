@@ -7,17 +7,9 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ShieldCheck, Video, Award, MapPin } from "lucide-react"
 import { FadeIn, Stagger, StaggerItem, MotionLink, hoverScale, hoverLift } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
+import { CAREGIVERS } from "@/lib/caregivers"
+import Link from "next/link"
 
-const CAREGIVERS = [
-  { name: "Maria Gonzalez", credential: "Certified Dementia Practitioner", city: "New York, NY", exp: "12 years", img: "https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop", imgAlt: "Maria Gonzalez certified dementia practitioner caregiver New York" },
-  { name: "James Thompson", credential: "Home Health Aide, CNA", city: "Chicago, IL", exp: "8 years", img: "https://images.pexels.com/photos/6749773/pexels-photo-6749773.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop", imgAlt: "James Thompson CNA dementia caregiver Chicago" },
-  { name: "Priya Patel", credential: "Alzheimer's Care Specialist", city: "Houston, TX", exp: "10 years", img: "https://images.pexels.com/photos/5327656/pexels-photo-5327656.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop", imgAlt: "Priya Patel Alzheimer's care specialist caregiver Houston" },
-  { name: "Sandra Williams", credential: "Home Health Aide, CDP", city: "Phoenix, AZ", exp: "15 years", img: "https://images.pexels.com/photos/5327921/pexels-photo-5327921.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop", imgAlt: "Sandra Williams experienced dementia caregiver Phoenix" },
-  { name: "David Kim", credential: "Certified Nursing Assistant", city: "Los Angeles, CA", exp: "9 years", img: "https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop", imgAlt: "David Kim certified nursing assistant dementia caregiver Los Angeles" },
-  { name: "Angela Brooks", credential: "Certified Dementia Practitioner", city: "New York, NY", exp: "7 years", img: "https://images.pexels.com/photos/6749773/pexels-photo-6749773.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop", imgAlt: "Angela Brooks certified dementia practitioner caregiver New York" },
-  { name: "Carlos Ruiz", credential: "Home Health Aide, CNA", city: "Los Angeles, CA", exp: "11 years", img: "https://images.pexels.com/photos/5327656/pexels-photo-5327656.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop", imgAlt: "Carlos Ruiz home health aide dementia caregiver Los Angeles" },
-  { name: "Linda Chen", credential: "Alzheimer's Care Specialist", city: "Chicago, IL", exp: "13 years", img: "https://images.pexels.com/photos/5327921/pexels-photo-5327921.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop", imgAlt: "Linda Chen Alzheimer's care specialist caregiver Chicago" },
-]
 
 const CITIES = ["All cities", "New York, NY", "Los Angeles, CA", "Chicago, IL", "Houston, TX", "Phoenix, AZ"]
 
@@ -61,7 +53,7 @@ export default function CaregiversPage() {
         </Stagger>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-          <h2 className="text-2xl font-bold text-slate-900">Meet a Few of Our Caregivers</h2>
+          <h2 className="text-2xl font-bold text-slate-900">How you meet your caregivers</h2>
           <div className="flex items-center gap-2 flex-wrap">
             <MapPin className="w-4 h-4 text-slate-400" />
             {CITIES.map((c) => (
@@ -105,7 +97,22 @@ export default function CaregiversPage() {
           </AnimatePresence>
         </motion.div>
         {filtered.length === 0 && (
-          <p className="text-center text-slate-500 mb-12">No caregivers found for that city yet - request a match and we&apos;ll find one near you.</p>
+          <div className="max-w-2xl mx-auto text-center mb-12 bg-slate-50 border border-slate-200 rounded-2xl p-8">
+            <h3 className="font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>
+              We do not publish caregiver profiles here
+            </h3>
+            <p className="text-slate-600 leading-relaxed mb-4">
+              Caregivers are people with families and privacy of their own, and a public gallery
+              tells you nothing about whether someone suits your parent. So we do it the other way
+              round: tell us what your family needs, and within 72 hours we send you video profiles
+              of real caregivers available near you, each background checked, dementia trained and
+              interviewed on camera by us.
+            </p>
+            <p className="text-sm text-slate-500 mb-6">
+              You see them before you commit to anything. Free, and with no obligation.
+            </p>
+            <Link href="/#get-matched" className="btn-primary inline-block">Get free caregiver profiles</Link>
+          </div>
         )}
       </section>
 
