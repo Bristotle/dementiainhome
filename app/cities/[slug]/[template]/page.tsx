@@ -75,24 +75,25 @@ export default async function GeneratedPage({ params }: Props) {
  const headingNamesCity = heading?.toLowerCase().includes(page.city.name.toLowerCase()) ?? false
  const pageHeading = headingNamesCity ? heading! : page.title
 
- const siblingGuides = (await getPublishedPagesForCity(slug))
- .filter((g) => g.template !== template)
- .slice(0, 12)
-
- // The same guide elsewhere. Rotated by this city's position in the list so
- // the outbound links spread across all twenty rather than twenty pages all
- // pointing at the same six.
- // Same-city siblings, ordered so topically adjacent ones come first - someone
- // reading about cost wants "paying for care" before "home safety checklist".
  const cluster = clusterFor(template)
  const related = relatedTopics(template)
- siblingGuides.sort((a, b) => Number(related.includes(b.template)) - Number(related.includes(a.template)))
 
- // The diagonal link: a related subject in a different city. Crosses both axes
- // at once, which is the route most likely to reach a page nothing points at.
- const relatedElsewhere = await getRelatedGuidesElsewhere(slug, related, 5)
+ // One round trip, not three. These were sequential awaits and each query is
+ // independent, so the page paid three round trips end to end for work with no
+ // ordering between it - two of which I added today, which is why the guide
+ // pages became the slowest on the site.
+ const [siblingsRaw, relatedElsewhere, otherCities] = await Promise.all([
+ getPublishedPagesForCity(slug),
+ getRelatedGuidesElsewhere(slug, related, 5),
+ getSameGuideInOtherCities(slug, template),
+ ])
 
- const otherCities = await getSameGuideInOtherCities(slug, template)
+ // Same-city siblings, topically adjacent ones first - someone reading about
+ // cost wants "paying for care" before "home safety checklist".
+ const siblingGuides = siblingsRaw
+ .filter((g) => g.template !== template)
+ .slice(0, 12)
+ .sort((a, b) => Number(related.includes(b.template)) - Number(related.includes(a.template)))
  const seed = otherCities.findIndex((c) => c.cityName.localeCompare(page.city.name) > 0)
  const crossCityGuides = rotateForEvenSpread(otherCities, seed < 0 ? 0 : seed, 6)
 
