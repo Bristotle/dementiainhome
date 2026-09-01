@@ -248,6 +248,23 @@ function checkPhoneNumbersAreGrounded(page: GeneratedPage, dossier: CityDossierF
   return failures
 }
 
+// Em-dashes and en-dashes are house style, not a factual matter, but the
+// generator drifted back to them once already: the prompt banned en-dashes from
+// the start and said nothing about em-dashes, and 63 reached live pages. A rule
+// nobody checks is a preference, not a rule.
+function checkNoTypographicDashes(page: GeneratedPage): GateFailure[] {
+  const text = `${page.title}\n${page.metaDescription}\n${page.htmlContent}`
+  const found = new Set<string>()
+  if (text.includes("\u2014") || text.includes("&mdash;")) found.add("em-dash")
+  if (text.includes("\u2013") || text.includes("&ndash;")) found.add("en-dash")
+  if (found.size === 0) return []
+  return [{
+    check: "no_typographic_dashes",
+    detail: `Content contains an ${[...found].join(" and an ")}. Use a regular hyphen, a comma, or restructure the sentence.`,
+    severity: "fail" as const,
+  }]
+}
+
 export type GateOptions = {
   /**
    * Live-check that cited URLs still resolve. On by default. Re-gating a whole
@@ -317,6 +334,7 @@ export async function runDeterministicGate(
   const results: GateFailure[] = []
 
   results.push(...checkMetadata(page))
+  results.push(...checkNoTypographicDashes(page))
   results.push(...checkCitationsTraceToDossier(page, dossier))
   results.push(...checkBodyLinksTraceToDossier(page, dossier))
   results.push(...checkNoUngroundedFacts(page, dossier))

@@ -20,6 +20,7 @@
     "backfill": "tsx scripts/backfill.ts",
     "status": "tsx scripts/status.ts",
     "retitle": "tsx scripts/retitle-pages.ts",
+    "strip-dashes": "tsx scripts/strip-dashes.ts",
     "publish-wave": "tsx scripts/publish-wave.ts",
     "cost-report": "tsx scripts/cost-report.ts",
     "indexation": "tsx scripts/indexation.ts",
