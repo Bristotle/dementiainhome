@@ -5,6 +5,7 @@ import DataSources from "@/components/DataSources"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import type { City } from "@/lib/db-cities"
+import type { RelatedGuideLink } from "@/lib/db-pages"
 import { Handshake, Bath, Moon, HeartHandshake, Brain, Hospital, Video, Clock, DollarSign, Phone, ShieldCheck, Heart, MapPin, Lock, Calendar, MessageCircle } from "lucide-react"
 import { FadeIn, Stagger, StaggerItem } from "@/components/motion"
 import { NeonLinkButton, neonButtonVariants, NeonGlowEdges } from "@/components/ui/neon-button"
@@ -68,7 +69,7 @@ const FAQS = [
   { q:"What cities do you currently serve?", a:"We currently serve New York, Los Angeles, Chicago, Houston, and Phoenix. We are expanding to 346 US cities. Submit your city through our contact form and we will prioritize it." },
 ]
 
-export default function HomeView({ cities }: { cities: City[] }) {
+export default function HomeView({ cities, featuredGuides = [] }: { cities: City[]; featuredGuides?: RelatedGuideLink[] }) {
   const [slide, setSlide] = useState(0)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
@@ -150,6 +151,39 @@ export default function HomeView({ cities }: { cities: City[] }) {
           ))}
         </div>
       </div>
+
+      {featuredGuides.length > 0 && (
+        <section className="border-t border-slate-200 bg-white">
+          <div className="max-w-6xl mx-auto px-6 py-16">
+            <div className="max-w-2xl mb-10">
+              <p className="eyebrow mb-3">Written for where you are</p>
+              <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{fontFamily:"var(--font-fraunces)"}}>
+                The questions families arrive with
+              </h2>
+              <p className="text-slate-500">
+                Each of these is written from that city&apos;s own Census figures, local specialists and
+                state programme &mdash; not a general article with a place name dropped in.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4">
+              {featuredGuides.map((g) => (
+                <Link
+                  key={`${g.citySlug}-${g.topic}`}
+                  href={`/cities/${g.citySlug}/${g.topic}`}
+                  className="group block py-2 border-b border-slate-100"
+                >
+                  <span className="text-[15px] text-slate-700 group-hover:text-teal-700 transition-colors leading-snug">
+                    {g.title}
+                  </span>
+                </Link>
+              ))}
+            </div>
+            <Link href="/cities" className="inline-block mt-8 text-sm font-semibold text-teal-600 hover:underline">
+              Browse all {cities.length} cities &rarr;
+            </Link>
+          </div>
+        </section>
+      )}
 
       <DataSources />
 

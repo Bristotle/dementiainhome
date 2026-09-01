@@ -1,4 +1,5 @@
 import { getAllCities } from "@/lib/db-cities"
+import { getFeaturedGuides } from "@/lib/db-pages"
 import HomeView from "@/components/HomeView"
 
 // The homepage view is a client component (carousel, dropdowns, search modal),
@@ -8,6 +9,6 @@ import HomeView from "@/components/HomeView"
 export const revalidate = 3600
 
 export default async function HomePage() {
-  const cities = await getAllCities()
-  return <HomeView cities={cities} />
+  const [cities, featuredGuides] = await Promise.all([getAllCities(), getFeaturedGuides(12)])
+  return <HomeView cities={cities} featuredGuides={featuredGuides} />
 }

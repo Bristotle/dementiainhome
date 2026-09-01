@@ -206,3 +206,62 @@ export async function getRelatedGuidesElsewhere(
   }
   return chosen
 }
+
+// Guides to surface on the homepage.
+//
+// The front door is the most-linked page on the site and it surfaced only city
+// names - not one of the thousand guides was a single click from it. These are,
+// which gives a crawler arriving at the homepage somewhere to go other than
+// twenty hub pages it has already indexed.
+//
+// Weighted toward the questions someone arrives in the middle of: a fall, a
+// hospital discharge, a parent who cannot be left alone, what any of it costs.
+// Spread one per city and one per topic so twelve links reach twelve cities.
+const HOMEPAGE_PRIORITY_TOPICS = [
+  "after-a-fall-city",
+  "hospital-discharge-city",
+  "parent-cant-live-alone-city",
+  "cost-of-care-city",
+  "wandering-prevention-city",
+  "in-home-dementia-care-city",
+  "sundowning-management-city",
+  "24-hour-live-in-care-city",
+  "caregiver-burnout-city",
+  "memory-care-home-vs-facility-city",
+  "when-driving-isnt-safe-city",
+  "respite-care-city",
+]
+
+export async function getFeaturedGuides(take = 12): Promise<RelatedGuideLink[]> {
+  const { data, error } = await supabase
+    .from("pages")
+    .select("title, cities!inner(slug, name, state_abbrev), master_templates!inner(topic_type)")
+    .in("master_templates.topic_type", HOMEPAGE_PRIORITY_TOPICS)
+    .eq("published", true)
+
+  if (error || !data) return []
+
+  const rows = data.map((row) => {
+    const city = row.cities as unknown as { slug: string; name: string; state_abbrev: string }
+    const tpl = row.master_templates as unknown as { topic_type: string }
+    return {
+      citySlug: city.slug, cityName: city.name, stateAbbrev: city.state_abbrev,
+      title: row.title as string, topic: tpl.topic_type,
+    }
+  })
+
+  // Walk the priority order, taking the first unused city for each topic, so
+  // the twelve links cover twelve topics in twelve different cities.
+  const usedCities = new Set<string>()
+  const chosen: RelatedGuideLink[] = []
+  for (const topic of HOMEPAGE_PRIORITY_TOPICS) {
+    const candidates = rows.filter((r) => r.topic === topic && !usedCities.has(r.citySlug))
+      .sort((a, b) => a.cityName.localeCompare(b.cityName))
+    const pick = candidates[0]
+    if (!pick) continue
+    usedCities.add(pick.citySlug)
+    chosen.push(pick)
+    if (chosen.length >= take) break
+  }
+  return chosen
+}
