@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import type { Metadata } from "next"
-import { getPublishedPage, getAllPublishedPageParams, getPublishedPagesForCity } from "@/lib/db-pages"
+import { getPublishedPage, getAllPublishedPageParams, getPublishedPagesForCity, getSameGuideInOtherCities, rotateForEvenSpread } from "@/lib/db-pages"
 import LeadForm from "@/components/LeadForm"
 import { FadeIn, MotionLink, hoverScale } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
@@ -77,6 +77,13 @@ export default async function GeneratedPage({ params }: Props) {
   const siblingGuides = (await getPublishedPagesForCity(slug))
     .filter((g) => g.template !== template)
     .slice(0, 12)
+
+  // The same guide elsewhere. Rotated by this city's position in the list so
+  // the outbound links spread across all twenty rather than twenty pages all
+  // pointing at the same six.
+  const otherCities = await getSameGuideInOtherCities(slug, template)
+  const seed = otherCities.findIndex((c) => c.cityName.localeCompare(page.city.name) > 0)
+  const crossCityGuides = rotateForEvenSpread(otherCities, seed < 0 ? 0 : seed, 6)
 
   const jsonLd = buildGeneratedPageJsonLd({
     title: page.title,
@@ -203,6 +210,32 @@ export default async function GeneratedPage({ params }: Props) {
             </ul>
             <Link href={`/cities/${slug}`} className="inline-block mt-6 text-sm font-semibold text-teal-600 hover:underline">
               All {page.city.name} resources →
+            </Link>
+          </div>
+        </section>
+      )}
+
+      {crossCityGuides.length > 0 && (
+        <section className="border-t border-slate-200 bg-slate-50">
+          <div className="max-w-3xl mx-auto px-6 py-12">
+            <h2 className="text-xl font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>
+              This guide for other cities
+            </h2>
+            <p className="text-sm text-slate-500 mb-5">
+              Each is written from that city&apos;s own Census figures, local specialists and state programme &mdash;
+              useful if you are comparing places, or live in a different one from your parent.
+            </p>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+              {crossCityGuides.map((c) => (
+                <li key={c.citySlug}>
+                  <Link href={`/cities/${c.citySlug}/${template}`} className="text-sm text-teal-700 hover:text-teal-900 hover:underline">
+                    {c.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Link href="/cities" className="inline-block mt-6 text-sm font-semibold text-teal-600 hover:underline">
+              Every city we cover →
             </Link>
           </div>
         </section>

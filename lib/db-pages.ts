@@ -115,3 +115,43 @@ export async function getPublishedPageCountsByCity(): Promise<Record<string, num
   }
   return counts
 }
+
+export type CrossCityLink = { citySlug: string; cityName: string; stateAbbrev: string; title: string }
+
+// The same guide in other cities.
+//
+// 60 URL inspections found hubs indexed at 80% and guides at 28%, with 35% of
+// sampled pages not yet crawled at all. The structure explains it: every guide
+// was reachable only from its own city hub, so the site was twenty separate
+// stars with nothing joining them. This is the link that turns them into a mesh
+// - and it is genuinely useful, because a family comparing two cities, or
+// living in a different one from their parent, wants exactly this.
+export async function getSameGuideInOtherCities(
+  citySlug: string,
+  templateSlug: string,
+): Promise<CrossCityLink[]> {
+  const { data, error } = await supabase
+    .from("pages")
+    .select("title, cities!inner(slug, name, state_abbrev), master_templates!inner(topic_type)")
+    .eq("master_templates.topic_type", templateSlug)
+    .eq("published", true)
+
+  if (error || !data) return []
+
+  return data
+    .map((row) => {
+      const city = row.cities as unknown as { slug: string; name: string; state_abbrev: string }
+      return { citySlug: city.slug, cityName: city.name, stateAbbrev: city.state_abbrev, title: row.title as string }
+    })
+    .filter((r) => r.citySlug !== citySlug)
+    .sort((a, b) => a.cityName.localeCompare(b.cityName))
+}
+
+// Rotates which cities each page links to, based on where this city falls in
+// the list. Linking every page to the same six cities would pour all the link
+// equity into those six and leave the rest exactly as buried as they are now.
+export function rotateForEvenSpread<T>(items: T[], seedIndex: number, take: number): T[] {
+  if (items.length === 0) return []
+  const offset = ((seedIndex % items.length) + items.length) % items.length
+  return [...items.slice(offset), ...items.slice(0, offset)].slice(0, take)
+}
