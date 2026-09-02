@@ -265,3 +265,21 @@ export async function getFeaturedGuides(take = 12): Promise<RelatedGuideLink[]> 
   }
   return chosen
 }
+
+/** Every published page for one topic, across all cities - the spokes of a service hub. */
+export async function getPublishedPagesForTopic(topicType: string): Promise<CrossCityLink[]> {
+  const { data, error } = await supabase
+    .from("pages")
+    .select("title, cities!inner(slug, name, state_abbrev), master_templates!inner(topic_type)")
+    .eq("master_templates.topic_type", topicType)
+    .eq("published", true)
+
+  if (error || !data) return []
+
+  return data
+    .map((row) => {
+      const city = row.cities as unknown as { slug: string; name: string; state_abbrev: string }
+      return { citySlug: city.slug, cityName: city.name, stateAbbrev: city.state_abbrev, title: row.title as string }
+    })
+    .sort((a, b) => a.cityName.localeCompare(b.cityName))
+}

@@ -231,3 +231,24 @@ export const SERVICES_DETAIL: ServiceDetail[] = [
 export function getServiceBySlug(slug: string): ServiceDetail | undefined {
   return SERVICES_DETAIL.find((s) => s.slug === slug)
 }
+
+// Which generated city guide covers this service.
+//
+// The service page and its twenty city guides are the same topic and were not
+// linked to each other at all: the guides link up to the service page, and the
+// service page linked to five city hubs that came from the footer, not to a
+// single guide. That leaves the topic hub with no spokes, which matters most
+// for 24-hour care - the one cluster Search Console shows within reach of page
+// one, where not one page in the cluster is indexed.
+export const SERVICE_TO_CITY_GUIDE: Record<string, string> = {
+  "24-hour-live-in-care": "24-hour-live-in-care-city",
+  "companion-care": "companion-care-city",
+  "respite-care": "respite-care-city",
+  "hospital-discharge-care": "hospital-discharge-city",
+  "memory-care-at-home": "memory-care-home-vs-facility-city",
+  "personal-care": "in-home-dementia-care-city",
+}
+
+export function cityGuideForService(serviceSlug: string): string | null {
+  return SERVICE_TO_CITY_GUIDE[serviceSlug] ?? null
+}

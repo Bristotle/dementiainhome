@@ -2,7 +2,9 @@ import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { SERVICES_DETAIL, getServiceBySlug } from "@/lib/services"
+import { SERVICES_DETAIL, getServiceBySlug, cityGuideForService } from "@/lib/services"
+import { getAllCities } from "@/lib/db-cities"
+import { getPublishedPagesForTopic } from "@/lib/db-pages"
 import { slugify } from "@/lib/utils"
 import type { Metadata } from "next"
 import TableOfContents from "@/components/ui/table-of-contents"
@@ -36,6 +38,11 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   const { slug } = await params
   const service = getServiceBySlug(slug)
   if (!service) notFound()
+
+ // The twenty city guides that cover this same service, so the topic hub has
+ // spokes. Each guide already links back up here.
+ const cityGuideTopic = cityGuideForService(service.slug)
+ const cityGuides = cityGuideTopic ? await getPublishedPagesForTopic(cityGuideTopic) : []
 
   const Icon = ICON_MAP[service.slug] || Handshake
   const related = SERVICES_DETAIL.filter((s) => s.slug !== service.slug).slice(0, 3)
@@ -170,7 +177,30 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      <Footer />
+      {cityGuides.length > 0 && (
+ <section className="border-t border-slate-200 bg-slate-50">
+ <div className="max-w-4xl mx-auto px-6 py-14">
+ <h2 className="text-2xl font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>
+ {service.name} where you live
+ </h2>
+ <p className="text-slate-600 mb-6 max-w-2xl">
+ Each of these is written from that city&apos;s own Census figures, local providers and state
+ programme, with real local rates rather than a national average.
+ </p>
+ <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-3">
+ {cityGuides.map((g) => (
+ <li key={g.citySlug}>
+ <Link href={`/cities/${g.citySlug}/${cityGuideTopic}`} className="text-sm text-teal-700 hover:text-teal-900 hover:underline">
+ {g.cityName}, {g.stateAbbrev}
+ </Link>
+ </li>
+ ))}
+ </ul>
+ </div>
+ </section>
+ )}
+
+ <Footer />
     </main>
   )
 }
