@@ -29,7 +29,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const service = getServiceBySlug(slug)
   if (!service) return { title: "Service Not Found" }
   return {
-    title: service.name + " | Dementia In Home",
+    // No site-name suffix here: the root layout's title template appends it, so
+    // adding it manually produced "Companion Care | Dementia In Home | Dementia
+    // In Home" on every service page.
+    title: service.name,
     description: service.metaDescription,
   }
 }
