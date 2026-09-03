@@ -10,7 +10,14 @@ import type { Metadata } from "next"
 // be repeated here. The service pages did repeat it, and rendered as
 // "Companion Care | Dementia In Home | Dementia In Home".
 export const metadata: Metadata = {
-  title: "In-Home Dementia Care Services",
+  // A plain title string here would replace the root template for every child
+  // route, and /services/[slug] then rendered as "24-Hour & Live-In Care" with
+  // no site name at all. Declaring default plus template keeps this page's own
+  // title and restores the suffix for the six service pages beneath it.
+  title: {
+    default: "In-Home Dementia Care Services",
+    template: "%s | Dementia In Home",
+  },
   description: "Companion care, personal care, 24-hour and live-in care, respite, memory care at home and hospital discharge support, in twenty US cities.",
   alternates: { canonical: "/services" },
   openGraph: { title: "In-Home Dementia Care Services", description: "Companion care, personal care, 24-hour and live-in care, respite, memory care at home and hospital discharge support, in twenty US cities.", url: "/services" },
