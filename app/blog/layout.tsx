@@ -10,7 +10,14 @@ import type { Metadata } from "next"
 // be repeated here. The service pages did repeat it, and rendered as
 // "Companion Care | Dementia In Home | Dementia In Home".
 export const metadata: Metadata = {
-  title: "Dementia Care Guides for Families",
+  // A plain title string here replaces the root template for every child route,
+  // which stripped the site name off all twenty-five blog posts. Same fault I
+  // introduced and fixed on /services yesterday, and did not then check on the
+  // other layout that has children.
+  title: {
+    default: "Dementia Care Guides for Families",
+    template: "%s | Dementia In Home",
+  },
   description: "Practical guides on paying for care, hospital discharge, wandering, and what to do when a parent can no longer live alone.",
   alternates: { canonical: "/blog" },
   openGraph: { title: "Dementia Care Guides for Families", description: "Practical guides on paying for care, hospital discharge, wandering, and what to do when a parent can no longer live alone.", url: "/blog" },
