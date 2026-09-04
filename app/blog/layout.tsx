@@ -19,7 +19,9 @@ export const metadata: Metadata = {
     template: "%s | Dementia In Home",
   },
   description: "Practical guides on paying for care, hospital discharge, wandering, and what to do when a parent can no longer live alone.",
-  alternates: { canonical: "/blog" },
+  // No canonical here. A layout canonical is inherited by every route beneath
+  // it, so this one pointed all children at /blog and told Google to drop them.
+  // Each child page declares its own.
   openGraph: { title: "Dementia Care Guides for Families", description: "Practical guides on paying for care, hospital discharge, wandering, and what to do when a parent can no longer live alone.", url: "/blog" },
 }
 

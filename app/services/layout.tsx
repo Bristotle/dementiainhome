@@ -19,7 +19,9 @@ export const metadata: Metadata = {
     template: "%s | Dementia In Home",
   },
   description: "Companion care, personal care, 24-hour and live-in care, respite, memory care at home and hospital discharge support, in twenty US cities.",
-  alternates: { canonical: "/services" },
+  // No canonical here. A layout canonical is inherited by every route beneath
+  // it, so this one pointed all children at /services and told Google to drop them.
+  // Each child page declares its own.
   openGraph: { title: "In-Home Dementia Care Services", description: "Companion care, personal care, 24-hour and live-in care, respite, memory care at home and hospital discharge support, in twenty US cities.", url: "/services" },
 }
 

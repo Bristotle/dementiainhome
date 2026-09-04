@@ -33,6 +33,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     // adding it manually produced "Companion Care | Dementia In Home | Dementia
     // In Home" on every service page.
     title: service.name,
+    // Declared here, not inherited. A canonical set on the parent layout is
+    // inherited by every child, so these pages were telling Google their real
+    // address was /services - which is an instruction not to index them.
+    alternates: { canonical: `/services/${service.slug}` },
     description: service.metaDescription,
   }
 }

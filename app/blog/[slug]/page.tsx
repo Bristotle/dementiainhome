@@ -19,6 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = getPostBySlug(slug)
   if (!post) return { title: "Article Not Found" }
   return {
+    // See the note on the service pages: inherited from /blog, this was an
+    // instruction to Google not to index any of the twenty-five posts.
+    alternates: { canonical: `/blog/${post.slug}` },
     title: post.title,
     description: post.desc,
   }
