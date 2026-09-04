@@ -19,9 +19,12 @@ export const metadata: Metadata = {
     template: "%s | Dementia In Home",
   },
   description: "Companion care, personal care, 24-hour and live-in care, respite, memory care at home and hospital discharge support, in twenty US cities.",
-  // No canonical here. A layout canonical is inherited by every route beneath
-  // it, so this one pointed all children at /services and told Google to drop them.
-  // Each child page declares its own.
+  // Safe only because every child route now declares its own canonical, which
+  // overrides this one. Left bare, a layout canonical is inherited by every
+  // route beneath it - that is what pointed all children at /services and told
+  // Google to drop them. If a new child page is added under here, it must
+  // declare its own canonical or it will inherit this and be dropped.
+  alternates: { canonical: "/services" },
   openGraph: { title: "In-Home Dementia Care Services", description: "Companion care, personal care, 24-hour and live-in care, respite, memory care at home and hospital discharge support, in twenty US cities.", url: "/services" },
 }
 
