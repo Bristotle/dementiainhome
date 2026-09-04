@@ -20,6 +20,9 @@ const fraunces = Fraunces({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.dementiainhome.com"),
+  // The homepage had no canonical at all. Declared here so it applies to the
+  // root route; every other route type declares its own.
+  alternates: { canonical: "/" },
   title: {
     template: "%s | Dementia In Home",
     default: "Dementia In Home - Free 72-Hour In-Home Caregiver Matching",
