@@ -88,14 +88,14 @@ export const SERVICES_DETAIL: ServiceDetail[] = [
   },
   {
     slug: "24-hour-live-in-care",
-    name: "24-Hour & Live-In Care",
+    name: "24-Hour & Live-In Home Care",
     tag: "High Acuity",
     shortDesc: "Around-the-clock coverage for late-stage dementia or high wandering risk.",
-    metaDescription: "24-hour and live-in dementia caregivers for around-the-clock supervision, wandering prevention, and overnight care. Free 72-hour matching, transparent pricing.",
+    metaDescription: "24-hour home care for dementia: live-in and overnight caregivers for around-the-clock supervision and wandering prevention. Free 72-hour matching, transparent pricing.",
     heroSubhead: "Continuous, around-the-clock coverage for the stage of dementia where safety can no longer wait for daytime hours.",
     priceNote: "Priced as a daily or weekly rate rather than a straight hourly multiple, since overnight coverage works differently than a daytime shift.",
     sections: [
-      { heading: "What 24-hour and live-in care actually covers", paragraphs: [
+      { heading: "What 24-hour home care actually covers", paragraphs: [
         "This is continuous coverage for situations where safety genuinely can't wait for daytime hours - late-stage dementia, high wandering risk, or a level of need that has simply outgrown part-time hours. There are two structural models, and which one fits depends on your loved one's specific needs.",
       ], bullets: [
         "24-hour shift care: rotating awake caregivers providing continuous active supervision",
@@ -105,7 +105,7 @@ export const SERVICES_DETAIL: ServiceDetail[] = [
         "Sundowning management during the highest-risk hours",
         "Continuous safety supervision with no gaps in coverage",
       ]},
-      { heading: "24-hour shift care vs. live-in: which one fits", paragraphs: [
+      { heading: "24-hour shift care or live-in care: which one fits", paragraphs: [
         "24-hour shift care means caregivers rotate in awake shifts around the clock - the right choice when nighttime agitation, wandering, or care needs are frequent and unpredictable. Live-in care means one caregiver resides in the home with a scheduled overnight sleep break, which works well when overnight needs are lower but daytime supervision still needs to be continuous.",
         "We'll help you figure out which structure actually fits your situation during the free matching process - there's no reason to pay for round-the-clock awake shifts if live-in coverage genuinely meets the need, or vice versa."
       ]},
