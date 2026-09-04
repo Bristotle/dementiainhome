@@ -386,6 +386,51 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
   },
   {
+    // Written against Search Console rather than a content calendar. Geriatric
+    // care management is the third cluster inside position 30 and holds our
+    // single best-ranking query, "geriatric care managers near me" at 11.0,
+    // with nothing behind it. Deliberately a resource rather than a service
+    // page: we match caregivers, we do not provide care management, and a page
+    // under /services/ would claim otherwise.
+    slug: "what-is-a-geriatric-care-manager",
+    cityGuideTopic: "geriatric-care-managers-city",
+    category: "Getting Started",
+    title: "What a Geriatric Care Manager Does, and When a Family Needs One",
+    desc: "If you are arranging dementia care from another state, this is usually the highest-leverage person you can hire. Here is what they do, what to ask, and how to find one near your parent.",
+    date: "September 2026",
+    sections: [
+      { heading: "The problem they solve", paragraphs: [
+        "Most families arranging dementia care are doing it at a distance, in gaps between work, with no medical background and no map of the local system. You can hire a caregiver from anywhere. What is far harder from four hundred miles away is knowing whether the care is working, whether the medication list still makes sense, whether the neurologist appointment happened, and whether the person you are paying is doing what you agreed.",
+        "A geriatric care manager is the answer to that specific problem. They are your eyes and your judgement on the ground, and for an out-of-state adult child they are usually the single highest-leverage person to bring in."
+      ]},
+      { heading: "What they actually do", paragraphs: [
+        "A geriatric care manager, increasingly called an aging life care professional, is normally a licensed nurse or social worker who specialises in older adults. The work is practical rather than clinical.",
+        "They assess the home and the person, build a care plan, and then keep it running: coordinating medical appointments, attending them where useful, reviewing medications with the prescriber, supervising paid caregivers, spotting decline early, and telling you plainly when the current arrangement has stopped being safe.",
+        "Crucially, they tell you things a paid caregiver may not. A care manager works for your family, not for the agency delivering the care, which is exactly why the independence matters."
+      ]},
+      { heading: "When a family should bring one in", paragraphs: [
+        "The clearest signals are distance and complexity. If nobody in the family lives close enough to visit weekly, a care manager replaces guesswork with observation. If there are several conditions, several prescribers and nobody holding the whole picture, they become the person who does.",
+        "They also earn their fee at transition points, which is where dementia care most often goes wrong: a hospital discharge, a first fall, a move from independent living to supported care. Those are the moments when a decision made badly costs far more than the assessment would have."
+      ]},
+      { heading: "The credential to look for", paragraphs: [
+        "The field is not licensed as a profession in its own right, so anyone can use the title. What is verifiable is membership of the Aging Life Care Association, which requires a relevant professional licence and documented experience with older adults, and the Certified Aging Life Care Professional credential.",
+        "Ask directly what their underlying licence is. A registered nurse and a licensed social worker bring genuinely different strengths, and which one suits depends on whether the pressing problems are medical or practical."
+      ]},
+      { heading: "What to ask before you engage one", paragraphs: [
+        "Ask how they charge. Care management is usually billed hourly, often with a larger initial assessment and a smaller monthly retainer after that, and rates vary widely by region. Ask for both the hourly rate and the realistic monthly hours, because the second number is what determines the cost.",
+        "Then ask four things: how many clients they currently carry, whether they will attend medical appointments in person, how they report back to a family living out of state, and whether they hold any financial relationship with the care agencies they recommend. That last question matters most, and a good care manager will answer it without hesitation."
+      ]},
+      { heading: "How this fits with hiring a caregiver", paragraphs: [
+        "The two roles are different and they work well together. A caregiver provides the hands-on care, day to day, in the home. A care manager decides what care is needed, arranges the wider medical and legal picture around it, and holds whoever is delivering it to account.",
+        "We match families with dementia caregivers, and we do not provide care management, which is why this page exists to help you find one independently rather than to sell you something. Families who use both usually report that the care manager is what made the caregiving arrangement hold together."
+      ]},
+      { heading: "Finding one near your parent", paragraphs: [
+        "The Aging Life Care Association maintains a public directory searchable by location, and your parent's local Area Agency on Aging can usually name the practitioners working in that county. A hospital discharge planner is another reliable source, particularly at the moment you most need one.",
+        "We list the care managers and aging life care professionals we have verified in each of the cities we serve, with a source link for every entry, in the city guides below."
+      ]},
+    ],
+  },
+  {
     slug: "when-to-stop-driving-dementia",
     cityGuideTopic: "when-driving-isnt-safe-city",
     category: "Family & Emotional Support",
