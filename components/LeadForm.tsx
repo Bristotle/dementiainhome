@@ -1,5 +1,6 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { trackLeadSubmitted, trackFormViewed } from "@/lib/analytics"
 import { AnimatePresence, motion } from "framer-motion"
 import { hoverScale } from "@/components/motion"
 
@@ -11,6 +12,10 @@ export default function LeadForm({ cityName, cityState, pageType, sourcePage }: 
   // that decide who to call first and what to send them.
   const [form, setForm] = useState({ first_name:"", last_name:"", email:"", phone:"", relationship:"", urgency:"", message:"" })
   const [status, setStatus] = useState<"idle"|"loading"|"success"|"error">("idle")
+
+  useEffect(() => {
+    trackFormViewed({ page_type: pageType, city: cityName })
+  }, [pageType, cityName])
   const [errorMsg, setErrorMsg] = useState("")
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) {
@@ -25,6 +30,10 @@ export default function LeadForm({ cityName, cityState, pageType, sourcePage }: 
       const data = await res.json()
       if (!res.ok) { setStatus("error"); setErrorMsg(data.error||"Something went wrong."); return }
       setStatus("success")
+      // Only after the lead is genuinely stored. GA4 could count visits but
+      // never knew an enquiry happened, so conversion could not be measured
+      // from our own analytics, let alone broken down by page type or city.
+      trackLeadSubmitted({ page_type: pageType, city: cityName, state: cityState, urgency: form.urgency, source_page: sourcePage })
     } catch { setStatus("error"); setErrorMsg("Network error. Please try again.") }
   }
 
