@@ -3,6 +3,7 @@ import Footer from "@/components/Footer"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { BLOG_POSTS, getPostBySlug } from "@/lib/blog"
+import { getPublishedPagesForTopic } from "@/lib/db-pages"
 import { slugify } from "@/lib/utils"
 import type { Metadata } from "next"
 import { FadeIn, Stagger, StaggerItem, MotionLink, hoverScale, hoverLift } from "@/components/motion"
@@ -27,6 +28,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const { slug } = await params
   const post = getPostBySlug(slug)
   if (!post) notFound()
+
+  // The twenty city versions of this same subject. Several of these posts are
+  // indexed while the guides beneath them are not, so a national post is one of
+  // the few sources of crawl authority we hold - and a reader who has just read
+  // the general answer is exactly the person who wants the local one.
+  const cityGuides = post.cityGuideTopic ? await getPublishedPagesForTopic(post.cityGuideTopic) : []
 
   const related = BLOG_POSTS.filter((p) => p.slug !== post.slug).slice(0, 3)
   const tocItems = post.sections.map((s) => ({ id: slugify(s.heading), label: s.heading }))
@@ -136,6 +143,29 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           ))}
         </Stagger>
       </section>
+
+      {cityGuides.length > 0 && post.cityGuideTopic && (
+        <section className="border-t border-slate-200 bg-slate-50">
+          <div className="max-w-3xl mx-auto px-6 py-14">
+            <h2 className="text-2xl font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>
+              This subject, for your city
+            </h2>
+            <p className="text-slate-600 mb-6">
+              The same question answered with that city&apos;s own Census figures, local providers
+              and state programme, rather than national averages.
+            </p>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-3">
+              {cityGuides.map((g) => (
+                <li key={g.citySlug}>
+                  <Link href={`/cities/${g.citySlug}/${post.cityGuideTopic}`} className="text-sm text-teal-700 hover:text-teal-900 hover:underline">
+                    {g.cityName}, {g.stateAbbrev}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       <Footer />
     </main>

@@ -6,6 +6,15 @@ export type BlogPost = {
   title: string
   desc: string
   date: string
+  /**
+   * The generated city guide that covers this same subject, if there is one.
+   * A post is a national answer to a question people also ask locally, so it is
+   * the natural place to send a reader (and a crawler) into the twenty city
+   * versions. Several of these posts are indexed while the guides beneath them
+   * are not, which makes them one of the few sources of crawl authority we
+   * actually hold.
+   */
+  cityGuideTopic?: string
   sections: { heading: string; paragraphs: string[]; stats?: { value: string; label: string }[] }[]
   citations?: BlogCitation[]
 }
@@ -13,6 +22,7 @@ export type BlogPost = {
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "hospital-discharge-dementia-plan",
+    cityGuideTopic: "hospital-discharge-city",
     category: "Crisis Guide",
     title: "Hospital Discharge with Dementia: A 48-Hour Action Plan",
     desc: "Discharge planners give you 24-72 hours. Real readmission and fall-risk data, the exact questions to ask, and how to get a caregiver in place before your loved one gets home.",
@@ -51,6 +61,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "in-home-dementia-care-cost-2026",
+    cityGuideTopic: "cost-of-care-city",
     category: "Pricing",
     title: "What Does In-Home Dementia Care Cost in 2026?",
     desc: "Real 2025 national survey data on companion care, personal care, and 24-hour rates - not vague estimates. What drives the price, and how families actually pay for it.",
@@ -122,6 +133,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "sundowning-dementia-home-management",
+    cityGuideTopic: "sundowning-management-city",
     category: "Caregiving",
     title: "Sundowning: What It Is and How to Manage It at Home",
     desc: "Late-afternoon agitation and confusion affect a significant share of people with dementia. Here are the strategies that actually work.",
@@ -144,6 +156,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "when-to-hire-dementia-caregiver",
+    cityGuideTopic: "in-home-dementia-care-city",
     category: "Getting Started",
     title: "When Is It Time to Hire a Dementia Caregiver?",
     desc: "The five signs families miss - and the one question that makes the decision clearer.",
@@ -165,6 +178,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "long-distance-caregiving-dementia",
+    cityGuideTopic: "long-distance-caregiving-city",
     category: "Guide",
     title: "Long-Distance Caregiving: Managing a Parent with Dementia from Another State",
     desc: "A meaningful share of family caregivers live more than an hour away. How to coordinate care and stay connected when you cannot be there.",
@@ -186,6 +200,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "dementia-wandering-prevention",
+    cityGuideTopic: "wandering-prevention-city",
     category: "Safety",
     title: "Wandering and Dementia: Prevention and What to Do",
     desc: "Wandering affects a majority of people with dementia at some point. Prevention strategies and when to escalate to 24-hour care.",
@@ -207,6 +222,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "in-home-care-vs-memory-care-facility",
+    cityGuideTopic: "memory-care-home-vs-facility-city",
     category: "Decision Guide",
     title: "In-Home Care vs Memory Care Facility: How to Decide",
     desc: "A side-by-side comparison of costs, quality of life, and family considerations.",
@@ -228,6 +244,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "va-aid-attendance-dementia",
+    cityGuideTopic: "veterans-benefits-dementia-care-city",
     category: "Financing",
     title: "VA Aid and Attendance for Veterans with Dementia",
     desc: "Veterans and surviving spouses may qualify for a meaningful monthly benefit toward home care. Here is how to apply.",
@@ -297,6 +314,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "dementia-agitation-aggression-guide",
+    cityGuideTopic: "aggression-refusing-care-city",
     category: "Caregiving",
     title: "When Your Loved One Becomes Agitated or Aggressive: A Calm Guide",
     desc: "Agitation and aggression are symptoms of dementia, not a reflection of your caregiving. Here's why they happen and how to de-escalate.",
@@ -369,6 +387,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "when-to-stop-driving-dementia",
+    cityGuideTopic: "when-driving-isnt-safe-city",
     category: "Family & Emotional Support",
     title: "When It's Time to Stop Driving: Helping a Loved One Give Up the Keys",
     desc: "Knowing when a loved one with dementia should stop driving is one of the hardest calls a family makes.",
@@ -417,6 +436,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "stages-of-dementia-caregiver-guide",
+    cityGuideTopic: "stages-of-dementia",
     category: "Getting Started",
     title: "The Stages of Dementia: A Caregiver's Guide to the Journey Ahead",
     desc: "Understanding how dementia typically progresses helps families plan ahead instead of reacting to each change as it comes.",
@@ -489,6 +509,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "dementia-home-safety-room-by-room-guide",
+    cityGuideTopic: "home-safety-checklist",
     category: "Caregiving",
     title: "Making Your Home Safer for Someone with Dementia: A Room-by-Room Guide",
     desc: "A practical, room-by-room walk-through of the changes that meaningfully reduce fall risk and everyday accidents.",
