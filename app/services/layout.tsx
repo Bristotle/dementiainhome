@@ -25,7 +25,11 @@ export const metadata: Metadata = {
   // Google to drop them. If a new child page is added under here, it must
   // declare its own canonical or it will inherit this and be dropped.
   alternates: { canonical: "/services" },
-  openGraph: { title: "In-Home Dementia Care Services", description: "Companion care, personal care, 24-hour and live-in care, respite, memory care at home and hospital discharge support, in twenty US cities.", url: "/services" },
+  // No openGraph block here. Defining one in a layout replaces the parent's
+  // entirely, which dropped the file-based share card from every route beneath
+  // it - services and blog posts had no og:image at all. Next derives og:title
+  // and og:description from the title and description above, and attaches the
+  // nearest opengraph-image itself.
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {

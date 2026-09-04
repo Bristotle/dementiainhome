@@ -13,7 +13,11 @@ export const metadata: Metadata = {
   title: "Terms of Service",
   description: "The terms that apply to using Dementia In Home and our caregiver matching service.",
   alternates: { canonical: "/terms" },
-  openGraph: { title: "Terms of Service", description: "The terms that apply to using Dementia In Home and our caregiver matching service.", url: "/terms" },
+  // No openGraph block here. Defining one in a layout replaces the parent's
+  // entirely, which dropped the file-based share card from every route beneath
+  // it - services and blog posts had no og:image at all. Next derives og:title
+  // and og:description from the title and description above, and attaches the
+  // nearest opengraph-image itself.
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
