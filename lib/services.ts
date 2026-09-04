@@ -123,6 +123,89 @@ export const SERVICES_DETAIL: ServiceDetail[] = [
     ],
   },
   {
+    // Added from Search Console rather than from a content plan. Eight queries
+    // in this cluster already sit inside position 30 with no hub page behind
+    // them at all - "overnight care" at 12.0, "overnight home care" at 13.5,
+    // "private overnight caregiver" at 15. The twenty city guides existed; the
+    // page that should be gathering them did not.
+    slug: "overnight-care",
+    name: "Overnight Care",
+    tag: "Nights Only",
+    shortDesc: "A caregiver through the night, so the family can sleep and the house is safe until morning.",
+    metaDescription: "Overnight home care for dementia: an awake caregiver through the night for wandering, sundowning and night-time falls. Free 72-hour matching, transparent pricing.",
+    heroSubhead: "For the families where the days are manageable and the nights are not.",
+    priceNote: "Overnight cover is usually quoted either as an awake-night hourly rate or as a flat sleeping-night rate, and the two are priced very differently. Ask which you are being quoted, because the difference matters more than the headline number.",
+    sections: [
+      {
+        heading: "What overnight home care actually covers",
+        paragraphs: [
+          "Overnight care is a caregiver in the home through the night, typically arriving in the evening and leaving after the morning routine. For families living with dementia it is often the first paid care they arrange, because nights are where the disease becomes unmanageable first.",
+          "There are two structures, and the difference is the single most important thing to establish before you agree a rate.",
+        ],
+        bullets: [
+          "Awake overnight: the caregiver stays awake for the whole shift. Appropriate where there is wandering, frequent waking, toileting needs, or a genuine falls risk in the dark.",
+          "Sleeping night: the caregiver sleeps in the home and is woken as needed. Cheaper, and suitable only where waking is occasional and predictable.",
+          "Personal care at either end of the shift: help getting ready for bed, and again in the morning.",
+          "A written handover, so whoever arrives in the daytime knows how the night went.",
+        ],
+      },
+      {
+        heading: "Why nights are different with dementia",
+        paragraphs: [
+          "Families are often surprised by how sharply the night differs from the day. Late-afternoon and evening restlessness, commonly called sundowning, can turn a settled person into an agitated one within an hour. Sleep patterns fragment. Someone who is oriented at lunchtime can wake at three in the morning convinced they need to go to work.",
+          "The practical risks concentrate after dark. A person who has never wandered in daylight may open a front door at night. A bathroom trip that is routine at noon becomes a fall risk in an unlit hallway. And the family member sleeping in the next room is doing so lightly, for months, which is its own emergency waiting to happen.",
+          "Overnight cover addresses all three at once: the person is supervised, the house is secure, and the family caregiver gets an unbroken night.",
+        ],
+      },
+      {
+        heading: "Who overnight care is right for",
+        paragraphs: [
+          "It suits families in a specific and common situation: the daytime is being managed, by a spouse, by adult children nearby, or by a few hours of daytime help, and the nights have become the thing that cannot continue.",
+        ],
+        bullets: [
+          "A spouse caring alone who has not slept properly in months.",
+          "Wandering, or attempts to leave the house, that happen only at night.",
+          "Sundowning that starts in the evening and takes hours to settle.",
+          "Frequent night waking, disorientation, or repeated toileting.",
+          "A recent fall, particularly one that happened at night.",
+          "A hospital discharge where the first fortnight at home needs cover but the long term is unclear.",
+        ],
+      },
+      {
+        heading: "Overnight care or 24-hour care",
+        paragraphs: [
+          "If the days are genuinely fine, overnight cover is the cheaper and less intrusive answer, and it is usually the right first step. Adding a caregiver to a household is a significant change for someone with dementia, and starting with nights only is a gentler introduction than a full-time presence.",
+          "If supervision is needed during the day as well, or if the person can no longer be left alone at any hour, the honest answer is 24-hour or live-in care rather than stretching an overnight arrangement to cover a gap it was not designed for.",
+        ],
+      },
+      {
+        heading: "What it costs",
+        paragraphs: [
+          "The rate depends on which structure you are buying. An awake overnight shift is priced as hourly care and costs meaningfully more than a sleeping night, because the caregiver is working the whole time rather than being on call.",
+          "We publish an hourly range for every city we serve, based on local caregiver pay rather than a national average, and we tell you the range before you speak to anyone. If a provider will not quote a number until you have had a consultation, that is worth noticing.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Is the caregiver awake all night?",
+        a: "It depends which arrangement you book. An awake overnight caregiver stays up for the whole shift and is appropriate where there is wandering or frequent waking. A sleeping night caregiver rests in the home and is woken as needed, and costs less. Establish which one you are being quoted before you compare prices between providers.",
+      },
+      {
+        q: "How many nights a week can we start with?",
+        a: "Most families start with two or three nights rather than seven, often the nights the primary caregiver most needs to sleep. It is a reasonable way to see whether the arrangement works for your parent before committing to more.",
+      },
+      {
+        q: "Will a stranger in the house at night make things worse?",
+        a: "It can unsettle someone in the first week, which is why continuity matters more than almost anything else. The same caregiver on the same nights becomes familiar quickly; a rotating cast of people does not. When you speak to a provider, ask specifically how many different caregivers would be covering your nights.",
+      },
+      {
+        q: "What happens if there is an emergency overnight?",
+        a: "The caregiver follows a written care plan agreed in advance, which sets out who to call and in what order, and contacts the family directly. Ask any provider to walk you through exactly what happens at three in the morning before you agree to anything.",
+      },
+    ],
+  },
+  {
     slug: "respite-care",
     name: "Respite Care",
     tag: "Entry Point",
@@ -244,6 +327,7 @@ export const SERVICE_TO_CITY_GUIDE: Record<string, string> = {
   "24-hour-live-in-care": "24-hour-live-in-care-city",
   "companion-care": "companion-care-city",
   "respite-care": "respite-care-city",
+  "overnight-care": "overnight-care-city",
   "hospital-discharge-care": "hospital-discharge-city",
   "memory-care-at-home": "memory-care-home-vs-facility-city",
   "personal-care": "in-home-dementia-care-city",
