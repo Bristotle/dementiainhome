@@ -1,0 +1,54 @@
+[
+  {
+    "kind": "university",
+    "org": "USC Leonard Davis School of Gerontology",
+    "department": "Gerontology",
+    "email": "ldsgero@usc.edu",
+    "city": "Los Angeles",
+    "state": "CA",
+    "source_url": "https://gero.usc.edu/contact/",
+    "notes": "General school address published on their contact page. Largest gerontology school in the US and in a city we serve."
+  },
+  {
+    "kind": "university",
+    "org": "Wayne State University Institute of Gerontology",
+    "department": "Gerontology",
+    "email": "ioginfo@wayne.edu",
+    "city": "Detroit",
+    "state": "MI",
+    "source_url": "https://iog.wayne.edu/contact",
+    "notes": "General institute address on their contact page."
+  },
+  {
+    "kind": "university",
+    "org": "University at Buffalo School of Social Work",
+    "department": "Social Work",
+    "email": "swinfo@buffalo.edu",
+    "city": "Buffalo",
+    "state": "NY",
+    "source_url": "https://socialwork.buffalo.edu/about/contact-us.html",
+    "notes": "General school enquiries address on their contact page."
+  },
+  {
+    "kind": "university",
+    "org": "University of Maryland Baltimore",
+    "department": "Social Work, Specialization in Aging",
+    "contact_name": "Dr Diane Martin",
+    "role": "Specialization in Aging contact",
+    "email": "diane.martin@umaryland.edu",
+    "city": "Baltimore",
+    "state": "MD",
+    "source_url": "https://www.umaryland.edu/gerontology/education-and-training/social-service-professions-/social-work/",
+    "notes": "Named as the programme contact on UMB's own aging specialisation page."
+  },
+  {
+    "kind": "university",
+    "org": "USC Suzanne Dworak-Peck School of Social Work",
+    "department": "MSW and Gerontology dual degree",
+    "email": "sararobi@usc.edu",
+    "city": "Los Angeles",
+    "state": "CA",
+    "source_url": "https://dworakpeck.usc.edu/academics/master-of-social-work/dual-degrees/gerontology",
+    "notes": "Contact published on the dual-degree programme page."
+  }
+]
