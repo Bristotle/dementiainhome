@@ -24,6 +24,7 @@
     "publish-wave": "tsx scripts/publish-wave.ts",
     "cost-report": "tsx scripts/cost-report.ts",
     "indexation": "tsx scripts/indexation.ts",
+    "outreach": "tsx scripts/outreach.ts",
     "gsc-auth": "tsx scripts/gsc-auth.ts",
     "audit-published": "tsx scripts/audit-published.ts",
     "regate": "tsx scripts/regate.ts",
