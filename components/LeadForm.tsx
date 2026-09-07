@@ -10,6 +10,18 @@ import { hoverScale } from "@/components/motion"
 // near them without knowing where they are.
 type Props = { cityName?: string; cityState?: string; pageType?: string; sourcePage?: string }
 
+
+// The leads table has state NOT NULL, so a national page - which knows no state -
+// produced a 500 on every submission until this existed. Where the page supplies
+// a city and state we use them. Where the visitor types one, "Baltimore, MD" is
+// split on the comma, and anything unparseable is stored whole with an empty
+// state rather than failing the insert and losing the enquiry.
+function splitCity(cityName: string | undefined, cityState: string | undefined, typed: string) {
+  if (cityName) return { city: cityName, state: cityState ?? "" }
+  const [city, state] = typed.split(",").map((part) => part.trim())
+  return { city: city || typed, state: state ?? "" }
+}
+
 export default function LeadForm({ cityName, cityState, pageType, sourcePage }: Props) {
   const knowsCity = Boolean(cityName)
   // relationship and urgency were columns on the leads table from the start but
@@ -35,7 +47,7 @@ export default function LeadForm({ cityName, cityState, pageType, sourcePage }: 
     e.preventDefault()
     setStatus("loading")
     try {
-      const res = await fetch("/api/leads", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({...form, city: cityName || form.city, state: cityState, page_type: pageType, source_page: sourcePage || (typeof window !== "undefined" ? window.location.pathname : undefined)}) })
+      const res = await fetch("/api/leads", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({...form, ...splitCity(cityName, cityState, form.city), page_type: pageType, source_page: sourcePage || (typeof window !== "undefined" ? window.location.pathname : undefined)}) })
       const data = await res.json()
       if (!res.ok) { setStatus("error"); setErrorMsg(data.error||"Something went wrong."); return }
       setStatus("success")

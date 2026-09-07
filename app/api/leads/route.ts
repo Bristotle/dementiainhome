@@ -79,7 +79,15 @@ export async function POST(request: NextRequest) {
     if (!first_name || !last_name || !email || !phone) {
       return NextResponse.json({ error: "Please fill in all required fields." }, { status: 400 })
     }
-    const { error } = await supabase.from("leads").insert([{ first_name, last_name, email, phone, city, state, message, relationship, urgency, page_type, source_page }])
+    // city and state are NOT NULL on the table, and national pages - blog posts,
+    // service pages - have neither until the visitor types one. Coercing to an
+    // empty string here means a missing value can never turn a real enquiry into
+    // a 500, which is the most expensive failure this site is capable of.
+    const { error } = await supabase.from("leads").insert([{
+      first_name, last_name, email, phone,
+      city: city ?? "", state: state ?? "",
+      message, relationship, urgency, page_type, source_page,
+    }])
     if (error) { console.error("Supabase error:", error); return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 }) }
 
     // Awaited so the serverless function doesn't get frozen/terminated
