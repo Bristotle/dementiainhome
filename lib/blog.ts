@@ -196,25 +196,43 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
   },
   {
+    // Sits at position 2.0, the best-ranked page on the site, on 168 words.
+    // Strengthened rather than restructured, because whatever it is matching
+    // is working and the aim is to keep it while giving it something to hold.
     slug: "when-to-hire-dementia-caregiver",
     cityGuideTopic: "in-home-dementia-care-city",
     category: "Getting Started",
-    title: "When Is It Time to Hire a Dementia Caregiver?",
-    desc: "The five signs families miss - and the one question that makes the decision clearer.",
-    date: "June 2026",
+    title: "When to Hire a Dementia Caregiver",
+    desc: "Most families wait too long, and the reason is always the same. The signals that say it is time, and what to do about the cost.",
+    date: "September 2026",
     sections: [
-      { heading: "Why this decision feels impossible to time right", paragraphs: [
-        "Almost no family feels like they made this decision at the right time. There's a middle path, and it starts with recognizing the signs early rather than waiting for a crisis."
+      { heading: "Almost everyone waits too long", paragraphs: [
+        "The pattern is consistent. Families bring in help after a crisis rather than before one, and the crisis is usually a fall, a hospital admission, or the primary carer's own health giving way.",
+        "The reasons for waiting are understandable and they are all about the family rather than the person with dementia. It feels like an admission of failure. It feels like a betrayal of a promise to look after them. And the cost is frightening before anyone has checked what it actually is.",
+        "The families who fare best bring help in earlier than they think they need to, usually for a few hours a week, at a point when it can be introduced calmly rather than in an emergency."
       ]},
-      { heading: "Five signs families commonly miss", paragraphs: [
-        "Missed medications or doubled-up doses. Weight loss or spoiled food suggesting skipped meals. Unexplained bruises or an unreported fall. Withdrawal from hobbies. And confusion about time or place that's clearly progressed since your last visit."
+      { heading: "The signals that say now", paragraphs: [
+        "About the person: they cannot safely be alone for the length of time they are alone. Missed medication. Weight loss. A fall, even a minor one. Wandering, even once. Poor hygiene when they were always particular. Any night-time waking or confusion.",
+        "About the carer, which families discount and should not: exhaustion that sleep does not fix, no time for their own appointments, giving up their own life piece by piece, resentment that surfaces as short temper, or a health problem of their own being ignored.",
+        "About the situation: driving has stopped and nobody has replaced the journeys. A hospital discharge is coming. Or the person doing this lives far away and is managing by phone."
       ]},
-      { heading: "The one question that cuts through the noise", paragraphs: [
-        "Instead of asking \"is it bad enough yet,\" ask: \"if something went wrong today, would anyone know in time?\" If the answer is no, supervision needs to increase."
+      { heading: "Start small and start early", paragraphs: [
+        "Four hours twice a week is a real starting point and a common one. It gives the family carer a genuine break, it lets your parent get used to a new person while they can still adapt, and it establishes the relationship before it is needed urgently.",
+        "Introducing a stranger during a crisis is much harder than introducing them over tea in March. Continuity matters more than almost anything else here: the same caregiver on the same days becomes familiar quickly, while a rotating cast never does.",
+        "Many families begin with companionship rather than personal care, because being helped to wash by someone new is a bigger step than having company for an afternoon."
       ]},
-      { heading: "Starting small is a completely valid first step", paragraphs: [
-        "A lot of families start with a few hours a day and scale up as needs change, which also eases the transition to more hours later."
+      { heading: "About the cost", paragraphs: [
+        "Check the funding before deciding you cannot afford it, because three sources are routinely missed. Medicaid home and community based services, which cover long-term care where Medicare does not. VA Aid and Attendance, if your parent or their spouse served during a wartime period. And any long-term care insurance policy bought years ago, which should be read rather than assumed.",
+        "Part-time care is also far less expensive than most families assume before they ask, and it is the stage where it does the most good."
       ]},
+      { heading: "What to ask a provider", paragraphs: [
+        "How are your caregivers trained in dementia specifically, rather than general home care? What is your turnover, and will my parent see the same person? Who do I call, and how do you keep an out-of-state family informed? What happens when the regular caregiver is ill?",
+        "And ask to speak to two families in a similar situation. A provider who will not arrange that is telling you something."
+      ]}
+    ],
+    citations: [
+      { label: "Alzheimer's Association: in-home care options", url: "https://www.alz.org/help-support/caregiving/care-options/in-home-care" },
+      { label: "National Institute on Aging: paying for long-term care", url: "https://www.nia.nih.gov/health/paying-long-term-care" },
     ],
   },
   {
@@ -309,22 +327,38 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: "in-home-care-vs-memory-care-facility",
     cityGuideTopic: "memory-care-home-vs-facility-city",
     category: "Decision Guide",
-    title: "In-Home Care vs Memory Care Facility: How to Decide",
-    desc: "A side-by-side comparison of costs, quality of life, and family considerations.",
-    date: "June 2026",
+    title: "In-Home Care or Memory Care: How Families Actually Decide",
+    desc: "The decision is rarely home against facility in the abstract. It is a specific plan at a specific stage, and the cost comparison surprises most families.",
+    date: "September 2026",
     sections: [
-      { heading: "There's no universally right answer", paragraphs: [
-        "The right path depends on your loved one's stage of dementia, your budget, nearby family support, and what your loved one has said they want."
+      { heading: "The comparison most families get backwards", paragraphs: [
+        "Almost everyone assumes staying at home is the cheaper option. Through the early and middle stages it usually is, and at the point where round-the-clock supervision becomes necessary it often is not.",
+        "Part-time care at home, a few hours a day, costs a fraction of a memory care place. Twenty-four-hour care at home frequently costs more than a memory care community, sometimes substantially more, because you are buying one person's whole attention rather than a share of a staffed building.",
+        "So the honest question is not which is cheaper but which is cheaper at the stage you are actually in, and what you are buying with the difference."
       ]},
-      { heading: "Why families lean toward staying at home", paragraphs: [
-        "Familiar surroundings reduce confusion and agitation, and in-home care lets you buy exactly the hours needed and scale up gradually."
+      { heading: "What you are buying by staying home", paragraphs: [
+        "Continuity, which matters more in dementia than in almost any other condition. The same rooms, the same routine, the same chair, the same view. Familiarity does real work when memory does not, and a move can produce a step down in function that does not fully recover.",
+        "You are also buying one-to-one attention, control over who provides care, and the ability to change your mind. And for many families you are honouring something a parent asked for explicitly while they could still ask."
       ]},
-      { heading: "Why families choose a memory care facility", paragraphs: [
-        "Facilities provide built-in 24/7 coverage, secured environments, and structured social programming, often at a single predictable monthly cost."
+      { heading: "What a good memory care community provides", paragraphs: [
+        "Structure and staffing that a home cannot replicate: awake staff overnight, secured outdoor space, activity through the day, and people trained in dementia specifically rather than one caregiver doing their best alone.",
+        "It also provides peers. Isolation is its own injury, and someone at home with a single caregiver can go weeks without meaningful contact with anyone else.",
+        "And it removes the household from the role of care operator, which for some families is what makes the relationship a relationship again rather than a rota. Choosing this is not a failure, and it is often the right answer for the last two to four years."
       ]},
-      { heading: "Questions that help clarify the decision", paragraphs: [
-        "How much supervision is needed right now, what's the realistic long-term budget, and how much can family realistically be hands-on if care stays at home?"
+      { heading: "The questions that actually decide it", paragraphs: [
+        "What happens at two in the morning? If the answer is that nobody would know something was wrong, home is only viable with overnight cover.",
+        "Can this be funded for as long as it will be needed? Dementia runs seven to ten years on average. A plan that works for eighteen months and then collapses is worse than a sustainable one chosen earlier.",
+        "Is the primary family carer holding up? Their health is part of the equation and is routinely left out of it until it becomes the emergency.",
+        "And is the person isolated at home? Because that changes the calculation more than families expect."
       ]},
+      { heading: "It is rarely permanent either way", paragraphs: [
+        "Think in eighteen-month chapters rather than final answers. Many families use part-time care, then more hours, then overnight cover, and move to memory care late or not at all. Others try home care and find within three months that it is not working, which is information rather than failure.",
+        "Avoid commitments that foreclose the next decision: long contracts, or spending down assets in a way that removes an option you may need in two years."
+      ]}
+    ],
+    citations: [
+      { label: "Alzheimer's Association: in-home care options", url: "https://www.alz.org/help-support/caregiving/care-options/in-home-care" },
+      { label: "National Institute on Aging: paying for long-term care", url: "https://www.nia.nih.gov/health/paying-long-term-care" },
     ],
   },
   {
@@ -492,25 +526,37 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "managing-medications-dementia-caregiver-guide",
     category: "Caregiving",
-    title: "Managing Medications When a Loved One Has Dementia",
-    desc: "Keeping track of daily medications is one of the hardest logistical parts of dementia caregiving. Here's how to build a safer routine.",
-    date: "July 2026",
+    title: "Managing Medication When Someone Has Dementia",
+    desc: "The most common medication problem in dementia is not refusal. It is a cabinet nobody has reviewed, and drugs that make cognition worse.",
+    date: "September 2026",
     sections: [
-      { heading: "Why medication management gets harder", paragraphs: [
-        "A person may forget whether they've taken a dose, take it twice, or refuse it outright - a universal challenge, not a personal failing."
+      { heading: "Start with a review, not a system", paragraphs: [
+        "Before organising anything, get a full medication review with the prescriber. Bring every bottle in the house, including the ones from other doctors, the supplements and anything bought over the counter.",
+        "This matters more than any dispenser. Several common drug groups worsen confusion in older adults: anticholinergics, benzodiazepines, some sleep aids, some bladder medications and some older antihistamines. Families sometimes discover that part of what looked like progression was a prescription, and stopping it produces a visible improvement within weeks.",
+        "Ask directly which of these could be contributing and whether any can be reduced or replaced."
       ]},
-      { heading: "Building a system that doesn't rely on memory", paragraphs: [
-        "A weekly pill organizer and anchoring doses to an existing daily habit works better than relying on abstract clock times."
+      { heading: "Simplify before you organise", paragraphs: [
+        "Fewer doses at fewer times of day is the single largest improvement available. Ask whether anything can move to once daily, whether two drugs can be combined, and whether anything can be stopped altogether because the reason for it has passed.",
+        "A regimen of four medicines twice a day is manageable. Eleven medicines at five different times is not, and it is usually negotiable."
       ]},
-      { heading: "If they refuse medication", paragraphs: [
-        "Refusal is rarely personal. Offer matter-of-factly rather than asking permission, and ask a pharmacist before crushing or switching forms."
+      { heading: "Then make it hard to get wrong", paragraphs: [
+        "Ask the pharmacy for pre-sorted dose packs delivered to the house. This is free or cheap almost everywhere, removes a weekly sorting task that is often being done badly, and makes a missed dose visible at a glance.",
+        "For someone still self-administering, an automatic dispenser that beeps and releases only the current dose works well in early and middle dementia, and stops the two commonest errors, which are missing a dose and taking it twice.",
+        "Clear out old prescriptions. A cabinet holding three years of accumulated bottles is how the wrong thing gets taken."
       ]},
-      { heading: "A note on hot weather and certain medications", paragraphs: [
-        "Some blood pressure and diuretic medications affect heat and fluid regulation - flag concerns to a physician rather than adjusting independently."
+      { heading: "When they refuse", paragraphs: [
+        "Refusal is usually a reason rather than defiance. Tablets that are hard to swallow, something that tastes unpleasant, a side effect nobody knows about, or simply not understanding why this is being handed to them.",
+        "Ask the pharmacist whether a liquid, a smaller tablet or a patch exists. Ask whether it can be taken with food, and check specifically before crushing anything, because crushing a slow-release tablet delivers the whole dose at once and is dangerous.",
+        "Do not argue or insist. Step away and offer again in ten minutes, which works far more often than persistence. And do not hide medication in food without asking the prescriber, both because it changes how some drugs work and because being deceived, if noticed, damages trust you will need later."
       ]},
-      { heading: "When to loop in professional support", paragraphs: [
-        "An in-home caregiver can take direct responsibility for medication reminders, relieving a genuinely anxiety-inducing part of the day."
-      ]},
+      { heading: "Keep one list, and keep it current", paragraphs: [
+        "One document with every medication, dose, timing and prescriber, kept where the family and any paid caregiver can see it, and taken to every appointment and every hospital admission.",
+        "Hospital admissions are where medication errors concentrate, precisely because nobody has the full picture at three in the morning. A current list carried by whoever goes with them is the most useful single piece of paper in dementia care."
+      ]}
+    ],
+    citations: [
+      { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
+      { label: "Alzheimer's Association: stages of Alzheimer's", url: "https://www.alz.org/alzheimers-dementia/stages" },
     ],
   },
   {
@@ -676,50 +722,73 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "stages-of-dementia-caregiver-guide",
     cityGuideTopic: "stages-of-dementia",
-    category: "Getting Started",
-    title: "The Stages of Dementia: A Caregiver's Guide to the Journey Ahead",
-    desc: "Understanding how dementia typically progresses helps families plan ahead instead of reacting to each change as it comes.",
-    date: "July 2026",
+    category: "Guide",
+    title: "The Stages of Dementia, and What Each One Asks of a Family",
+    desc: "Not a clinical scale. What actually changes at each point, what to decide while you still can, and roughly how long you have.",
+    date: "September 2026",
     sections: [
-      { heading: "Why understanding the stages helps", paragraphs: [
-        "Having a general sense of what's ahead helps families plan for care, finances, and legal matters proactively rather than reacting during a crisis."
+      { heading: "Use the arc as a planning tool, not a prediction", paragraphs: [
+        "Dementia runs seven to ten years on average from first symptoms, with wide variation. Some people decline far faster; others plateau for years. Vascular dementia often moves in steps rather than a slope, and Lewy body dementia has its own pattern.",
+        "So treat what follows as a way to plan rather than a timetable. The useful question at any point is not which stage is this but what should we decide now that will be harder to decide in a year."
       ]},
-      { heading: "Early stage: independence with growing gaps", paragraphs: [
-        "Often still largely independent but with repeating questions, misplaced items, and difficulty with finances or planning. The best window for legal planning."
+      { heading: "Early: the window that closes", paragraphs: [
+        "Repeating stories within one conversation, losing words, misplacing things, difficulty with money and planning, withdrawal from things they used to enjoy. Often mistaken for ageing, and frequently hidden well by someone who knows something is wrong.",
+        "This is the most consequential stage and families waste it, because nothing yet looks urgent. Everything legal and financial should be settled here, while your parent can still take part and still has capacity to sign: durable power of attorney, health care proxy, living will, HIPAA authorisation, wills and beneficiaries checked.",
+        "Also the moment to ask what matters most to you in the time ahead and what would you want us to avoid, while they can answer. Families who have that conversation once, early, refer back to it for years."
       ]},
-      { heading: "Middle stage: the longest and often hardest stretch", paragraphs: [
-        "Help with dressing and hygiene becomes necessary, and behavioral changes like wandering or sundowning often emerge - usually when paid support first begins."
+      { heading: "Middle: the longest stage, and where plans are tested", paragraphs: [
+        "Usually the longest phase, often several years. Help is needed with bathing, dressing and eating. Confusion about time and place becomes routine. Sundowning appears. Wandering becomes a genuine risk. Behaviour changes, and the person may not reliably recognise family.",
+        "This is where family-only care usually stops working, and where most people first bring in paid help. It is also where the driving conversation, and the can they still be alone conversation, become unavoidable.",
+        "The practical test through this stage is what happens at two in the morning. When the answer stops being that they would call for help, the arrangement needs to change."
       ]},
-      { heading: "Late stage: comfort and connection", paragraphs: [
-        "Full dependence for care, with the focus shifting to comfort, positioning, and connection through touch and voice."
+      { heading: "Late: care becomes physical", paragraphs: [
+        "Speech recedes to a few words or none. Walking becomes difficult and then stops. Swallowing problems appear, and with them the risk of aspiration pneumonia. Incontinence is usual. Care becomes largely physical and around the clock.",
+        "This is the stage families are least prepared for and where the decision between full-time care at home and a memory care community is genuinely balanced, because twenty-four-hour care at home often costs more than a facility.",
+        "It is also when hospice should be discussed rather than waited for."
       ]},
-      { heading: "Planning ahead, not just reacting", paragraphs: [
-        "Establishing a relationship with an in-home provider early makes the later transition to more hours far smoother."
-      ]},
+      { heading: "What to do at each transition", paragraphs: [
+        "The transitions carry more risk than the stages: a hospital discharge, a first fall, a move. Plan them rather than reacting, keep medication and routine continuous across a change, pre-stage a new environment with familiar objects, and expect a temporary decline in the first fortnight that is not necessarily permanent.",
+        "And engage hospice earlier than feels natural. Families who bring it in months rather than weeks before the end consistently describe the difference as the thing that mattered most."
+      ]}
+    ],
+    citations: [
+      { label: "Alzheimer's Association: stages of Alzheimer's", url: "https://www.alz.org/alzheimers-dementia/stages" },
+      { label: "National Institute on Aging: paying for long-term care", url: "https://www.nia.nih.gov/health/paying-long-term-care" },
     ],
   },
   {
     slug: "meaningful-activities-dementia-at-home",
     category: "Caregiving",
-    title: "10 Meaningful Activities for Someone with Dementia at Home",
-    desc: "Staying engaged reduces agitation and brings real moments of joy. Ten activities that genuinely work, matched to different stages.",
-    date: "July 2026",
+    title: "Activities That Still Work in Dementia",
+    desc: "Not entertainment, and not childish. What actually holds attention, and why the process matters far more than the result.",
+    date: "September 2026",
     sections: [
-      { heading: "Why activity matters as much as care tasks", paragraphs: [
-        "Meaningful engagement measurably reduces agitation and gives both caregiver and person with dementia real moments of connection."
+      { heading: "The rule that makes activities work", paragraphs: [
+        "The point is not the finished thing. Nobody needs the folded washing, the sorted buttons or the completed puzzle. The point is being occupied, feeling useful, and spending an hour without being asked to remember anything.",
+        "Once you stop caring about the outcome, almost everything gets easier. Towels folded badly are folded. A tune played wrong is played."
       ]},
-      { heading: "Activities that work at almost any stage", paragraphs: [
-        "Photo albums without quizzing on names, music from their young-adult years, folding towels, sitting outside, kneading dough, and reading aloud."
+      { heading: "Reach for what they did for decades", paragraphs: [
+        "Procedural memory, the memory for how to do things, survives long after facts and recent events have gone. Someone who cannot say what year it is may still knead dough, sand wood, deal cards, fold laundry or garden competently, because their hands know.",
+        "So look at their working life and their hobbies. A retired mechanic may still sort and organise tools. A lifelong cook may still peel and stir with a hand alongside. This is also why music reaches people almost nothing else reaches, particularly music from between fifteen and twenty-five years old, which is the most durable of all."
       ]},
-      { heading: "For earlier stages, with more capability", paragraphs: [
-        "Gardening tasks, simple card games or puzzles suited to their ability, and cooking together on safe, simple steps."
+      { heading: "Match the task to the stage", paragraphs: [
+        "Early on: gardening, cooking together, walks, card games, photograph albums, familiar handiwork.",
+        "Middle: simplify to one step rather than a sequence. Sorting, folding, wiping surfaces, watering plants, winding wool, pairing socks. Repetition is fine, and a task repeated daily is a routine rather than a failure.",
+        "Later: sensory rather than task-based. Hand massage, warm flannels, textured fabrics, familiar smells, music, being outside, an animal to stroke. Presence itself becomes the activity, and sitting together quietly is doing something."
       ]},
-      { heading: "One more that works almost universally", paragraphs: [
-        "Gentle conversation about childhood or early adulthood, since long-term memories are often preserved much longer than recent ones."
+      { heading: "Avoid the childish", paragraphs: [
+        "This is the mistake that causes the most avoidable distress. An adult who has run a household, a business or a ward knows perfectly well when they are being handed a toy, and the humiliation lands even when the words for it do not.",
+        "Use adult materials for adult tasks. Sorting real cutlery, not plastic shapes. Real washing, not a doll's. Adult music. The dignity of the material matters as much as the difficulty of the task."
       ]},
-      { heading: "Building activity into daily care", paragraphs: [
-        "A trained caregiver can build a rotating activity routine that matches your loved one's changing abilities over time."
-      ]},
+      { heading: "When nothing holds", paragraphs: [
+        "If everything is refused, check the basics before concluding they are not interested. Tiredness, pain, hunger, needing the toilet, too much noise, too many people, the wrong time of day.",
+        "Late afternoon is the worst moment to start anything demanding, which is worth remembering when a well-meant activity turns into a confrontation. Morning is usually the best.",
+        "And accept that some days nothing works. That is the illness rather than your idea being wrong."
+      ]}
+    ],
+    citations: [
+      { label: "Alzheimer's Association: activities", url: "https://www.alz.org/help-support/caregiving/daily-care/activities" },
+      { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
     ],
   },
   {
