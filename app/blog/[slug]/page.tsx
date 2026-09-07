@@ -1,4 +1,5 @@
 import Nav from "@/components/Nav"
+import LeadForm from "@/components/LeadForm"
 import Footer from "@/components/Footer"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -187,6 +188,22 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             </StaggerItem>
           ))}
         </Stagger>
+      </section>
+
+      <section id="get-matched" className="border-t border-slate-200 bg-slate-50">
+        <div className="max-w-3xl mx-auto px-6 py-16">
+          <div className="max-w-xl mb-8">
+            <p className="eyebrow mb-3">Free, no obligation</p>
+            <h2 className="text-3xl font-bold text-slate-900 mb-3" style={{fontFamily:"var(--font-fraunces)"}}>
+              Caregiver video profiles within 72 hours
+            </h2>
+            <p className="text-slate-600">
+              Tell us what your family needs and we will hand-pick vetted dementia caregivers near
+              you and send you their video profiles. Free, and with nothing to sign up to.
+            </p>
+          </div>
+          <LeadForm pageType={`blog:${post.slug}`} sourcePage={`/blog/${post.slug}`} />
+        </div>
       </section>
 
       {post.faqs && post.faqs.length > 0 && (
