@@ -94,41 +94,64 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
   },
   {
+    // Rewritten from 656 words on 7 September. It carries more impressions than
+    // any other post (73 in 28 days) at position 80, and its citations pointed
+    // at insurance marketing sites for Medicare rules that medicare.gov states
+    // directly. Every source below was checked to resolve before it was cited.
     slug: "does-medicare-cover-dementia-care",
+    cityGuideTopic: "paying-for-care-state",
     category: "Financing",
     title: "Does Medicare Cover In-Home Dementia Care?",
-    desc: "The precise coverage rules most services won't explain clearly - what \"homebound\" and \"intermittent\" actually mean, what changed in 2026, and how Medicare, Medicaid, and VA benefits fit together.",
-    date: "July 2026",
+    desc: "Mostly no, and the gap is the single most expensive surprise families hit. Here is precisely what Medicare pays for, what it does not, and what covers the rest.",
+    date: "September 2026",
     sections: [
-      { heading: "The short, honest answer", paragraphs: [
-        "No - Medicare does not cover ongoing, day-to-day custodial dementia care at home when that's the only kind of help someone needs. This is the single most common and most costly misconception families have, and the rules for what Medicare does cover are more specific than most people realize."
+      { heading: "The short answer", paragraphs: [
+        "Medicare does not pay for the kind of care most families with dementia actually need. It covers medical care: doctors, hospitals, short courses of skilled nursing and therapy, and hospice at the end. It does not cover custodial care, which is the everyday help with bathing, dressing, eating, toileting and supervision that dementia demands for years.",
+        "That distinction is the most expensive thing a family can misunderstand, and it is rarely explained before the first bill. A person can be profoundly impaired by dementia, unable to be left alone safely, and still not qualify for a single Medicare-funded hour of the help they need at home.",
+        "What follows is what Medicare does cover, precisely, and what pays for the rest."
       ]},
-      { heading: "What \"homebound\" and \"intermittent\" actually mean", paragraphs: [
-        "To qualify for Medicare home health coverage at all, a person must be homebound - meaning leaving home takes a considerable and taxing effort - and must need skilled nursing or therapy on an intermittent basis. Intermittent has a specific technical meaning: up to 28 hours per week of combined skilled nursing and home health aide visits, needed anywhere from once every 60 days to once a day for up to three weeks. It is not a program for continuous or daily long-term supervision.",
-        "Critically, a home health aide is only covered when it accompanies a qualifying skilled service - physical therapy, speech-language pathology, or intermittent skilled nursing. An aide alone, for someone who just needs help with bathing or dressing, is not covered on its own; that specific gap is often called the custodial care gap.",
+      { heading: "What Medicare does cover", paragraphs: [
+        "Under Part A and Part B, a person with dementia is entitled to the same medical care as anyone else, and some of it matters a great deal for dementia specifically.",
+        "Part B covers a separate cognitive assessment and care plan visit, in which a clinician assesses cognition and builds a written care plan. It is a distinct service from the annual wellness visit and it is underused, partly because families do not know to ask for it.",
+        "Part B also covers the diagnostic work: neurology consultations, imaging to rule out the reversible causes that present like dementia, and medication review. Part A covers hospital stays."
       ]},
-      { heading: "What Medicare covers - and what it costs you", paragraphs: [
-        "When the criteria above are met, Medicare Part A and Part B cover skilled nursing, physical therapy, occupational therapy, speech-language pathology, medical social services, and durable medical equipment, ordered by a physician and delivered through a Medicare-certified home health agency. For all covered home health services themselves, there is no deductible, copay, or coinsurance - though a 20% coinsurance still applies to durable medical equipment.",
-        "It's worth understanding a separate, often-confused benefit too: Medicare Part A's skilled nursing facility coverage. That's a different thing entirely - it applies to a facility stay (not home care), only after a qualifying inpatient hospital stay of at least 3 days, and only for up to 100 days per benefit period.",
+      { heading: "The home health benefit, and why it disappoints", paragraphs: [
+        "This is where most families expect help and do not get it. Medicare does cover home health services, but the eligibility conditions are narrow and they exclude most dementia care.",
+        "To qualify, a doctor must certify that the person is homebound and needs intermittent skilled nursing care or skilled therapy. Both words carry weight. Intermittent means part-time and time-limited, not ongoing. Skilled means a nurse or therapist, not an aide.",
+        "A home health aide is covered only alongside qualifying skilled care, and only as a limited number of hours. Medicare states plainly that it does not cover 24-hour care at home, meal delivery, or homemaker services, and it does not cover personal care when that is the only care needed.",
+        "So a person in the middle stage of dementia, who needs someone present for safety but has no skilled nursing need, is not eligible. That is not an edge case. It is the typical situation."
       ]},
-      { heading: "What changed for 2026", paragraphs: [
-        "For 2026, the Centers for Medicare & Medicaid Services finalized a 1.3% aggregate payment decrease to home health agencies. In practice, this has made many agencies more selective about which cases they take on - families report more denials or a harder time finding an agency willing to accept a case, even when it technically qualifies. This continues a longer-term trend: home health aide visits per 30-day care episode have fallen roughly 94% since 1998, from an average of 6.7 visits to under 0.5, largely attributed to a payment model change called PDGM.",
-        "If a home health claim is denied and you believe it shouldn't be, you have the right to request a Redetermination from your Medicare Administrative Contractor within 120 days - the first step of a five-level appeals process.",
+      { heading: "Skilled nursing facility care, and the 100-day limit", paragraphs: [
+        "After a qualifying inpatient hospital stay, Medicare covers care in a skilled nursing facility for up to 100 days in a benefit period. The first 20 days are covered in full; a daily coinsurance applies from day 21, and the amount changes each year.",
+        "Two conditions catch families out. The stay must follow a qualifying inpatient admission, and observation status in a hospital does not count however many nights it lasted. And coverage continues only while skilled care is genuinely needed, so it commonly ends well before day 100.",
+        "This is a rehabilitation benefit, not a long-term care benefit, and it is not a route to funded residential care."
       ]},
-      { heading: "What Medicaid can cover - if you qualify", paragraphs: [
-        "Medicaid is different from Medicare and is means-tested. Many states offer Home- and Community-Based Services (HCBS) waivers that can cover in-home personal care for dementia specifically - the kind of custodial support Medicare won't touch - but these commonly have waiting lists and eligibility rules that vary significantly state by state."
+      { heading: "Hospice, which is more generous than families expect", paragraphs: [
+        "When a physician certifies a prognosis of six months or less if the illness runs its expected course, the Medicare hospice benefit under Part A becomes available, and it is substantial: nursing, a home health aide, a social worker, chaplaincy, medications related to the terminal diagnosis, medical equipment, and bereavement support for the family after death.",
+        "Dementia qualifies. Families routinely engage hospice far later than they could, often in the final weeks, and lose months of support they were entitled to. Hospice can also be re-evaluated or discontinued, so engaging it earlier costs nothing if the person stabilises.",
+        "If there is one thing on this page worth acting on early, it is this one."
       ]},
-      { heading: "VA benefits for veterans and surviving spouses", paragraphs: [
-        "The VA's Aid and Attendance benefit is a pension supplement for wartime veterans and surviving spouses who need help with daily activities, and it can be applied toward the cost of in-home care."
+      { heading: "The GUIDE model, which most families have not heard of", paragraphs: [
+        "In 2024 CMS launched a dementia care model called GUIDE, which stands for Guiding an Improved Dementia Experience. Participating practices provide care navigation, a 24/7 support line, caregiver training and, importantly, some respite care.",
+        "It is not available everywhere and it works through participating providers rather than as a benefit you claim. But respite through Medicare is otherwise almost unavailable outside hospice, so it is worth asking a neurologist or primary care practice whether they participate."
       ]},
-      { heading: "So how do most families actually pay?", paragraphs: [
-        "Given how narrow Medicare's home health benefit actually is once you understand \"homebound,\" \"intermittent,\" and the skilled-service trigger requirement, most ongoing in-home dementia care is paid privately, sometimes supplemented by long-term care insurance, VA benefits, or Medicaid waivers for those who qualify financially."
+      { heading: "So what actually pays for care at home", paragraphs: [
+        "Four things, in rough order of how often they apply.",
+        "Private funds, which is how most in-home dementia care in the United States is paid for. Medicaid, which does cover long-term care including home and community based services for those who meet their state's financial and functional criteria, with rules and waiting lists that vary considerably by state. Veterans benefits, including Aid and Attendance, which is significantly underused. And long-term care insurance, if a policy was bought years ago, in which case the policy itself should be read carefully rather than assumed.",
+        "The practical order for most families is: find out what the state Medicaid programme covers, check whether the person is a wartime-era veteran or the surviving spouse of one, and find the long-term care policy if there is one."
       ]},
+      { heading: "What to do this week", paragraphs: [
+        "Ask the primary care practice to schedule the Medicare cognitive assessment and care plan visit, which is covered and produces a written plan you can work from.",
+        "Ask whether they participate in GUIDE. Find out your state's Medicaid eligibility for home and community based services, because the answer determines the whole financial picture. And if the prognosis is advanced, ask directly about hospice rather than waiting to be offered it."
+      ]}
     ],
     citations: [
-      { label: "Medicare Rights Center - Understanding Medicare Home Health Care", url: "https://www.medicarerights.org/medicare-answers/2026/01/28/understanding-medicare-home-health-care" },
-      { label: "Medicare Coverage for Home Health Aides in 2026", url: "https://www.paulbinsurance.com/medicare-coverage-for-home-health-aides-in-2026-a-clear-and-simple-guide/" },
-      { label: "Does Medicare Pay for Long-Term Nursing Home Care? (Brevy Care)", url: "https://brevy.com/medicare/long-term-care-coverage" },
+      { label: "Medicare: home health services coverage", url: "https://www.medicare.gov/coverage/home-health-services" },
+      { label: "Medicare: skilled nursing facility care", url: "https://www.medicare.gov/coverage/skilled-nursing-facility-snf-care" },
+      { label: "Medicare: hospice care", url: "https://www.medicare.gov/coverage/hospice-care" },
+      { label: "Medicare: cognitive assessment and care plan services", url: "https://www.medicare.gov/coverage/cognitive-assessment-care-plan-services" },
+      { label: "CMS: GUIDE dementia care model", url: "https://www.cms.gov/priorities/innovation/innovation-models/guide" },
+      { label: "National Institute on Aging: paying for long-term care", url: "https://www.nia.nih.gov/health/paying-long-term-care" },
     ],
   },
   {
@@ -199,25 +222,46 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
   },
   {
+    // Rewritten from 129 words on 7 September. 34 impressions at position 92.3.
     slug: "dementia-wandering-prevention",
     cityGuideTopic: "wandering-prevention-city",
     category: "Safety",
-    title: "Wandering and Dementia: Prevention and What to Do",
-    desc: "Wandering affects a majority of people with dementia at some point. Prevention strategies and when to escalate to 24-hour care.",
-    date: "June 2026",
+    title: "Wandering and Dementia: Why It Happens and How to Prevent It",
+    desc: "Most people with dementia will wander at some point, and it is rarely aimless. What drives it, what actually prevents it, and what to do in the first fifteen minutes.",
+    date: "September 2026",
     sections: [
-      { heading: "Why wandering happens", paragraphs: [
-        "Wandering is rarely aimless - it's often driven by a felt need: looking for a bathroom, trying to go \"home,\" or searching for a person from the past."
+      { heading: "Wandering is usually purposeful", paragraphs: [
+        "The word makes it sound aimless. It rarely is. Someone leaves because they are going to work, or collecting a child from a school that closed thirty years ago, or going home while standing in the home they have lived in for decades.",
+        "That last one confuses families most. Home, to someone with dementia, is often a house from earlier in life, and the wish to go there is a wish to be somewhere safe and familiar rather than a comment on their current address.",
+        "Others are looking for a bathroom and cannot find it, or are restless and understimulated, or are following a lifelong routine at the time of day they always did. Working out which of these it is tells you what will prevent it, which is why a door alarm alone is rarely the answer."
       ]},
-      { heading: "Prevention at home", paragraphs: [
-        "Door alarms, disguised exits, a consistent daily routine with built-in activity, and some form of ID (bracelet, GPS tracker) all reduce risk."
+      { heading: "The pattern to watch for", paragraphs: [
+        "Wandering usually announces itself before it happens. Pacing, or repeatedly trying doors and windows. Talking about needing to go somewhere or do something. Restlessness at a consistent time of day, most often late afternoon and early evening.",
+        "Confusion about where they are in a familiar place, or asking to go home while at home. Any of these is worth acting on before the first incident rather than after it."
       ]},
-      { heading: "If wandering has already happened", paragraphs: [
-        "Search the immediate area first, then call local authorities right away if not found within minutes. Have a recent photo ready and note what they were wearing."
+      { heading: "What actually prevents it", paragraphs: [
+        "Address the reason first. If it happens at the same time each day, a walk or an activity at that hour often removes the need entirely. If they are looking for the bathroom, a sign on the door and a light left on at night does more than any lock. If the trigger is boredom, that is a care plan problem rather than a security one.",
+        "Then make leaving harder without making the home feel like a lock-up. Locks placed high or low on the door, outside the usual line of sight. Door and window alarms, or simple contact sensors that chime. A dark mat in front of an exit, which can read as a hole and stop someone crossing. Curtains over glass doors that show an appealing outside.",
+        "And remove the prompts. Car keys, coats and handbags left by the door are instructions to leave for someone who is following a familiar routine."
       ]},
-      { heading: "When wandering means it's time for more supervision", paragraphs: [
-        "A single wandering incident is a serious signal to increase supervision, not something to wait out."
+      { heading: "Prepare for the time it happens anyway", paragraphs: [
+        "Almost every family that experiences wandering had prevention in place. Prepare for the event as well as against it.",
+        "A current photograph, taken this year, kept somewhere you can find it in a panic. A written note of height, build, and what they usually wear. A medical identification bracelet with the condition and a phone number. Tell the immediate neighbours, which is uncomfortable and is the single most useful thing on this list, because they are the people who will notice first.",
+        "Many local police departments run a registration scheme for vulnerable adults, and some areas have location services through the Alzheimer's Association or local agencies. Ask what exists in your county before you need it."
       ]},
+      { heading: "The first fifteen minutes", paragraphs: [
+        "Search the house and immediate garden first, including cupboards and behind furniture, because people are found inside more often than families expect.",
+        "Then call the police. Do not wait, and do not worry about whether it is too soon. There is no waiting period for a vulnerable missing adult and the first hours matter most. Tell them it is a person with dementia, because that changes how the search is run.",
+        "Most people are found within a mile or so of home, often along a route they walked for years, and frequently heading in the direction of a former address or workplace. Say that on the call."
+      ]},
+      { heading: "What it means for the care plan", paragraphs: [
+        "One episode of wandering is a signal that the current arrangement has been outgrown, particularly if it happened at night or the person was not able to find their way back.",
+        "It is the point at which many families move from checking in to overnight cover, because the risk concentrates after dark and a person who leaves at three in the morning is not found quickly."
+      ]}
+    ],
+    citations: [
+      { label: "Alzheimer's Association: wandering", url: "https://www.alz.org/help-support/caregiving/stages-behaviors/wandering" },
+      { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
     ],
   },
   {
@@ -289,27 +333,44 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
   },
   {
+    // Rewritten from 141 words on 7 September. 56 impressions in 28 days at
+    // position 86.7: Google is willing to show it and we lose on the page.
     slug: "bathing-dementia-personal-care-tips",
     category: "Caregiving",
-    title: "Bathing and Dementia: Making Personal Care Easier and Less Stressful",
-    desc: "Bathing is one of the most common flashpoints in dementia care. Here's why resistance happens and how to make the routine calmer.",
-    date: "July 2026",
+    title: "When Bathing Becomes a Fight: Dementia and Personal Care",
+    desc: "Refusing to wash is one of the most common flashpoints in dementia care, and almost never stubbornness. What is actually happening, and what changes it.",
+    date: "September 2026",
     sections: [
-      { heading: "Why bath time so often becomes a battle", paragraphs: [
-        "Resistance during bathing is rarely stubbornness - it's much more often fear, confusion, or a loss of control the person can't articulate."
+      { heading: "It is almost never stubbornness", paragraphs: [
+        "Bathing is the flashpoint families report more than any other, and the thing that makes it manageable is understanding that refusal is usually fear rather than defiance.",
+        "Several things are happening at once. Water on skin can feel unpleasant or frighteningly cold when temperature perception has changed. Being undressed in front of an adult child is a profound loss of privacy for someone who may not fully recognise who that adult child is. Depth perception changes make a bathroom floor look like a hole. And someone who genuinely believes they bathed this morning is not refusing, they are being asked to do something that makes no sense.",
+        "Every technique below follows from that. You are not overcoming resistance, you are removing reasons."
       ]},
-      { heading: "Setting the routine up to succeed", paragraphs: [
-        "Keep the bathroom warm, pick a calm time of day, and give one simple instruction at a time rather than a full rundown."
+      { heading: "Start by lowering the frequency", paragraphs: [
+        "Most older adults do not need a daily full bath, and the medical case for one is weak. Two full washes a week, with daily attention to face, hands and the areas where skin problems actually start, is adequate for most people.",
+        "Reducing seven confrontations to two is often the single largest improvement available, and it costs nothing."
       ]},
-      { heading: "Reducing fear and preserving dignity", paragraphs: [
-        "A handheld showerhead feels less overwhelming, and keeping a towel over unwashed areas preserves a sense of dignity and control."
+      { heading: "Prepare the room before they enter it", paragraphs: [
+        "The bathroom should be warm before it is used, not warmed once someone is standing in it undressed. Towels laid out and within reach. Everything you need already in the room, so you never leave.",
+        "A handheld shower head lets you wash without water hitting the face and head, which is the part most people object to most strongly. A shower chair removes the balance demand and with it a large part of the fear. Grab bars, a non-slip mat, and a floor mat rather than a bare cold surface."
       ]},
-      { heading: "If resistance is severe", paragraphs: [
-        "A full bath isn't necessary every day - washing key areas can bridge harder days. Persistent distress is worth discussing with a physician."
+      { heading: "The approach that tends to work", paragraphs: [
+        "Choose the time of day when they are most settled, which for many people is morning and for many others is not. Follow their lifelong habit if you know it. Someone who bathed at night for sixty years will find a morning shower wrong in a way they cannot articulate.",
+        "Offer choices that are real but small: this towel or that one, before or after breakfast. Choice restores some of the control that is being lost, and the answer to a yes-or-no question about bathing is usually no.",
+        "Keep a towel over the shoulders or lap for as much of it as possible. Wash in the same order every time, so the sequence becomes familiar. Narrate what you are about to do rather than doing it and explaining after. And if it is going badly, stop. A bath abandoned calmly today is far better than a fight that makes the next four attempts harder."
       ]},
-      { heading: "You don't have to do this alone", paragraphs: [
-        "A trained in-home caregiver often develops a calmer, more practiced bathing routine than a family member managing it occasionally under stress."
+      { heading: "What makes it worse", paragraphs: [
+        "Reasoning, arguing, or correcting a false belief that they already washed. Rushing, which is felt even when it is not shown. Being asked a yes-or-no question you are not prepared to accept a no to.",
+        "And approaching from behind, or starting without warning. Both feel like being grabbed."
       ]},
+      { heading: "When it needs somebody else", paragraphs: [
+        "There is a point where the person doing this should not be the son or daughter, and recognising it is not a failure. A trained caregiver has no shared history that makes undressing humiliating, and many families find that a person who refuses their child accepts a professional without difficulty.",
+        "That is also true where there is a real physical risk. Lifting a wet adult who has lost their footing is how caregivers get injured, and it happens quickly."
+      ]}
+    ],
+    citations: [
+      { label: "Alzheimer's Association: bathing", url: "https://www.alz.org/help-support/caregiving/daily-care/bathing" },
+      { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
     ],
   },
   {
