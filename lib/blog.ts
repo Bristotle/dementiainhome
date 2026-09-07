@@ -155,26 +155,44 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
   },
   {
+    // Rewritten from 170 words on 7 September. 12 impressions, position 79.2.
     slug: "sundowning-dementia-home-management",
     cityGuideTopic: "sundowning-management-city",
     category: "Caregiving",
-    title: "Sundowning: What It Is and How to Manage It at Home",
-    desc: "Late-afternoon agitation and confusion affect a significant share of people with dementia. Here are the strategies that actually work.",
-    date: "June 2026",
+    title: "Sundowning: Why Late Afternoon Is the Hardest Part of the Day",
+    desc: "Confusion and agitation that arrive with the evening are predictable, which is the useful part. What drives the pattern and what actually shortens it.",
+    date: "September 2026",
     sections: [
-      { heading: "What sundowning actually is", paragraphs: [
-        "Sundowning refers to a pattern of increased confusion, agitation, restlessness, or anxiety that shows up in the late afternoon and evening in some people with dementia. It's a behavioral pattern layered on top of the underlying disease."
+      { heading: "The pattern is the opportunity", paragraphs: [
+        "Sundowning is restlessness, confusion, anxiety or agitation that arrives reliably in the late afternoon and early evening. A person who was settled at lunchtime becomes a different person by five o clock.",
+        "The reason it matters that it is a pattern is that patterns can be prevented. Unlike much of dementia care, this one arrives on a schedule, which means the work happens in the hours before it rather than during it."
       ]},
-      { heading: "Why it happens", paragraphs: [
-        "Contributing factors include disruption to the body's internal clock, fatigue building over the day, dimming light creating shadows, and overstimulation. If you're seeing it, it's a known feature of the disease, not a caregiving failure."
+      { heading: "What is actually driving it", paragraphs: [
+        "Fatigue, most of all. Concentration is exhausting when cognition is impaired, and by late afternoon a whole day of it has accumulated. The capacity to cope is simply spent.",
+        "Then light. Failing daylight and switched-on lamps produce shadows and pools of darkness that are genuinely hard to interpret when depth perception and visual processing have changed. A coat over a chair becomes a person. Disorientation follows.",
+        "Then hunger and thirst, which are frequently the whole explanation and are trivially fixed. Then the household itself: late afternoon is when a house gets busy, television goes on, people come home, and the demand on attention rises just as the ability to meet it falls.",
+        "And finally disrupted body clock, which dementia affects directly."
       ]},
-      { heading: "What actually helps", paragraphs: [
-        "Keep daytime bright and active, then start dimming gradually as evening approaches. Keep the evening routine simple and predictable, and reduce noise and stimulation.",
-        "Watch for and address the basics first - hunger, thirst, needing the bathroom, or mild discomfort often masquerade as evening agitation."
+      { heading: "What shortens it", paragraphs: [
+        "Turn the lights on before dusk rather than after. Closing curtains before the light fades and lighting the room brightly and evenly removes the shadows that cause much of the confusion, and it costs nothing.",
+        "Move the demanding parts of the day earlier. Appointments, bathing, visitors and anything requiring effort belong in the morning. Keep late afternoon deliberately quiet and unstructured.",
+        "Feed them before it starts. A snack and a drink at three or four often prevents an episode outright.",
+        "Get daylight and movement into the morning, ideally outdoors, which is the most reliable way to steady a disrupted body clock. And cut caffeine after midday, along with alcohol, which worsens evening confusion more than families expect."
       ]},
-      { heading: "When to get outside help", paragraphs: [
-        "If sundowning becomes severe or is consistently disrupting sleep, discuss it with a physician, and consider bringing in overnight or evening in-home support."
+      { heading: "During an episode", paragraphs: [
+        "Keep your own voice low and slow. Do not argue with the content of what they are saying, and do not try to reason someone out of confusion, which reliably escalates it.",
+        "Reduce the input: turn the television off, ask visitors to step out, bring the room down to one calm person and one calm voice. Offer something familiar and undemanding rather than a task.",
+        "If they want to walk, walk with them. Movement discharges agitation better than sitting still does."
       ]},
+      { heading: "Where it stops being manageable alone", paragraphs: [
+        "Sundowning is one of the most common reasons families first bring in paid help, and the reason is arithmetic rather than difficulty. It happens at the end of the day, every day, when the family caregiver is already at the end of their own reserves.",
+        "A caregiver arriving for the late afternoon and evening covers precisely the hardest hours. If nights are also broken, overnight cover is often what keeps someone at home rather than moving.",
+        "Worth telling the doctor as well. Pain, infection and some medications all worsen the pattern, and it is worth ruling those out before accepting it as simply what happens now."
+      ]}
+    ],
+    citations: [
+      { label: "Alzheimer's Association: sleep issues and sundowning", url: "https://www.alz.org/help-support/caregiving/stages-behaviors/sleep-issues-sundowning" },
+      { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
     ],
   },
   {
@@ -309,27 +327,44 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
   },
   {
+    // Rewritten from 169 words on 7 September. 12 impressions, position 80.5.
     slug: "dementia-incontinence-toileting-care",
     category: "Caregiving",
-    title: "Dementia and Incontinence: A Dignity-First Guide to Toileting Care",
-    desc: "Incontinence is one of the most common and most emotionally difficult parts of dementia care. Here's how to build a routine that protects dignity.",
-    date: "July 2026",
+    title: "Dementia and Toileting: Usually Not Incontinence At All",
+    desc: "Most accidents in early and middle dementia are not a bladder problem. They are a finding-the-bathroom-in-time problem, which is far more fixable.",
+    date: "September 2026",
     sections: [
-      { heading: "It's rarely just a bladder problem", paragraphs: [
-        "Incontinence in dementia is usually about the brain no longer recognizing the urge to go, or being unable to communicate the need. A sudden change is worth mentioning to a physician."
+      { heading: "Start by questioning the word", paragraphs: [
+        "Families reach for incontinence, and with it a resignation that nothing can be done. In early and middle dementia that is usually the wrong diagnosis of the problem.",
+        "The common causes are practical: not finding the bathroom in time, not recognising the door, not recognising the urge until it is too late, or not managing clothing quickly enough. Each of those has a fix that has nothing to do with the bladder.",
+        "Get this distinction right before buying anything, because the fixes are cheap and the resignation is expensive."
       ]},
-      { heading: "A routine prevents more accidents than reacting does", paragraphs: [
-        "A predictable bathroom schedule roughly every two to three hours prevents far more accidents than waiting for a request that may never come."
+      { heading: "Rule out the medical causes first", paragraphs: [
+        "A urinary tract infection can cause sudden urgency and accidents, and in an older adult it often presents as confusion or agitation rather than pain. Any abrupt change in continence over days warrants a call to the doctor, not a trip to the pharmacy.",
+        "Constipation causes urinary problems more often than people expect. Diuretics, some sedatives and some bladder medications all matter. Poorly managed diabetes causes urgency. A medication review is worth asking for."
       ]},
-      { heading: "Don't cut back on fluids", paragraphs: [
-        "Dehydration raises the risk of UTIs and worse confusion. Offer small amounts steadily and taper off before bed instead of restricting fluids overall."
+      { heading: "Then fix the route to the bathroom", paragraphs: [
+        "This is where most of the improvement is available. A clear sign on the door, with a picture rather than a word, because reading fails before recognition does. The door left open so the toilet is visible from the hallway. A light left on all night, or a motion-sensor light along the route.",
+        "A contrasting toilet seat, which sounds trivial and is not: a white seat on a white toilet in a white bathroom is genuinely hard to see when visual processing has changed. Nothing in the path to trip over or navigate around.",
+        "And clothing that comes down in one movement. Elasticated waists instead of buttons and zips buys the seconds that decide the outcome."
       ]},
-      { heading: "Protecting dignity in the moment", paragraphs: [
-        "A calm, matter-of-fact tone and respectful word choice matter more than the accident itself. Keeping supplies on hand makes cleanup fast and low-stress."
+      { heading: "Prompt on a schedule rather than waiting", paragraphs: [
+        "Do not wait to be asked, because the request may no longer come. Offer the bathroom every two to three hours, and specifically on waking, before and after meals, before going out and before bed.",
+        "Offer rather than ask. Let us go along here, walking together, works where do you need the toilet gets a no.",
+        "Watch for the signs that replace the words: restlessness, pacing, pulling at clothing, sudden agitation, going quiet. Those are the request."
       ]},
-      { heading: "When to bring in help", paragraphs: [
-        "An in-home caregiver trained in dementia-specific personal care can directly assist with toileting - a genuine relief once it becomes one of the harder parts of the day."
+      { heading: "Fluids, which families get backwards", paragraphs: [
+        "The instinct is to reduce drinking. It makes things worse: concentrated urine irritates the bladder, increases urgency, and dehydration causes confusion, constipation and infection, each of which worsens continence.",
+        "Keep fluids normal through the day and taper in the two hours before bed. Cut caffeine, which is a bladder irritant."
       ]},
+      { heading: "Dignity, and when to bring someone in", paragraphs: [
+        "However it is handled, handle it without comment. No sighing, no cleaning up in a way that announces itself, no discussing it in front of them or with visitors. Someone with dementia reads tone long after they have lost words, and shame makes them hide accidents, which makes everything worse.",
+        "There is also a point at which an adult child assisting a parent with toileting costs both of them something significant, and that is a legitimate reason to bring in a trained caregiver rather than a sign of failure. For many families it is the specific task that finally makes them call."
+      ]}
+    ],
+    citations: [
+      { label: "Alzheimer's Association: incontinence", url: "https://www.alz.org/help-support/caregiving/daily-care/incontinence" },
+      { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
     ],
   },
   {
@@ -374,28 +409,44 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
   },
   {
+    // Rewritten from 127 words on 7 September. 26 impressions, position 87.6.
     slug: "dementia-agitation-aggression-guide",
     cityGuideTopic: "aggression-refusing-care-city",
     category: "Caregiving",
-    title: "When Your Loved One Becomes Agitated or Aggressive: A Calm Guide",
-    desc: "Agitation and aggression are symptoms of dementia, not a reflection of your caregiving. Here's why they happen and how to de-escalate.",
-    date: "July 2026",
+    title: "Agitation and Aggression in Dementia: What It Means and What Helps",
+    desc: "Anger in dementia is almost always communication rather than character. What it is usually saying, and how to answer it without escalating.",
+    date: "September 2026",
     sections: [
-      { heading: "It's the disease, not the person", paragraphs: [
-        "Agitation usually comes from an unmet need the person can no longer express clearly - pain, fear, overstimulation, or confusion."
+      { heading: "It is communication, not character", paragraphs: [
+        "A gentle person who has never raised their voice starts shouting, or pushes a hand away, or accuses a daughter of stealing. Families take this personally and should not, because it is almost never about them.",
+        "Someone losing language is left with behaviour as their only way to say something is wrong. The shout is the sentence. The work is not managing the anger, it is finding what it is reporting."
       ]},
-      { heading: "In the moment: de-escalating safely", paragraphs: [
-        "Stay calm yourself, give physical space, lower your voice, and validate the feeling rather than arguing or correcting."
+      { heading: "What it is usually reporting", paragraphs: [
+        "Pain comes first and is the most missed, because someone who cannot say their hip hurts becomes agitated when moved. A urinary tract infection is the classic cause of a sudden, dramatic change in behaviour in an older adult, and it can present as confusion or aggression with no other obvious symptom. Any abrupt change over days rather than months should be a call to the doctor before it is a behaviour problem.",
+        "After that: needing the bathroom and being unable to say so, being too hot or cold, being hungry, being exhausted. Then the environment, which matters more than families expect. Too much noise, a television on in the background, too many people talking, a room that is too dark or too bright.",
+        "And finally fear. Being helped to undress by someone you do not recognise is frightening, and fighting is a reasonable response to that."
       ]},
-      { heading: "Common triggers worth ruling out", paragraphs: [
-        "Pain, hunger, needing the bathroom, or overstimulation. A UTI can also cause sudden agitation in older adults."
+      { heading: "What to do in the moment", paragraphs: [
+        "Stop whatever you were doing. If the bath or the dressing triggered it, the bath is not worth it. Give physical space and lower your own voice rather than raising it to be heard over theirs.",
+        "Do not argue, correct, or reason. If they say you stole the purse, the purse is not the point and finding it together works far better than proving you did not take it. Agree with the feeling even when the facts are wrong: you can be sorry someone is frightened without confirming that anyone was robbed.",
+        "Then redirect rather than confront. A change of room, a walk, music from their twenties, a cup of tea. And keep your own face and shoulders calm, because distress transmits faster than words and you are being read closely."
       ]},
-      { heading: "Reducing how often it happens", paragraphs: [
-        "Consistent routines, predictable environments, and watching for early warning signs like pacing give you a chance to intervene earlier."
+      { heading: "Preventing the next one", paragraphs: [
+        "Keep a note for a fortnight of what happened just before each episode: the time, who was there, what was being asked, what was on in the background. Patterns appear quickly and they are usually mundane. Late afternoon. Bath time. When the grandchildren visit. When the news is on.",
+        "Once you can see the pattern you can change the conditions rather than manage the outcome, which is a far easier job."
       ]},
-      { heading: "When to get more support", paragraphs: [
-        "Frequent or severe aggression is worth raising with a physician, and bringing in trained in-home support is a reasonable next step."
+      { heading: "When to call the doctor", paragraphs: [
+        "A sudden change over days, any new physical symptom, or a suspicion of pain or infection. Also worth reviewing: anticholinergics, some sleep aids and some bladder medications can worsen confusion, and a medication review sometimes resolves what looked like a behavioural problem.",
+        "Ask about pain relief specifically. Treating unrecognised pain resolves a great deal of what gets labelled aggression."
       ]},
+      { heading: "When it is not safe", paragraphs: [
+        "Some situations pass beyond what family should manage alone, and recognising that is not giving up. If someone is being hurt, if you are frightened, or if a single caregiver cannot safely provide personal care, that is a care plan question rather than a technique question.",
+        "Trained dementia caregivers are taught de-escalation and, just as importantly, carry no shared history that makes being helped humiliating. Families often find that a person who fights their own child accepts a professional without difficulty."
+      ]}
+    ],
+    citations: [
+      { label: "Alzheimer's Association: aggression and anger", url: "https://www.alz.org/help-support/caregiving/stages-behaviors/agression-anger" },
+      { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
     ],
   },
   {
@@ -492,28 +543,44 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
   },
   {
+    // Rewritten from 131 words on 7 September. 13 impressions, position 88.
     slug: "when-to-stop-driving-dementia",
     cityGuideTopic: "when-driving-isnt-safe-city",
-    category: "Family & Emotional Support",
-    title: "When It's Time to Stop Driving: Helping a Loved One Give Up the Keys",
-    desc: "Knowing when a loved one with dementia should stop driving is one of the hardest calls a family makes.",
-    date: "July 2026",
+    category: "Safety",
+    title: "When Someone With Dementia Should Stop Driving",
+    desc: "The hardest conversation most families have, and usually the first real fight. How to know when, and how to do it without becoming the villain.",
+    date: "September 2026",
     sections: [
-      { heading: "Why this decision is so hard", paragraphs: [
-        "Driving represents independence, and taking it away can feel like taking away someone's identity all at once."
+      { heading: "The test that settles it", paragraphs: [
+        "Families agonise over this for months, so here is the question that resolves most cases: would you put your own child in that car, with them driving?",
+        "When the honest answer is no, the time has come. Everything else is negotiation with yourself.",
+        "A diagnosis alone does not mean someone must stop immediately, and in the earliest stage many people drive safely for a while. But dementia is progressive, so the question is not whether driving ends but whether it ends by decision or by collision."
       ]},
-      { heading: "Warning signs to watch for", paragraphs: [
-        "Getting lost on familiar routes, slowed reaction time, new unexplained dents, and increased anxiety around driving are all worth taking seriously."
+      { heading: "The signs that matter", paragraphs: [
+        "Getting lost on a familiar route, which is the one that most alarms families and rightly so. Slower reactions, or missing a stop sign or signal. Confusing the pedals. Drifting between lanes.",
+        "The evidence you can gather without being in the car is often clearer. New dents and scrapes appearing without explanation. Paint transfer on the bodywork. Insurance claims you did not know about. A neighbour mentioning the car was parked oddly. Someone becoming anxious about driving, or quietly avoiding motorways, night driving or unfamiliar places, which is often the person themselves knowing before anyone says it."
       ]},
-      { heading: "Having the conversation", paragraphs: [
-        "A physician raising driving safety as a medical recommendation is often easier to accept than the same message from family."
+      { heading: "Why intermediate steps usually fail", paragraphs: [
+        "Daytime only. No motorways. A one mile radius. These feel like reasonable compromises and are mostly denial with a rule attached, because they depend on the person remembering and applying a restriction, which is precisely the ability that is failing.",
+        "They are worth something as a short bridge while you arrange alternatives. They are not a destination."
       ]},
-      { heading: "If they refuse to stop", paragraphs: [
-        "Some families need to relocate or disable the car, or have a physician file a formal notice with the state, when safety is a genuine concern."
+      { heading: "Let the doctor be the messenger", paragraphs: [
+        "The most useful thing a family can do is not have this argument themselves. A physician saying I cannot recommend that you continue driving carries authority that a son or daughter does not, and it moves you from opponent to ally.",
+        "Ask the doctor in advance, ideally without the person present, so it comes as a medical recommendation rather than something a family arranged. Many states also have a medical referral process through their licensing authority, and a formal re-examination often ends the matter without the family being the cause."
       ]},
-      { heading: "Filling the gap driving leaves behind", paragraphs: [
-        "Regular in-home companionship and transportation support can meaningfully soften the isolation that often follows."
+      { heading: "Removing the car, practically", paragraphs: [
+        "Talking generally fails where removal succeeds. The car goes to a relative's house, or is sold, or develops a fault that is never quite fixed. Keys disappear. A mechanic can disable a vehicle discreetly.",
+        "This feels dishonest and families struggle with it. Weigh it against the alternative, which is a person with impaired judgement in charge of a car on a road with other people's children on it."
       ]},
+      { heading: "Replace the freedom, not just the car", paragraphs: [
+        "Driving is independence, and taking it without replacing it produces isolation, which accelerates decline. This is the part families skip and then wonder why the mood collapsed.",
+        "Arrange the specific journeys that mattered: the weekly shop, church, the friend on the other side of town, the appointment. Set up accounts and payment in advance so using them requires no arranging. Local senior transport schemes exist in most areas and are underused.",
+        "Companion care often starts here, for exactly this reason. Someone who drives them to the places they used to drive themselves keeps the life rather than only the safety."
+      ]}
+    ],
+    citations: [
+      { label: "Alzheimer's Association: dementia and driving", url: "https://www.alz.org/help-support/caregiving/safety/dementia-driving" },
+      { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
     ],
   },
   {
