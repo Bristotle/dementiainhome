@@ -516,25 +516,35 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "dementia-mealtime-eating-drinking-tips",
     category: "Caregiving",
-    title: "Mealtime Struggles: Helping a Loved One with Dementia Eat and Drink Well",
-    desc: "Eating and drinking well becomes harder as dementia progresses. Here are practical, low-stress ways to encourage better nutrition.",
-    date: "July 2026",
+    title: "When Someone With Dementia Stops Eating",
+    desc: "Refusing food is rarely about appetite. What is usually going on, and what changes it before weight loss becomes the problem.",
+    date: "September 2026",
     sections: [
-      { heading: "Why eating gets harder with dementia", paragraphs: [
-        "A person may forget they've eaten, forget how to use utensils, or simply not recognize hunger cues the way they used to."
+      { heading: "Weight loss is a warning, not a phase", paragraphs: [
+        "Unplanned weight loss in dementia predicts decline, infection and falls, so treat it as a medical signal rather than something to be expected.",
+        "Before adjusting mealtimes, rule out the causes that have nothing to do with dementia: painful teeth, an ill-fitting denture, a mouth infection, constipation, depression, or medication that has flattened appetite or altered taste. A dental check and a medication review resolve a surprising share of cases."
       ]},
-      { heading: "Making mealtime calmer", paragraphs: [
-        "A quiet environment, one course at a time, and finger foods reduce overwhelm. Eating together often encourages more than eating alone."
+      { heading: "What is usually happening at the table", paragraphs: [
+        "Someone may not recognise the food as food, or may not see it at all. Pale food on a white plate on a white cloth can effectively disappear when visual processing changes, which is why a single coloured plate so often produces an immediate improvement.",
+        "Cutlery may have become a puzzle. The sequence of a meal may have been lost. A busy table with several conversations and a television on can overwhelm attention to the point where eating stops. And swallowing may be genuinely difficult, which is the one that needs professional assessment rather than adaptation."
       ]},
-      { heading: "Encouraging hydration specifically", paragraphs: [
-        "Offer small amounts steadily throughout the day, and lean on water-rich foods for someone who resists drinking directly."
+      { heading: "The changes that work", paragraphs: [
+        "Use a plain, brightly coloured plate with strong contrast against both the food and the table, and clear the table of everything else. Turn the television off.",
+        "Offer one item at a time rather than a full plate, which reduces the decision to something manageable. Finger food often outperforms cutlery by a wide margin: sandwiches, cut fruit, cheese, small pieces of chicken, anything that can be eaten while walking around by someone too restless to sit.",
+        "Eat with them rather than watching them eat, because copying survives long after instruction stops working. Six small meals often beat three larger ones. And allow far more time than seems necessary."
       ]},
-      { heading: "When weight loss becomes a concern", paragraphs: [
-        "Gradual weight loss is common, but a sudden drop is worth flagging to a physician rather than assuming it's simply the disease."
+      { heading: "Drinking, which is the bigger risk", paragraphs: [
+        "Thirst perception fades, so someone can become dehydrated without ever feeling thirsty, and dehydration causes confusion, constipation, urinary infection and falls. It is frequently the cause of a sudden unexplained deterioration.",
+        "Leave a drink visibly within reach at all times and offer regularly rather than waiting to be asked. Water is not the only route: soup, jelly, fruit with high water content, ice lollies. If a cup has become difficult, a lidded cup with a straw often solves it without any conversation about needing help."
       ]},
-      { heading: "Extra hands at mealtime help more than people expect", paragraphs: [
-        "An in-home caregiver can take on mealtime support directly, often one of the most immediately noticeable reliefs for families."
-      ]},
+      { heading: "When to involve a professional", paragraphs: [
+        "Coughing during or after eating and drinking, a wet or gurgly voice after swallowing, or food held in the mouth without being swallowed all warrant a referral for a swallowing assessment. Aspiration pneumonia is a leading cause of death in advanced dementia and this is the point at which it becomes preventable.",
+        "In late-stage dementia, appetite genuinely declines as part of the illness, and at that stage forced feeding causes distress without extending life. That is a conversation to have with a doctor, ideally alongside a hospice discussion, rather than a problem to solve at the table."
+      ]}
+    ],
+    citations: [
+      { label: "Alzheimer's Association: food and eating", url: "https://www.alz.org/help-support/caregiving/daily-care/food-eating" },
+      { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
     ],
   },
   {
@@ -626,25 +636,41 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "talking-to-siblings-about-dementia-care",
     category: "Family & Emotional Support",
-    title: "How to Talk to Your Siblings About Getting Help for a Parent with Dementia",
-    desc: "One of the hardest conversations in dementia care isn't with a doctor - it's with your siblings.",
-    date: "July 2026",
+    title: "The Sibling Conversation About a Parent's Care",
+    desc: "Most care plans do not fail on money or medicine. They fail on brothers and sisters, and the patterns are predictable enough to plan around.",
+    date: "September 2026",
     sections: [
-      { heading: "Why this conversation is often harder than the caregiving itself", paragraphs: [
-        "Old family dynamics resurface under stress - denial, guilt, and old sibling roles reassert themselves at exactly the wrong moment."
+      { heading: "This is where plans actually break", paragraphs: [
+        "Families prepare for the medical and financial parts and are ambushed by the family part. Old roles reassert themselves at the worst possible moment: the responsible one, the favoured one, the difficult one, restored to positions everyone thought they had outgrown twenty years ago.",
+        "It is worth knowing in advance that this is normal, extremely common, and largely preventable with structure rather than goodwill."
       ]},
-      { heading: "Starting the conversation", paragraphs: [
-        "Come with specific observed incidents rather than a vague feeling, and loop in a neutral third party where possible."
+      { heading: "The three patterns", paragraphs: [
+        "The local sibling carries the operational load and grows resentful. The distant siblings do not see that load, feel managed rather than consulted, and grow resentful in the other direction. Both are right about their own experience and wrong about each other's.",
+        "Money goes unspoken. One person pays, or pays more, and nobody says so out loud until it becomes a grievance with interest.",
+        "And inheritance quietly distorts decisions about spending on care, usually without anyone admitting that is what is happening, which makes it impossible to address."
       ]},
-      { heading: "Handling pushback and denial", paragraphs: [
-        "Separate the emotional resistance from the practical decision - acknowledge how hard this is while still moving forward on safety."
+      { heading: "Have the meeting before the first big decision", paragraphs: [
+        "Not after a crisis, when everyone is frightened and someone has already acted unilaterally. The single most useful thing a family can do is meet once, deliberately, while things are still stable.",
+        "A geriatric care manager or an eldercare mediator in the room changes the dynamic considerably, because a professional saying this arrangement is not sustainable lands differently from a sister saying it.",
+        "Agree explicitly that the goal is your parent's quality of life and that inheritance is what is left over, not an objective. Saying it aloud, once, removes a great deal of unspoken distortion."
       ]},
-      { heading: "Dividing responsibilities fairly", paragraphs: [
-        "Contributions don't have to be identical to be fair. Writing down who's doing what prevents quiet resentment from building."
+      { heading: "Write it down", paragraphs: [
+        "Not a legal contract. A shared document that names who holds power of attorney, who is the health care surrogate, who speaks to doctors, who handles money, how costs are shared, how disagreements get resolved, and when you will all next speak.",
+        "Ambiguity is what turns a hospital admission into an argument. A document nobody thought was necessary is what prevents it."
       ]},
-      { heading: "Bringing in outside help as a shared decision", paragraphs: [
-        "Hiring an in-home caregiver is often easier for siblings to agree on since no one has to carry the physical burden alone."
+      { heading: "Accept the asymmetry openly", paragraphs: [
+        "The local sibling will do more. That is geography, not virtue, and pretending otherwise helps nobody.",
+        "The workable arrangement in most families is that distance is compensated financially and proximity is compensated with respite: the out-of-state siblings fund care, or fly in so the local one gets a week off. Both contributions are real, and the resentment usually comes from one being invisible rather than from either being absent.",
+        "Say the numbers out loud. Unspoken money is where this most often curdles."
       ]},
+      { heading: "When agreement is not available", paragraphs: [
+        "Sometimes a sibling will not engage, or denies what is happening, or blocks decisions from a distance. You cannot make them agree, and waiting for consensus can cost your parent a year of appropriate care.",
+        "Where legal authority is clear, act on it and keep everyone informed in writing. Where it is not, an elder law attorney and a mediator are cheaper than the alternative. And a professional assessment from a care manager gives you something to point at that is not your own opinion, which is often what unlocks a stuck family."
+      ]}
+    ],
+    citations: [
+      { label: "National Institute on Aging: getting started with long-distance caregiving", url: "https://www.nia.nih.gov/health/long-distance-caregiving/getting-started-long-distance-caregiving" },
+      { label: "Alzheimer's Association: respite care", url: "https://www.alz.org/help-support/caregiving/care-options/respite-care" },
     ],
   },
   {
@@ -742,74 +768,121 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "dementia-home-safety-room-by-room-guide",
     cityGuideTopic: "home-safety-checklist",
-    category: "Caregiving",
-    title: "Making Your Home Safer for Someone with Dementia: A Room-by-Room Guide",
-    desc: "A practical, room-by-room walk-through of the changes that meaningfully reduce fall risk and everyday accidents.",
-    date: "July 2026",
+    category: "Safety",
+    title: "The Dementia Home Safety Audit, Room by Room",
+    desc: "A home that has been comfortable for thirty years can become hostile in a few months. What to change, in the order that prevents the most harm.",
+    date: "September 2026",
     sections: [
+      { heading: "Do the falls first", paragraphs: [
+        "If you only do one section, do this one. Falls are the single largest acute risk and the most common route from living at home to not living at home. A hip fracture at eighty-five changes everything that follows.",
+        "Throw rugs removed or fixed down, because they are the commonest trip hazard in an older home. Lighting in every hallway, on every stair and in every bathroom, with motion-sensor night lights on the route from bed to toilet. Grab bars beside the toilet and in the shower, rated for weight and not towel rails, which come off the wall under load. A non-slip mat and a shower chair. Handrails on both sides of the stairs. Cords and clutter out of walking paths. And proper slippers with a back and a grip, not socks."
+      ]},
       { heading: "Kitchen", paragraphs: [
-        "A stove knob cover or shut-off device, locked-away knives and cleaning products, and removed choking hazards from easy reach."
+        "The stove is the item that most often prompts families to act, usually after finding a ring left on. Auto-shutoff devices exist and fit most cookers; knob covers are the cheaper version. Consider disabling the oven if it is no longer used safely.",
+        "Sharp knives into a drawer that closes. A fire extinguisher, in date, somewhere reachable. And someone other than your parent checking the fridge weekly, because expired food is both a health risk and one of the clearest early signals of decline."
       ]},
       { heading: "Bathroom", paragraphs: [
-        "Grab bars, a non-slip mat, a shower chair, and a lower water-heater temperature all reduce the bathroom's outsized fall and scald risk."
+        "Set the water heater to 120 degrees Fahrenheit or below. Scalding is a genuine and underrated risk when temperature perception changes, and this takes five minutes.",
+        "A contrasting toilet seat, which sounds cosmetic and is not, because a white seat on a white toilet in a white bathroom is hard to see when visual processing changes. A toilet riser if standing is hard. Lock away razors and anything harmful, and clear out old medicines."
       ]},
-      { heading: "Bedroom and hallways", paragraphs: [
-        "A clear, well-lit path to the bathroom with a nightlight, and removed loose rugs and cords that create trip hazards."
+      { heading: "Medication", paragraphs: [
+        "All medicines in one place, in a weekly organiser or an automated dispenser. Old prescriptions thrown out, because a cabinet with three years of accumulated bottles is how double-dosing happens.",
+        "Switch to a pharmacy that delivers pre-sorted dose packs. It removes a weekly task that is often being done badly and nobody has noticed."
       ]},
-      { heading: "Doors, exits, and wandering prevention", paragraphs: [
-        "Door alarms, disguised exits, and some form of ID for your loved one in case prevention isn't enough."
+      { heading: "Doors and wandering, before it has ever happened", paragraphs: [
+        "Do this before the first incident rather than after. Contact sensors or alarms on the doors that lead outside. Locks placed high or low, outside the usual line of sight. A current photograph kept somewhere findable in a panic, and a medical identification bracelet.",
+        "Move car keys, coats and handbags away from the front door. Left there, they are an instruction to leave."
       ]},
-      { heading: "Living areas and general hazards", paragraphs: [
-        "A simplified space, secured firearms and medications, and visible emergency contact information for anyone assisting in a crisis."
+      { heading: "Fire, and the one neighbour", paragraphs: [
+        "Smoke and carbon monoxide detectors in every bedroom, tested monthly, with sealed long-life batteries so that testing is the only job.",
+        "A large-print emergency contact list by the phone and on the fridge. And one trusted neighbour with a key and your number. That last one is uncomfortable to arrange and is repeatedly the thing that matters most, because they are the person who notices first."
       ]},
+      { heading: "What the audit cannot fix", paragraphs: [
+        "A safe house is not the same as a safe situation. Equipment does not supervise, and the honest test is what happens at two in the morning: if the answer is that they call for help, you are probably still fine. If the answer is that they would not realise anything was wrong, no amount of equipment closes that gap.",
+        "That is the point at which the conversation moves from safety devices to overnight or full-time care."
+      ]}
+    ],
+    citations: [
+      { label: "Alzheimer's Association: home safety", url: "https://www.alz.org/help-support/caregiving/safety/home-safety" },
+      { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
     ],
   },
   {
     slug: "dementia-sleep-changes-and-solutions",
     category: "Caregiving",
-    title: "Dementia and Sleep: Why Sleep Changes Happen and What Helps",
-    desc: "Sleep problems affect the majority of people living with dementia, and their caregivers along with them.",
-    date: "July 2026",
+    title: "Dementia and Sleep: Why Nights Fall Apart",
+    desc: "Broken nights are the most common reason a family stops managing at home. What is driving them and what actually helps.",
+    date: "September 2026",
     sections: [
-      { heading: "Why sleep changes so often", paragraphs: [
-        "Dementia disrupts the brain's internal clock directly, compounded by daytime inactivity, discomfort, or disorientation about time."
+      { heading: "Why nights break before days do", paragraphs: [
+        "Dementia damages the body clock directly, so the signal that separates night from day weakens. Add less daylight, less activity, and daytime napping, and the pressure to sleep at night is simply not there.",
+        "The result is a person awake at three in the morning, dressed, convinced it is time to leave for work, in a dark house. And a family member sleeping lightly in the next room, for months.",
+        "That second part is why this matters. Broken nights are the most common single reason a home arrangement ends, and it is usually the carer who breaks first."
       ]},
-      { heading: "Daytime habits that improve nighttime sleep", paragraphs: [
-        "Morning natural light and some physical activity earlier in the day both improve nighttime sleep quality more than most people expect."
+      { heading: "Rule out the causes that are not dementia", paragraphs: [
+        "Pain is the most missed, because someone who cannot report arthritis simply becomes restless at night. A urinary infection can present as night-time confusion with nothing else. Needing the toilet and not finding it accounts for a lot of night waking.",
+        "Sleep apnoea is common, undiagnosed, and worsens cognition in its own right. And medications matter in both directions: some sedatives cause daytime drowsiness that produces night-time wakefulness, and diuretics taken late guarantee a night-time trip.",
+        "Ask the doctor before accepting broken nights as inevitable."
       ]},
-      { heading: "Building a calming bedtime routine", paragraphs: [
-        "A simple, repeated wind-down sequence gives the brain fewer new things to process right when it's least equipped to."
+      { heading: "What actually helps, in order", paragraphs: [
+        "Daylight in the morning, ideally outdoors and ideally for at least half an hour. This is the most effective and least used intervention available, because it is what resets the body clock.",
+        "Then physical activity during the day, which builds the pressure to sleep. A walk beats an afternoon in a chair by a wide margin.",
+        "Then protect the nap. A short early-afternoon rest is fine; a two-hour sleep at four in the afternoon removes the night. Then the same bedtime routine every night, in the same order, because sequence carries when memory does not.",
+        "And cut caffeine after midday and alcohol in the evening, both of which fragment sleep more than people expect."
       ]},
-      { heading: "If night waking becomes frequent", paragraphs: [
-        "Calm reassurance and gentle reorientation work better than arguing about the time, and a nightlight reduces fall risk during wakings."
+      { heading: "The bedroom itself", paragraphs: [
+        "Dark, but not so dark that a person waking cannot work out where they are, which produces fear and getting up. A night light in the bedroom and along the route to the toilet solves both at once.",
+        "Comfortable temperature, quiet, and no television left on. Reduce shadows, which are misinterpreted easily in the dark and are a common cause of night-time agitation."
       ]},
-      { heading: "When to involve a physician - and when to get overnight help", paragraphs: [
-        "Overnight in-home care, even a few nights a week, is a reasonable next step for families who are consistently losing sleep themselves."
+      { heading: "When they get up anyway", paragraphs: [
+        "Keep the lights low and your own voice quiet, because bright light and a normal speaking voice both say morning. Do not argue about the time.",
+        "If they are calm, let them sit up rather than fighting them back into bed; many people settle after twenty minutes and return on their own. If they are agitated, treat it as you would daytime agitation: reduce input, offer a drink, redirect gently, and check whether they need the toilet, which is often the whole answer."
       ]},
+      { heading: "The point where this needs help", paragraphs: [
+        "One person cannot be responsible for someone twenty-four hours a day, and sleep deprivation is not a character test. A carer who has not slept properly for months is at real risk of their own health event, and that is what turns a manageable situation into a crisis for two people.",
+        "Overnight care is the specific answer to this specific problem, and it is often the intervention that keeps someone at home rather than moving them. If the days are manageable and only the nights are not, that is precisely what it is for."
+      ]}
+    ],
+    citations: [
+      { label: "Alzheimer's Association: sleep issues and sundowning", url: "https://www.alz.org/help-support/caregiving/stages-behaviors/sleep-issues-sundowning" },
+      { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
     ],
   },
   {
     slug: "dementia-communication-tips-that-help",
-    category: "Caregiving",
-    title: "How to Talk to a Parent with Dementia: Communication Tips That Actually Help",
-    desc: "Ordinary conversation stops working the way it used to as dementia progresses. Practical adjustments that genuinely help.",
-    date: "July 2026",
+    category: "Family & Emotional Support",
+    title: "How to Talk to Someone With Dementia",
+    desc: "Most of what goes wrong in these conversations comes from correcting. What to do instead, and why it works.",
+    date: "September 2026",
     sections: [
-      { heading: "Why conversation gets harder", paragraphs: [
-        "Dementia affects the ability to process complex sentences and find the right words - not a loss of feeling or awareness."
+      { heading: "Stop correcting, and most of it improves", paragraphs: [
+        "If there is one change that transforms daily life with dementia, it is giving up on being right.",
+        "When someone says their mother is coming to visit and their mother died thirty years ago, the correction delivers a fresh bereavement to a person who will not retain the information but will retain the distress. You have not informed them, you have hurt them, and in an hour they will ask again.",
+        "This feels like lying and it is not. It is choosing which is more important, the fact or the person, in a situation where you cannot have both."
       ]},
-      { heading: "The core adjustments that help most", paragraphs: [
-        "Short sentences, one question at a time, extra time for a response, and approaching from the front at eye level."
+      { heading: "Answer the feeling underneath", paragraphs: [
+        "Almost every difficult statement carries an emotion that is entirely accurate even when the facts are not.",
+        "I want to go home means I do not feel safe. My mother is coming means I miss my mother. Someone stole my purse usually means things keep disappearing and I am frightened by that. Answer that layer and the conversation resolves; argue the surface and it escalates.",
+        "Tell me about your mother does more in ten seconds than an explanation does in ten minutes."
       ]},
-      { heading: "What to avoid", paragraphs: [
-        "Memory-testing questions, correcting factual errors unless safety is involved, and talking about someone as if they can't hear."
+      { heading: "The mechanics that make it easier", paragraphs: [
+        "Approach from the front, in their line of sight, never from behind. Get to eye level rather than standing over someone seated. Say your name and your relationship rather than testing whether they remember it, because do you know who I am is a question that can only produce failure.",
+        "One idea per sentence. Short sentences, ordinary words, and a pause afterwards that feels uncomfortably long to you and is about right for them. Processing takes longer than it used to, and filling that silence with a rephrased question restarts the processing from the beginning.",
+        "Ask closed questions rather than open ones. Would you like tea is answerable; what would you like to drink is an exam."
       ]},
-      { heading: "Techniques that create real connection", paragraphs: [
-        "Validation - meeting someone in their emotional reality - works far better than reasoning. Tone and touch often carry more meaning than words."
+      { heading: "What your face and body are saying", paragraphs: [
+        "Tone and expression survive long after words stop being understood, which cuts both ways. Someone who has lost most of their language will still read impatience in your shoulders instantly.",
+        "That is also the opportunity. A calm face, an unhurried voice and a hand on an arm communicate safety even when the sentence does not land. Many families find that sitting quietly together works when talking does not."
       ]},
-      { heading: "Communication is a skill that can be learned - and shared", paragraphs: [
-        "A caregiver trained in dementia communication can model these approaches directly, teaching family members just by example."
-      ]},
+      { heading: "When it goes wrong, and it will", paragraphs: [
+        "Everyone corrects, argues and snaps sometimes, usually when exhausted. It is not a moral failure and the damage is smaller than you fear, because the specific exchange will not be retained.",
+        "Step out of the room, and come back in as though arriving fresh. Beginning again is available to you in a way it rarely is elsewhere in life.",
+        "And if you find yourself sharp most days rather than occasionally, that is a signal about your own capacity rather than about your patience, and it usually means the caring arrangement needs more hands rather than more effort."
+      ]}
+    ],
+    citations: [
+      { label: "Alzheimer's Association: communication and dementia", url: "https://www.alz.org/help-support/caregiving/daily-care/communications" },
+      { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
     ],
   },
 ]
