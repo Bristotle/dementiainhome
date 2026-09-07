@@ -16,6 +16,13 @@ export type BlogPost = {
    */
   cityGuideTopic?: string
   sections: { heading: string; paragraphs: string[]; stats?: { value: string; label: string }[] }[]
+  /**
+   * Questions a family actually asks about this subject. These do two jobs:
+   * they answer the "People Also Ask" style query directly, and they carry the
+   * FAQPage schema that blog posts were missing entirely while every generated
+   * city guide and service page had it.
+   */
+  faqs?: { q: string; a: string }[]
   citations?: BlogCitation[]
 }
 
@@ -52,6 +59,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "If you're reading this because discharge is happening today, don't wait to have everything figured out - just get one competent, background-checked person in the home for the first 24-48 hours while you sort out the longer-term plan. Given that preventable readmissions cluster so heavily in this early window, that single step addresses a meaningful share of the immediate risk."
       ]},
     ],
+    faqs: [
+      { q: "Why are hospital discharges so risky in dementia?", a: "Because transitions are where harm concentrates. A person leaves confused and deconditioned, medications have often changed, and the family is handed a plan they did not help write. Expect a temporary decline in the first fortnight that is not necessarily permanent." },
+      { q: "What should I ask before they are discharged?", a: "Ask for the discharge planner or hospital social worker by name. Get the medication list and compare it line by line with what they took before, because changes are common and rarely explained. Ask what skilled care has been ordered and for how long." },
+      { q: "Can we refuse a discharge we think is unsafe?", a: "You can ask for a delay and escalate to the discharge planner, and Medicare patients have a formal right to appeal a discharge. Saying plainly that the home is not currently safe, and why, changes the conversation more than expressing worry does." },
+      { q: "What help is available immediately after?", a: "Medicare home health may cover intermittent skilled nursing or therapy while the person is homebound, but not the personal care and supervision most families need. Arranging paid help for the first two weeks is often what prevents readmission." },
+    ],
     citations: [
       { label: "Medicare claims study - dementia and 30-day readmission risk (NCBI)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10738812/" },
       { label: "Dementia and 30-day mortality/readmission after pneumonia discharge (NCBI)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7842970/" },
@@ -87,6 +100,12 @@ export const BLOG_POSTS: BlogPost[] = [
       { heading: "The bottom line", paragraphs: [
         "There's no getting around it: in-home dementia care is a real financial commitment, and the national numbers above are exactly that - national. Getting a transparent, city-specific number early, before you're in a crisis, gives you time to plan financing rather than scrambling for it."
       ]},
+    ],
+    faqs: [
+      { q: "What does in-home dementia care actually cost?", a: "It varies substantially by city, because the rate follows local caregiver pay rather than a national average. We publish a range for every city we serve, and you should be able to get a number from any provider before a consultation. One that will not quote until you have had a call is telling you something." },
+      { q: "Is 24-hour care at home cheaper than a facility?", a: "Usually not. Round-the-clock care at home often costs more than a memory care community, because you are buying one person's whole attention rather than a share of a staffed building. Part-time care at home is far cheaper than either." },
+      { q: "What is the difference between live-in and 24-hour shift care?", a: "A live-in caregiver sleeps on the premises with limited active hours and costs less. Shift care rotates two or three caregivers who are awake throughout, costs more, and is what late-stage care or nightly wandering actually requires. Establish which you are being quoted." },
+      { q: "Can we start small?", a: "Yes, and most families should. A few hours twice a week costs a fraction of full-time care, gives the family carer a genuine break, and lets your parent adjust to someone new while they still can." },
     ],
     citations: [
       { label: "CareScout 2025 Cost of Care Survey Results (Genworth)", url: "https://investor.genworth.com/news-events/press-releases/detail/1054/carescout-releases-2025-cost-of-care-survey-results" },
@@ -145,6 +164,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "Ask whether they participate in GUIDE. Find out your state's Medicaid eligibility for home and community based services, because the answer determines the whole financial picture. And if the prognosis is advanced, ask directly about hospice rather than waiting to be offered it."
       ]}
     ],
+    faqs: [
+      { q: "Does Medicare pay for a caregiver at home?", a: "Not for the kind most families need. Medicare covers a home health aide only alongside qualifying skilled nursing or therapy, for limited hours, and only while the person is homebound and needs that skilled care. It explicitly does not cover 24-hour care at home, meal delivery, homemaker services, or personal care when that is the only care required." },
+      { q: "How many days will Medicare cover in a nursing home?", a: "Up to 100 days in a benefit period after a qualifying inpatient hospital stay, with the first 20 covered in full and a daily coinsurance from day 21. Coverage continues only while skilled care is genuinely needed, so it commonly ends well before day 100. Observation status in a hospital does not count as a qualifying stay." },
+      { q: "Does a dementia diagnosis qualify someone for hospice?", a: "It can. Hospice requires a physician to certify a prognosis of six months or less if the illness runs its expected course, and advanced dementia meets that. Families routinely engage hospice far later than they could and lose months of nursing, aide hours, equipment and bereavement support they were entitled to." },
+      { q: "What pays for in-home dementia care if Medicare does not?", a: "Four things: private funds, state Medicaid home and community based services, VA Aid and Attendance if your parent or their spouse served in a wartime period, and any long-term care insurance policy bought years ago. Check all four before concluding you cannot afford care." },
+    ],
     citations: [
       { label: "Medicare: home health services coverage", url: "https://www.medicare.gov/coverage/home-health-services" },
       { label: "Medicare: skilled nursing facility care", url: "https://www.medicare.gov/coverage/skilled-nursing-facility-snf-care" },
@@ -190,6 +215,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "Worth telling the doctor as well. Pain, infection and some medications all worsen the pattern, and it is worth ruling those out before accepting it as simply what happens now."
       ]}
     ],
+    faqs: [
+      { q: "What time does sundowning usually start?", a: "Late afternoon and early evening, and it tends to arrive at a consistent time for each person. That predictability is the useful part, because it means the work happens in the hours before it rather than during it." },
+      { q: "What causes sundowning?", a: "Accumulated fatigue from a whole day of effortful concentration, failing daylight that creates shadows which are hard to interpret, hunger and thirst, a household that gets busier just as capacity drops, and a body clock that dementia disrupts directly." },
+      { q: "What helps most?", a: "Turning the lights on before dusk rather than after, which removes the shadows causing much of the confusion. Then moving demanding activities to the morning, offering food and a drink at three or four, and getting daylight and movement into the earlier part of the day." },
+      { q: "Should I tell the doctor about it?", a: "Yes. Pain, infection and several common medications all worsen the pattern, and it is worth ruling those out before accepting sundowning as simply what happens now." },
+    ],
     citations: [
       { label: "Alzheimer's Association: sleep issues and sundowning", url: "https://www.alz.org/help-support/caregiving/stages-behaviors/sleep-issues-sundowning" },
       { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
@@ -229,6 +260,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "How are your caregivers trained in dementia specifically, rather than general home care? What is your turnover, and will my parent see the same person? Who do I call, and how do you keep an out-of-state family informed? What happens when the regular caregiver is ill?",
         "And ask to speak to two families in a similar situation. A provider who will not arrange that is telling you something."
       ]}
+    ],
+    faqs: [
+      { q: "How do I know it is time?", a: "Look at both people. For your parent: they cannot safely be alone for as long as they are, or there has been a fall, missed medication, weight loss, or any wandering. For the carer: exhaustion sleep does not fix, their own appointments going unattended, or resentment surfacing as short temper." },
+      { q: "How much help should we start with?", a: "Four hours twice a week is a common and effective starting point. It gives the family carer a real break and lets your parent adjust to a new person while they still can, which is far easier than introducing a stranger during a crisis." },
+      { q: "Will they accept a stranger in the house?", a: "More often than families expect, particularly if you start with companionship rather than personal care. Continuity is what makes it work: the same caregiver on the same days becomes familiar quickly, a rotating cast never does." },
+      { q: "What should I ask a care provider?", a: "How caregivers are trained in dementia specifically rather than general home care, what their turnover is, whether your parent will see the same person, who you call, and what happens when the regular caregiver is ill. Then ask to speak to two families in a similar situation." },
     ],
     citations: [
       { label: "Alzheimer's Association: in-home care options", url: "https://www.alz.org/help-support/caregiving/care-options/in-home-care" },
@@ -275,6 +312,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "Stay at least one full evening, because much of what matters only appears after dark. And drive their car, after you have walked around it."
       ]}
     ],
+    faqs: [
+      { q: "How often should I visit if I live in another state?", a: "Frequency matters less than what you do when you are there. Treat a visit as an assessment rather than a social occasion: open the fridge and medicine cabinet, read a month of post, watch a meal made from fridge to plate, and stay at least one full evening, because much of what matters only appears after dark." },
+      { q: "What is a geriatric care manager and do I need one?", a: "A licensed nurse or social worker who works for your family rather than an agency: they visit, coordinate appointments, supervise paid caregivers and tell you plainly when the arrangement has stopped being safe. For an out-of-state family they are usually the highest-leverage person to hire, because nobody can assess a home from four hundred miles away." },
+      { q: "How do I get doctors to talk to me?", a: "A HIPAA authorisation, signed while your parent still has capacity. Without one you will spend hours on the phone being told nothing. Arrange it at the same time as the power of attorney and health care proxy rather than separately." },
+      { q: "What if my siblings and I disagree?", a: "Have the meeting before the first big decision rather than after a crisis, ideally with a care manager present, and write down who decides what, how money flows and how often you all speak. Ambiguity is what turns a hospital admission into an argument." },
+    ],
     citations: [
       { label: "National Institute on Aging: getting started with long-distance caregiving", url: "https://www.nia.nih.gov/health/long-distance-caregiving/getting-started-long-distance-caregiving" },
       { label: "Alzheimer's Association: in-home care options", url: "https://www.alz.org/help-support/caregiving/care-options/in-home-care" },
@@ -318,6 +361,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "It is the point at which many families move from checking in to overnight cover, because the risk concentrates after dark and a person who leaves at three in the morning is not found quickly."
       ]}
     ],
+    faqs: [
+      { q: "Why does someone with dementia try to leave the house?", a: "Rarely aimlessly. Usually they are going to work, collecting a child, or going home while already at home, because home means somewhere safe and familiar rather than an address. Others are looking for a bathroom, are restless, or are following a lifelong routine at the time of day they always did it." },
+      { q: "What should I do first if they go missing?", a: "Search the house and immediate garden, including cupboards and behind furniture, because people are found inside more often than families expect. Then call the police immediately. There is no waiting period for a vulnerable missing adult, and say specifically that the person has dementia because it changes how the search is run." },
+      { q: "How far do people with dementia usually go?", a: "Most are found within about a mile of home, often along a route they walked for years and frequently heading toward a former address or workplace. Tell the police that on the call, because it narrows the search considerably." },
+      { q: "Does one episode of wandering mean they cannot stay at home?", a: "Not necessarily, but it means the current arrangement has been outgrown, particularly if it happened at night or they could not find their way back. It is the point at which many families move from checking in to overnight cover, because the risk concentrates after dark." },
+    ],
     citations: [
       { label: "Alzheimer's Association: wandering", url: "https://www.alz.org/help-support/caregiving/stages-behaviors/wandering" },
       { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
@@ -355,6 +404,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "Think in eighteen-month chapters rather than final answers. Many families use part-time care, then more hours, then overnight cover, and move to memory care late or not at all. Others try home care and find within three months that it is not working, which is information rather than failure.",
         "Avoid commitments that foreclose the next decision: long contracts, or spending down assets in a way that removes an option you may need in two years."
       ]}
+    ],
+    faqs: [
+      { q: "Which is cheaper?", a: "In the early and middle stages, care at home usually is. Once round-the-clock supervision is needed it often is not, because 24-hour care at home buys one person's whole attention rather than a share of a staffed building. The honest question is which is cheaper at the stage you are actually in." },
+      { q: "Is moving to memory care giving up?", a: "No. For many families it is the right answer for the last two to four years, and a good community provides structure, awake overnight staff, secured outdoor space and peers. Isolation at home with a single caregiver is its own injury." },
+      { q: "How do we decide?", a: "Ask what happens at two in the morning, whether the funding lasts as long as the illness will, whether the main family carer is holding up, and whether the person is isolated. Those four answers decide it more reliably than any comparison of features." },
+      { q: "Is the decision permanent?", a: "Rarely. Think in eighteen-month chapters. Many families use part-time care, then more hours, then overnight cover, and move late or not at all. Avoid contracts or spending decisions that foreclose an option you may need in two years." },
     ],
     citations: [
       { label: "Alzheimer's Association: in-home care options", url: "https://www.alz.org/help-support/caregiving/care-options/in-home-care" },
@@ -394,6 +449,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "It sits alongside Medicaid home and community based services, long-term care insurance if a policy exists, and private funds. Check all four rather than assuming any one of them is the answer.",
         "If your parent or their spouse served, spend the twenty minutes to find out. It is the highest return per hour of any financial task on this list."
       ]}
+    ],
+    faqs: [
+      { q: "Who qualifies for Aid and Attendance?", a: "Broadly, wartime-era veterans and their surviving spouses who need help with everyday activities and meet the financial criteria. The care requirement is usually satisfied by dementia, because it is about needing help with bathing, dressing, eating or supervision rather than about a diagnosis." },
+      { q: "Can a widow claim it?", a: "Yes, and this is the part most often missed. A surviving spouse may qualify in their own right based on their husband's or wife's service, and families rarely think to check." },
+      { q: "Should I pay someone to file the claim?", a: "No. Charging a fee to prepare a VA benefit claim is prohibited. Accredited help is free through Veterans Service Organisations and your county Veterans Service Officer, and anyone asking for payment should be reported rather than engaged." },
+      { q: "How long does it take?", a: "Commonly months. Awards can be backdated to the date of claim, but the household still has to fund care in the meantime, which is why it is worth applying before you need it rather than when you do." },
     ],
     citations: [
       { label: "VA: Aid and Attendance and Housebound benefits", url: "https://www.va.gov/pension/aid-attendance-housebound/" },
@@ -436,6 +497,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "There is also a point at which an adult child assisting a parent with toileting costs both of them something significant, and that is a legitimate reason to bring in a trained caregiver rather than a sign of failure. For many families it is the specific task that finally makes them call."
       ]}
     ],
+    faqs: [
+      { q: "Is this really incontinence?", a: "Often not, in early and middle dementia. More commonly it is not finding the bathroom in time, not recognising the door, not registering the urge soon enough, or not managing clothing quickly. Each of those has a fix that has nothing to do with the bladder." },
+      { q: "What should I check first?", a: "A urinary infection, which causes sudden urgency and often presents as confusion in an older adult. Then constipation, which causes urinary problems more often than people expect, and any medication that affects the bladder. Any abrupt change over days warrants a call to the doctor." },
+      { q: "Should I reduce how much they drink?", a: "No, and this is the most common mistake. Concentrated urine irritates the bladder and increases urgency, and dehydration causes confusion, constipation and infection. Keep fluids normal through the day and taper only in the last two hours before bed." },
+      { q: "How do I keep their dignity?", a: "Handle it without comment. No sighing, no cleaning up in a way that announces itself, and never discussing it in front of them. Tone is read long after words are lost, and shame makes people hide accidents, which makes everything worse." },
+    ],
     citations: [
       { label: "Alzheimer's Association: incontinence", url: "https://www.alz.org/help-support/caregiving/daily-care/incontinence" },
       { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
@@ -476,6 +543,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "There is a point where the person doing this should not be the son or daughter, and recognising it is not a failure. A trained caregiver has no shared history that makes undressing humiliating, and many families find that a person who refuses their child accepts a professional without difficulty.",
         "That is also true where there is a real physical risk. Lifting a wet adult who has lost their footing is how caregivers get injured, and it happens quickly."
       ]}
+    ],
+    faqs: [
+      { q: "How often does someone with dementia actually need a bath?", a: "Most older adults do not need a daily full bath. Two full washes a week, with daily attention to the face, hands and the areas where skin problems start, is adequate for most people. Reducing seven confrontations to two is often the single biggest improvement available and it costs nothing." },
+      { q: "What do I do if they refuse to wash at all?", a: "Stop and try again later rather than pressing on. A bath abandoned calmly today is far better than a fight that makes the next four attempts harder. Then look at what triggered the refusal: cold, being undressed in front of you, water on the face, or simply believing they already washed." },
+      { q: "Why do they say they have already had a bath?", a: "Because they believe it. Someone with dementia is not lying to avoid washing; the memory of the last bath may genuinely feel recent. Arguing about it cannot win, which is why changing the conditions works better than correcting the belief." },
+      { q: "Should a son or daughter be doing personal care?", a: "There is a point where they should not, and recognising it is not a failure. A trained caregiver carries no shared history that makes undressing humiliating, and many families find a person who refuses their own child accepts a professional without difficulty." },
     ],
     citations: [
       { label: "Alzheimer's Association: bathing", url: "https://www.alz.org/help-support/caregiving/daily-care/bathing" },
@@ -518,6 +591,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "Trained dementia caregivers are taught de-escalation and, just as importantly, carry no shared history that makes being helped humiliating. Families often find that a person who fights their own child accepts a professional without difficulty."
       ]}
     ],
+    faqs: [
+      { q: "Why has a gentle person become aggressive?", a: "Because behaviour is the only language left when words are going. The anger is almost never about you. It is usually reporting pain, a urinary infection, needing the bathroom, being too hot or cold, exhaustion, or fear of what is being done to them." },
+      { q: "Can a urinary infection really cause aggression?", a: "Yes, and it is the classic cause of a sudden dramatic behaviour change in an older adult, often with no pain or fever to point at it. Any abrupt change over days rather than months should be a call to the doctor before it is treated as a behaviour problem." },
+      { q: "What should I not do during an episode?", a: "Do not argue, correct or reason, and do not raise your voice to be heard over theirs. Do not approach from behind or start a task without warning. And do not keep going with whatever triggered it, because the bath is not worth it." },
+      { q: "When does this need professional help?", a: "When someone is being hurt, when you are frightened, or when one person cannot safely provide personal care alone. Trained dementia caregivers are taught de-escalation and carry no shared history that makes being helped humiliating." },
+    ],
     citations: [
       { label: "Alzheimer's Association: aggression and anger", url: "https://www.alz.org/help-support/caregiving/stages-behaviors/agression-anger" },
       { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
@@ -554,6 +633,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "Hospital admissions are where medication errors concentrate, precisely because nobody has the full picture at three in the morning. A current list carried by whoever goes with them is the most useful single piece of paper in dementia care."
       ]}
     ],
+    faqs: [
+      { q: "Could their medication be making the dementia worse?", a: "Possibly. Anticholinergics, benzodiazepines, some sleep aids, some bladder medications and some older antihistamines all worsen confusion in older adults. Families sometimes find part of what looked like progression was a prescription, and stopping it produces visible improvement within weeks." },
+      { q: "What is the easiest way to manage doses?", a: "Ask the pharmacy for pre-sorted dose packs delivered to the house. It is free or cheap almost everywhere, removes a weekly sorting task often being done badly, and makes a missed dose visible at a glance." },
+      { q: "What do I do if they refuse to take them?", a: "Do not argue or insist. Step away and offer again in ten minutes, which works more often than persistence. Then find the reason: a tablet hard to swallow, an unpleasant taste, or a side effect nobody knows about. Ask the pharmacist about liquids, smaller tablets or patches." },
+      { q: "Can I hide medication in food?", a: "Ask the prescriber first. It changes how some drugs work, and crushing a slow-release tablet delivers the whole dose at once, which is dangerous. There is also a trust cost if it is noticed." },
+    ],
     citations: [
       { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
       { label: "Alzheimer's Association: stages of Alzheimer's", url: "https://www.alz.org/alzheimers-dementia/stages" },
@@ -587,6 +672,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "Coughing during or after eating and drinking, a wet or gurgly voice after swallowing, or food held in the mouth without being swallowed all warrant a referral for a swallowing assessment. Aspiration pneumonia is a leading cause of death in advanced dementia and this is the point at which it becomes preventable.",
         "In late-stage dementia, appetite genuinely declines as part of the illness, and at that stage forced feeding causes distress without extending life. That is a conversation to have with a doctor, ideally alongside a hospice discussion, rather than a problem to solve at the table."
       ]}
+    ],
+    faqs: [
+      { q: "Why have they stopped eating?", a: "Rarely appetite alone. Check painful teeth, an ill-fitting denture, constipation, depression and medication that has flattened taste or appetite. Then look at the table: pale food on a white plate can effectively disappear when visual processing changes." },
+      { q: "What is the single easiest change?", a: "A plain, brightly coloured plate with strong contrast against both the food and the table, with everything else cleared away and the television off. It costs almost nothing and often produces an immediate improvement." },
+      { q: "How do I get them to drink enough?", a: "Do not wait to be asked, because thirst perception fades. Leave a drink visibly within reach and offer regularly. Soup, jelly, fruit and ice lollies all count, and a lidded cup with a straw solves a lost grip without any conversation about needing help." },
+      { q: "When should I worry about swallowing?", a: "Coughing during or after eating and drinking, a wet or gurgly voice afterwards, or food held in the mouth without being swallowed. Ask for a swallowing assessment, because aspiration pneumonia is a leading cause of death in advanced dementia and this is the point at which it becomes preventable." },
     ],
     citations: [
       { label: "Alzheimer's Association: food and eating", url: "https://www.alz.org/help-support/caregiving/daily-care/food-eating" },
@@ -674,6 +765,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "Companion care often starts here, for exactly this reason. Someone who drives them to the places they used to drive themselves keeps the life rather than only the safety."
       ]}
     ],
+    faqs: [
+      { q: "How do I know when it is time to stop?", a: "Ask whether you would put your own child in that car with them driving. When the honest answer is no, the time has come. Everything else is negotiation with yourself." },
+      { q: "Can someone with early dementia keep driving?", a: "Sometimes, for a while. A diagnosis alone does not require immediate cessation. But dementia is progressive, so the question is not whether driving ends but whether it ends by decision or by collision." },
+      { q: "What if they refuse to stop?", a: "Stop having the argument yourself. A physician saying they cannot recommend continued driving carries authority a son or daughter does not, and most states have a medical referral process through the licensing authority. Then remove the car rather than relying on an agreement to be remembered." },
+      { q: "Do restrictions like daytime-only driving work?", a: "Rarely, because they depend on the person remembering and applying a rule, which is precisely the ability that is failing. They are a short bridge while alternatives are arranged, not a destination." },
+    ],
     citations: [
       { label: "Alzheimer's Association: dementia and driving", url: "https://www.alz.org/help-support/caregiving/safety/dementia-driving" },
       { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
@@ -714,6 +811,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "Where legal authority is clear, act on it and keep everyone informed in writing. Where it is not, an elder law attorney and a mediator are cheaper than the alternative. And a professional assessment from a care manager gives you something to point at that is not your own opinion, which is often what unlocks a stuck family."
       ]}
     ],
+    faqs: [
+      { q: "Why do families fall out over this?", a: "Because old roles reassert themselves at the worst moment, and because two things go unsaid: that the local sibling carries more, and who is paying what. Both are survivable when spoken aloud and corrosive when not." },
+      { q: "When should we have the conversation?", a: "Before the first big decision, while things are still stable, rather than after a crisis when someone has already acted alone. A care manager or eldercare mediator in the room changes the dynamic, because a professional saying this is not sustainable lands differently from a sister saying it." },
+      { q: "What should we actually agree?", a: "Who holds power of attorney, who is the health care surrogate, who speaks to doctors, who manages money, how costs are shared, and when you next all speak. Write it down. It is not a legal contract, it is what stops a hospital admission becoming an argument." },
+      { q: "What if one sibling will not engage?", a: "You cannot wait for consensus, because waiting can cost your parent a year of appropriate care. Where legal authority is clear, act on it and keep everyone informed in writing. A professional assessment from a care manager gives you something to point at that is not your own opinion." },
+    ],
     citations: [
       { label: "National Institute on Aging: getting started with long-distance caregiving", url: "https://www.nia.nih.gov/health/long-distance-caregiving/getting-started-long-distance-caregiving" },
       { label: "Alzheimer's Association: respite care", url: "https://www.alz.org/help-support/caregiving/care-options/respite-care" },
@@ -751,6 +854,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "And engage hospice earlier than feels natural. Families who bring it in months rather than weeks before the end consistently describe the difference as the thing that mattered most."
       ]}
     ],
+    faqs: [
+      { q: "How long does dementia last?", a: "Seven to ten years on average from first symptoms, with wide variation. Some people decline much faster, others plateau for years. Vascular dementia often moves in steps rather than a slope. Treat the arc as a planning tool, not a timetable." },
+      { q: "What should we do in the early stage?", a: "Everything legal and financial, while your parent can still take part and still has capacity to sign: durable power of attorney, health care proxy, living will, HIPAA authorisation, and a review of wills and beneficiaries. Families waste this window because nothing yet looks urgent." },
+      { q: "Which stage is hardest?", a: "The middle stage is usually the longest and the one where family-only care stops working. It is where sundowning appears, wandering becomes a real risk, and the driving and living-alone conversations become unavoidable." },
+      { q: "When should we talk about hospice?", a: "Earlier than feels natural. Advanced dementia qualifies, and families who bring hospice in months rather than weeks before the end consistently describe it as the thing that mattered most." },
+    ],
     citations: [
       { label: "Alzheimer's Association: stages of Alzheimer's", url: "https://www.alz.org/alzheimers-dementia/stages" },
       { label: "National Institute on Aging: paying for long-term care", url: "https://www.nia.nih.gov/health/paying-long-term-care" },
@@ -785,6 +894,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "Late afternoon is the worst moment to start anything demanding, which is worth remembering when a well-meant activity turns into a confrontation. Morning is usually the best.",
         "And accept that some days nothing works. That is the illness rather than your idea being wrong."
       ]}
+    ],
+    faqs: [
+      { q: "What activities work best?", a: "Whatever they did for decades. Procedural memory outlasts facts, so someone who cannot say the year may still knead dough, sand wood, deal cards or fold laundry competently, because their hands know. Start from their working life and hobbies rather than from an activity list." },
+      { q: "Does it matter if they do it wrong?", a: "No, and this is the rule that makes everything easier. Nobody needs the washing folded properly. The point is being occupied and feeling useful, not the finished thing." },
+      { q: "Why does music work when nothing else does?", a: "It reaches parts of memory that language does not, and music from between fifteen and twenty-five years old is the most durable of all. It is often the last thing to still produce recognition and pleasure." },
+      { q: "What should I avoid?", a: "Anything childish. An adult who ran a household or a business knows when they are being handed a toy, and the humiliation lands even when the words for it do not. Use real cutlery, real washing, adult music." },
     ],
     citations: [
       { label: "Alzheimer's Association: activities", url: "https://www.alz.org/help-support/caregiving/daily-care/activities" },
@@ -829,6 +944,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "It is a common point at which families first bring in help, often for the afternoons. That is not surrender. Someone else answering the question for a few hours a day is frequently what makes the rest sustainable."
       ]}
     ],
+    faqs: [
+      { q: "Why do they say this when they are already home?", a: "Because home usually means a feeling rather than an address: safe, familiar, in charge, among people who know them. It often means a childhood house, and sometimes it means their mother. Correcting the address answers a question they did not ask." },
+      { q: "Should I correct them?", a: "No. Being contradicted about your own reality is frightening, and each correction adds distress to the original distress without the information being retained. Answer the feeling instead: tell me about home usually eases the agitation within a minute." },
+      { q: "Is it wrong to go along with it?", a: "There is a difference between agreeing with a feeling and building an elaborate fiction. We will go a bit later, let us have some tea first is a gentle deferral. Aim for the smallest true thing that answers the fear." },
+      { q: "Why does it happen at the same time each day?", a: "If it clusters in the late afternoon it is likely part of sundowning rather than a separate problem, and the things that shorten sundowning will shorten this too: light the room before dusk, keep the afternoon quiet, and offer food and a drink at three or four." },
+    ],
     citations: [
       { label: "Alzheimer's Association: communication and dementia", url: "https://www.alz.org/help-support/caregiving/daily-care/communications" },
       { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
@@ -871,6 +992,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "That is the point at which the conversation moves from safety devices to overnight or full-time care."
       ]}
     ],
+    faqs: [
+      { q: "What should I fix first?", a: "Falls, without question. They are the largest acute risk and the most common route from living at home to not living at home. Remove or fix down rugs, light every hallway and stair, and put proper grab bars beside the toilet and in the shower." },
+      { q: "Are grab bars really necessary if they are still steady?", a: "Yes, because the fall you are preventing is the one nobody saw coming. Fit bars rated for weight rather than towel rails, which come off the wall under load and cause the injury they were meant to prevent." },
+      { q: "What temperature should the water heater be?", a: "120 degrees Fahrenheit or below. Scalding is a genuine and underrated risk when temperature perception changes, and this adjustment takes five minutes." },
+      { q: "Is a safe house enough to stay at home?", a: "No. Equipment does not supervise. The honest test is what happens at two in the morning: if they would not realise anything was wrong, no amount of equipment closes that gap, and the conversation moves to overnight or full-time care." },
+    ],
     citations: [
       { label: "Alzheimer's Association: home safety", url: "https://www.alz.org/help-support/caregiving/safety/home-safety" },
       { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
@@ -912,6 +1039,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "Overnight care is the specific answer to this specific problem, and it is often the intervention that keeps someone at home rather than moving them. If the days are manageable and only the nights are not, that is precisely what it is for."
       ]}
     ],
+    faqs: [
+      { q: "Why are they awake at three in the morning?", a: "Dementia damages the body clock directly, so the signal separating night from day weakens. Add less daylight, less activity and afternoon napping, and the pressure to sleep at night is simply not there." },
+      { q: "What helps most?", a: "Daylight in the morning, ideally outdoors and for at least half an hour. It is the most effective and least used intervention available, because it is what resets the body clock. Then activity during the day, and protecting the afternoon nap from becoming two hours." },
+      { q: "Should the bedroom be completely dark?", a: "No. Dark enough to sleep, but not so dark that someone waking cannot work out where they are, which produces fear and getting up. A night light in the bedroom and along the route to the toilet solves both." },
+      { q: "At what point do we need overnight care?", a: "When broken nights have become nightly, or when the person doing the caring has not slept properly for months. Sleep deprivation is not a character test, and a carer at real risk of their own health event is how a manageable situation becomes a crisis for two people." },
+    ],
     citations: [
       { label: "Alzheimer's Association: sleep issues and sundowning", url: "https://www.alz.org/help-support/caregiving/stages-behaviors/sleep-issues-sundowning" },
       { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
@@ -948,6 +1081,12 @@ export const BLOG_POSTS: BlogPost[] = [
         "Step out of the room, and come back in as though arriving fresh. Beginning again is available to you in a way it rarely is elsewhere in life.",
         "And if you find yourself sharp most days rather than occasionally, that is a signal about your own capacity rather than about your patience, and it usually means the caring arrangement needs more hands rather than more effort."
       ]}
+    ],
+    faqs: [
+      { q: "Should I correct them when they say something untrue?", a: "Usually not. Telling someone their mother died thirty years ago delivers a fresh bereavement to a person who will retain the distress but not the information, and in an hour they will ask again. Answer the feeling underneath instead." },
+      { q: "What do I say when they ask for someone who has died?", a: "Ask about them. Tell me about your mother does more in ten seconds than an explanation does in ten minutes, and it usually settles the agitation because someone is finally engaging rather than contradicting." },
+      { q: "Why do they get upset when I ask if they remember me?", a: "Because it is a question that can only produce failure. Say your name and your relationship instead of testing for it: it is Emma, your daughter removes the exam and keeps the connection." },
+      { q: "Does it matter if I lose patience sometimes?", a: "Less than you fear, because the specific exchange will not be retained. Step out, come back as though arriving fresh. But if you are sharp most days rather than occasionally, that is a signal about your own capacity and usually means the arrangement needs more hands rather than more effort." },
     ],
     citations: [
       { label: "Alzheimer's Association: communication and dementia", url: "https://www.alz.org/help-support/caregiving/daily-care/communications" },

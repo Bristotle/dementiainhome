@@ -41,8 +41,50 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const related = BLOG_POSTS.filter((p) => p.slug !== post.slug).slice(0, 3)
   const tocItems = post.sections.map((s) => ({ id: slugify(s.heading), label: s.heading }))
 
+  // Blog posts carried no page-level structured data at all, while every
+  // generated city guide had MedicalWebPage plus FAQPage plus BreadcrumbList
+  // and every service page had Service plus FAQPage. Same asymmetry as the
+  // content itself: the hand-written pages were held to a lower standard.
+  const BASE = "https://www.dementiainhome.com"
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.desc,
+    author: { "@type": "Organization", name: "Dementia In Home", url: BASE },
+    publisher: { "@type": "Organization", name: "Dementia In Home", url: BASE },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${BASE}/blog/${post.slug}` },
+    articleSection: post.category,
+    ...(post.citations?.length
+      ? { citation: post.citations.map((c) => ({ "@type": "CreativeWork", name: c.label, url: c.url })) }
+      : {}),
+  }
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: BASE },
+      { "@type": "ListItem", position: 2, name: "Guides", item: `${BASE}/blog` },
+      { "@type": "ListItem", position: 3, name: post.title, item: `${BASE}/blog/${post.slug}` },
+    ],
+  }
+  const faqSchema = post.faqs?.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: post.faqs.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      }
+    : null
+
   return (
     <main className="min-h-screen bg-warm-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
       <Nav />
       <section className="bg-slate-50 border-b border-slate-200 py-16 bg-soft-wash">
         <div className="max-w-3xl mx-auto px-6">
@@ -146,6 +188,24 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           ))}
         </Stagger>
       </section>
+
+      {post.faqs && post.faqs.length > 0 && (
+        <section className="border-t border-slate-200 bg-white">
+          <div className="max-w-3xl mx-auto px-6 py-14">
+            <h2 className="text-2xl font-bold text-slate-900 mb-6" style={{fontFamily:"var(--font-fraunces)"}}>
+              Questions families ask
+            </h2>
+            <div className="space-y-6">
+              {post.faqs.map((f) => (
+                <div key={f.q}>
+                  <h3 className="font-semibold text-slate-900 mb-1.5">{f.q}</h3>
+                  <p className="text-slate-600 leading-relaxed">{f.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {cityGuides.length > 0 && post.cityGuideTopic && (
         <section className="border-t border-slate-200 bg-slate-50">
