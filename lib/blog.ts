@@ -218,25 +218,48 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
   },
   {
+    // Rewritten from 160 words on 7 September. The competitor study rates this
+    // cluster open, ownerless and the highest lifetime value in the category:
+    // the out-of-state adult child is who actually buys.
     slug: "long-distance-caregiving-dementia",
     cityGuideTopic: "long-distance-caregiving-city",
-    category: "Guide",
-    title: "Long-Distance Caregiving: Managing a Parent with Dementia from Another State",
-    desc: "A meaningful share of family caregivers live more than an hour away. How to coordinate care and stay connected when you cannot be there.",
-    date: "June 2026",
+    category: "Getting Started",
+    title: "Managing a Parent's Dementia From Another State",
+    desc: "You cannot do this from a thousand miles away by yourself. What you can do is build something that does not require you to.",
+    date: "September 2026",
     sections: [
-      { heading: "You're not as alone in this as it feels", paragraphs: [
-        "A meaningful share of family caregivers live an hour or more away. Distance doesn't mean you can't build a genuinely solid care plan."
+      { heading: "Accept the actual constraint", paragraphs: [
+        "Most families arranging dementia care are doing it at a distance, in the gaps between a job and their own children, from a different state. The mistake almost everyone makes first is trying to be the care plan: flying down when something breaks, holding the whole picture in their head, and calling more often to compensate.",
+        "That works for a few months and then it does not, usually at the same time as a crisis. The families who do this well replace themselves with a system early, and the system has named people in it."
       ]},
-      { heading: "Build a local team, even if you can't be the one standing there", paragraphs: [
-        "A trustworthy in-home caregiver, a neighbor for informal check-ins, and a physician you've spoken with directly are the core of a long-distance plan. A geriatric care manager can act as your on-the-ground project manager."
+      { heading: "The distance is also an advantage", paragraphs: [
+        "You notice changes a spouse living in the house cannot, because they adjust to decline day by day without registering it. You are comparing this month to last Christmas.",
+        "So use that. Patterns are what you can see from far away: stories repeated inside one conversation, word-finding gaps, calls getting shorter, texts getting fewer, a new vagueness about what they did today. Unopened post. Duplicate subscriptions. New dents on the car. One honest conversation with a neighbour will tell you more than twenty phone calls."
       ]},
-      { heading: "Systems that make distance more manageable", paragraphs: [
-        "A shared calendar, brief regular updates from the caregiver, and a shared document of medications and emergency contacts all reduce the anxiety of not being there."
+      { heading: "The single highest-leverage hire", paragraphs: [
+        "A geriatric care manager, sometimes called an aging life care professional, is usually a nurse or social worker who works for your family rather than for an agency. They visit, coordinate medical appointments, supervise paid caregivers, spot decline early, and tell you plainly when the arrangement has stopped being safe.",
+        "For an out-of-state family this is the person who replaces guesswork with observation. They are typically engaged for a small number of hours a month, and the reason to hire one is not that you cannot cope but that nobody can assess a home from four hundred miles away."
       ]},
-      { heading: "What to do before your next visit", paragraphs: [
-        "Go in with a short checklist rather than relying on \"how are you feeling\" alone, since that rarely surfaces the real picture with dementia."
+      { heading: "Name the roles before the crisis", paragraphs: [
+        "Write down who holds power of attorney, who is the health care surrogate, who speaks to doctors, who manages money, and who the care provider calls first. Ambiguity here is what turns a hospital admission into a family argument.",
+        "Get a HIPAA authorisation in place while your parent still has capacity to sign one, or you will spend hours on the phone being told nothing. And get one trusted neighbour with a key and your number, which is the cheapest and most valuable thing on this list."
       ]},
+      { heading: "Build a communication system, not a habit of calling", paragraphs: [
+        "A shared document with medications, doctors, pharmacy, insurance numbers and where the legal papers are. A shared calendar for appointments and visits. A group thread with the siblings that excludes your parent, so information can move freely.",
+        "From any paid caregiver, insist on a written weekly log and a standing written update rather than call-as-needed. A monthly scheduled call with whoever is on the ground beats five unscheduled ones when something has already gone wrong."
+      ]},
+      { heading: "The sibling conversation, which is where plans break", paragraphs: [
+        "The local sibling carries the load and resents the absent ones; the absent ones do not see the load and resent being managed. Money goes unspoken. Old family roles reassert themselves at the worst moment.",
+        "The fix is structural rather than emotional: a family meeting before the first big decision, ideally with a care manager present, and a written agreement covering who decides what, how money flows, and how often you all speak. Accept openly that the local sibling does more, and that the out-of-state contribution is usually financial. Both count."
+      ]},
+      { heading: "What to do on the next visit", paragraphs: [
+        "Treat it as an assessment rather than a social occasion. Open the fridge and the medicine cabinet. Read a month of post. Look at the calendar. Watch a meal made from fridge to plate. Ask them to show you how they pay a bill.",
+        "Stay at least one full evening, because much of what matters only appears after dark. And drive their car, after you have walked around it."
+      ]}
+    ],
+    citations: [
+      { label: "National Institute on Aging: getting started with long-distance caregiving", url: "https://www.nia.nih.gov/health/long-distance-caregiving/getting-started-long-distance-caregiving" },
+      { label: "Alzheimer's Association: in-home care options", url: "https://www.alz.org/help-support/caregiving/care-options/in-home-care" },
     ],
   },
   {
@@ -305,25 +328,42 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
   },
   {
+    // Rewritten from 118 words, the thinnest on the site, on 7 September.
+    // Position 60 already, and financing pages qualify a lead as well as rank.
     slug: "va-aid-attendance-dementia",
     cityGuideTopic: "veterans-benefits-dementia-care-city",
     category: "Financing",
-    title: "VA Aid and Attendance for Veterans with Dementia",
-    desc: "Veterans and surviving spouses may qualify for a meaningful monthly benefit toward home care. Here is how to apply.",
-    date: "June 2026",
+    title: "VA Aid and Attendance for Dementia Care at Home",
+    desc: "A monthly benefit that pays toward in-home care, routinely missed by families who assume they would have been told about it.",
+    date: "September 2026",
     sections: [
-      { heading: "What Aid and Attendance actually is", paragraphs: [
-        "A pension supplement for wartime veterans and surviving spouses who need help with daily activities due to a condition like dementia, applicable toward in-home care."
+      { heading: "The benefit most eligible families never claim", paragraphs: [
+        "Aid and Attendance is an increase to a VA pension for wartime-era veterans and their surviving spouses who need help with everyday activities. It can be used toward in-home care, and for a family paying privately it is one of the few sources of ongoing monthly help that exists.",
+        "It is chronically underclaimed, largely because families assume someone would have mentioned it. Nobody automatically does."
       ]},
-      { heading: "Who typically qualifies", paragraphs: [
-        "Wartime service, underlying pension eligibility, and a documented need for assistance with daily activities. Surviving spouses may also qualify."
+      { heading: "Who it is for", paragraphs: [
+        "Broadly, three things have to line up: qualifying wartime service, a care need, and financial eligibility.",
+        "The care requirement is what dementia usually satisfies. It is not about a diagnosis but about needing help with the activities of daily living, such as bathing, dressing, eating, or requiring supervision for safety, which describes most people with moderate dementia.",
+        "Surviving spouses are eligible too, and this is the part most often missed. A widow whose husband served may qualify in her own right, and families rarely think to check."
       ]},
-      { heading: "How to apply", paragraphs: [
-        "Discharge paperwork, financial documentation, and medical evidence documenting the need. A VA-accredited claims agent or Veterans Service Officer can help, often free."
+      { heading: "What it pays and how it is used", paragraphs: [
+        "It is paid monthly as an increased pension rate, and the amounts change each year, so take the current figures from VA.gov rather than from any article including this one.",
+        "It is not paid to a care agency and it is not reimbursement. It is money to the veteran or surviving spouse, which they may spend on care as they choose. Notably, care costs are also part of how financial eligibility is assessed, which is why some families who assume their income is too high turn out to qualify."
       ]},
-      { heading: "It's a supplement, not a full solution", paragraphs: [
-        "Aid and Attendance meaningfully offsets cost for many families but rarely covers it entirely - treat it as one piece of a broader financial plan."
+      { heading: "Applying, and how long it takes", paragraphs: [
+        "Start now rather than when you need it. Applications commonly take months, and while awards can be backdated to the date of claim, the household still has to fund care in the meantime.",
+        "You will need the discharge papers, marriage and death certificates where relevant, medical evidence of the care need, and a full financial picture.",
+        "Free accredited help exists and should be used: Veterans Service Organisations and your county Veterans Service Officer assist at no charge. **Never pay anyone to file this claim.** Charging a fee to prepare a VA benefit claim is prohibited, and any organisation asking for one should be reported rather than engaged."
       ]},
+      { heading: "How it fits with everything else", paragraphs: [
+        "Aid and Attendance rarely covers the full cost of in-home care, but it meaningfully reduces it and it is ongoing, which matters over a condition that runs for years.",
+        "It sits alongside Medicaid home and community based services, long-term care insurance if a policy exists, and private funds. Check all four rather than assuming any one of them is the answer.",
+        "If your parent or their spouse served, spend the twenty minutes to find out. It is the highest return per hour of any financial task on this list."
+      ]}
+    ],
+    citations: [
+      { label: "VA: Aid and Attendance and Housebound benefits", url: "https://www.va.gov/pension/aid-attendance-housebound/" },
+      { label: "National Institute on Aging: paying for long-term care", url: "https://www.nia.nih.gov/health/paying-long-term-care" },
     ],
   },
   {
@@ -657,27 +697,46 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
   },
   {
+    // Rewritten from 166 words on 7 September. Position 62.8, the best of the
+    // thin posts, so the page is the only thing holding it back.
     slug: "i-want-to-go-home-dementia-response",
     category: "Family & Emotional Support",
-    title: "\"I Want to Go Home\": How to Respond When a Loved One with Dementia Wants to Leave",
-    desc: "When a loved one says they want to go home while already at home, they're usually expressing a need for comfort rather than a literal request.",
-    date: "July 2026",
+    title: "\"I Want to Go Home\" When They Are Already Home",
+    desc: "One of the most painful things families hear, and it is rarely about the house. What it usually means and what to say instead of correcting it.",
+    date: "September 2026",
     sections: [
-      { heading: "What's really being said", paragraphs: [
-        "\"Home\" more often refers to a feeling of safety and orientation than an actual address, which is why correcting the person rarely helps."
+      { heading: "It is almost never about the building", paragraphs: [
+        "Someone stands in the living room of the house they have owned for forty years, coat on, asking to go home. Families correct them, which is the natural response and almost always the wrong one.",
+        "Home in this sentence usually means a feeling rather than an address: safe, familiar, in charge, among people who know them. It often means a childhood house, and sometimes it means their mother.",
+        "Once you hear it as I do not feel safe and I want to be somewhere I understand, the answer becomes obvious and it is not a map."
       ]},
-      { heading: "What tends to trigger it", paragraphs: [
-        "Late afternoon, a change in routine, or disorientation about time - sometimes tied to a much earlier period of their life."
+      { heading: "Why correcting makes it worse", paragraphs: [
+        "You are home. Look, this is your house. That is factually right and it lands as an argument, because to them it is plainly not true.",
+        "Being contradicted about your own reality is frightening, and each correction adds distress to the original distress. Families sometimes escalate to proof, showing photographs or documents, and the result is reliably worse."
       ]},
-      { heading: "How to respond in the moment", paragraphs: [
-        "Validate the feeling underneath the words rather than arguing the facts, and redirect toward a comforting activity or familiar object."
+      { heading: "What tends to work", paragraphs: [
+        "Answer the feeling. Tell me about home. What is it like there? Almost always the agitation eases as they talk, because someone is finally engaging rather than contradicting, and you will usually learn which home they mean.",
+        "Then reassure without lying elaborately. You are safe here and I am staying with you is true and is what they are asking for.",
+        "Then redirect gently: a cup of tea first, a walk round the garden, music from their twenties. Movement helps more than sitting still. Often the request simply dissolves once the underlying feeling has been met.",
+        "And if they want to walk out, walk with them rather than blocking the door. A short walk that ends back at the house is far better than a confrontation in a hallway."
       ]},
-      { heading: "When it becomes about wanting to leave the house", paragraphs: [
-        "Treat an attempt to actually leave as a safety moment - calm redirection and secured exits matter more than winning the argument."
+      { heading: "On whether to lie", paragraphs: [
+        "Families agonise over this and the honest answer is that rigid truth-telling is not kindness when it produces repeated distress with no benefit.",
+        "There is a difference between agreeing with a feeling and constructing an elaborate fiction. We will go a bit later, let us have some tea first is a gentle deferral. Inventing a detailed story you must then maintain is harder for everyone and tends to collapse.",
+        "Aim for the smallest true thing that answers the fear."
       ]},
-      { heading: "This is exhausting to navigate alone, repeatedly", paragraphs: [
-        "Sharing this responsibility with a trained in-home caregiver gives real relief from a moment that can wear down even patient caregivers."
+      { heading: "When it clusters, look at the clock", paragraphs: [
+        "If this happens at the same time most days, particularly late afternoon, it is likely part of sundowning rather than a separate problem, and the things that shorten sundowning will shorten this too.",
+        "Light the room before dusk, keep the late afternoon quiet and undemanding, offer food and drink at three or four, and get daylight and movement into the morning."
       ]},
+      { heading: "What it costs the family", paragraphs: [
+        "This particular sentence hurts more than most, because it comes with the implication that you have failed to make them safe, and hearing it several times a day wears people down in a way that is hard to describe to anyone who has not.",
+        "It is a common point at which families first bring in help, often for the afternoons. That is not surrender. Someone else answering the question for a few hours a day is frequently what makes the rest sustainable."
+      ]}
+    ],
+    citations: [
+      { label: "Alzheimer's Association: communication and dementia", url: "https://www.alz.org/help-support/caregiving/daily-care/communications" },
+      { label: "National Institute on Aging: managing personality and behaviour changes", url: "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/managing-personality-and-behavior-changes" },
     ],
   },
   {
