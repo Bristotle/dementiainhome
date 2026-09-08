@@ -83,13 +83,13 @@ export interface NeonLinkButtonProps
 
 /** Same visual treatment as NeonButton, routed through next/link for page navigation. */
 export const NeonLinkButton = React.forwardRef<HTMLAnchorElement, NeonLinkButtonProps>(
-  ({ className, neon = true, size, variant, children, whileHover, whileTap, transition, ...props }, ref) => (
+  // Hover is a CSS data attribute now rather than framer-motion props. See
+  // components/motion.tsx for why the library came out.
+  ({ className, neon = true, size, variant, children, ...props }, ref) => (
     <MotionLink
       ref={ref}
       className={cn(neonButtonVariants({ variant, size }), className)}
-      whileHover={whileHover ?? { scale: 1.03 }}
-      whileTap={whileTap ?? { scale: 0.97 }}
-      transition={transition ?? HOVER_TRANSITION}
+      data-hover="scale"
       {...props}
     >
       {children}

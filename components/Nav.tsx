@@ -1,6 +1,5 @@
 "use client"
 import { usePathname } from "next/navigation"
-import { motion } from "framer-motion"
 import { MotionLink, hoverScale } from "@/components/motion"
 import MobileNavDrawer from "@/components/ui/mobile-nav-drawer"
 import SearchModal from "@/components/ui/search-modal"
@@ -20,16 +19,12 @@ const LINKS_AFTER = [
 export default function Nav() {
   const pathname = usePathname()
   return (
-    <motion.nav
-      initial={{ y: -24, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50"
+    <nav className="dih-nav-in bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50"
       role="navigation"
       aria-label="Main navigation"
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <MotionLink whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} href="/" className="flex items-center gap-2.5 font-bold text-teal-600 text-xl" style={{fontFamily:"var(--font-fraunces)"}}>
+        <MotionLink data-hover="scale" href="/" className="flex items-center gap-2.5 font-bold text-teal-600 text-xl" style={{fontFamily:"var(--font-fraunces)"}}>
           <img src="/logo-mark.svg" alt="" width={32} height={32} className="rounded-lg" />
           Dementia In Home
         </MotionLink>
@@ -37,10 +32,7 @@ export default function Nav() {
           {LINKS_BEFORE.map((link) => (
             <MotionLink
               key={link.href}
-              href={link.href}
-              whileHover={{ y: -2 }}
-              whileTap={{ y: 0 }}
-              transition={{ duration: 0.2 }}
+              href={link.href} data-hover="lift"
               className={"text-sm font-medium transition-colors whitespace-nowrap " + (pathname === link.href ? "text-teal-600 font-semibold" : "text-slate-600 hover:text-teal-600")}
             >
               {link.label}
@@ -50,10 +42,7 @@ export default function Nav() {
           {LINKS_AFTER.map((link) => (
             <MotionLink
               key={link.href}
-              href={link.href}
-              whileHover={{ y: -2 }}
-              whileTap={{ y: 0 }}
-              transition={{ duration: 0.2 }}
+              href={link.href} data-hover="lift"
               className={"text-sm font-medium transition-colors whitespace-nowrap " + (pathname === link.href ? "text-teal-600 font-semibold" : "text-slate-600 hover:text-teal-600")}
             >
               {link.label}
@@ -67,6 +56,6 @@ export default function Nav() {
           <MobileNavDrawer />
         </div>
       </div>
-    </motion.nav>
+    </nav>
   )
 }

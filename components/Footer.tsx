@@ -19,7 +19,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 py-16">
         <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-12" stagger={0.1}>
           <StaggerItem>
-            <MotionLink whileHover={{ scale: 1.02 }} href="/" className="flex items-center gap-2.5 font-bold text-white text-lg mb-4 w-fit" style={{fontFamily:"var(--font-fraunces)"}}>
+            <MotionLink data-hover="scale" href="/" className="flex items-center gap-2.5 font-bold text-white text-lg mb-4 w-fit" style={{fontFamily:"var(--font-fraunces)"}}>
               <img src="/logo-mark.svg" alt="" width={28} height={28} className="rounded-lg" />
               Dementia In Home
             </MotionLink>
