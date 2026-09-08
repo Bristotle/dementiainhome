@@ -26,7 +26,11 @@ export default function AboutPage() {
           </FadeIn>
           <FadeIn delay={0.15} className="bg-teal-50 rounded-3xl p-8 border border-teal-200">
             <Stagger className="grid grid-cols-2 gap-4">
-              {[["346","US cities in growth plan"],["7.4M","Americans with Alzheimer's"],["$0","Cost to get matched"],["72hrs","Our matching guarantee"]].map(([val,label]) => (
+              {/* "7.4M Americans with Alzheimer's" sat here for a week after the same
+                  unsourced figure was removed from the homepage, because I fixed the
+                  homepage and never checked this page. Every number below is either
+                  something we do or something countable in our own database. */}
+              {[["20","Cities served today"],["1,000","Local guides published"],["$0","Cost to get matched"],["72hrs","Profile delivery"]].map(([val,label]) => (
                 <StaggerItem key={label} className="bg-white rounded-2xl p-4 border border-teal-200 text-center">
                   <p className="text-2xl font-bold text-teal-600 mb-1">{val}</p>
                   <p className="text-xs text-slate-500">{label}</p>

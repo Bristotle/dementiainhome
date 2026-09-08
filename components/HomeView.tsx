@@ -60,7 +60,7 @@ const FAQS = [
  { q:"What makes your caregivers different?", a:"Every caregiver goes through a full background check, reference verification, and an in-person interview. We then record a 15-minute video interview so families can see and hear the caregiver before committing." },
  { q:"Is in-home care better than a memory care facility?", a:"For many families, keeping a loved one at home produces better outcomes. Familiar surroundings reduce confusion and agitation, care is one-on-one, and families control the schedule and level of care." },
  { q:"Do I have to commit before seeing caregiver profiles?", a:"No. Receiving profiles is completely free and non-binding. You review the videos, share them with family, ask questions, and only move forward when you feel completely confident." },
- { q:"What cities do you currently serve?", a:"We currently serve New York, Los Angeles, Chicago, Houston, and Phoenix. We are expanding to 346 US cities. Submit your city through our contact form and we will prioritize it." },
+ { q:"What cities do you currently serve?", a:"Twenty US cities today, each with fifty local guides built from that city's own Census figures, local providers and state programme. Browse them all on the cities page, and if yours is not there yet, tell us through the contact form." },
 ]
 
 export default function HomeView({ cities, featuredGuides = [] }: { cities: City[]; featuredGuides?: RelatedGuideLink[] }) {
