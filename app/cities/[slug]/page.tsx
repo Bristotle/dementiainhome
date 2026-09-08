@@ -118,31 +118,27 @@ export default async function CityPage({ params }: Props) {
  <ShapeBackgroundCompact />
  <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_420px] gap-10 lg:gap-12 items-center">
  <div className="max-w-2xl">
- <FadeIn>
+ {/* Nothing above the fold fades in from invisible. An entrance animation on
+     the hero makes the largest contentful element unpaintable until it
+     finishes, which is how the LCP on this page reached 3.5 seconds on
+     mobile - and this is the highest commercial-intent page on the site. */}
  <p className="text-sm text-slate-500 mb-3">
  <Link href="/cities" className="text-teal-600 hover:underline">Cities</Link>
  <span className="mx-2 text-slate-300">/</span>
  <Link href={`/states/${stateSlug(city.state)}`} className="text-teal-600 hover:underline">{city.state}</Link>
  </p>
- </FadeIn>
- <FadeIn><p className="eyebrow mb-4">{city.name}, {city.state_abbrev}</p></FadeIn>
- <FadeIn delay={0.1}>
+ <p className="eyebrow mb-4">{city.name}, {city.state_abbrev}</p>
  <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight mb-6" style={{fontFamily:"var(--font-fraunces)"}}>
  In-Home Dementia Care in <span className="text-teal-600">{city.name}</span>
  </h1>
- </FadeIn>
- <FadeIn delay={0.2}>
  <p className="text-lg text-slate-600 leading-relaxed mb-8">
  We match families in {city.name} with vetted dementia caregivers and send you free video profiles within 72 hours. Transparent pricing. No pressure.
  </p>
- </FadeIn>
- <FadeIn delay={0.3}>
  <MotionLink {...hoverScale} href="#get-matched" className="btn-primary">Get free caregiver profiles →</MotionLink>
- </FadeIn>
  </div>
- <FadeIn delay={0.15} className="hidden lg:block">
+ <div className="hidden lg:block">
  <PageHero imageKey={city.slug} placeName={`${city.name}, ${city.state_abbrev}`} />
- </FadeIn>
+ </div>
  </div>
  </section>
 

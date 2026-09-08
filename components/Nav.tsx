@@ -19,7 +19,7 @@ const LINKS_AFTER = [
 export default function Nav() {
   const pathname = usePathname()
   return (
-    <nav className="dih-nav-in bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50"
+    <nav className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50"
       role="navigation"
       aria-label="Main navigation"
     >
