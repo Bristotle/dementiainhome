@@ -94,7 +94,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <div className="flex items-center gap-3">
  <SearchModal />
  <a href="tel:+17864325758" className="hidden xl:block text-sm font-semibold text-slate-700 hover:text-teal-600">(786) 432-5758</a>
- <Link href="#get-matched" className="hidden sm:block px-5 py-2.5 rounded-xl bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition-colors shadow-sm whitespace-nowrap">Get Free Profiles →</Link>
+ <Link href="#get-matched" className="hidden sm:block px-5 py-2.5 rounded-xl bg-teal-700 text-white text-sm font-semibold hover:bg-teal-800 transition-colors shadow-sm whitespace-nowrap">Get Free Profiles →</Link>
  <MobileNavDrawer />
  </div>
  </div>
@@ -133,7 +133,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  </div>
  </section>
 
- <div className="bg-teal-600 text-white relative overflow-hidden">
+ <div className="bg-teal-700 text-white relative overflow-hidden">
  <div className="absolute inset-0 bg-gradient-to-r from-teal-500/30 via-transparent to-teal-700/30 pointer-events-none" />
  <div className="relative max-w-6xl mx-auto px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
  {/* Counts come from the cities the site actually serves. This said
@@ -190,7 +190,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <p className="text-slate-600 leading-relaxed mb-4"><strong>Dementia In Home</strong> is a national in-home dementia care matching service. We connect families with vetted, compassionate caregivers - and we do something no other service does: we send you <strong>real 15-minute video interviews</strong> of each matched caregiver before you commit to anything.</p>
  <p className="text-slate-600 leading-relaxed mb-8">We specialize exclusively in dementia and Alzheimer care. Matching is <strong>free</strong>. Caregiver profiles arrive within <strong>72 hours</strong>. You move forward only when you feel completely confident.</p>
  <div className="flex flex-wrap gap-3">
- <a href="tel:+17864325758" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-600 text-white font-semibold text-sm hover:bg-teal-700 transition-colors"><Phone className="w-4 h-4" />(786) 432-5758</a>
+ <a href="tel:+17864325758" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-700 text-white font-semibold text-sm hover:bg-teal-800 transition-colors"><Phone className="w-4 h-4" />(786) 432-5758</a>
  <Link href="#get-matched" className="px-6 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:border-teal-400 hover:text-teal-600 transition-colors">Get Started →</Link>
  </div>
  </div>
@@ -234,7 +234,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <div className="relative h-44 overflow-hidden">
  <Image src={s.img} alt={s.imgAlt} fill sizes="(max-width: 768px) 100vw, 400px" className="object-cover group-hover:scale-105 transition-transform duration-500" />
  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent" />
- <span className={"absolute top-3 left-3 text-xs font-semibold px-2 py-1 rounded-full " + (s.tag === "Urgent" ? "bg-red-500 text-white" : s.tag === "Most Popular" ? "bg-teal-600 text-white" : "bg-white/90 text-slate-700")}>{s.tag}</span>
+ <span className={"absolute top-3 left-3 text-xs font-semibold px-2 py-1 rounded-full " + (s.tag === "Urgent" ? "bg-red-500 text-white" : s.tag === "Most Popular" ? "bg-teal-700 text-white" : "bg-white/90 text-slate-700")}>{s.tag}</span>
  </div>
  <div className="p-5">
  <div className="flex items-center gap-2 mb-2">
@@ -283,7 +283,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  {HOW_STEPS.map((step, i) => (
  <div key={step.n} className="text-center relative">
  <div className="relative inline-block mb-6">
- <div className="w-20 h-20 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-2xl mx-auto shadow-lg shadow-teal-200" style={{fontFamily:"var(--font-fraunces)"}}>{step.n}</div>
+ <div className="w-20 h-20 rounded-full bg-teal-700 text-white flex items-center justify-center font-bold text-2xl mx-auto shadow-lg shadow-teal-200" style={{fontFamily:"var(--font-fraunces)"}}>{step.n}</div>
  {i < HOW_STEPS.length - 1 && (
  <svg className="absolute -right-16 top-1/2 -translate-y-1/2 hidden sm:block" width="32" height="16" viewBox="0 0 32 16" fill="none" aria-hidden="true">
  <path d="M0 8 Q16 0 32 8" stroke="#0d9488" strokeWidth="2" fill="none" strokeDasharray="4 2"/>
@@ -299,7 +299,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  ))}
  </div>
  <div className="text-center mt-12 flex flex-wrap gap-4 justify-center">
- <Link href="#get-matched" className="px-10 py-4 rounded-xl bg-teal-600 text-white font-semibold hover:bg-teal-700 transition-colors shadow-sm">Get Free Caregiver Profiles →</Link>
+ <Link href="#get-matched" className="px-10 py-4 rounded-xl bg-teal-700 text-white font-semibold hover:bg-teal-800 transition-colors shadow-sm">Get Free Caregiver Profiles →</Link>
  <Link href="/getting-started" className="px-10 py-4 rounded-xl border border-slate-300 text-slate-700 font-semibold hover:border-teal-400 hover:text-teal-600 transition-colors">Full Details →</Link>
  </div>
  </section>
@@ -352,7 +352,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  </div>
  </section>
 
- <section id="get-matched" className="bg-teal-600 text-white relative overflow-hidden">
+ <section id="get-matched" className="bg-teal-700 text-white relative overflow-hidden">
  <div className="absolute inset-0 bg-gradient-to-br from-teal-500/40 via-transparent to-teal-800/40 pointer-events-none" />
  <div className="relative z-10">
  <div className="max-w-6xl mx-auto px-6 py-20">
@@ -392,14 +392,14 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <div key={i} className={"rounded-2xl border overflow-hidden transition-all " + (openFaq === i ? "border-teal-400 shadow-sm" : "border-slate-200")}>
  <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 hover:bg-slate-50 transition-colors" aria-expanded={openFaq === i}>
  <span className="font-semibold text-slate-900 text-sm sm:text-base">{faq.q}</span>
- <div className={"w-8 h-8 rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0 transition-colors " + (openFaq === i ? "bg-teal-600 text-white" : "bg-slate-100 text-slate-600")}>{openFaq === i ? "−" : "+"}</div>
+ <div className={"w-8 h-8 rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0 transition-colors " + (openFaq === i ? "bg-teal-700 text-white" : "bg-slate-100 text-slate-600")}>{openFaq === i ? "−" : "+"}</div>
  </button>
  {openFaq === i && <div className="px-6 pb-6 text-slate-600 leading-relaxed text-sm border-t border-slate-100 pt-4">{faq.a}</div>}
  </div>
  ))}
  </div>
  <div className="mt-10 text-center flex flex-wrap gap-3 justify-center">
- <a href="tel:+17864325758" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-600 text-white font-semibold text-sm hover:bg-teal-700 transition-colors"><Phone className="w-4 h-4" />(786) 432-5758</a>
+ <a href="tel:+17864325758" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-700 text-white font-semibold text-sm hover:bg-teal-800 transition-colors"><Phone className="w-4 h-4" />(786) 432-5758</a>
  <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:border-teal-400 hover:text-teal-600 transition-colors"><MessageCircle className="w-4 h-4" />Send us a message →</Link>
  </div>
  </section>
@@ -521,8 +521,8 @@ function HomepageLeadForm() {
  </div>
  <div><label htmlFor="hp_ms" className="block text-xs font-medium text-slate-700 mb-1">Tell us about your situation</label><textarea id="hp_ms" name="message" rows={3} placeholder="My father has Alzheimer and needs help Monday-Friday..." value={form.message} onChange={handleChange} className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none" /></div>
  {status === "error" && <p className="text-sm text-red-600 bg-red-50 px-4 py-3 rounded-xl">{errMsg}</p>}
- <button type="submit" disabled={status==="loading"} className="w-full py-3.5 rounded-xl bg-teal-600 text-white font-semibold text-sm hover:bg-teal-700 transition-colors disabled:opacity-60">{status==="loading" ? "Sending..." : "Send me free caregiver profiles →"}</button>
- <p className="text-xs text-slate-400 text-center">Free, no obligation. We respond within 24 hours.</p>
+ <button type="submit" disabled={status==="loading"} className="w-full py-3.5 rounded-xl bg-teal-700 text-white font-semibold text-sm hover:bg-teal-800 transition-colors disabled:opacity-60">{status==="loading" ? "Sending..." : "Send me free caregiver profiles →"}</button>
+ <p className="text-xs text-slate-500 text-center">Free, no obligation. We respond within 24 hours.</p>
  </form>
  )
 }

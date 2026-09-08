@@ -142,7 +142,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
           {post.citations && post.citations.length > 0 && (
             <FadeIn className="mt-4">
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500">
                 Sources: {post.citations.map((c, i) => (
                   <span key={c.url}>
                     <a href={c.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-600">{c.label}</a>

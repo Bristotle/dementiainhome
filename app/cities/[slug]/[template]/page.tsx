@@ -119,7 +119,7 @@ export default async function GeneratedPage({ params }: Props) {
  <img src="/logo-mark.svg" alt="" width={28} height={28} className="rounded-lg" />
  Dementia In Home
  </Link>
- <MotionLink {...hoverScale} href="#get-matched" className="px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition-colors">Get free profiles</MotionLink>
+ <MotionLink {...hoverScale} href="#get-matched" className="px-4 py-2 rounded-lg bg-teal-700 text-white text-sm font-semibold hover:bg-teal-800 transition-colors">Get free profiles</MotionLink>
  </div>
  </nav>
 
@@ -178,7 +178,7 @@ export default async function GeneratedPage({ params }: Props) {
  <p className="font-bold text-slate-900">Still deciding what {page.city.name} care should look like?</p>
  <p className="text-sm text-slate-600">We will send 3 hand-picked caregiver video profiles within 72 hours. Free, no obligation.</p>
  </div>
- <MotionLink {...hoverScale} href="#get-matched" className="shrink-0 px-5 py-3 rounded-xl bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition-colors whitespace-nowrap">
+ <MotionLink {...hoverScale} href="#get-matched" className="shrink-0 px-5 py-3 rounded-xl bg-teal-700 text-white text-sm font-semibold hover:bg-teal-800 transition-colors whitespace-nowrap">
  Get free profiles →
  </MotionLink>
  </div>
@@ -194,7 +194,7 @@ export default async function GeneratedPage({ params }: Props) {
 
  {page.content_json.citedUrls.length > 0 && (
  <div className="max-w-3xl mx-auto px-6 pb-10">
- <p className="text-xs text-slate-400">
+ <p className="text-xs text-slate-500">
  Sources referenced on this page - click through for the original material: {page.content_json.citedUrls.map((url, i) => (
  <span key={url}>
  <a href={url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-600">{new URL(url).hostname}</a>
@@ -270,7 +270,7 @@ export default async function GeneratedPage({ params }: Props) {
  </section>
  )}
 
- <section id="get-matched" className="bg-teal-600 text-white relative overflow-hidden">
+ <section id="get-matched" className="bg-teal-700 text-white relative overflow-hidden">
  <div className="absolute inset-0 bg-gradient-to-br from-teal-500/40 via-transparent to-teal-800/40 pointer-events-none" />
  <div className="relative z-10">
  <div className="max-w-2xl mx-auto px-6 py-16 text-center">
@@ -289,7 +289,7 @@ export default async function GeneratedPage({ params }: Props) {
  <a href="tel:+17864325758" className="flex-1 text-center py-3 rounded-xl border border-teal-600 text-teal-700 font-semibold text-sm">
  Call (786) 432-5758
  </a>
- <a href="#get-matched" className="flex-1 text-center py-3 rounded-xl bg-teal-600 text-white font-semibold text-sm">
+ <a href="#get-matched" className="flex-1 text-center py-3 rounded-xl bg-teal-700 text-white font-semibold text-sm">
  Free profiles
  </a>
  </div>

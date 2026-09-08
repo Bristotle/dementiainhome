@@ -8,7 +8,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-teal-600 text-white hover:bg-teal-700",
+        default: "bg-teal-700 text-white hover:bg-teal-800",
         outline: "border border-zinc-200 bg-transparent hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800",
         ghost: "hover:bg-zinc-100 dark:hover:bg-zinc-800",
         link: "text-teal-600 underline-offset-4 hover:underline",

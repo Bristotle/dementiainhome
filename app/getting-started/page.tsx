@@ -31,7 +31,7 @@ export default function GettingStartedPage() {
           {STEPS.map((s) => (
             <StaggerItem key={s.n} className="flex gap-6 items-start">
               <div className="flex flex-col items-center flex-shrink-0">
-                <div className="w-14 h-14 rounded-full bg-teal-600 text-white font-bold text-xl flex items-center justify-center">{s.n}</div>
+                <div className="w-14 h-14 rounded-full bg-teal-700 text-white font-bold text-xl flex items-center justify-center">{s.n}</div>
                 {s.n !== "4" && <div className="w-0.5 flex-1 bg-teal-200 my-2" style={{ minHeight: "2rem" }} />}
               </div>
               <div className="card flex-1 mb-2">

@@ -27,7 +27,7 @@ export default function BlogPage() {
               <h2 className="font-bold text-slate-900 text-lg mb-3 leading-snug flex-1">{post.title}</h2>
               <p className="text-slate-500 text-sm leading-relaxed mb-4">{post.desc}</p>
               <div className="flex items-center justify-between mt-auto">
-                <span className="text-xs text-slate-400">{post.date}</span>
+                <span className="text-xs text-slate-500">{post.date}</span>
                 <MotionLink {...hoverShift} href={"/blog/"+post.slug} className="text-sm text-teal-600 font-semibold hover:underline">Read more →</MotionLink>
               </div>
             </StaggerItem>
@@ -37,7 +37,7 @@ export default function BlogPage() {
           <p className="text-xl font-bold text-slate-900 mb-3">Need help right now?</p>
           <p className="text-slate-600 mb-6">Skip the reading and talk to a real person.</p>
           <div className="flex flex-wrap gap-3 justify-center">
-            <MotionLink {...hoverScale} href="/#get-matched" className="px-8 py-3 rounded-xl bg-teal-600 text-white font-semibold hover:bg-teal-700 transition-colors">Get Free Caregiver Profiles</MotionLink>
+            <MotionLink {...hoverScale} href="/#get-matched" className="px-8 py-3 rounded-xl bg-teal-700 text-white font-semibold hover:bg-teal-800 transition-colors">Get Free Caregiver Profiles</MotionLink>
             <a href="tel:8005550100" className="px-8 py-3 rounded-xl border border-teal-600 text-teal-600 font-semibold hover:bg-teal-50 transition-colors">Call (800) 555-0100</a>
           </div>
         </FadeIn>

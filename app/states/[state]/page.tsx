@@ -147,12 +147,12 @@ export default async function StateHubPage({ params }: Props) {
                 {found.name}&apos;s official programme page →
               </a>
               {waiver.verified_at && (
-                <span className="text-xs text-slate-400">
+                <span className="text-xs text-slate-500">
                   Verified {new Date(waiver.verified_at).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}
                 </span>
               )}
             </div>
-            <p className="text-xs text-slate-400 mt-3 max-w-2xl leading-relaxed">
+            <p className="text-xs text-slate-500 mt-3 max-w-2xl leading-relaxed">
               Rules and figures change. Confirm the current position with the programme itself before
               making a financial decision.
             </p>
@@ -182,7 +182,7 @@ export default async function StateHubPage({ params }: Props) {
                   ))}
                 </ul>
               ) : (
-                <p className="text-sm text-slate-400">Guides for {city.name} are being published now.</p>
+                <p className="text-sm text-slate-500">Guides for {city.name} are being published now.</p>
               )}
               {guides.length > 10 && (
                 <Link href={`/cities/${city.slug}`} className="inline-block mt-4 text-sm font-semibold text-teal-600 hover:underline">

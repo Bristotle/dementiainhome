@@ -41,7 +41,7 @@ export default function DataSources({
  Where our numbers come from
  </h2>
  {verifiedOn && (
- <p className="text-xs text-slate-400 tabular-nums">
+ <p className="text-xs text-slate-500 tabular-nums">
  Last verified {new Date(verifiedOn).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}
  </p>
  )}
@@ -70,7 +70,7 @@ export default function DataSources({
  ))}
  </ul>
 
- <p className="text-xs text-slate-400 mt-6 max-w-2xl leading-relaxed">
+ <p className="text-xs text-slate-500 mt-6 max-w-2xl leading-relaxed">
  These are the public records we cite. They are sources of data, not partners, and
  none of them endorses this service. <Link href="/cities" className="underline hover:text-teal-600">See how we use them city by city</Link>.
  </p>

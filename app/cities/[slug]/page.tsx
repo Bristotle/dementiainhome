@@ -109,7 +109,7 @@ export default async function CityPage({ params }: Props) {
  <span className="hidden sm:inline">(786) 432-5758</span>
  <span className="sm:hidden">Call</span>
  </a>
- <MotionLink {...hoverScale} href="#get-matched" className="px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition-colors">Get free profiles</MotionLink>
+ <MotionLink {...hoverScale} href="#get-matched" className="px-4 py-2 rounded-lg bg-teal-700 text-white text-sm font-semibold hover:bg-teal-800 transition-colors">Get free profiles</MotionLink>
  </div>
  </div>
  </nav>
@@ -163,7 +163,7 @@ export default async function CityPage({ params }: Props) {
  <p className="text-sm text-slate-500 mt-1">Around-the-clock</p>
  </StaggerItem>
  </Stagger>
- <p className="text-xs text-slate-400 mt-4">Local rate range: ${city.hourly_rate_low}-${city.hourly_rate_high}/hr.</p>
+ <p className="text-xs text-slate-500 mt-4">Local rate range: ${city.hourly_rate_low}-${city.hourly_rate_high}/hr.</p>
  </div>
  </section>
 
@@ -241,7 +241,7 @@ export default async function CityPage({ params }: Props) {
  )}
 
  {citations.length > 0 && (
- <p className="text-xs text-slate-400">
+ <p className="text-xs text-slate-500">
  Sources: {citations.map((c, i) => (
  <span key={c.url}>
  <a href={c.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-600">{c.label}</a>
@@ -264,7 +264,7 @@ export default async function CityPage({ params }: Props) {
  { n:"3", title:"Watch video profiles", desc:"See and hear each caregiver before you commit.", note:"Zero obligation until you say yes." },
  ].map((step) => (
  <StaggerItem key={step.n} className="flex gap-4">
- <div className="w-10 h-10 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">{step.n}</div>
+ <div className="w-10 h-10 rounded-full bg-teal-700 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">{step.n}</div>
  <div>
  <h3 className="font-semibold text-slate-900 mb-1">{step.title}</h3>
  <p className="text-slate-500 text-sm leading-relaxed mb-1">{step.desc}</p>
@@ -275,7 +275,7 @@ export default async function CityPage({ params }: Props) {
  </Stagger>
  </section>
 
- <section id="get-matched" className="bg-teal-600 text-white relative overflow-hidden">
+ <section id="get-matched" className="bg-teal-700 text-white relative overflow-hidden">
  <div className="absolute inset-0 bg-gradient-to-br from-teal-500/40 via-transparent to-teal-800/40 pointer-events-none" />
  <div className="relative z-10">
  <div className="max-w-2xl mx-auto px-6 py-16 text-center">

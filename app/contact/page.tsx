@@ -114,7 +114,7 @@ export default function ContactPage() {
                       </motion.p>
                     )}
                   </AnimatePresence>
-                  <motion.button {...hoverScale} type="submit" disabled={status==="loading"} className="w-full py-3.5 rounded-xl bg-teal-600 text-white font-semibold text-sm hover:bg-teal-700 transition-colors disabled:opacity-60">{status==="loading" ? "Sending..." : "Send message"}</motion.button>
+                  <motion.button {...hoverScale} type="submit" disabled={status==="loading"} className="w-full py-3.5 rounded-xl bg-teal-700 text-white font-semibold text-sm hover:bg-teal-800 transition-colors disabled:opacity-60">{status==="loading" ? "Sending..." : "Send message"}</motion.button>
                 </motion.form>
               )}
             </AnimatePresence>

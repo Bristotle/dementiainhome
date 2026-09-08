@@ -117,11 +117,11 @@ export default function LeadForm({ cityName, cityState, pageType, sourcePage }: 
         {...hoverScale}
         type="submit"
         disabled={status==="loading"}
-        className="w-full py-3.5 rounded-xl bg-teal-600 text-white font-semibold text-sm hover:bg-teal-700 transition-colors disabled:opacity-60"
+        className="w-full py-3.5 rounded-xl bg-teal-700 text-white font-semibold text-sm hover:bg-teal-800 transition-colors disabled:opacity-60"
       >
         {status==="loading" ? "Sending..." : "Send me free caregiver profiles →"}
       </button>
-      <p className="text-xs text-slate-400 text-center">Free, no obligation. We respond within 24 hours.</p>
+      <p className="text-xs text-slate-500 text-center">Free, no obligation. We respond within 24 hours.</p>
     </form>
   )
 }
