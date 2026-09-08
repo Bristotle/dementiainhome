@@ -80,20 +80,20 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
 
  <nav className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
  <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
- <Link href="/" className="flex items-center gap-2.5 font-bold text-teal-600 text-xl" style={{fontFamily:"var(--font-fraunces)"}}>
+ <Link href="/" className="flex items-center gap-2.5 font-bold text-teal-700 text-xl" style={{fontFamily:"var(--font-fraunces)"}}>
  <img src="/logo-mark.svg" alt="" width={32} height={32} className="rounded-lg" />
  Dementia In Home
  </Link>
  <div className="hidden lg:flex items-center gap-6">
- <Link href="/about" className="text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors whitespace-nowrap">About</Link>
+ <Link href="/about" className="text-sm font-medium text-slate-600 hover:text-teal-700 transition-colors whitespace-nowrap">About</Link>
  <ServicesDropdown />
  {[["/caregivers","Our Caregivers"],["/getting-started","Getting Started"],["/blog","Blog"],["/contact","Contact"]].map(([href,label]) => (
- <Link key={href} href={href} className="text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors whitespace-nowrap">{label}</Link>
+ <Link key={href} href={href} className="text-sm font-medium text-slate-600 hover:text-teal-700 transition-colors whitespace-nowrap">{label}</Link>
  ))}
  </div>
  <div className="flex items-center gap-3">
  <SearchModal />
- <a href="tel:+17864325758" className="hidden xl:block text-sm font-semibold text-slate-700 hover:text-teal-600">(786) 432-5758</a>
+ <a href="tel:+17864325758" className="hidden xl:block text-sm font-semibold text-slate-700 hover:text-teal-700">(786) 432-5758</a>
  <Link href="#get-matched" className="hidden sm:block px-5 py-2.5 rounded-xl bg-teal-700 text-white text-sm font-semibold hover:bg-teal-800 transition-colors shadow-sm whitespace-nowrap">Get Free Profiles →</Link>
  <MobileNavDrawer />
  </div>
@@ -172,7 +172,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  </Link>
  ))}
  </div>
- <Link href="/cities" className="inline-block mt-8 text-sm font-semibold text-teal-600 hover:underline">
+ <Link href="/cities" className="inline-block mt-8 text-sm font-semibold text-teal-700 hover:underline">
  Browse all {cities.length} cities &rarr;
  </Link>
  </div>
@@ -186,12 +186,12 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
  <div>
  <p className="eyebrow mb-4">About Us</p>
- <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6 leading-tight" style={{fontFamily:"var(--font-fraunces)"}}>About <em className="not-italic text-teal-600">Dementia In Home</em></h2>
+ <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6 leading-tight" style={{fontFamily:"var(--font-fraunces)"}}>About <em className="not-italic text-teal-700">Dementia In Home</em></h2>
  <p className="text-slate-600 leading-relaxed mb-4"><strong>Dementia In Home</strong> is a national in-home dementia care matching service. We connect families with vetted, compassionate caregivers - and we do something no other service does: we send you <strong>real 15-minute video interviews</strong> of each matched caregiver before you commit to anything.</p>
  <p className="text-slate-600 leading-relaxed mb-8">We specialize exclusively in dementia and Alzheimer care. Matching is <strong>free</strong>. Caregiver profiles arrive within <strong>72 hours</strong>. You move forward only when you feel completely confident.</p>
  <div className="flex flex-wrap gap-3">
  <a href="tel:+17864325758" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-700 text-white font-semibold text-sm hover:bg-teal-800 transition-colors"><Phone className="w-4 h-4" />(786) 432-5758</a>
- <Link href="#get-matched" className="px-6 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:border-teal-400 hover:text-teal-600 transition-colors">Get Started →</Link>
+ <Link href="#get-matched" className="px-6 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:border-teal-400 hover:text-teal-700 transition-colors">Get Started →</Link>
  </div>
  </div>
  <div className="space-y-4">
@@ -211,7 +211,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  which are true by construction. */}
  {[[`${cities.length}`,"Cities served"],["50","Local guides per city"],["$0","Cost to get matched"],["72hrs","Profile delivery"]].map(([val,label]) => (
  <div key={label} className="bg-white rounded-xl p-3 border border-slate-200 text-center">
- <p className="text-xl font-bold text-teal-600 mb-0.5">{val}</p>
+ <p className="text-xl font-bold text-teal-700 mb-0.5">{val}</p>
  <p className="text-xs text-slate-500">{label}</p>
  </div>
  ))}
@@ -225,7 +225,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <div className="max-w-6xl mx-auto px-6 py-20">
  <div className="text-center mb-14">
  <p className="eyebrow mb-3">Our Services</p>
- <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{fontFamily:"var(--font-fraunces)"}}>Comprehensive <em className="not-italic text-teal-600">Dementia Care</em> All at Home</h2>
+ <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{fontFamily:"var(--font-fraunces)"}}>Comprehensive <em className="not-italic text-teal-700">Dementia Care</em> All at Home</h2>
  <p className="text-slate-500 max-w-2xl mx-auto">We match families with vetted dementia caregivers across the full spectrum of in-home care.</p>
  </div>
  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -238,17 +238,17 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  </div>
  <div className="p-5">
  <div className="flex items-center gap-2 mb-2">
- <s.icon className="w-5 h-5 text-teal-600" strokeWidth={2} />
+ <s.icon className="w-5 h-5 text-teal-700" strokeWidth={2} />
  <h3 className="font-bold text-slate-900 text-base">{s.title}</h3>
  </div>
  <p className="text-slate-500 text-sm leading-relaxed mb-4">{s.desc}</p>
- <Link href={`/services/${s.slug}`} className="text-teal-600 text-sm font-semibold hover:underline">Learn More →</Link>
+ <Link href={`/services/${s.slug}`} className="text-teal-700 text-sm font-semibold hover:underline">Learn More →</Link>
  </div>
  </div>
  ))}
  </div>
  <div className="text-center mt-10">
- <Link href="/services" className="inline-flex items-center px-8 py-3 rounded-xl border-2 border-teal-600 text-teal-600 font-semibold hover:bg-teal-600 hover:text-white transition-all">See All Services →</Link>
+ <Link href="/services" className="inline-flex items-center px-8 py-3 rounded-xl border-2 border-teal-600 text-teal-700 font-semibold hover:bg-teal-800 hover:text-white transition-all">See All Services →</Link>
  </div>
  </div>
  </section>
@@ -256,7 +256,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <section className="max-w-6xl mx-auto px-6 py-20">
  <div className="text-center mb-14">
  <p className="eyebrow mb-3">Why Dementia In Home</p>
- <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{fontFamily:"var(--font-fraunces)"}}>We Put <em className="not-italic text-teal-600">Families First.</em> Always.</h2>
+ <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{fontFamily:"var(--font-fraunces)"}}>We Put <em className="not-italic text-teal-700">Families First.</em> Always.</h2>
  <p className="text-slate-500 max-w-2xl mx-auto">Every feature we built exists because families told us what they actually needed.</p>
  </div>
  <SpotlightCards items={WHY_US} />
@@ -276,7 +276,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <section id="how-it-works" className="max-w-6xl mx-auto px-6 py-20">
  <div className="text-center mb-14">
  <p className="eyebrow mb-3">Get Started</p>
- <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{fontFamily:"var(--font-fraunces)"}}>Free 72-Hour Matching in <em className="not-italic text-teal-600">3 Simple Steps</em></h2>
+ <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{fontFamily:"var(--font-fraunces)"}}>Free 72-Hour Matching in <em className="not-italic text-teal-700">3 Simple Steps</em></h2>
  <p className="text-slate-500 max-w-2xl mx-auto">Getting matched with a vetted dementia caregiver is fast, free, and completely pressure-free.</p>
  </div>
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
@@ -294,13 +294,13 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <span className="text-xs font-semibold bg-teal-100 text-teal-700 px-3 py-1 rounded-full block w-fit mx-auto mb-3">{step.time}</span>
  <h3 className="font-bold text-slate-900 text-lg mb-3">{step.title}</h3>
  <p className="text-slate-500 text-sm leading-relaxed mb-3">{step.desc}</p>
- <p className="text-xs text-teal-600 font-semibold">{step.note}</p>
+ <p className="text-xs text-teal-700 font-semibold">{step.note}</p>
  </div>
  ))}
  </div>
  <div className="text-center mt-12 flex flex-wrap gap-4 justify-center">
  <Link href="#get-matched" className="px-10 py-4 rounded-xl bg-teal-700 text-white font-semibold hover:bg-teal-800 transition-colors shadow-sm">Get Free Caregiver Profiles →</Link>
- <Link href="/getting-started" className="px-10 py-4 rounded-xl border border-slate-300 text-slate-700 font-semibold hover:border-teal-400 hover:text-teal-600 transition-colors">Full Details →</Link>
+ <Link href="/getting-started" className="px-10 py-4 rounded-xl border border-slate-300 text-slate-700 font-semibold hover:border-teal-400 hover:text-teal-700 transition-colors">Full Details →</Link>
  </div>
  </section>
 
@@ -308,7 +308,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <div className="max-w-6xl mx-auto px-6 py-20">
  <div className="text-center mb-14">
  <p className="eyebrow mb-3">Meet Your Care Team</p>
- <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{fontFamily:"var(--font-fraunces)"}}><em className="not-italic text-teal-600">Real Caregivers.</em> Real Support.</h2>
+ <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{fontFamily:"var(--font-fraunces)"}}><em className="not-italic text-teal-700">Real Caregivers.</em> Real Support.</h2>
  <p className="text-slate-500 max-w-2xl mx-auto">Every caregiver in our network is carefully vetted, dementia-trained, and video-interviewed.</p>
  </div>
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -329,25 +329,25 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <section id="cities" className="max-w-6xl mx-auto px-6 py-20">
  <div className="text-center mb-14">
  <p className="eyebrow mb-3">Cities We Serve</p>
- <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{fontFamily:"var(--font-fraunces)"}}>In-Home Dementia Care <em className="not-italic text-teal-600">in Your City</em></h2>
+ <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{fontFamily:"var(--font-fraunces)"}}>In-Home Dementia Care <em className="not-italic text-teal-700">in Your City</em></h2>
  <p className="text-slate-500 max-w-2xl mx-auto">Each city page shows real local pricing and connects you with vetted caregivers. More cities added monthly.</p>
  </div>
  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
  {cities.map((city) => (
  <Link key={city.slug} href={"/cities/"+city.slug} className="bg-white rounded-2xl border border-slate-200 p-6 hover:border-teal-300 hover:shadow-md transition-all group flex items-center justify-between">
  <div>
- <p className="font-bold text-slate-900 text-lg group-hover:text-teal-600 transition-colors">{city.name}</p>
+ <p className="font-bold text-slate-900 text-lg group-hover:text-teal-700 transition-colors">{city.name}</p>
  <p className="text-slate-500 text-sm">{city.state}</p>
- <p className="text-teal-600 text-xs font-semibold mt-2">${city.hourly_rate_low}-${city.hourly_rate_high}/hr · Get free profiles →</p>
+ <p className="text-teal-700 text-xs font-semibold mt-2">${city.hourly_rate_low}-${city.hourly_rate_high}/hr · Get free profiles →</p>
  </div>
- <span className="text-xs font-bold text-white bg-teal-600 w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0">{city.state_abbrev}</span>
+ <span className="text-xs font-bold text-white bg-teal-700 w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0">{city.state_abbrev}</span>
  </Link>
  ))}
  <div className="bg-teal-50 rounded-2xl border border-teal-200 p-6 flex flex-col items-center justify-center text-center">
  <MapPin className="w-7 h-7 text-teal-500 mb-2" strokeWidth={1.75} />
  <p className="font-bold text-slate-900 mb-1">More cities coming</p>
  <p className="text-slate-500 text-sm mb-3">New city guides added every month.</p>
- <Link href="/cities" className="text-teal-600 text-sm font-semibold hover:underline">Browse all cities →</Link>
+ <Link href="/cities" className="text-teal-700 text-sm font-semibold hover:underline">Browse all cities →</Link>
  </div>
  </div>
  </section>
@@ -385,7 +385,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <div className="text-center mb-14">
  <p className="eyebrow mb-3">FAQ</p>
  <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{fontFamily:"var(--font-fraunces)"}}>Frequently Asked Questions</h2>
- <p className="text-slate-500">Still have questions? <a href="tel:+17864325758" className="text-teal-600 font-semibold hover:underline">(786) 432-5758</a> · <Link href="/contact" className="text-teal-600 font-semibold hover:underline">Send a message →</Link></p>
+ <p className="text-slate-500">Still have questions? <a href="tel:+17864325758" className="text-teal-700 font-semibold hover:underline">(786) 432-5758</a> · <Link href="/contact" className="text-teal-700 font-semibold hover:underline">Send a message →</Link></p>
  </div>
  <div className="space-y-3">
  {FAQS.map((faq, i) => (
@@ -400,7 +400,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  </div>
  <div className="mt-10 text-center flex flex-wrap gap-3 justify-center">
  <a href="tel:+17864325758" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-700 text-white font-semibold text-sm hover:bg-teal-800 transition-colors"><Phone className="w-4 h-4" />(786) 432-5758</a>
- <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:border-teal-400 hover:text-teal-600 transition-colors"><MessageCircle className="w-4 h-4" />Send us a message →</Link>
+ <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:border-teal-400 hover:text-teal-700 transition-colors"><MessageCircle className="w-4 h-4" />Send us a message →</Link>
  </div>
  </section>
 
@@ -498,7 +498,7 @@ function HomepageLeadForm() {
  if (status === "success") return (
  <div className="text-center py-8 space-y-4">
  <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto">
- <svg className="w-8 h-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/></svg>
+ <svg className="w-8 h-8 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/></svg>
  </div>
  <h3 className="text-xl font-bold text-slate-900">We got your request!</h3>
  <p className="text-slate-600">Caregiver profiles will be sent to <strong>{form.email}</strong> within 72 hours.</p>

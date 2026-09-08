@@ -93,10 +93,10 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
       <section className="relative overflow-hidden bg-slate-50 border-b border-slate-200 py-16">
         <ShapeBackgroundCompact />
         <div className="relative z-10 max-w-3xl mx-auto px-6">
-          <Link href="/services" className="text-sm text-teal-600 font-semibold hover:underline">&larr; All Services</Link>
+          <Link href="/services" className="text-sm text-teal-700 font-semibold hover:underline">&larr; All Services</Link>
           <div className="flex items-center gap-3 mt-4 mb-4">
             <div className="w-12 h-12 rounded-2xl bg-teal-50 flex items-center justify-center flex-shrink-0">
-              <Icon className="w-6 h-6 text-teal-600" />
+              <Icon className="w-6 h-6 text-teal-700" />
             </div>
             <span className="text-xs font-semibold bg-teal-100 text-teal-700 px-2 py-1 rounded-full">{service.tag}</span>
           </div>
@@ -126,7 +126,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                   <ul className="mt-4 space-y-2">
                     {s.bullets.map((b) => (
                       <li key={b} className="flex items-start gap-2 text-sm text-slate-700">
-                        <Check className="w-4 h-4 text-teal-600 mt-0.5 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-teal-700 mt-0.5 flex-shrink-0" />
                         {b}
                       </li>
                     ))}
@@ -150,7 +150,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         </article>
       </div>
 
-      <section className="bg-teal-600 bg-dark-wash py-14">
+      <section className="bg-teal-700 bg-dark-wash py-14">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-fraunces)" }}>
             Ready to get matched with a {service.name} caregiver?
@@ -175,7 +175,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             return (
               <Link key={s.slug} href={`/services/${s.slug}`} className="block bg-white rounded-2xl border border-slate-200 p-5 hover:border-teal-300 hover:shadow-md transition-all">
                 <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center mb-3">
-                  <RelIcon className="w-5 h-5 text-teal-600" />
+                  <RelIcon className="w-5 h-5 text-teal-700" />
                 </div>
                 <h3 className="font-bold text-slate-900 text-sm leading-snug mb-1">{s.name}</h3>
                 <p className="text-xs text-slate-500">{s.shortDesc}</p>

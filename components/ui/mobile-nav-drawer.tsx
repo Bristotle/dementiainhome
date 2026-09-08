@@ -62,7 +62,7 @@ export default function MobileNavDrawer() {
         <motion.div animate="visible" className="mx-auto w-full space-y-6" initial="hidden" variants={drawerVariants}>
           <motion.div variants={itemVariants}>
             <DrawerHeader className="flex flex-row items-center justify-between px-0">
-              <DrawerTitle className="flex items-center gap-2.5 font-bold text-teal-600 text-lg" style={{ fontFamily: "var(--font-fraunces)" }}>
+              <DrawerTitle className="flex items-center gap-2.5 font-bold text-teal-700 text-lg" style={{ fontFamily: "var(--font-fraunces)" }}>
                 <img src="/logo-mark.svg" alt="" width={28} height={28} className="rounded-lg" />
                 Dementia In Home
               </DrawerTitle>
@@ -81,7 +81,7 @@ export default function MobileNavDrawer() {
                   href={link.href}
                   className={
                     "rounded-xl px-4 py-3 text-base font-medium transition-colors " +
-                    (pathname === link.href ? "bg-teal-50 text-teal-600" : "text-slate-700 hover:bg-slate-50")
+                    (pathname === link.href ? "bg-teal-50 text-teal-700" : "text-slate-700 hover:bg-slate-50")
                   }
                 >
                   {link.label}
@@ -97,7 +97,7 @@ export default function MobileNavDrawer() {
                 (786) 432-5758
               </a>
               <DrawerClose asChild>
-                <Link href="/#get-matched" className="w-full rounded-xl bg-teal-600 py-3 text-center font-semibold text-sm text-white hover:bg-teal-700 transition-colors">
+                <Link href="/#get-matched" className="w-full rounded-xl bg-teal-700 py-3 text-center font-semibold text-sm text-white hover:bg-teal-800 transition-colors">
                   Get Free Profiles &rarr;
                 </Link>
               </DrawerClose>

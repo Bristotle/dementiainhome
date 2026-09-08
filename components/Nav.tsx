@@ -24,7 +24,7 @@ export default function Nav() {
       aria-label="Main navigation"
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <MotionLink data-hover="scale" href="/" className="flex items-center gap-2.5 font-bold text-teal-600 text-xl" style={{fontFamily:"var(--font-fraunces)"}}>
+        <MotionLink data-hover="scale" href="/" className="flex items-center gap-2.5 font-bold text-teal-700 text-xl" style={{fontFamily:"var(--font-fraunces)"}}>
           <img src="/logo-mark.svg" alt="" width={32} height={32} className="rounded-lg" />
           Dementia In Home
         </MotionLink>
@@ -33,7 +33,7 @@ export default function Nav() {
             <MotionLink
               key={link.href}
               href={link.href} data-hover="lift"
-              className={"text-sm font-medium transition-colors whitespace-nowrap " + (pathname === link.href ? "text-teal-600 font-semibold" : "text-slate-600 hover:text-teal-600")}
+              className={"text-sm font-medium transition-colors whitespace-nowrap " + (pathname === link.href ? "text-teal-700 font-semibold" : "text-slate-600 hover:text-teal-700")}
             >
               {link.label}
             </MotionLink>
@@ -43,7 +43,7 @@ export default function Nav() {
             <MotionLink
               key={link.href}
               href={link.href} data-hover="lift"
-              className={"text-sm font-medium transition-colors whitespace-nowrap " + (pathname === link.href ? "text-teal-600 font-semibold" : "text-slate-600 hover:text-teal-600")}
+              className={"text-sm font-medium transition-colors whitespace-nowrap " + (pathname === link.href ? "text-teal-700 font-semibold" : "text-slate-600 hover:text-teal-700")}
             >
               {link.label}
             </MotionLink>
@@ -51,7 +51,7 @@ export default function Nav() {
         </div>
         <div className="flex items-center gap-3">
           <SearchModal />
-          <a href="tel:+17864325758" className="hidden xl:block text-sm font-semibold text-slate-700 hover:text-teal-600">(786) 432-5758</a>
+          <a href="tel:+17864325758" className="hidden xl:block text-sm font-semibold text-slate-700 hover:text-teal-700">(786) 432-5758</a>
           <MotionLink {...hoverScale} href="/#get-matched" className="hidden sm:block px-5 py-2.5 rounded-xl bg-teal-700 text-white text-sm font-semibold hover:bg-teal-800 transition-colors shadow-sm whitespace-nowrap">Get Free Profiles →</MotionLink>
           <MobileNavDrawer />
         </div>

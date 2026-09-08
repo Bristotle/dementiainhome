@@ -48,11 +48,11 @@ export default function ContactPage() {
               ].map((item) => (
                 <StaggerItem key={item.label} className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <item.icon className="w-5 h-5 text-teal-600" strokeWidth={1.75} />
+                    <item.icon className="w-5 h-5 text-teal-700" strokeWidth={1.75} />
                   </div>
                   <div>
                     <p className="font-semibold text-slate-900 mb-1">{item.label}</p>
-                    {item.href ? <a href={item.href} className="text-teal-600 font-bold text-lg hover:underline">{item.value}</a> : <p className="text-slate-700 font-medium">{item.value}</p>}
+                    {item.href ? <a href={item.href} className="text-teal-700 font-bold text-lg hover:underline">{item.value}</a> : <p className="text-slate-700 font-medium">{item.value}</p>}
                     <p className="text-slate-500 text-sm mt-1">{item.note}</p>
                   </div>
                 </StaggerItem>
@@ -61,7 +61,7 @@ export default function ContactPage() {
             <div className="bg-teal-50 rounded-2xl p-6 border border-teal-200">
               <p className="font-semibold text-slate-900 mb-2">Need urgent placement?</p>
               <p className="text-slate-600 text-sm mb-3">For hospital discharge or crisis situations, call us directly. We can often place within 24-48 hours.</p>
-              <a href="tel:+17864325758" className="text-teal-600 font-bold hover:underline">(786) 432-5758</a>
+              <a href="tel:+17864325758" className="text-teal-700 font-bold hover:underline">(786) 432-5758</a>
             </div>
           </FadeIn>
           <FadeIn delay={0.15} className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
@@ -80,7 +80,7 @@ export default function ContactPage() {
                     transition={{ duration: 0.4, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
                     className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto"
                   >
-                    <svg className="w-8 h-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/></svg>
+                    <svg className="w-8 h-8 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/></svg>
                   </motion.div>
                   <h3 className="text-xl font-bold text-slate-900">Message received!</h3>
                   <p className="text-slate-600">We will get back to you at <strong>{form.email}</strong> within 24 hours.</p>

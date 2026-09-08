@@ -73,10 +73,10 @@ export default function ServicesPage() {
                 <Image src={s.img} alt={s.imgAlt} fill sizes="(max-width: 1024px) 100vw, 560px" className="object-cover" />
               </div>
               <div>
-                <span className="inline-block text-xs font-semibold uppercase tracking-wide text-teal-600 bg-teal-50 px-3 py-1 rounded-full mb-4">{s.tag}</span>
+                <span className="inline-block text-xs font-semibold uppercase tracking-wide text-teal-700 bg-teal-50 px-3 py-1 rounded-full mb-4">{s.tag}</span>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center flex-shrink-0">
-                    <s.icon className="w-5 h-5 text-teal-600" />
+                    <s.icon className="w-5 h-5 text-teal-700" />
                   </div>
                   <h2 className="text-2xl font-bold text-slate-900">{s.title}</h2>
                 </div>
@@ -84,14 +84,14 @@ export default function ServicesPage() {
                 <ul className="space-y-2 mb-6">
                   {s.includes.map((item) => (
                     <li key={item} className="flex items-start gap-2 text-sm text-slate-700">
-                      <Check className="w-4 h-4 text-teal-600 mt-0.5 flex-shrink-0" />
+                      <Check className="w-4 h-4 text-teal-700 mt-0.5 flex-shrink-0" />
                       {item}
                     </li>
                   ))}
                 </ul>
                 <div className="flex flex-wrap gap-3">
                   <MotionLink {...hoverScale} href="/#get-matched" className="btn-primary">Get Free Caregiver Profiles →</MotionLink>
-                  <Link href={`/services/${s.slug}`} className="inline-flex items-center gap-1 text-teal-600 font-semibold text-sm hover:underline px-2">Learn more about {s.title} →</Link>
+                  <Link href={`/services/${s.slug}`} className="inline-flex items-center gap-1 text-teal-700 font-semibold text-sm hover:underline px-2">Learn more about {s.title} →</Link>
                 </div>
               </div>
             </FadeIn>
@@ -99,7 +99,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="bg-teal-600 bg-dark-wash py-16">
+      <section className="bg-teal-700 bg-dark-wash py-16">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <FadeIn><h2 className="text-3xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-fraunces)" }}>Not sure which service fits your situation?</h2></FadeIn>
           <FadeIn delay={0.1}><p className="text-teal-50 mb-8">Tell us what&apos;s going on - we&apos;ll recommend the right level of care and hand-pick matching caregivers, free.</p></FadeIn>

@@ -51,7 +51,7 @@ export default function CaregiversPage() {
           {VETTING.map((v) => (
             <StaggerItem key={v.title} {...hoverLift} className="card text-center">
               <div className="w-12 h-12 rounded-xl bg-teal-50 flex items-center justify-center mx-auto mb-4">
-                <v.icon className="w-6 h-6 text-teal-600" />
+                <v.icon className="w-6 h-6 text-teal-700" />
               </div>
               <h3 className="font-bold text-slate-900 mb-2">{v.title}</h3>
               <p className="text-sm text-slate-600 leading-relaxed">{v.desc}</p>
@@ -69,7 +69,7 @@ export default function CaregiversPage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setCityFilter(c)}
-                className={"px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors " + (cityFilter === c ? "bg-teal-600 border-teal-600 text-white" : "border-slate-300 text-slate-600 hover:border-teal-400 hover:text-teal-600")}
+                className={"px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors " + (cityFilter === c ? "bg-teal-700 border-teal-600 text-white" : "border-slate-300 text-slate-600 hover:border-teal-400 hover:text-teal-700")}
               >
                 {c}
               </motion.button>
@@ -112,7 +112,7 @@ export default function CaregiversPage() {
                   <span className="absolute bottom-3 right-3 bg-white/90 backdrop-blur text-xs font-semibold text-slate-700 px-2 py-1 rounded-lg">{c.exp}</span>
                 </div>
                 <h3 className="font-bold text-slate-900">{c.name}</h3>
-                <p className="text-sm text-teal-600 font-medium mb-1">{c.credential}</p>
+                <p className="text-sm text-teal-700 font-medium mb-1">{c.credential}</p>
                 <p className="text-xs text-slate-500 flex items-center gap-1"><MapPin className="w-3 h-3" />{c.city}</p>
               </motion.div>
             ))}
@@ -138,7 +138,7 @@ export default function CaregiversPage() {
         )}
       </section>
 
-      <section className="bg-teal-600 bg-dark-wash py-16">
+      <section className="bg-teal-700 bg-dark-wash py-16">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <FadeIn><h2 className="text-3xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-fraunces)" }}>Ready to see your matches?</h2></FadeIn>
           <FadeIn delay={0.1}><p className="text-teal-50 mb-8">Tell us about your situation and we&apos;ll hand-pick 2-3 vetted caregivers and send their video profiles within 72 hours.</p></FadeIn>

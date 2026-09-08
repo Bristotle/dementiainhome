@@ -36,7 +36,7 @@ export default function TableOfContents({ items }: { items: TocItem[] }) {
           <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500 mb-4"><List className="w-4 h-4" />On This Page</p>
           <ul className="space-y-2.5">
             {items.map((item) => {
-              const activeClass = activeId === item.id ? "border-teal-600 text-teal-600 font-semibold" : "border-transparent text-slate-500 hover:text-teal-600 hover:border-teal-300"
+              const activeClass = activeId === item.id ? "border-teal-600 text-teal-700 font-semibold" : "border-transparent text-slate-500 hover:text-teal-700 hover:border-teal-300"
               const linkHref = "#" + item.id
               return (
                 <li key={item.id}>
@@ -50,7 +50,7 @@ export default function TableOfContents({ items }: { items: TocItem[] }) {
 
       <div className="lg:hidden mb-8 rounded-2xl border border-slate-200 bg-slate-50 overflow-hidden">
         <button onClick={() => setMobileOpen(!mobileOpen)} className="w-full flex items-center justify-between p-4 text-left" aria-expanded={mobileOpen}>
-          <span className="flex items-center gap-2 text-sm font-semibold text-slate-900"><List className="w-4 h-4 text-teal-600" />Jump to a section</span>
+          <span className="flex items-center gap-2 text-sm font-semibold text-slate-900"><List className="w-4 h-4 text-teal-700" />Jump to a section</span>
           <span className="text-slate-400 text-xs">{mobileOpen ? "Hide" : "Show"}</span>
         </button>
         {mobileOpen && (
@@ -59,7 +59,7 @@ export default function TableOfContents({ items }: { items: TocItem[] }) {
               const linkHref = "#" + item.id
               return (
                 <li key={item.id}>
-                  <a href={linkHref} onClick={() => setMobileOpen(false)} className="block text-sm text-teal-600 hover:underline py-1">{item.label}</a>
+                  <a href={linkHref} onClick={() => setMobileOpen(false)} className="block text-sm text-teal-700 hover:underline py-1">{item.label}</a>
                 </li>
               )
             })}

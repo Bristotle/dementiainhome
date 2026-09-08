@@ -94,7 +94,7 @@ export default async function CityPage({ params }: Props) {
 
  <nav className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50">
  <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
- <Link href="/" className="flex items-center gap-2.5 font-bold text-teal-600 text-xl" style={{fontFamily:"var(--font-fraunces)"}}>
+ <Link href="/" className="flex items-center gap-2.5 font-bold text-teal-700 text-xl" style={{fontFamily:"var(--font-fraunces)"}}>
  <img src="/logo-mark.svg" alt="" width={28} height={28} className="rounded-lg" />
  Dementia In Home
  </Link>
@@ -104,7 +104,7 @@ export default async function CityPage({ params }: Props) {
      because they use their own nav rather than the shared component. These
      are the highest commercial-intent pages we have, and the caller most
      likely to use a phone rather than a form is the one in a crisis. */}
- <a href="tel:+17864325758" className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 hover:text-teal-600 whitespace-nowrap">
+ <a href="tel:+17864325758" className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 hover:text-teal-700 whitespace-nowrap">
  <Phone className="w-4 h-4" aria-hidden="true" />
  <span className="hidden sm:inline">(786) 432-5758</span>
  <span className="sm:hidden">Call</span>
@@ -123,13 +123,13 @@ export default async function CityPage({ params }: Props) {
      finishes, which is how the LCP on this page reached 3.5 seconds on
      mobile - and this is the highest commercial-intent page on the site. */}
  <p className="text-sm text-slate-500 mb-3">
- <Link href="/cities" className="text-teal-600 hover:underline">Cities</Link>
+ <Link href="/cities" className="text-teal-700 hover:underline">Cities</Link>
  <span className="mx-2 text-slate-300">/</span>
- <Link href={`/states/${stateSlug(city.state)}`} className="text-teal-600 hover:underline">{city.state}</Link>
+ <Link href={`/states/${stateSlug(city.state)}`} className="text-teal-700 hover:underline">{city.state}</Link>
  </p>
  <p className="eyebrow mb-4">{city.name}, {city.state_abbrev}</p>
  <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight mb-6" style={{fontFamily:"var(--font-fraunces)"}}>
- In-Home Dementia Care in <span className="text-teal-600">{city.name}</span>
+ In-Home Dementia Care in <span className="text-teal-700">{city.name}</span>
  </h1>
  <p className="text-lg text-slate-600 leading-relaxed mb-8">
  We match families in {city.name} with vetted dementia caregivers and send you free video profiles within 72 hours. Transparent pricing. No pressure.
@@ -153,7 +153,7 @@ export default async function CityPage({ params }: Props) {
  <p className="text-sm text-slate-500 mt-1">~20 hrs/week</p>
  </StaggerItem>
  <StaggerItem className="bg-teal-50 rounded-2xl p-6 border border-teal-200">
- <p className="text-sm font-semibold text-teal-600 uppercase tracking-wide mb-2">Full-time care</p>
+ <p className="text-sm font-semibold text-teal-700 uppercase tracking-wide mb-2">Full-time care</p>
  <p className="text-3xl font-bold text-slate-900">${city.hourly_rate_low * 40 * 4}<span className="text-base font-normal text-slate-500">/mo</span></p>
  <p className="text-sm text-slate-500 mt-1">~40 hrs/week</p>
  </StaggerItem>
@@ -180,11 +180,11 @@ export default async function CityPage({ params }: Props) {
  <h3 className="font-bold text-slate-900 mb-4">Local senior population</h3>
  <div className="grid grid-cols-2 gap-4 mb-4">
  <div>
- <p className="text-2xl font-bold text-teal-600">{demographics.population_65_plus?.toLocaleString() ?? " - "}</p>
+ <p className="text-2xl font-bold text-teal-700">{demographics.population_65_plus?.toLocaleString() ?? " - "}</p>
  <p className="text-xs text-slate-500">Residents 65+ in {city.name}</p>
  </div>
  <div>
- <p className="text-2xl font-bold text-teal-600">{demographics.population_85_plus?.toLocaleString() ?? " - "}</p>
+ <p className="text-2xl font-bold text-teal-700">{demographics.population_85_plus?.toLocaleString() ?? " - "}</p>
  <p className="text-xs text-slate-500">Residents 85+ (highest dementia risk group)</p>
  </div>
  </div>
@@ -244,11 +244,11 @@ export default async function CityPage({ params }: Props) {
  <p className="text-xs text-slate-500">
  Sources: {citations.map((c, i) => (
  <span key={c.url}>
- <a href={c.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-600">{c.label}</a>
+ <a href={c.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-700">{c.label}</a>
  {i < citations.length - 1 ? " · " : ""}
  </span>
  ))}
- {waiver && (<> · <a href={waiver.source_url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-600">{waiver.program_name} program details</a></>)}
+ {waiver && (<> · <a href={waiver.source_url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-700">{waiver.program_name} program details</a></>)}
  </p>
  )}
  </div>
@@ -268,7 +268,7 @@ export default async function CityPage({ params }: Props) {
  <div>
  <h3 className="font-semibold text-slate-900 mb-1">{step.title}</h3>
  <p className="text-slate-500 text-sm leading-relaxed mb-1">{step.desc}</p>
- <p className="text-xs text-teal-600 font-semibold">{step.note}</p>
+ <p className="text-xs text-teal-700 font-semibold">{step.note}</p>
  </div>
  </StaggerItem>
  ))}
@@ -322,7 +322,7 @@ export default async function CityPage({ params }: Props) {
  <p className="text-sm text-slate-500">© 2026 Dementia In Home. Serving {city.name} and surrounding areas.</p>
  <div className="flex gap-4 flex-wrap">
  {allCities.map((c) => (
- <MotionLink key={c.slug} {...hoverShift} href={"/cities/"+c.slug} className="text-sm text-slate-500 hover:text-teal-600 transition-colors">{c.name}</MotionLink>
+ <MotionLink key={c.slug} {...hoverShift} href={"/cities/"+c.slug} className="text-sm text-slate-500 hover:text-teal-700 transition-colors">{c.name}</MotionLink>
  ))}
  </div>
  </div>

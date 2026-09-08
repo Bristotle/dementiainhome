@@ -32,7 +32,7 @@ export default function AboutPage() {
                   something we do or something countable in our own database. */}
               {[["20","Cities served today"],["1,000","Local guides published"],["$0","Cost to get matched"],["72hrs","Profile delivery"]].map(([val,label]) => (
                 <StaggerItem key={label} className="bg-white rounded-2xl p-4 border border-teal-200 text-center">
-                  <p className="text-2xl font-bold text-teal-600 mb-1">{val}</p>
+                  <p className="text-2xl font-bold text-teal-700 mb-1">{val}</p>
                   <p className="text-xs text-slate-500">{label}</p>
                 </StaggerItem>
               ))}
@@ -55,13 +55,13 @@ export default function AboutPage() {
             </StaggerItem>
           ))}
         </Stagger>
-        <FadeIn className="bg-teal-600 rounded-3xl p-8 text-white text-center relative overflow-hidden">
+        <FadeIn className="bg-teal-700 rounded-3xl p-8 text-white text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-teal-500/40 via-transparent to-teal-800/40 pointer-events-none" />
           <div className="relative z-10">
             <h2 className="text-2xl font-bold mb-4">Ready to get started?</h2>
             <p className="text-teal-100 mb-6">Get free caregiver profiles in your city within 72 hours.</p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <MotionLink {...hoverScale} href="/#get-matched" className="px-8 py-3 rounded-xl bg-white text-teal-600 font-semibold hover:bg-teal-50 transition-colors">Get Free Caregiver Profiles</MotionLink>
+              <MotionLink {...hoverScale} href="/#get-matched" className="px-8 py-3 rounded-xl bg-white text-teal-700 font-semibold hover:bg-teal-50 transition-colors">Get Free Caregiver Profiles</MotionLink>
               <MotionLink {...hoverScale} href="/contact" className="px-8 py-3 rounded-xl bg-teal-700 text-white font-semibold hover:bg-teal-800 transition-colors border border-teal-500">Contact Us</MotionLink>
             </div>
           </div>

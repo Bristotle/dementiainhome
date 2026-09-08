@@ -36,8 +36,8 @@ export default function GettingStartedPage() {
               </div>
               <div className="card flex-1 mb-2">
                 <div className="flex items-center gap-2 mb-2">
-                  <s.icon className="w-5 h-5 text-teal-600" />
-                  <span className="text-xs font-semibold uppercase tracking-wide text-teal-600">{s.time}</span>
+                  <s.icon className="w-5 h-5 text-teal-700" />
+                  <span className="text-xs font-semibold uppercase tracking-wide text-teal-700">{s.time}</span>
                 </div>
                 <h2 className="text-xl font-bold text-slate-900 mb-2">{s.title}</h2>
                 <p className="text-slate-600 leading-relaxed">{s.desc}</p>
@@ -47,7 +47,7 @@ export default function GettingStartedPage() {
         </Stagger>
       </section>
 
-      <section id="get-matched" className="bg-teal-600 bg-dark-wash py-16 scroll-mt-20">
+      <section id="get-matched" className="bg-teal-700 bg-dark-wash py-16 scroll-mt-20">
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <FadeIn>

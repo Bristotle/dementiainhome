@@ -164,7 +164,7 @@ export default function ActionSearchBar({ onNavigate }: { onNavigate?: () => voi
                       >
                         <div className="flex items-center gap-3">
                           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-50">
-                            <Icon className="h-4 w-4 text-teal-600" />
+                            <Icon className="h-4 w-4 text-teal-700" />
                           </span>
                           <div>
                             <p className="font-medium text-slate-900 text-sm">{action.label}</p>

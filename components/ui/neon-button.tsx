@@ -11,8 +11,8 @@ export const neonButtonVariants = cva(
     variants: {
       variant: {
         default: "bg-white/5 hover:bg-white/10 border-teal-300/30 text-white",
-        solid: "bg-teal-600 hover:bg-teal-500 text-white border-transparent hover:border-white/40 transition-colors duration-200 shadow-lg",
-        ghost: "border-transparent bg-transparent text-teal-600 hover:border-teal-300 hover:bg-teal-50",
+        solid: "bg-teal-700 hover:bg-teal-800 text-white border-transparent hover:border-white/40 transition-colors duration-200 shadow-lg",
+        ghost: "border-transparent bg-transparent text-teal-700 hover:border-teal-300 hover:bg-teal-50",
       },
       size: {
         default: "px-7 py-3 text-sm",

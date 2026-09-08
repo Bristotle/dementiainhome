@@ -72,7 +72,7 @@ export default function DataSources({
 
  <p className="text-xs text-slate-500 mt-6 max-w-2xl leading-relaxed">
  These are the public records we cite. They are sources of data, not partners, and
- none of them endorses this service. <Link href="/cities" className="underline hover:text-teal-600">See how we use them city by city</Link>.
+ none of them endorses this service. <Link href="/cities" className="underline hover:text-teal-700">See how we use them city by city</Link>.
  </p>
  </div>
  </section>

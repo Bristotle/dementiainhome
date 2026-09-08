@@ -143,7 +143,7 @@ export default async function StateHubPage({ params }: Props) {
             )}
 
             <div className="mt-6 pt-4 border-t border-slate-200 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-              <a href={waiver.source_url} target="_blank" rel="noopener noreferrer" className="text-sm text-teal-600 font-semibold hover:underline">
+              <a href={waiver.source_url} target="_blank" rel="noopener noreferrer" className="text-sm text-teal-700 font-semibold hover:underline">
                 {found.name}&apos;s official programme page →
               </a>
               {waiver.verified_at && (
@@ -168,10 +168,10 @@ export default async function StateHubPage({ params }: Props) {
           {cityGuides.map(({ city, guides }) => (
             <div key={city.slug} className="bg-white rounded-2xl border border-slate-200 p-6">
               <div className="flex items-baseline justify-between gap-4 mb-4">
-                <Link href={`/cities/${city.slug}`} className="text-lg font-bold text-slate-900 hover:text-teal-600 transition-colors">
+                <Link href={`/cities/${city.slug}`} className="text-lg font-bold text-slate-900 hover:text-teal-700 transition-colors">
                   {city.name}, {city.state_abbrev}
                 </Link>
-                <span className="text-xs font-semibold text-teal-600 whitespace-nowrap">${city.hourly_rate_low}-${city.hourly_rate_high}/hr</span>
+                <span className="text-xs font-semibold text-teal-700 whitespace-nowrap">${city.hourly_rate_low}-${city.hourly_rate_high}/hr</span>
               </div>
               {guides.length > 0 ? (
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
@@ -185,7 +185,7 @@ export default async function StateHubPage({ params }: Props) {
                 <p className="text-sm text-slate-500">Guides for {city.name} are being published now.</p>
               )}
               {guides.length > 10 && (
-                <Link href={`/cities/${city.slug}`} className="inline-block mt-4 text-sm font-semibold text-teal-600 hover:underline">
+                <Link href={`/cities/${city.slug}`} className="inline-block mt-4 text-sm font-semibold text-teal-700 hover:underline">
                   All {guides.length} {city.name} guides →
                 </Link>
               )}

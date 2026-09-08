@@ -25,7 +25,7 @@ export default function ServicesDropdown() {
     >
       <Link
         href="/services"
-        className="flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors whitespace-nowrap"
+        className="flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-teal-700 transition-colors whitespace-nowrap"
       >
         Services
         <ChevronDown className={"w-3.5 h-3.5 transition-transform " + (open ? "rotate-180" : "")} />
@@ -47,7 +47,7 @@ export default function ServicesDropdown() {
                   className="flex items-start gap-3 p-3 rounded-xl hover:bg-teal-50 transition-colors"
                 >
                   <div className="w-9 h-9 rounded-lg bg-teal-50 flex items-center justify-center flex-shrink-0">
-                    <s.icon className="w-4 h-4 text-teal-600" />
+                    <s.icon className="w-4 h-4 text-teal-700" />
                   </div>
                   <div>
                     <p className="font-semibold text-slate-900 text-sm">{s.title}</p>

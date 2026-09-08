@@ -33,7 +33,7 @@
 /* ── Base ──
    IMPORTANT: everything below is wrapped in @layer base / @layer components.
    Tailwind v4 puts all of its own CSS (resets, utilities like .text-white,
-   .bg-teal-600, etc.) inside named cascade layers. Per the CSS spec,
+   .bg-teal-700, etc.) inside named cascade layers. Per the CSS spec,
    UNLAYERED css always wins over ANY layered css, no matter its specificity.
    So if this custom CSS were left unlayered (as it was before), a plain
    `a { color: #0d9488 }` rule here would silently beat `.text-white` on

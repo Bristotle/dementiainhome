@@ -89,7 +89,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <Nav />
       <section className="bg-slate-50 border-b border-slate-200 py-16 bg-soft-wash">
         <div className="max-w-3xl mx-auto px-6">
-          <Link href="/blog" className="text-sm text-teal-600 font-semibold hover:underline">&larr; All Guides</Link>
+          <Link href="/blog" className="text-sm text-teal-700 font-semibold hover:underline">&larr; All Guides</Link>
           <FadeIn delay={0.05}>
             <span className="inline-block text-xs font-semibold bg-teal-100 text-teal-700 px-2 py-1 rounded-full mt-4 mb-4">{post.category}</span>
             <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4 leading-tight">{post.title}</h1>
@@ -104,7 +104,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <article className="max-w-3xl flex-1 min-w-0">
           <FadeIn>
             <div className="flex gap-3 p-5 rounded-2xl bg-teal-50 border border-teal-100 mb-8">
-              <BookOpen className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
+              <BookOpen className="w-5 h-5 text-teal-700 flex-shrink-0 mt-0.5" />
               <p className="text-slate-700 leading-relaxed text-[15px]"><span className="font-semibold text-slate-900">Quick answer: </span>{post.desc}</p>
             </div>
           </FadeIn>
@@ -122,7 +122,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   <div className="mt-5 grid grid-cols-2 gap-4">
                     {s.stats.map((stat) => (
                       <div key={stat.label} className="bg-teal-50 border border-teal-100 rounded-xl p-4">
-                        <p className="text-2xl font-bold text-teal-600">{stat.value}</p>
+                        <p className="text-2xl font-bold text-teal-700">{stat.value}</p>
                         <p className="text-xs text-slate-600 mt-1">{stat.label}</p>
                       </div>
                     ))}
@@ -145,7 +145,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               <p className="text-xs text-slate-500">
                 Sources: {post.citations.map((c, i) => (
                   <span key={c.url}>
-                    <a href={c.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-600">{c.label}</a>
+                    <a href={c.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-700">{c.label}</a>
                     {i < post.citations!.length - 1 ? " · " : ""}
                   </span>
                 ))}
@@ -155,7 +155,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </article>
       </div>
 
-      <section className="bg-teal-600 bg-dark-wash py-14">
+      <section className="bg-teal-700 bg-dark-wash py-14">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <FadeIn>
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-fraunces)" }}>

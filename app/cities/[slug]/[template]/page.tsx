@@ -12,7 +12,7 @@ import TableOfContents from "@/components/ui/table-of-contents"
 
 type Props = { params: Promise<{ slug: string; template: string }> }
 
-const PROSE_BASE = "text-slate-700 leading-relaxed [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-slate-900 [&_h3]:mt-6 [&_h3]:mb-2 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_li]:mb-2 [&_a]:text-teal-600 [&_a]:underline [&_strong]:font-semibold [&_strong]:text-slate-900"
+const PROSE_BASE = "text-slate-700 leading-relaxed [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-slate-900 [&_h3]:mt-6 [&_h3]:mb-2 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_li]:mb-2 [&_a]:text-teal-700 [&_a]:underline [&_strong]:font-semibold [&_strong]:text-slate-900"
 
 // The article sits in the right-hand column of the contents layout, so it no
 // longer centres itself or carries page padding - the grid does both.
@@ -115,7 +115,7 @@ export default async function GeneratedPage({ params }: Props) {
 
  <nav className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50">
  <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
- <Link href="/" className="flex items-center gap-2.5 font-bold text-teal-600 text-xl" style={{fontFamily:"var(--font-fraunces)"}}>
+ <Link href="/" className="flex items-center gap-2.5 font-bold text-teal-700 text-xl" style={{fontFamily:"var(--font-fraunces)"}}>
  <img src="/logo-mark.svg" alt="" width={28} height={28} className="rounded-lg" />
  Dementia In Home
  </Link>
@@ -128,9 +128,9 @@ export default async function GeneratedPage({ params }: Props) {
  <div className="relative z-10">
  <FadeIn>
  <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
- <Link href="/cities" className="text-teal-600 hover:underline">Cities</Link>
+ <Link href="/cities" className="text-teal-700 hover:underline">Cities</Link>
  <span className="mx-2 text-slate-300">/</span>
- <Link href={`/cities/${page.city.slug}`} className="text-teal-600 hover:underline">{page.city.name}, {page.city.state_abbrev}</Link>
+ <Link href={`/cities/${page.city.slug}`} className="text-teal-700 hover:underline">{page.city.name}, {page.city.state_abbrev}</Link>
  </nav>
  </FadeIn>
  <FadeIn delay={0.1}><p className="eyebrow mt-4 mb-2">{page.city.name}, {page.city.state_abbrev}</p></FadeIn>
@@ -197,7 +197,7 @@ export default async function GeneratedPage({ params }: Props) {
  <p className="text-xs text-slate-500">
  Sources referenced on this page - click through for the original material: {page.content_json.citedUrls.map((url, i) => (
  <span key={url}>
- <a href={url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-600">{new URL(url).hostname}</a>
+ <a href={url} target="_blank" rel="noopener noreferrer" className="underline hover:text-teal-700">{new URL(url).hostname}</a>
  {i < page.content_json.citedUrls.length - 1 ? " · " : ""}
  </span>
  ))}
@@ -220,7 +220,7 @@ export default async function GeneratedPage({ params }: Props) {
  </li>
  ))}
  </ul>
- <Link href={`/cities/${slug}`} className="inline-block mt-6 text-sm font-semibold text-teal-600 hover:underline">
+ <Link href={`/cities/${slug}`} className="inline-block mt-6 text-sm font-semibold text-teal-700 hover:underline">
  All {page.city.name} resources →
  </Link>
  </div>
@@ -263,7 +263,7 @@ export default async function GeneratedPage({ params }: Props) {
  </div>
  )}
 
- <Link href="/cities" className="inline-block mt-6 text-sm font-semibold text-teal-600 hover:underline">
+ <Link href="/cities" className="inline-block mt-6 text-sm font-semibold text-teal-700 hover:underline">
  Every city we cover →
  </Link>
  </div>
@@ -297,12 +297,12 @@ export default async function GeneratedPage({ params }: Props) {
  <footer className="border-t border-slate-200 bg-white pb-24 sm:pb-0">
  <div className="max-w-3xl mx-auto px-6 py-8 text-center">
  <nav className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-slate-600 mb-4" aria-label="Footer">
- <Link href="/" className="hover:text-teal-600">Home</Link>
- <Link href="/cities" className="hover:text-teal-600">All cities</Link>
- <Link href={`/cities/${slug}`} className="hover:text-teal-600">{page.city.name} care</Link>
- <Link href="/services" className="hover:text-teal-600">Services</Link>
- <Link href="/getting-started" className="hover:text-teal-600">Getting started</Link>
- <Link href="/contact" className="hover:text-teal-600">Contact</Link>
+ <Link href="/" className="hover:text-teal-700">Home</Link>
+ <Link href="/cities" className="hover:text-teal-700">All cities</Link>
+ <Link href={`/cities/${slug}`} className="hover:text-teal-700">{page.city.name} care</Link>
+ <Link href="/services" className="hover:text-teal-700">Services</Link>
+ <Link href="/getting-started" className="hover:text-teal-700">Getting started</Link>
+ <Link href="/contact" className="hover:text-teal-700">Contact</Link>
  </nav>
  <p className="text-sm text-slate-500">© 2026 Dementia In Home. Serving {page.city.name} and surrounding areas.</p>
  </div>
