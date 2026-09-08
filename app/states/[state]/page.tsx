@@ -86,17 +86,76 @@ export default async function StateHubPage({ params }: Props) {
         </div>
       </section>
 
+      {/* The state hubs rendered three of the nine waiver fields we hold. The
+          rest - asset limits, look-back, how to apply, what makes this state
+          unusual - sat verified in the database and unused, on pages averaging
+          326 words. This is also the content type that is demonstrably earning
+          attention: the two pages AI answer engines have cited so far were a
+          state Medicaid waiver page and a long-term care ombudsman page. */}
       {waiver && (
         <section className="max-w-5xl mx-auto px-6 pb-4">
           <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8">
             <h2 className="text-xl font-bold text-slate-900 mb-2" style={{ fontFamily: "var(--font-fraunces)" }}>
-              {found.name} Medicaid: {waiver.program_full_name}
+              Paying for care in {found.name}: {waiver.program_full_name}
             </h2>
-            <p className="text-slate-600 leading-relaxed mb-3">{waiver.eligibility_threshold}</p>
-            <p className="text-sm text-slate-500 mb-4">Administered by {waiver.administered_by}.</p>
-            <a href={waiver.source_url} target="_blank" rel="noopener noreferrer" className="text-sm text-teal-600 font-semibold hover:underline">
-              {found.name}&apos;s official program page →
-            </a>
+            <p className="text-slate-600 leading-relaxed mb-4">
+              Medicare does not pay for the long-term help dementia requires. In {found.name} the
+              programme that can is {waiver.program_name}
+              {waiver.administered_by ? `, administered by ${waiver.administered_by}` : ""}.
+            </p>
+
+            {waiver.eligibility_threshold && (
+              <>
+                <h3 className="font-semibold text-slate-900 mt-6 mb-1.5">Who qualifies</h3>
+                <p className="text-slate-600 leading-relaxed">{waiver.eligibility_threshold}</p>
+              </>
+            )}
+
+            {(waiver.asset_limit_single || waiver.asset_limit_couple || waiver.look_back_period) && (
+              <>
+                <h3 className="font-semibold text-slate-900 mt-6 mb-2">The financial limits</h3>
+                <dl className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+                  {waiver.asset_limit_single && (
+                    <div><dt className="text-slate-500 mb-1">Single applicant</dt><dd className="text-slate-800">{waiver.asset_limit_single}</dd></div>
+                  )}
+                  {waiver.asset_limit_couple && (
+                    <div><dt className="text-slate-500 mb-1">Married couple</dt><dd className="text-slate-800">{waiver.asset_limit_couple}</dd></div>
+                  )}
+                  {waiver.look_back_period && (
+                    <div><dt className="text-slate-500 mb-1">Look-back period</dt><dd className="text-slate-800">{waiver.look_back_period}</dd></div>
+                  )}
+                </dl>
+              </>
+            )}
+
+            {waiver.application_process && (
+              <>
+                <h3 className="font-semibold text-slate-900 mt-6 mb-1.5">How to apply</h3>
+                <p className="text-slate-600 leading-relaxed">{waiver.application_process}</p>
+              </>
+            )}
+
+            {waiver.unique_feature && (
+              <>
+                <h3 className="font-semibold text-slate-900 mt-6 mb-1.5">What is unusual about {found.name}</h3>
+                <p className="text-slate-600 leading-relaxed">{waiver.unique_feature}</p>
+              </>
+            )}
+
+            <div className="mt-6 pt-4 border-t border-slate-200 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+              <a href={waiver.source_url} target="_blank" rel="noopener noreferrer" className="text-sm text-teal-600 font-semibold hover:underline">
+                {found.name}&apos;s official programme page →
+              </a>
+              {waiver.verified_at && (
+                <span className="text-xs text-slate-400">
+                  Verified {new Date(waiver.verified_at).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}
+                </span>
+              )}
+            </div>
+            <p className="text-xs text-slate-400 mt-3 max-w-2xl leading-relaxed">
+              Rules and figures change. Confirm the current position with the programme itself before
+              making a financial decision.
+            </p>
           </div>
         </section>
       )}

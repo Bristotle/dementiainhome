@@ -46,6 +46,8 @@ export type MedicaidWaiver = {
   application_process: string | null
   unique_feature: string | null
   source_url: string
+  /** Shown to the reader on state hubs, so it has to be real. */
+  verified_at: string | null
 }
 
 export type CitationRef = { label: string; url: string }
