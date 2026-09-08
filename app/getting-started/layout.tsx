@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { howToJsonLd, breadcrumbJsonLd } from "@/lib/static-schema"
 
 // This page is a Client Component, and Next resolves metadata on the server
 // before the page renders - so it cannot export metadata itself. All eight of
@@ -21,5 +22,12 @@ export const metadata: Metadata = {
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children
+  const crumbs = breadcrumbJsonLd([{ name: "Getting started", path: "/getting-started" }])
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd()) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbs) }} />
+      {children}
+    </>
+  )
 }

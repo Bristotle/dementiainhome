@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { websiteJsonLd } from "@/lib/static-schema";
 import { Inter, Fraunces, Geist } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -78,6 +79,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={cn(inter.variable, fraunces.variable, "font-sans", geist.variable)}>
       <body className="bg-slate-50 text-slate-700 antialiased">
+        {/* WebSite identity. The homepage carried only the sitewide Organization
+            block and no WebSite markup at all. */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }} />
         <Script id="organization-schema" type="application/ld+json" strategy="beforeInteractive">
           {JSON.stringify(organizationSchema)}
         </Script>

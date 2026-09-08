@@ -1,4 +1,6 @@
 import type { Metadata } from "next"
+import { itemListJsonLd, breadcrumbJsonLd } from "@/lib/static-schema"
+import { BLOG_POSTS } from "@/lib/blog"
 
 // This page is a Client Component, and Next resolves metadata on the server
 // before the page renders - so it cannot export metadata itself. All eight of
@@ -33,5 +35,17 @@ export const metadata: Metadata = {
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children
+  const list = itemListJsonLd({
+    name: "Dementia care guides for families",
+    url: "https://www.dementiainhome.com/blog",
+    items: BLOG_POSTS.map((p) => ({ name: p.title, url: `https://www.dementiainhome.com/blog/${p.slug}` })),
+  })
+  const crumbs = breadcrumbJsonLd([{ name: "Guides", path: "/blog" }])
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(list) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbs) }} />
+      {children}
+    </>
+  )
 }
