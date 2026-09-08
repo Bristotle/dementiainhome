@@ -64,7 +64,10 @@
   }
 
   a {
-    color: #0d9488;
+    /* teal-700, not teal-600. #0d9488 on white is 3.74:1 and fails WCAG AA for
+       text; #0f766e is 5.47:1. This rule is why a link with no colour class of
+       its own kept failing the audit after every Tailwind class was fixed. */
+    color: #0f766e;
     text-decoration: none;
     transition: color 150ms ease;
   }
@@ -99,7 +102,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: #0d9488;
+    color: #0f766e;
   }
 
   .font-display {
@@ -165,8 +168,8 @@
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
     border-radius: 0.75rem;
-    border: 1.5px solid #0d9488;
-    color: #0d9488;
+    border: 1.5px solid #0f766e;
+    color: #0f766e;
     background-color: transparent;
     font-weight: 600;
     font-size: 0.875rem;
