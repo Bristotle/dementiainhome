@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation"
+import { Phone } from "lucide-react"
 import { getCityBySlug, getAllCitySlugs, getAllCities, getCityDemographics, getMedicaidWaiver, getMedicaidCitations, stateSlug } from "@/lib/db-cities"
 import { getPublishedPagesForCity } from "@/lib/db-pages"
 import LeadForm from "@/components/LeadForm"
@@ -6,7 +7,7 @@ import Link from "next/link"
 import type { Metadata } from "next"
 import { FadeIn, Stagger, StaggerItem, MotionLink, hoverScale, hoverShift } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
-import { buildCityHubJsonLd } from "@/lib/generation/page-schema"
+import { buildCityHubJsonLd, buildCityLocalBusinessJsonLd } from "@/lib/generation/page-schema"
 import PageHero from "@/components/PageHero"
 import DataSources from "@/components/DataSources"
 import { heroOgImage } from "@/lib/hero-images"
@@ -74,9 +75,22 @@ export default async function CityPage({ params }: Props) {
  stateName: city.state,
  })
 
+ // Local business markup, which the site had nowhere despite operating in
+ // twenty cities. Without a street address on purpose: we have no public
+ // office in each city, and inventing one would be worse than omitting it.
+ const localBusinessJsonLd = buildCityLocalBusinessJsonLd({
+ cityName: city.name,
+ stateName: city.state,
+ stateAbbrev: city.state_abbrev,
+ url: `https://www.dementiainhome.com/cities/${city.slug}`,
+ hourlyLow: city.hourly_rate_low,
+ hourlyHigh: city.hourly_rate_high,
+ })
+
  return (
  <main className="min-h-screen bg-warm-white">
  <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+ <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }} />
 
  <nav className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50">
  <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -84,7 +98,19 @@ export default async function CityPage({ params }: Props) {
  <img src="/logo-mark.svg" alt="" width={28} height={28} className="rounded-lg" />
  Dementia In Home
  </Link>
+ <div className="flex items-center gap-3">
+ {/* City hubs were the only page type on the site with no phone number at
+     all: the homepage carries seven tel: links and these carried none,
+     because they use their own nav rather than the shared component. These
+     are the highest commercial-intent pages we have, and the caller most
+     likely to use a phone rather than a form is the one in a crisis. */}
+ <a href="tel:+17864325758" className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 hover:text-teal-600 whitespace-nowrap">
+ <Phone className="w-4 h-4" aria-hidden="true" />
+ <span className="hidden sm:inline">(786) 432-5758</span>
+ <span className="sm:hidden">Call</span>
+ </a>
  <MotionLink {...hoverScale} href="#get-matched" className="px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition-colors">Get free profiles</MotionLink>
+ </div>
  </div>
  </nav>
 
@@ -282,6 +308,18 @@ export default async function CityPage({ params }: Props) {
  )}
 
  <DataSources cityName={city.name} verifiedOn={demographics?.verified_at ?? null} />
+
+ <section className="border-t border-slate-200 bg-teal-700 text-white">
+ <div className="max-w-5xl mx-auto px-6 py-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+ <div>
+ <p className="text-lg font-semibold">Would rather talk to someone in {city.name}?</p>
+ <p className="text-teal-100 text-sm mt-1">Mon to Sun, 8am to 9pm. Emergency support 24/7.</p>
+ </div>
+ <a href="tel:+17864325758" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-teal-700 font-bold text-lg hover:bg-teal-50 transition-colors whitespace-nowrap">
+ <Phone className="w-5 h-5" aria-hidden="true" />(786) 432-5758
+ </a>
+ </div>
+ </section>
 
  <footer className="border-t border-slate-200 bg-white">
  <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">

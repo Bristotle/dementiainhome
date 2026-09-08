@@ -206,3 +206,59 @@ export function extractH1(htmlContent: string): { heading: string | null; html: 
   if (!heading) return { heading: null, html: htmlContent }
   return { heading, html: htmlContent.replace(match[0], "") }
 }
+
+
+// Local business markup for the city hubs.
+//
+// A local service operating in twenty cities had no LocalBusiness or
+// MedicalBusiness markup anywhere, and no PostalAddress. Structurally the site
+// looked like a business that serves nowhere in particular, on exactly the
+// pages that target local intent.
+//
+// MedicalBusiness rather than LocalBusiness, because that is what this is, and
+// deliberately without a street address: we do not have a public office in each
+// city and inventing one would be worse than omitting it. areaServed with the
+// real city and state is the honest claim, and it is the property answer
+// engines use to establish that a business covers a place.
+export function buildCityLocalBusinessJsonLd(args: {
+  cityName: string
+  stateName: string
+  stateAbbrev: string
+  url: string
+  hourlyLow?: number | null
+  hourlyHigh?: number | null
+}) {
+  const { cityName, stateName, stateAbbrev, url, hourlyLow, hourlyHigh } = args
+  return {
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    name: `Dementia In Home - ${cityName}`,
+    description: `In-home dementia care matching for families in ${cityName}, ${stateAbbrev}. Free caregiver video profiles within 72 hours.`,
+    url,
+    telephone: "+1-786-432-5758",
+    email: "hello@dementiainhome.com",
+    medicalSpecialty: "Geriatric",
+    areaServed: {
+      "@type": "City",
+      name: cityName,
+      containedInPlace: { "@type": "State", name: stateName },
+    },
+    ...(hourlyLow && hourlyHigh
+      ? {
+          priceRange: `$${hourlyLow}-$${hourlyHigh} per hour`,
+          offers: {
+            "@type": "Offer",
+            priceCurrency: "USD",
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              minPrice: hourlyLow,
+              maxPrice: hourlyHigh,
+              priceCurrency: "USD",
+              unitText: "HOUR",
+            },
+          },
+        }
+      : {}),
+    parentOrganization: { "@type": "Organization", name: "Dementia In Home", url: "https://www.dementiainhome.com" },
+  }
+}
