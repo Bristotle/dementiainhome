@@ -11,7 +11,14 @@ import { CAREGIVERS } from "@/lib/caregivers"
 import Link from "next/link"
 
 
-const CITIES = ["All cities", "New York, NY", "Los Angeles, CA", "Chicago, IL", "Houston, TX", "Phoenix, AZ"]
+// Derived from the caregivers we actually have, not a hardcoded list. The
+// previous version offered five cities while twenty were live, which is the
+// third copy of that stale list found this week: the homepage stats bar, the
+// homepage FAQ, and here.
+const cityOptions = (list: { city: string }[]) => [
+  "All cities",
+  ...Array.from(new Set(list.map((c) => c.city))).sort(),
+]
 
 const VETTING = [
   { icon: ShieldCheck, title: "Background Checked", desc: "Every caregiver passes a full criminal background check before joining our network." },
@@ -56,7 +63,7 @@ export default function CaregiversPage() {
           <h2 className="text-2xl font-bold text-slate-900">How you meet your caregivers</h2>
           <div className="flex items-center gap-2 flex-wrap">
             <MapPin className="w-4 h-4 text-slate-400" />
-            {CITIES.map((c) => (
+            {cityOptions(CAREGIVERS).map((c) => (
               <motion.button
                 key={c}
                 whileHover={{ scale: 1.05 }}

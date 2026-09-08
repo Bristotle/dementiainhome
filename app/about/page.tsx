@@ -1,7 +1,7 @@
 "use client"
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
-import { FadeIn, Stagger, StaggerItem, MotionLink, hoverScale, hoverLift } from "@/components/motion"
+import { FadeIn, Stagger, StaggerItem, MotionLink, hoverScale, hoverLift, hoverShift } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 
 export default function AboutPage() {
@@ -67,6 +67,38 @@ export default function AboutPage() {
           </div>
         </FadeIn>
       </section>
+      {/* About exposed 32 links, which is the navigation and footer and nothing
+          else. A page that should carry the most authority on the site passed
+          none of it anywhere. */}
+      <section className="border-t border-slate-200 bg-slate-50 dih-about-links">
+        <div className="max-w-4xl mx-auto px-6 py-14">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>
+            Where to start
+          </h2>
+          <p className="text-slate-600 mb-6 max-w-2xl">
+            Most families arrive here in the middle of something. These are the pages people
+            open first.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-3">
+            {[
+              ["How the matching works", "/getting-started"],
+              ["What in-home dementia care costs", "/blog/in-home-dementia-care-cost-2026"],
+              ["Does Medicare cover dementia care?", "/blog/does-medicare-cover-dementia-care"],
+              ["When to hire a dementia caregiver", "/blog/when-to-hire-dementia-caregiver"],
+              ["Managing a parent's dementia from another state", "/blog/long-distance-caregiving-dementia"],
+              ["Hospital discharge with dementia", "/blog/hospital-discharge-dementia-plan"],
+              ["24-hour and live-in home care", "/services/24-hour-live-in-care"],
+              ["Overnight care", "/services/overnight-care"],
+              ["Every city we cover", "/cities"],
+            ].map(([label, href]) => (
+              <MotionLink key={href} {...hoverShift} href={href} className="text-sm text-teal-700 hover:text-teal-900 hover:underline">
+                {label}
+              </MotionLink>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </main>
   )
