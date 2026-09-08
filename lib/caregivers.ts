@@ -12,16 +12,40 @@
 // were never gated.
 //
 // It is now empty, and the page renders honestly while it is. Add real people
-// here as their profiles and signed photo permissions arrive: every field must
-// describe a person who exists, and img must be a photograph of that person.
+// here as their profiles and signed releases arrive: every field must describe a
+// person who exists, img must be a photograph of that person, and consentRef
+// must point at a signed release held on file.
+//
+// The first recorded interview exists - Grace filmed a caregiver named Stephani
+// on 8 September - and is not published here yet, because a video of a real
+// person needs three things this file cannot supply: the signed release, her
+// actual credential and city, and the file hosted somewhere we control rather
+// than a Drive share link.
 export type Caregiver = {
   name: string
   credential: string
   city: string
+  state?: string
   /** Years of experience, as the caregiver states it. */
   exp: string
   img: string
   imgAlt: string
+  /**
+   * A hosted video file, not a Google Drive or YouTube share link. Drive links
+   * are rate limited, cannot be controlled, and load badly; the file belongs on
+   * our own hosting or a video CDN.
+   */
+  videoUrl?: string
+  videoPoster?: string
+  /** One or two sentences in the caregiver's own words, quoted accurately. */
+  quote?: string
+  /**
+   * Reference for the signed release covering the video and photograph. A
+   * profile without this must not be published: this is a real person's face
+   * and name on a commercial site, and the site has already published eight
+   * invented caregivers once.
+   */
+  consentRef: string
 }
 
 export const CAREGIVERS: Caregiver[] = []

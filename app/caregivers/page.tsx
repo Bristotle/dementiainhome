@@ -85,7 +85,22 @@ export default function CaregiversPage() {
               >
                 <div className="relative mb-4">
                   <div className="relative h-44 rounded-xl overflow-hidden bg-slate-100">
-                    <Image src={c.img} alt={c.imgAlt} fill sizes="(max-width: 768px) 100vw, 300px" className="object-cover" />
+                    {/* A recorded introduction where one exists, the photograph
+                        otherwise. The video is the reason a family trusts this
+                        page, so it leads rather than sitting below the fold. */}
+                    {c.videoUrl ? (
+                      <video
+                        src={c.videoUrl}
+                        poster={c.videoPoster}
+                        controls
+                        preload="none"
+                        playsInline
+                        className="w-full h-full object-cover"
+                        aria-label={`Video introduction from ${c.name}, dementia caregiver in ${c.city}`}
+                      />
+                    ) : (
+                      <Image src={c.img} alt={c.imgAlt} fill sizes="(max-width: 768px) 100vw, 300px" className="object-cover" />
+                    )}
                   </div>
                   <span className="absolute bottom-3 right-3 bg-white/90 backdrop-blur text-xs font-semibold text-slate-700 px-2 py-1 rounded-lg">{c.exp}</span>
                 </div>
