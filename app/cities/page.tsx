@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { itemListJsonLd, breadcrumbJsonLd } from "@/lib/static-schema"
 import Link from "next/link"
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
@@ -41,8 +42,31 @@ export default async function CitiesIndexPage() {
   const states = [...byState.keys()].sort()
   const totalGuides = Object.values(pageCounts).reduce((a, b) => a + b, 0)
 
+  // The index that lists every city we serve, which said nothing about being a
+
+  // list. ItemList is what tells an engine these twenty entries belong together.
+
+  const list = itemListJsonLd({
+
+    name: "Cities we serve",
+
+    url: "https://www.dementiainhome.com/cities",
+
+    items: cities.map((c) => ({ name: `${c.name}, ${c.state}`, url: `https://www.dementiainhome.com/cities/${c.slug}` })),
+
+  })
+
+  const crumbs = breadcrumbJsonLd([{ name: "Cities", path: "/cities" }])
+
+
   return (
-    <main className="min-h-screen bg-warm-white">
+    <>
+
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(list) }} />
+
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbs) }} />
+
+      <main className="min-h-screen bg-warm-white">
       <Nav />
 
       <section className="relative overflow-hidden max-w-5xl mx-auto px-6 pt-16 pb-10">
@@ -105,5 +129,7 @@ export default async function CitiesIndexPage() {
 
       <Footer />
     </main>
+
+    </>
   )
 }
