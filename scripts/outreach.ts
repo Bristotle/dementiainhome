@@ -3,6 +3,8 @@
 //   npm run outreach                      the funnel, and today's send allowance
 //   npm run outreach -- add <file.json>   import targets (provenance required)
 //   npm run outreach -- next [n]          who to contact today, capped by warm-up
+//   npm run outreach -- send [n]          preview the sends (does nothing)
+//   npm run outreach -- send [n] --confirm actually send them
 //   npm run outreach -- stage <email> <stage> [note]
 //
 // The daily cap is enforced here rather than left to whoever is running
@@ -15,6 +17,7 @@ config({ path: ".env.local" })
 import { readFileSync } from "fs"
 import { getSupabaseAdmin } from "../lib/ingestion/supabase-admin"
 import { dailyCap, dayOfWarmup, capacityThrough } from "../lib/outreach/warmup"
+import { render, type TemplateId } from "../lib/outreach/templates"
 
 const STAGES = ["to_contact","contacted","replied","scheduled","recorded","published","link_live","declined","bounced"] as const
 type Stage = typeof STAGES[number]
@@ -128,11 +131,96 @@ async function setStage(email: string, stage: string, note?: string) {
   console.log(`\n${email} -> ${stage}\n`)
 }
 
+
+// Sending. Deliberately the last thing built and the most guarded, because
+// every other command in this file is reversible and this one is not.
+//
+// Three protections. The daily cap is checked against the send log rather than
+// against intent. Nothing goes out without --confirm, so the default behaviour
+// of a mistyped command is to print. And each send is logged and staged
+// individually, so a failure halfway through leaves an accurate record rather
+// than an unknown one.
+async function send(n: number | undefined, confirm: boolean) {
+  const from = process.env.OUTREACH_FROM_EMAIL
+  const apiKey = process.env.RESEND_API_KEY
+  if (!from || !apiKey) {
+    console.error("\nOUTREACH_FROM_EMAIL and RESEND_API_KEY must both be set.\n")
+    process.exit(1)
+  }
+
+  const cap = dailyCap()
+  const used = await sentToday()
+  const allowance = Math.max(0, cap - used)
+  if (allowance === 0) {
+    console.log(`\nNothing more today. The warm-up cap is ${cap} and ${used} have gone out.`)
+    console.log(`This domain sent its first email on 31 August and shares an account with the`)
+    console.log(`family lead notifications, so the cap is not negotiable.\n`)
+    return
+  }
+
+  const want = Math.min(n ?? allowance, allowance)
+  const s = getSupabaseAdmin()
+  const { data } = await s.from("outreach_targets")
+    .select("id,org,department,contact_name,email,kind,city")
+    .eq("stage", "to_contact").limit(want)
+  const targets = (data ?? []) as Record<string, string>[]
+
+  if (targets.length === 0) {
+    console.log(`\nNo targets waiting. Import more with: npm run outreach -- add file.json\n`)
+    return
+  }
+
+  const templateFor = (kind: string): TemplateId => (kind === "expert" ? "expert_invite" : "university_intro")
+
+  console.log(`\n=== ${confirm ? "Sending" : "Preview"}: ${targets.length} of ${allowance} allowed today (day ${dayOfWarmup()})\n`)
+  let sent = 0
+  for (const t of targets) {
+    const id = templateFor(t.kind)
+    const { subject } = render(id, { contactName: t.contact_name, org: t.org, department: t.department, city: t.city })
+    if (!confirm) {
+      console.log(`  would send  ${t.email.padEnd(36)} ${subject.slice(0, 58)}`)
+      continue
+    }
+    const { subject: sub, body } = render(id, { contactName: t.contact_name, org: t.org, department: t.department, city: t.city })
+    try {
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+        body: JSON.stringify({ from, to: [t.email], subject: sub, text: body }),
+        signal: AbortSignal.timeout(30000),
+      })
+      const out = (await res.json()) as { id?: string; message?: string }
+      if (!res.ok || !out.id) {
+        console.error(`  FAILED  ${t.email}: ${out.message ?? res.status}`)
+        continue
+      }
+      await s.from("outreach_sends").insert([{ target_id: t.id, template: id, delivered: true, provider_id: out.id }])
+      await s.from("outreach_targets").update({
+        stage: "contacted", stage_changed_at: new Date().toISOString(), first_contacted_at: new Date().toISOString(),
+      }).eq("id", t.id)
+      sent++
+      console.log(`  sent  ${t.email.padEnd(36)} ${t.org.slice(0, 40)}`)
+      // A pause between sends: a burst of identical messages in one second is
+      // itself a spam signal, whatever the daily total.
+      await new Promise((r) => setTimeout(r, 4000))
+    } catch (err) {
+      console.error(`  ERROR  ${t.email}: ${err instanceof Error ? err.message : err}`)
+    }
+  }
+
+  if (!confirm) {
+    console.log(`\n  Nothing was sent. Add --confirm to send these ${targets.length}.\n`)
+  } else {
+    console.log(`\n  ${sent} sent. Remaining today: ${Math.max(0, allowance - sent)}.\n`)
+  }
+}
+
 async function main() {
   const [cmd, ...rest] = process.argv.slice(2)
   if (cmd === "add") await add(rest[0])
   else if (cmd === "next") await next(rest[0] ? parseInt(rest[0], 10) : undefined)
   else if (cmd === "stage") await setStage(rest[0], rest[1], rest.slice(2).join(" ") || undefined)
+  else if (cmd === "send") await send(rest[0] && !rest[0].startsWith("--") ? parseInt(rest[0], 10) : undefined, rest.includes("--confirm"))
   else await report()
 }
 
