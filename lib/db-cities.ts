@@ -128,3 +128,51 @@ export async function getStateBySlug(slug: string): Promise<StateSummary | null>
   const states = await getAllStates()
   return states.find((s) => s.slug === slug) ?? null
 }
+
+export type LocalClinic = {
+  name: string
+  clinic_type: string
+  address: string | null
+  phone: string | null
+  rating: number | null
+  source_url: string
+  verified_at: string | null
+}
+
+export type LocalExpert = {
+  name: string
+  specialty: string
+  npi_number: string | null
+  profile_url: string | null
+  address: string | null
+  source_url: string
+}
+
+// The city hub fetched demographics, the Medicaid waiver and the guide list,
+// and no providers at all - on the highest commercial-intent page on the site,
+// while the database holds 359 clinics and 1,218 named specialists with
+// addresses, telephone numbers, quality ratings and a source URL each.
+//
+// This is also the pattern that is demonstrably earning attention: the site's
+// first two clicks were a specialists directory and a support groups page, and
+// both pages cited so far by AI answer engines were local factual references.
+export async function getCityClinics(slug: string, limit = 6): Promise<LocalClinic[]> {
+  const { data, error } = await supabase
+    .from("clinics")
+    .select("name, clinic_type, address, phone, rating, source_url, verified_at")
+    .eq("city_slug", slug)
+    .order("rating", { ascending: false, nullsFirst: false })
+    .limit(limit)
+  if (error || !data) return []
+  return data
+}
+
+export async function getCityExperts(slug: string, limit = 6): Promise<LocalExpert[]> {
+  const { data, error } = await supabase
+    .from("experts")
+    .select("name, specialty, npi_number, profile_url, address, source_url")
+    .eq("city_slug", slug)
+    .limit(limit)
+  if (error || !data) return []
+  return data
+}

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation"
 import { Phone } from "lucide-react"
-import { getCityBySlug, getAllCitySlugs, getAllCities, getCityDemographics, getMedicaidWaiver, getMedicaidCitations, stateSlug } from "@/lib/db-cities"
+import { getCityBySlug, getAllCitySlugs, getAllCities, getCityDemographics, getMedicaidWaiver, getMedicaidCitations, getCityClinics, getCityExperts, stateSlug } from "@/lib/db-cities"
 import { getPublishedPagesForCity } from "@/lib/db-pages"
 import LeadForm from "@/components/LeadForm"
 import Link from "next/link"
@@ -60,12 +60,14 @@ export default async function CityPage({ params }: Props) {
  const city = await getCityBySlug(slug)
  if (!city) notFound()
 
- const [demographics, waiver, citations, allCities, publishedPages] = await Promise.all([
+ const [demographics, waiver, citations, allCities, publishedPages, clinics, experts] = await Promise.all([
  getCityDemographics(slug),
  getMedicaidWaiver(city.state_abbrev),
  getMedicaidCitations(city.state_abbrev),
  getAllCities(),
  getPublishedPagesForCity(slug),
+ getCityClinics(slug, 6),
+ getCityExperts(slug, 6),
  ])
 
  const jsonLd = buildCityHubJsonLd({
@@ -300,6 +302,81 @@ export default async function CityPage({ params }: Props) {
  </StaggerItem>
  ))}
  </Stagger>
+ </section>
+ )}
+
+ {/* Real local providers, from the 359 clinics and 1,218 named specialists
+     already in the database with addresses, telephone numbers, quality
+     ratings and a source URL each. This page fetched none of them until
+     today, on the highest commercial-intent page on the site - and this is
+     the pattern that is demonstrably earning attention: both pages cited so
+     far by AI answer engines were local factual references, and the site's
+     first two clicks were a specialists directory and a support group. */}
+ {(clinics.length > 0 || experts.length > 0) && (
+ <section className="border-t border-slate-200 bg-white">
+ <div className="max-w-5xl mx-auto px-6 py-14">
+ {clinics.length > 0 && (
+ <>
+ <h2 className="text-2xl font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>
+ Home health providers in {city.name}
+ </h2>
+ <p className="text-slate-600 mb-6 max-w-2xl">
+ From Medicare&apos;s own provider records, with the quality rating Medicare
+ publishes. We do not rank these and we have no relationship with any of them.
+ </p>
+ <div className="overflow-x-auto border border-slate-200 rounded-xl mb-10">
+ <table className="w-full text-sm min-w-[520px]">
+ <thead className="bg-slate-50">
+ <tr>
+ <th className="text-left font-semibold text-slate-600 px-4 py-2.5">Provider</th>
+ <th className="text-left font-semibold text-slate-600 px-4 py-2.5">Type</th>
+ <th className="text-left font-semibold text-slate-600 px-4 py-2.5">Medicare rating</th>
+ <th className="text-left font-semibold text-slate-600 px-4 py-2.5">Telephone</th>
+ </tr>
+ </thead>
+ <tbody>
+ {clinics.map((c) => (
+ <tr key={c.name} className="border-t border-slate-100">
+ <td className="px-4 py-3 text-slate-900">
+ <a href={c.source_url} target="_blank" rel="noopener noreferrer" className="hover:underline">{c.name}</a>
+ {c.address && <span className="block text-xs text-slate-500 mt-0.5">{c.address}</span>}
+ </td>
+ <td className="px-4 py-3 text-slate-600 capitalize">{c.clinic_type.replace(/_/g, " ")}</td>
+ <td className="px-4 py-3 text-slate-600 tabular-nums">{c.rating != null ? `${c.rating} of 5` : "not rated"}</td>
+ <td className="px-4 py-3 tabular-nums">
+ {c.phone ? <a href={`tel:${c.phone}`} className="hover:underline">{c.phone}</a> : <span className="text-slate-400">not published</span>}
+ </td>
+ </tr>
+ ))}
+ </tbody>
+ </table>
+ </div>
+ </>
+ )}
+
+ {experts.length > 0 && (
+ <>
+ <h2 className="text-2xl font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>
+ Dementia specialists practising in {city.name}
+ </h2>
+ <p className="text-slate-600 mb-6 max-w-2xl">
+ Listed in the federal NPI registry with a dementia-relevant specialty. This is public
+ reference information: none of these clinicians is affiliated with us or endorses this service.
+ </p>
+ <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+ {experts.map((e) => (
+ <li key={`${e.name}-${e.npi_number ?? ""}`} className="text-sm">
+ <a href={e.profile_url ?? e.source_url} target="_blank" rel="noopener noreferrer" className="font-medium hover:underline">
+ {e.name}
+ </a>
+ <span className="text-slate-500"> &middot; {e.specialty}</span>
+ {e.npi_number && <span className="block text-xs text-slate-500">NPI {e.npi_number}</span>}
+ </li>
+ ))}
+ </ul>
+ </>
+ )}
+ </div>
  </section>
  )}
 
