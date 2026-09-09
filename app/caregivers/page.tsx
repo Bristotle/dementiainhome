@@ -148,6 +148,68 @@ export default function CaregiversPage() {
         </div>
       </section>
 
+      {/* The page asserted three things - background checked, dementia trained,
+          video interviewed - in one line each, on a page families read to decide
+          whether to trust us with the person who enters their parent's home.
+          Saying what each actually means is the whole job. */}
+      <section className="border-t border-slate-200 bg-white dih-vetting-detail">
+        <div className="max-w-3xl mx-auto px-6 py-16">
+          <h2 className="text-2xl font-bold text-slate-900 mb-3" style={{fontFamily:"var(--font-fraunces)"}}>
+            What our vetting actually involves
+          </h2>
+          <p className="text-slate-600 leading-relaxed mb-8">
+            Every provider says they vet. Here is what ours means, so you can compare it against
+            anyone else you speak to.
+          </p>
+
+          <h3 className="font-semibold text-slate-900 mt-8 mb-2">Background checks</h3>
+          <p className="text-slate-600 leading-relaxed">
+            A criminal background check before anyone joins the network. Worth knowing what to ask
+            any provider here: whether the check is national or only county-level, how recent it is,
+            and whether it is repeated. A check run once, four years ago, in one county, is not the
+            same thing.
+          </p>
+
+          <h3 className="font-semibold text-slate-900 mt-8 mb-2">Dementia experience, stated accurately</h3>
+          <p className="text-slate-600 leading-relaxed mb-3">
+            Dementia care is not general elder care. A caregiver who knows not to argue with a
+            confused person, who can redirect rather than correct, and who understands why late
+            afternoon is the hardest part of the day, is doing a different job from someone who is
+            simply kind and reliable.
+          </p>
+          <p className="text-slate-600 leading-relaxed">
+            When we send you a profile we tell you what that specific caregiver has: formal training
+            and its name where they hold it, years of hands-on dementia experience where they do not.
+            We will not describe someone as trained because it reads better.
+          </p>
+
+          <h3 className="font-semibold text-slate-900 mt-8 mb-2">A recorded interview</h3>
+          <p className="text-slate-600 leading-relaxed">
+            We interview every caregiver on camera before any family sees them, and you receive that
+            recording rather than a written summary of it. You can tell a great deal in ninety
+            seconds of someone talking about their work that no profile page conveys.
+          </p>
+
+          <h3 className="font-semibold text-slate-900 mt-8 mb-2">Continuity, which matters more than most families expect</h3>
+          <p className="text-slate-600 leading-relaxed">
+            A rotating cast of strangers makes dementia worse. Familiarity is doing real work when
+            memory is not, and someone who has to reintroduce themselves every visit never becomes
+            familiar. Ask any provider how many different people would cover your parent&apos;s
+            hours, and what happens when the regular caregiver is ill. It is the question that
+            separates providers most sharply.
+          </p>
+
+          <div className="mt-10 pt-6 border-t border-slate-200">
+            <h3 className="font-semibold text-slate-900 mb-2">What we do not claim</h3>
+            <p className="text-slate-600 leading-relaxed">
+              We are a matching service rather than the caregiver&apos;s employer, and we are not a
+              licensed home health agency providing clinical care. Ask us, and everyone else, who
+              carries insurance and who is responsible if something goes wrong.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </main>
   )

@@ -67,6 +67,88 @@ export default function AboutPage() {
           </div>
         </FadeIn>
       </section>
+      {/* The page was 374 words of claims about what we do, with nothing about
+          how we work, where our numbers come from, or what we are legally. For
+          a health and money topic that is the page Google weights most for
+          trust, and it carried the least. */}
+      <section className="border-t border-slate-200 bg-white">
+        <div className="max-w-3xl mx-auto px-6 py-16">
+          <h2 className="text-2xl font-bold text-slate-900 mb-3" style={{fontFamily:"var(--font-fraunces)"}}>
+            How the matching actually works
+          </h2>
+          <p className="text-slate-600 leading-relaxed mb-8">
+            There is no algorithm and no directory to browse. A person reads what you send us.
+          </p>
+          <ol className="space-y-6">
+            {[
+              ["You tell us the situation", "A short form: which city your parent is in, who needs care, and how soon. Two minutes, and nothing to sign up to. If it is easier to talk, the number is at the top of this page."],
+              ["Someone reads it", "Not a form-routing system. A person reads what you wrote, because the difference between a parent who wanders at night and one who needs company in the afternoon decides who we would even consider sending."],
+              ["We hand-pick and send video profiles", "Within 72 hours you receive video profiles of caregivers available near you. You watch them at home, in your own time, and share them with your siblings before anyone meets anyone."],
+              ["You decide, or you do not", "There is no cost to see the profiles and no commitment attached to them. Families who look and walk away are a normal outcome, not a failure."],
+            ].map(([h, b], i) => (
+              <li key={h} className="flex gap-5">
+                <span className="flex-none w-9 h-9 rounded-full bg-teal-700 text-white flex items-center justify-center font-bold text-sm">{i + 1}</span>
+                <div>
+                  <h3 className="font-semibold text-slate-900 mb-1">{h}</h3>
+                  <p className="text-slate-600 leading-relaxed">{b}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="border-t border-slate-200 bg-slate-50">
+        <div className="max-w-3xl mx-auto px-6 py-16">
+          <h2 className="text-2xl font-bold text-slate-900 mb-3" style={{fontFamily:"var(--font-fraunces)"}}>
+            Why our numbers are checkable
+          </h2>
+          <p className="text-slate-600 leading-relaxed mb-4">
+            Most dementia care websites publish figures with nothing behind them. We hold ourselves
+            to a rule that is unusual enough to be worth explaining: <strong>every local figure on
+            this site comes from a public record, and links back to it.</strong>
+          </p>
+          <p className="text-slate-600 leading-relaxed mb-4">
+            The number of residents over 65 in a city comes from the U.S. Census American Community
+            Survey. Local providers come from Medicare Care Compare. Named specialists come from the
+            federal NPI registry. State Medicaid rules come from that state&apos;s own programme page.
+            Each carries the date we last checked it.
+          </p>
+          <p className="text-slate-600 leading-relaxed mb-4">
+            Pages are checked automatically before they publish, and a page that states a figure it
+            cannot trace to a source does not go live. That has consequences we accept: where a state
+            does not publish its asset limit, our page says so rather than quoting a number from
+            somewhere convenient.
+          </p>
+          <p className="text-slate-600 leading-relaxed">
+            It also means you can check us. Every source is one click away, on the page it supports.
+          </p>
+        </div>
+      </section>
+
+      <section className="border-t border-slate-200 bg-white">
+        <div className="max-w-3xl mx-auto px-6 py-16">
+          <h2 className="text-2xl font-bold text-slate-900 mb-3" style={{fontFamily:"var(--font-fraunces)"}}>
+            What we are, plainly
+          </h2>
+          <p className="text-slate-600 leading-relaxed mb-4">
+            We are a matching service. We find and vet dementia caregivers and introduce them to
+            families. We are not the employer of the caregiver you hire, and we are not a licensed
+            home health agency providing clinical care.
+          </p>
+          <p className="text-slate-600 leading-relaxed mb-4">
+            That distinction matters practically. Ask any provider you speak to, including us,
+            whether caregivers are employees or contractors, who carries insurance, and who is
+            responsible if something goes wrong. A provider who is vague about that is telling you
+            something.
+          </p>
+          <p className="text-slate-600 leading-relaxed">
+            Nothing on this site is medical, legal or financial advice. The guides are here to help
+            you ask better questions of the people qualified to answer them.
+          </p>
+        </div>
+      </section>
+
       {/* About exposed 32 links, which is the navigation and footer and nothing
           else. A page that should carry the most authority on the site passed
           none of it anywhere. */}
