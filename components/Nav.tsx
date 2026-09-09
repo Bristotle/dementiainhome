@@ -13,6 +13,7 @@ const LINKS_AFTER = [
   { href:"/caregivers", label:"Our Caregivers" },
   { href:"/getting-started", label:"Getting Started" },
   { href:"/blog", label:"Blog" },
+  { href:"/interviews", label:"Interviews" },
   { href:"/contact", label:"Contact" },
 ]
 

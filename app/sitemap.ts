@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next"
 import { BLOG_POSTS } from "@/lib/blog"
 import { SERVICES_DETAIL } from "@/lib/services"
+import { INTERVIEWS } from "@/lib/interviews"
 import { getAllCities, getAllStates } from "@/lib/db-cities"
 import { getPublishedPagesForSitemap } from "@/lib/db-pages"
 
@@ -32,6 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/getting-started", lastModified: SITE_LAUNCH_DATE, priority: 0.8 },
     { path: "/caregivers", lastModified: SITE_LAUNCH_DATE, priority: 0.8 },
     { path: "/services", lastModified: RECENT_UPDATE_DATE, priority: 0.85 },
+    { path: "/interviews", lastModified: RECENT_UPDATE_DATE, priority: 0.8 },
     { path: "/cities", lastModified: RECENT_UPDATE_DATE, priority: 0.9 },
     { path: "/blog", lastModified: RECENT_UPDATE_DATE, priority: 0.7 },
     { path: "/contact", lastModified: SITE_LAUNCH_DATE, priority: 0.6 },
@@ -53,6 +55,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: RECENT_UPDATE_DATE,
     changeFrequency: "monthly" as const,
     priority: 0.8,
+  }))
+
+  // Interviews are a route type from today. Adding them here at creation
+  // rather than discovering later that a whole route type was never
+  // submitted, which is what happened with the service pages.
+  const interviewRoutes = INTERVIEWS.map((i) => ({
+    url: `${BASE_URL}/interviews/${i.slug}`,
+    lastModified: RECENT_UPDATE_DATE,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
   }))
 
   const blogRoutes = BLOG_POSTS.map((post) => ({
@@ -90,5 +102,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }))
 
-  return [...staticRoutes, ...stateRoutes, ...serviceRoutes, ...cityRoutes, ...generatedRoutes, ...blogRoutes]
+  return [...staticRoutes, ...stateRoutes, ...serviceRoutes, ...interviewRoutes, ...cityRoutes, ...generatedRoutes, ...blogRoutes]
 }
