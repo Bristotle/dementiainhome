@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { websiteJsonLd } from "@/lib/static-schema";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter, Fraunces, Geist } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -93,6 +94,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script id="google-analytics" strategy="afterInteractive">
           {"window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-Z11TVVZBCL');"}
         </Script>
+        {/* Core Web Vitals from real visitors. Performance was the one line in
+            the audit I could not report honestly: three local Lighthouse runs on
+            the same page minutes apart gave 77, 82 and 91, with speed index
+            swinging from 8.6 to 18.4 seconds. That is this machine, not the
+            site. Field data settles it, and it is what Google actually ranks on. */}
+        <SpeedInsights />
       </body>
     </html>
   );
