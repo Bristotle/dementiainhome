@@ -12,7 +12,7 @@
 //     get a produced interview they can use themselves. Neither is a favour we
 //     are asking for nothing.
 //  3. Never imply endorsement. An expert who records with us has not endorsed
-//     our service, and the email must not suggest they would be doing so - the
+//     our service, and the email must not suggest they would be doing so, the
 //     same rule the content gate enforces on every generated page.
 
 export type TemplateId = "university_intro" | "university_followup" | "expert_invite" | "expert_followup"
@@ -28,15 +28,35 @@ type Template = { subject: (v: TemplateVars) => string; body: (v: TemplateVars) 
 
 const greeting = (v: TemplateVars) => (v.contactName ? `Dear ${v.contactName},` : "Hello,")
 
+// department holds two different kinds of thing, because that is how the
+// universities themselves are organised. Some are a discipline ("Gerontology",
+// "Aging Studies") and read correctly in a sentence. Others are an
+// organisational unit ("Institute on Aging", "Social Work, Specialization in
+// Aging") and produce "Internship for Institute on Aging students", which is
+// the sort of line that tells a reader the email was generated.
+//
+// Six of the first sixteen targets were the second kind, so this is the common
+// case rather than an edge one.
+const UNIT = /^(the )?(institute|center|centre|school|department|college|division|program|programme)\b/i
+const isDiscipline = (d?: string): d is string => Boolean(d) && !UNIT.test(d!) && !d!.includes(",")
+
+/** "Gerontology students" where the name is a discipline, "your students" where it is a unit. */
+const studentsOf = (v: TemplateVars) => (isDiscipline(v.department) ? `${v.department} students` : "your students")
+
+/** What a student would be studying. Falls back to the disciplines we actually want. */
+const fieldOf = (v: TemplateVars) =>
+  isDiscipline(v.department) ? v.department : "gerontology, nursing, social work or public health"
+
+
 export const TEMPLATES: Record<TemplateId, Template> = {
   // Stage one: departments, to find interns. The offer is the student's, not ours.
   university_intro: {
-    subject: (v) => `Internship for ${v.department ?? "your"} students: recorded interviews with dementia clinicians`,
+    subject: (v) => `Internship for ${studentsOf(v)}: recorded interviews with dementia clinicians`,
     body: (v) => `${greeting(v)}
 
 I am writing from Dementia In Home, a service that helps families find in-home caregivers for a parent with dementia. We are looking for two or three student interns this autumn, and I thought of ${v.org} first.
 
-The work is this: interns arrange and record video interviews with dementia specialists - neurologists, geriatricians, social workers, memory clinic staff - and we publish them as a public resource for families. It is remote, flexible around teaching, and it suits a student in ${v.department ?? "gerontology, nursing, social work or public health"}.
+The work is this. Interns arrange and record video interviews with dementia specialists: neurologists, geriatricians, social workers and memory clinic staff. We publish the interviews as a public resource for families. It is remote, flexible around teaching, and it suits a student in ${fieldOf(v)}.
 
 What the student gets is a portfolio of recorded interviews with named clinicians and direct contact with practitioners in the field, which is not easy to arrange as an undergraduate.
 
@@ -51,7 +71,7 @@ dementiainhome.com`,
     subject: () => `Re: student interviews with dementia clinicians`,
     body: (v) => `${greeting(v)}
 
-Following up briefly on my note about internships for ${v.department ?? "your"} students - recorded interviews with dementia clinicians, remote and flexible around teaching.
+Following up briefly on my note about internships for ${studentsOf(v)}. The work is recorded interviews with dementia clinicians, remote and flexible around teaching.
 
 If it is not a fit, a one-line no is genuinely useful and I will not write again. If it is simply the wrong time of year, tell me when to come back.
 
@@ -83,7 +103,7 @@ dementiainhome.com`,
     subject: (v) => `Re: interview request, dementia care in ${v.city ?? "your area"}`,
     body: (v) => `${greeting(v)}
 
-Following up on my note about a short recorded interview on dementia care - twenty to thirty minutes, remote, questions sent in advance, and you keep the recording.
+Following up on my note about a short recorded interview on dementia care. Twenty to thirty minutes, remote, questions sent in advance, and you keep the recording.
 
 If it is not for you, a one-line no is fine and I will not write again.
 
@@ -92,7 +112,18 @@ Dementia In Home`,
   },
 }
 
+const BANNED = /[\u2010-\u2015\u2212]/  // hyphen variants, en-dash, em-dash, horizontal bar, minus
+
 export function render(id: TemplateId, vars: TemplateVars): { subject: string; body: string } {
   const t = TEMPLATES[id]
-  return { subject: t.subject(vars), body: t.body(vars) }
+  const subject = t.subject(vars)
+  const body = t.body(vars)
+  // A dash can arrive from a template edit or from a target's own org name, and
+  // an outreach email is not reviewable after it is sent. Fail loudly here
+  // rather than let one through.
+  for (const [what, text] of [["subject", subject], ["body", body]] as const) {
+    const hit = text.match(BANNED)
+    if (hit) throw new Error(`Template ${id}: ${what} contains ${JSON.stringify(hit[0])}. Use a hyphen, a comma, or restructure.`)
+  }
+  return { subject, body }
 }
