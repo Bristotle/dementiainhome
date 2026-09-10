@@ -42,6 +42,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 }
 
+ const RATE_BAND: Record<string, string> = {
+  "companion-care": "Companion care usually sits at the lower end of a city's range, because it is supervision and company rather than hands-on help.",
+  "personal-care": "Personal care sits in the middle to upper part of a city's range, because bathing, dressing and transferring need a trained caregiver.",
+  "24-hour-live-in-care": "Live-in care is normally billed as a daily rate rather than hourly, and works out well below the hourly figures below for the same coverage.",
+  "overnight-care": "Overnight care often carries a small premium on a city's hourly range, or is billed as a flat nightly rate where the caregiver can sleep.",
+  "respite-care": "Respite care is billed at the same hourly rates as the care it stands in for, so the range below applies directly.",
+  "memory-care-at-home": "Memory care at home sits at the upper end of a city's range, because it needs caregivers with dementia-specific training.",
+  "hospital-discharge-care": "Discharge care is usually short and intensive, so it is billed at the upper end of a city's hourly range for the first days.",
+}
+
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const service = getServiceBySlug(slug)
@@ -52,9 +62,26 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
  const cityGuideTopic = cityGuideForService(service.slug)
  const cityGuides = cityGuideTopic ? await getPublishedPagesForTopic(cityGuideTopic) : []
 
+ // Rates in the twenty cities we cover. These pages were the only content type
+ // on the site carrying no data of its own, and they are also the only type
+ // Google has mostly declined to index: seven of the eight are outside the
+ // index, and the one that is in is the only one with a fifth section.
+ //
+ // The figures are the city's range for in-home dementia care generally, not
+ // for this service specifically, and the copy says so rather than implying a
+ // precision we do not have. Where a service sits inside that range is stated
+ // per service, which is true and is the thing a family actually wants to know.
+ const cities = await getAllCities()
+ const rateCities = cities
+   .filter((c) => c.hourly_rate_low && c.hourly_rate_high)
+   .sort((a, b) => a.name.localeCompare(b.name))
+
   const Icon = ICON_MAP[service.slug] || Handshake
   const related = SERVICES_DETAIL.filter((s) => s.slug !== service.slug).slice(0, 3)
-  const tocItems = service.sections.map((s) => ({ id: slugify(s.heading), label: s.heading }))
+  const tocItems = [
+    ...service.sections.map((s) => ({ id: slugify(s.heading), label: s.heading })),
+    { id: "what-it-costs-where-you-live", label: "What it costs where you live" },
+  ]
 
   const serviceSchema = {
     "@context": "https://schema.org",
@@ -135,6 +162,51 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               </div>
             ))}
           </div>
+
+          {rateCities.length > 0 && (
+            <div id="what-it-costs-where-you-live" className="mt-12 scroll-mt-24">
+              <h2 className="text-xl font-bold text-slate-900 mb-3">What it costs where you live</h2>
+              <p className="text-slate-600 leading-relaxed mb-2">
+                {RATE_BAND[service.slug]}
+              </p>
+              <p className="text-slate-600 leading-relaxed mb-6">
+                The figures below are the going hourly range for in-home dementia care in each city
+                we cover, not for this service alone. They move with local wages more than with
+                anything else, which is why the same care costs half as much again in one city as
+                in another. Each city links to a fuller local guide.
+              </p>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <caption className="sr-only">Hourly rates for in-home dementia care by city</caption>
+                  <thead>
+                    <tr className="border-b border-slate-200 text-left">
+                      <th scope="col" className="py-2 pr-4 font-semibold text-slate-900">City</th>
+                      <th scope="col" className="py-2 pr-4 font-semibold text-slate-900 text-right">Typical hourly range</th>
+                    </tr>
+                  </thead>
+                  <tbody style={{ fontVariantNumeric: "tabular-nums" }}>
+                    {rateCities.map((c) => (
+                      <tr key={c.slug} className="border-b border-slate-100">
+                        <td className="py-2 pr-4">
+                          <Link href={`/cities/${c.slug}`} className="text-teal-700 hover:underline">
+                            {c.name}, {c.state_abbrev}
+                          </Link>
+                        </td>
+                        <td className="py-2 pr-4 text-right text-slate-700">
+                          ${c.hourly_rate_low} to ${c.hourly_rate_high}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p className="text-xs text-slate-500 mt-3">
+                Ranges are what families in each city are currently quoted, and are a guide rather
+                than a price. What you pay depends on hours, the caregiver&apos;s experience, and how
+                much notice you can give.
+              </p>
+            </div>
+          )}
 
           <div id="frequently-asked-questions" className="mt-12 scroll-mt-24">
             <h2 className="text-xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
