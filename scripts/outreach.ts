@@ -5,6 +5,7 @@
 //   npm run outreach -- next [n]          who to contact today, capped by warm-up
 //   npm run outreach -- send [n]          preview the sends (does nothing)
 //   npm run outreach -- send [n] --confirm actually send them
+//   npm run outreach -- test <email>      send one real email to yourself first
 //   npm run outreach -- stage <email> <stage> [note]
 //
 // The daily cap is enforced here rather than left to whoever is running
@@ -215,11 +216,65 @@ async function send(n: number | undefined, confirm: boolean) {
   }
 }
 
+
+// A test send, to our own address, before sixteen strangers get it.
+//
+// It renders the first waiting target rather than invented values, so what
+// lands in the inbox is byte-identical to what that university would receive.
+// It touches no target row and logs no send, because nothing was contacted.
+// It is still a real email from the outreach domain and still uses one of the
+// day's allowance, so the batch afterwards is one smaller.
+async function test(to: string) {
+  const from = process.env.OUTREACH_FROM_EMAIL
+  const apiKey = process.env.RESEND_API_KEY
+  if (!from || !apiKey) {
+    console.error("\nOUTREACH_FROM_EMAIL and RESEND_API_KEY must both be set.\n")
+    process.exit(1)
+  }
+  if (!to || !to.includes("@")) {
+    console.error("\nUsage: npm run outreach -- test you@example.com\n")
+    process.exit(1)
+  }
+
+  const s = getSupabaseAdmin()
+  const { data } = await s.from("outreach_targets")
+    .select("org,department,contact_name,city,kind,email").eq("stage", "to_contact").limit(1)
+  const t = (data ?? [])[0] as Record<string, string> | undefined
+  if (!t) {
+    console.log("\nNo waiting targets to render.\n")
+    return
+  }
+
+  const id: TemplateId = t.kind === "expert" ? "expert_invite" : "university_intro"
+  const { subject, body } = render(id, { contactName: t.contact_name, org: t.org, department: t.department, city: t.city })
+
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+    body: JSON.stringify({ from, to: [to], subject, text: body }),
+    signal: AbortSignal.timeout(30000),
+  })
+  const out = (await res.json()) as { id?: string; message?: string }
+  if (!res.ok || !out.id) {
+    console.error(`\nFailed: ${out.message ?? res.status}\n`)
+    process.exit(1)
+  }
+
+  console.log(`\n  sent to      ${to}`)
+  console.log(`  from         ${from}`)
+  console.log(`  template     ${id}, rendered exactly as ${t.email} would receive it`)
+  console.log(`  subject      ${subject}`)
+  console.log(`  provider id  ${out.id}`)
+  console.log(`\n  ${t.email} was NOT contacted and is still waiting.`)
+  console.log(`  This used one of today's sends, so the batch after it is one smaller.\n`)
+}
+
 async function main() {
   const [cmd, ...rest] = process.argv.slice(2)
   if (cmd === "add") await add(rest[0])
   else if (cmd === "next") await next(rest[0] ? parseInt(rest[0], 10) : undefined)
   else if (cmd === "stage") await setStage(rest[0], rest[1], rest.slice(2).join(" ") || undefined)
+  else if (cmd === "test") await test(rest[0])
   else if (cmd === "send") await send(rest[0] && !rest[0].startsWith("--") ? parseInt(rest[0], 10) : undefined, rest.includes("--confirm"))
   else await report()
 }
