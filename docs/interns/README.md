@@ -9,14 +9,36 @@ delivered. This directory is what has to exist before the first one says yes.
 | `placement-description.md` | The role, for a placements board | Placements officers, students |
 | `interview-questions.md` | The question set and the rules | Interns |
 | `consent-release.md` | Publication consent | Clinicians |
+| `student-blurb.md` | The role, forwarded to students | Students |
 
 The publishing side already exists: `lib/interviews.ts` and the pages under
 `app/interviews/`. Both require a `consentRef`, so an interview cannot go live
 without a signed release. The library is currently empty, which is accurate.
 
+## Two institutions have already said yes
+
+**UNC Charlotte**, 10 September 2026, eleven minutes after we wrote: Dr Cynthia
+Hancock, Director of the Gerontology Program, will pass it to her gerontology
+students.
+
+**USC Leonard Davis**, the same day: Sara Robinson, Student Services Manager,
+will circulate it this autumn given a ready-to-send email or flyer, and has
+offered to connect us with Career Services about **becoming a preceptor for
+ongoing internship participation each term**. That is a recurring pipeline rather
+than one batch of students, and it is the more valuable half of her reply.
+
+The preceptor route probably also settles the compensation question below. A
+credit-bearing placement supervised by a preceptor is normally unpaid and
+universities circulate those without hesitation; it is the uncredited unpaid
+internship that gets refused. It is not free, though: preceptor status usually
+means a signed affiliation agreement, a named supervisor, learning objectives,
+student evaluation and sometimes liability insurance. That is a decision and a
+signature for the business, not something to agree to in a reply.
+
 ## Open questions, which are not mine to answer
 
-These block sending the placement description to any university. A placements
+These block sending the placement description or the student blurb to any
+university, and two are now waiting on them. A placements
 office asks both of them immediately, and a wrong answer is worse than a slow
 one.
 
