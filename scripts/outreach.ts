@@ -7,6 +7,7 @@
 //   npm run outreach -- send [n] --confirm actually send them
 //   npm run outreach -- test <email>      send one real email to yourself first
 //   npm run outreach -- sent [n]          what went to whom, and when
+//   npm run outreach -- delivery [n]      did they actually arrive, or bounce
 //   npm run outreach -- stage <email> <stage> [note]
 //
 // The daily cap is enforced here rather than left to whoever is running
@@ -310,11 +311,46 @@ async function sent(limit = 40) {
   console.log("")
 }
 
+
+// What the send log cannot tell us. A send the API accepted can still bounce,
+// and during warm-up the bounce rate is the number that decides whether this
+// domain keeps working at all. Resend knows the outcome and nothing was asking.
+async function delivery(limit = 30) {
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) { console.error("\nRESEND_API_KEY is not set.\n"); process.exit(1) }
+  const s = getSupabaseAdmin()
+  const { data } = await s.from("outreach_sends")
+    .select("sent_at, provider_id, outreach_targets(email)")
+    .not("provider_id", "is", null).order("sent_at", { ascending: false }).limit(limit)
+  const rows = (data ?? []) as Record<string, any>[]
+  if (rows.length === 0) { console.log("\nNothing sent yet.\n"); return }
+
+  console.log(`\n=== delivery, last ${rows.length} sends\n`)
+  const tally: Record<string, number> = {}
+  for (const r of rows) {
+    const res = await fetch(`https://api.resend.com/emails/${r.provider_id}`, {
+      headers: { Authorization: `Bearer ${apiKey}` }, signal: AbortSignal.timeout(20000),
+    })
+    const out = (await res.json()) as { last_event?: string }
+    const state = out.last_event ?? `unknown (${res.status})`
+    tally[state] = (tally[state] ?? 0) + 1
+    const flag = /bounce|complain/.test(state) ? "  <-- ACT ON THIS" : ""
+    console.log(`  ${String(r.outreach_targets?.email ?? "?").padEnd(34)} ${state}${flag}`)
+  }
+  console.log("")
+  for (const [state, n] of Object.entries(tally)) console.log(`  ${String(n).padStart(3)}  ${state}`)
+  const bad = Object.entries(tally).filter(([k]) => /bounce|complain/.test(k)).reduce((a, [, n]) => a + n, 0)
+  const rate = ((bad / rows.length) * 100).toFixed(1)
+  console.log(`\n  bounce/complaint rate ${rate}%`)
+  console.log(bad === 0 ? "  clean.\n" : Number(rate) > 2 ? "  ABOVE 2%: stop sending and clean the list before the next batch.\n" : "  under 2%, but check each one above.\n")
+}
+
 async function main() {
   const [cmd, ...rest] = process.argv.slice(2)
   if (cmd === "add") await add(rest[0])
   else if (cmd === "next") await next(rest[0] ? parseInt(rest[0], 10) : undefined)
   else if (cmd === "stage") await setStage(rest[0], rest[1], rest.slice(2).join(" ") || undefined)
+  else if (cmd === "delivery") await delivery(rest[0] ? parseInt(rest[0], 10) : undefined)
   else if (cmd === "sent") await sent(rest[0] ? parseInt(rest[0], 10) : undefined)
   else if (cmd === "test") await test(rest[0])
   else if (cmd === "send") await send(rest[0] && !rest[0].startsWith("--") ? parseInt(rest[0], 10) : undefined, rest.includes("--confirm"))
