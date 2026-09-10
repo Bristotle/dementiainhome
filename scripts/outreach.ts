@@ -52,6 +52,7 @@ async function report() {
   }
   const rows = data ?? []
   const day = dayOfWarmup()
+  const reply = replyTo()
   const cap = dailyCap()
   const used = await sentToday()
 
@@ -98,6 +99,7 @@ async function add(file: string) {
 }
 
 async function next(n?: number) {
+  const reply = replyTo()
   const cap = dailyCap()
   const used = await sentToday()
   const allowance = Math.max(0, cap - used)
@@ -133,6 +135,21 @@ async function setStage(email: string, stage: string, note?: string) {
 }
 
 
+function replyTo(): string {
+  const to = process.env.OUTREACH_REPLY_TO
+  if (!to || !to.includes("@")) {
+    console.error(`
+OUTREACH_REPLY_TO is not set, and outreach.dementiainhome.com has no MX record,
+so a reply to the from address goes nowhere. Set it in .env.local to a mailbox
+that is actually read:
+
+  OUTREACH_REPLY_TO="you@example.com"
+`)
+    process.exit(1)
+  }
+  return to
+}
+
 // Sending. Deliberately the last thing built and the most guarded, because
 // every other command in this file is reversible and this one is not.
 //
@@ -149,6 +166,7 @@ async function send(n: number | undefined, confirm: boolean) {
     process.exit(1)
   }
 
+  const reply = replyTo()
   const cap = dailyCap()
   const used = await sentToday()
   const allowance = Math.max(0, cap - used)
@@ -173,7 +191,8 @@ async function send(n: number | undefined, confirm: boolean) {
 
   const templateFor = (kind: string): TemplateId => (kind === "expert" ? "expert_invite" : "university_intro")
 
-  console.log(`\n=== ${confirm ? "Sending" : "Preview"}: ${targets.length} of ${allowance} allowed today (day ${dayOfWarmup()})\n`)
+  console.log(`\n=== ${confirm ? "Sending" : "Preview"}: ${targets.length} of ${allowance} allowed today (day ${dayOfWarmup()})`)
+  console.log(`    replies go to ${reply}\n`)
   let sent = 0
   for (const t of targets) {
     const id = templateFor(t.kind)
@@ -187,7 +206,7 @@ async function send(n: number | undefined, confirm: boolean) {
       const res = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
-        body: JSON.stringify({ from, to: [t.email], subject: sub, text: body }),
+        body: JSON.stringify({ from, to: [t.email], reply_to: reply, subject: sub, text: body }),
         signal: AbortSignal.timeout(30000),
       })
       const out = (await res.json()) as { id?: string; message?: string }
@@ -251,7 +270,7 @@ async function test(to: string) {
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
-    body: JSON.stringify({ from, to: [to], subject, text: body }),
+    body: JSON.stringify({ from, to: [to], reply_to: replyTo(), subject, text: body }),
     signal: AbortSignal.timeout(30000),
   })
   const out = (await res.json()) as { id?: string; message?: string }
@@ -262,6 +281,7 @@ async function test(to: string) {
 
   console.log(`\n  sent to      ${to}`)
   console.log(`  from         ${from}`)
+  console.log(`  replies to   ${replyTo()}`)
   console.log(`  template     ${id}, rendered exactly as ${t.email} would receive it`)
   console.log(`  subject      ${subject}`)
   console.log(`  provider id  ${out.id}`)
