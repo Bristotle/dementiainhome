@@ -3,7 +3,6 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import DataSources from "@/components/DataSources"
 import Image from "next/image"
-import { motion } from "framer-motion"
 import type { City } from "@/lib/db-cities"
 import type { RelatedGuideLink } from "@/lib/db-pages"
 import { Handshake, Bath, Moon, HeartHandshake, Brain, Hospital, Video, Clock, DollarSign, Phone, ShieldCheck, Heart, MapPin, Lock, Calendar, MessageCircle } from "lucide-react"
@@ -103,7 +102,11 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <section className="relative h-[88vh] min-h-[600px] overflow-hidden">
  {HERO_SLIDES.map((s, i) => (
  <div key={i} className="absolute inset-0 transition-opacity duration-1000" style={{opacity: i === slide ? 1 : 0}} aria-hidden={i !== slide}>
- <motion.img src={s.url} alt={s.alt} className="w-full h-full object-cover" loading={i === 0 ? "eager" : "lazy"} width="1920" height="1080" animate={{ scale: [1, 1.08, 1] }} transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }} />
+ {/* The hero image is the LCP element, and it was running a fourteen second
+              scale loop through framer-motion that never stopped and never checked
+              whether the visitor wanted motion. The same slow drift is now CSS, and
+              prefers-reduced-motion turns it off. */}
+              <img src={s.url} alt={s.alt} className="w-full h-full object-cover dih-kenburns" loading={i === 0 ? "eager" : "lazy"} fetchPriority={i === 0 ? "high" : undefined} width="1920" height="1080" />
  <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-teal-900/45 to-slate-900/10" />
  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20" />
  </div>
@@ -411,16 +414,14 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <FadeIn delay={0.2}><p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto"><strong className="text-white">No waitlists.</strong> No judgment. Real support from vetted caregivers who understand dementia - ready this week.</p></FadeIn>
  <FadeIn delay={0.3} className="flex flex-wrap gap-4 justify-center mb-8">
  <NeonLinkButton href="#get-matched" variant="solid" size="lg"><Calendar className="w-5 h-5" />Get Free Caregiver Profiles</NeonLinkButton>
- <motion.a
+ <a
  href="tel:+17864325758"
  className={cn(neonButtonVariants({ variant: "default", size: "lg" }))}
- whileHover={{ scale: 1.03 }}
- whileTap={{ scale: 0.97 }}
- transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+ data-hover="scale"
  >
  <Phone className="w-5 h-5" />Call (786) 432-5758
  <NeonGlowEdges />
- </motion.a>
+ </a>
  </FadeIn>
  <FadeIn delay={0.4}><p className="text-slate-500 text-sm">New York · Los Angeles · Chicago · Houston · Phoenix · and growing</p></FadeIn>
  </div>

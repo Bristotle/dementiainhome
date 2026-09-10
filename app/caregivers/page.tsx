@@ -3,7 +3,6 @@ import { useState, useMemo } from "react"
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
 import Image from "next/image"
-import { motion, AnimatePresence } from "framer-motion"
 import { ShieldCheck, Video, Award, MapPin } from "lucide-react"
 import { FadeIn, Stagger, StaggerItem, MotionLink, hoverScale, hoverLift } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
@@ -64,31 +63,25 @@ export default function CaregiversPage() {
           <div className="flex items-center gap-2 flex-wrap">
             <MapPin className="w-4 h-4 text-slate-400" />
             {cityOptions(CAREGIVERS).map((c) => (
-              <motion.button
+              <button
                 key={c}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                data-hover="scale"
                 onClick={() => setCityFilter(c)}
                 className={"px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors " + (cityFilter === c ? "bg-teal-700 border-teal-600 text-white" : "border-slate-300 text-slate-600 hover:border-teal-400 hover:text-teal-700")}
               >
                 {c}
-              </motion.button>
+              </button>
             ))}
           </div>
         </div>
 
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <AnimatePresence mode="popLayout">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <>
             {filtered.map((c) => (
-              <motion.div
+              <div
                 key={c.name}
-                layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className="card"
+                data-hover="lift"
+                className="dih-fade card"
               >
                 <div className="relative mb-4">
                   <div className="relative h-44 rounded-xl overflow-hidden bg-slate-100">
@@ -114,10 +107,10 @@ export default function CaregiversPage() {
                 <h3 className="font-bold text-slate-900">{c.name}</h3>
                 <p className="text-sm text-teal-700 font-medium mb-1">{c.credential}</p>
                 <p className="text-xs text-slate-500 flex items-center gap-1"><MapPin className="w-3 h-3" />{c.city}</p>
-              </motion.div>
+              </div>
             ))}
-          </AnimatePresence>
-        </motion.div>
+          </>
+        </div>
         {filtered.length === 0 && (
           <div className="max-w-2xl mx-auto text-center mb-12 bg-slate-50 border border-slate-200 rounded-2xl p-8">
             <h3 className="font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>

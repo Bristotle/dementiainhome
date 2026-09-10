@@ -377,3 +377,19 @@
 @keyframes dih-nav-in { from { opacity: 0; transform: translateY(-24px); } to { opacity: 1; transform: none; } }
 .dih-nav-in { animation: dih-nav-in .5s cubic-bezier(.22,1,.36,1) both; }
 @media (prefers-reduced-motion: reduce) { .dih-nav-in { animation: none; } }
+
+
+/* The hero image's slow zoom. It was a framer-motion animate loop on the LCP
+   element: a JavaScript library scaling the largest image on the page, forever,
+   whether or not the visitor asked for motion. */
+@keyframes dih-kenburns {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+.dih-kenburns {
+  animation: dih-kenburns 14s ease-in-out infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dih-kenburns { animation: none; }
+}

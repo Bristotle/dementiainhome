@@ -3,7 +3,6 @@ import { useState } from "react"
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
 import { Phone, Mail, Clock } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
 import { FadeIn, Stagger, StaggerItem, hoverScale } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 
@@ -65,28 +64,16 @@ export default function ContactPage() {
             </div>
           </FadeIn>
           <FadeIn delay={0.15} className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
-            <AnimatePresence mode="wait">
               {status === "success" ? (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  className="text-center py-12 space-y-4"
-                >
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.4, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                    className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto"
-                  >
+                <div className="dih-fade text-center py-12 space-y-4">
+                  <div className="dih-fade w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto">
                     <svg className="w-8 h-8 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/></svg>
-                  </motion.div>
+                  </div>
                   <h3 className="text-xl font-bold text-slate-900">Message received!</h3>
                   <p className="text-slate-600">We will get back to you at <strong>{form.email}</strong> within 24 hours.</p>
-                </motion.div>
+                </div>
               ) : (
-                <motion.form key="form" onSubmit={handleSubmit} className="space-y-4" initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+                <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                   <h3 className="text-xl font-bold text-slate-900 mb-6">Send us a message</h3>
                   <div className="grid grid-cols-2 gap-3">
                     <div><label htmlFor="ct_fn" className="block text-xs font-medium text-slate-700 mb-1">First name</label><input id="ct_fn" name="first_name" type="text" required value={form.first_name} onChange={handleChange} className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" /></div>
@@ -95,29 +82,17 @@ export default function ContactPage() {
                   <div><label htmlFor="ct_em" className="block text-xs font-medium text-slate-700 mb-1">Email address</label><input id="ct_em" name="email" type="email" required value={form.email} onChange={handleChange} className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" /></div>
                   <div><label htmlFor="ct_ph" className="block text-xs font-medium text-slate-700 mb-1">Phone number</label><input id="ct_ph" name="phone" type="tel" required value={form.phone} onChange={handleChange} className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" /></div>
                   <div><label htmlFor="ct_ci" className="block text-xs font-medium text-slate-700 mb-1">Your city</label>
-                    <select id="ct_ci" name="city" value={form.city} onChange={handleChange} className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
-                      <option value="">Select city...</option>
-                      {["New York","Los Angeles","Chicago","Houston","Phoenix","Other"].map((c) => <option key={c}>{c}</option>)}
-                    </select>
+                    <input id="ct_ci" name="city" type="text" placeholder="Baltimore, MD" value={form.city} onChange={handleChange} className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
                   </div>
                   <div><label htmlFor="ct_ms" className="block text-xs font-medium text-slate-700 mb-1">How can we help?</label><textarea id="ct_ms" name="message" rows={4} value={form.message} onChange={handleChange} placeholder="Tell us about your situation..." className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none" /></div>
-                  <AnimatePresence>
-                    {status === "error" && (
-                      <motion.p
-                        initial={{ opacity: 0, y: -8, height: 0 }}
-                        animate={{ opacity: 1, y: 0, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.25 }}
-                        className="text-sm text-red-600 bg-red-50 px-4 py-3 rounded-xl"
-                      >
-                        Something went wrong. Please try again or call us directly.
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
-                  <motion.button {...hoverScale} type="submit" disabled={status==="loading"} className="w-full py-3.5 rounded-xl bg-teal-700 text-white font-semibold text-sm hover:bg-teal-800 transition-colors disabled:opacity-60">{status==="loading" ? "Sending..." : "Send message"}</motion.button>
-                </motion.form>
+                  {status === "error" && (
+                    <p className="dih-fade text-sm text-red-600 bg-red-50 px-4 py-3 rounded-xl">
+                      Something went wrong. Please try again or call us directly.
+                    </p>
+                  )}
+                  <button {...hoverScale} type="submit" disabled={status==="loading"} className="w-full py-3.5 rounded-xl bg-teal-700 text-white font-semibold text-sm hover:bg-teal-800 transition-colors disabled:opacity-60">{status==="loading" ? "Sending..." : "Send message"}</button>
+                </form>
               )}
-            </AnimatePresence>
           </FadeIn>
         </div>
       </section>

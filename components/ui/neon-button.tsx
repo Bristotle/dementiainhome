@@ -1,6 +1,5 @@
 "use client"
 import * as React from "react"
-import { motion, type HTMLMotionProps } from "framer-motion"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 import { MotionLink } from "@/components/motion"
@@ -23,8 +22,6 @@ export const neonButtonVariants = cva(
     defaultVariants: { variant: "default", size: "default" },
   }
 )
-
-const HOVER_TRANSITION = { duration: 0.2, ease: [0.22, 1, 0.36, 1] as const }
 
 /** The glowing top/bottom hairlines that appear on hover - the signature "neon" effect. */
 export function NeonGlowEdges({ neon = true }: { neon?: boolean }) {
@@ -49,7 +46,7 @@ export function NeonGlowEdges({ neon = true }: { neon?: boolean }) {
 }
 
 export interface NeonButtonProps
-  extends Omit<HTMLMotionProps<"button">, "children">,
+  extends Omit<React.ComponentProps<"button">, "children">,
     VariantProps<typeof neonButtonVariants> {
   neon?: boolean
   children?: React.ReactNode
@@ -57,18 +54,19 @@ export interface NeonButtonProps
 
 /** A button with a hover-triggered neon glow, for in-page actions (submit, toggle, etc). */
 export const NeonButton = React.forwardRef<HTMLButtonElement, NeonButtonProps>(
-  ({ className, neon = true, size, variant, children, whileHover, whileTap, transition, ...props }, ref) => (
-    <motion.button
+  // Hover is a CSS data attribute now, matching NeonLinkButton below. This one
+  // was missed when the library came out, which kept framer-motion on the
+  // homepage: HomeView imports this button.
+  ({ className, neon = true, size, variant, children, ...props }, ref) => (
+    <button
       ref={ref}
       className={cn(neonButtonVariants({ variant, size }), className)}
-      whileHover={whileHover ?? { scale: 1.03 }}
-      whileTap={whileTap ?? { scale: 0.97 }}
-      transition={transition ?? HOVER_TRANSITION}
+      data-hover="scale"
       {...props}
     >
       {children}
       <NeonGlowEdges neon={neon} />
-    </motion.button>
+    </button>
   )
 )
 NeonButton.displayName = "NeonButton"
