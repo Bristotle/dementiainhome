@@ -6,6 +6,7 @@
 //   npm run outreach -- send [n]          preview the sends (does nothing)
 //   npm run outreach -- send [n] --confirm actually send them
 //   npm run outreach -- test <email>      send one real email to yourself first
+//   npm run outreach -- sent [n]          what went to whom, and when
 //   npm run outreach -- stage <email> <stage> [note]
 //
 // The daily cap is enforced here rather than left to whoever is running
@@ -192,7 +193,7 @@ async function send(n: number | undefined, confirm: boolean) {
   const templateFor = (kind: string): TemplateId => (kind === "expert" ? "expert_invite" : "university_intro")
 
   console.log(`\n=== ${confirm ? "Sending" : "Preview"}: ${targets.length} of ${allowance} allowed today (day ${dayOfWarmup()})`)
-  console.log(`    replies go to ${reply}\n`)
+  console.log(`    replies go to ${reply}, and a copy of each send is blind-copied there\n`)
   let sent = 0
   for (const t of targets) {
     const id = templateFor(t.kind)
@@ -206,7 +207,7 @@ async function send(n: number | undefined, confirm: boolean) {
       const res = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
-        body: JSON.stringify({ from, to: [t.email], reply_to: reply, subject: sub, text: body }),
+        body: JSON.stringify({ from, to: [t.email], reply_to: reply, bcc: [reply], subject: sub, text: body }),
         signal: AbortSignal.timeout(30000),
       })
       const out = (await res.json()) as { id?: string; message?: string }
@@ -289,11 +290,32 @@ async function test(to: string) {
   console.log(`  This used one of today's sends, so the batch after it is one smaller.\n`)
 }
 
+
+async function sent(limit = 40) {
+  const s = getSupabaseAdmin()
+  const { data } = await s.from("outreach_sends")
+    .select("sent_at, template, delivered, target_id, outreach_targets(org, email)")
+    .order("sent_at", { ascending: false }).limit(limit)
+  const rows = (data ?? []) as Record<string, any>[]
+  if (rows.length === 0) {
+    console.log(`\nNothing sent yet.\n`)
+    return
+  }
+  console.log(`\n=== last ${rows.length} sends\n`)
+  for (const r of rows) {
+    const when = new Date(r.sent_at).toISOString().slice(0, 16).replace("T", " ")
+    const who = r.outreach_targets?.email ?? r.target_id
+    console.log(`  ${when}  ${r.delivered ? "ok  " : "FAIL"}  ${String(who).padEnd(34)} ${r.template}`)
+  }
+  console.log("")
+}
+
 async function main() {
   const [cmd, ...rest] = process.argv.slice(2)
   if (cmd === "add") await add(rest[0])
   else if (cmd === "next") await next(rest[0] ? parseInt(rest[0], 10) : undefined)
   else if (cmd === "stage") await setStage(rest[0], rest[1], rest.slice(2).join(" ") || undefined)
+  else if (cmd === "sent") await sent(rest[0] ? parseInt(rest[0], 10) : undefined)
   else if (cmd === "test") await test(rest[0])
   else if (cmd === "send") await send(rest[0] && !rest[0].startsWith("--") ? parseInt(rest[0], 10) : undefined, rest.includes("--confirm"))
   else await report()
