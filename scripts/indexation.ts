@@ -64,6 +64,29 @@ async function searchAnalytics(token: string, days: number) {
   return ((await res.json()) as { rows?: { keys: string[]; clicks: number; impressions: number; position: number }[] }).rows ?? []
 }
 
+
+// What people actually typed. The page-level report says we take impressions and
+// almost no clicks, which is a fact about position and tells us nothing to fix.
+// The query is where a fixable problem shows up: a page ranking for something
+// its title does not answer, or a question we answer well and describe badly.
+async function searchQueries(token: string, days: number) {
+  const end = new Date()
+  const start = new Date(end.getTime() - days * 86400000)
+  const res = await fetch(`https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(SITE_URL)}/searchAnalytics/query`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      startDate: start.toISOString().slice(0, 10),
+      endDate: end.toISOString().slice(0, 10),
+      dimensions: ["query", "page"],
+      rowLimit: 5000,
+    }),
+    signal: AbortSignal.timeout(60000),
+  })
+  if (!res.ok) throw new Error(`Search Analytics: ${res.status} ${await res.text().catch(() => "")}`)
+  return ((await res.json()) as { rows?: { keys: string[]; clicks: number; impressions: number; position: number }[] }).rows ?? []
+}
+
 async function inspect(token: string, url: string): Promise<string> {
   const res = await fetch("https://searchconsole.googleapis.com/v1/urlInspection/index:inspect", {
     method: "POST",
@@ -78,6 +101,48 @@ async function inspect(token: string, url: string): Promise<string> {
 
 async function main() {
   const argv = process.argv.slice(2)
+  if (argv.includes("--queries")) {
+    // Same route as the main report: OAuth first, because Workspace
+    // organisations usually block service-account keys.
+    let token: string | null = await getAccessTokenFromRefreshToken()
+    if (!token) {
+      const account = loadServiceAccount()
+      if (!account) { console.log(SETUP); process.exit(1) }
+      token = await getAccessToken(account, SCOPE)
+    }
+    const days = 28
+    const rows = await searchQueries(token, days)
+    if (rows.length === 0) {
+      console.log(`\nNo query data in the last ${days} days.\n`)
+      return
+    }
+    // Group by query so one term is one line, rather than one line per page.
+    const byQuery = new Map<string, { imp: number; clk: number; pos: number; pages: Set<string> }>()
+    for (const r of rows) {
+      const [q, page] = r.keys
+      const cur = byQuery.get(q) ?? { imp: 0, clk: 0, pos: 0, pages: new Set<string>() }
+      cur.pos = (cur.pos * cur.imp + r.position * r.impressions) / (cur.imp + r.impressions)
+      cur.imp += r.impressions
+      cur.clk += r.clicks
+      cur.pages.add(page.replace(/^https?:\/\/[^/]+/, ""))
+      byQuery.set(q, cur)
+    }
+    const sorted = [...byQuery].sort((a, b) => b[1].imp - a[1].imp)
+    console.log(`\n=== Queries, last ${days} days (${sorted.length} distinct)\n`)
+    console.log(`  ${"impr".padStart(6)} ${"clk".padStart(4)} ${"pos".padStart(6)}  query`)
+    for (const [q, v] of sorted.slice(0, 40)) {
+      console.log(`  ${String(v.imp).padStart(6)} ${String(v.clk).padStart(4)} ${v.pos.toFixed(1).padStart(6)}  ${q}`)
+      console.log(`  ${" ".repeat(19)}${[...v.pages][0]}${v.pages.size > 1 ? ` (+${v.pages.size - 1} more)` : ""}`)
+    }
+    // Anything already on page one or two is worth a title that matches the
+    // query, because that is where a better title changes clicks rather than
+    // changing nothing.
+    const reachable = sorted.filter(([, v]) => v.pos <= 20)
+    console.log(`\n  ${reachable.length} quer${reachable.length === 1 ? "y" : "ies"} at position 20 or better:`)
+    for (const [q, v] of reachable) console.log(`    pos ${v.pos.toFixed(1).padStart(5)}  ${String(v.imp).padStart(4)} imp  ${q}  ->  ${[...v.pages][0]}`)
+    console.log("")
+    return
+  }
   // indexOf returns -1 when a flag is absent, and argv[-1 + 1] is argv[0] -
   // so a missing --days silently read the value of whatever flag came first.
   const numberArg = (flag: string, fallback: number) => {
