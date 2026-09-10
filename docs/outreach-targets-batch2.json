@@ -1,0 +1,84 @@
+[
+  {
+    "kind": "university",
+    "org": "the Arizona Center on Aging",
+    "department": "Center on Aging",
+    "email": "info@aging.arizona.edu",
+    "city": "Tucson",
+    "state": "AZ",
+    "source_url": "https://aging.arizona.edu/about/contact-info",
+    "notes": "General centre address read off their own contact page. Tucson is one of our twenty cities."
+  },
+  {
+    "kind": "university",
+    "org": "the University of Washington School of Social Work",
+    "department": "Social Work",
+    "email": "uwsocialwork@uw.edu",
+    "city": "Seattle",
+    "state": "WA",
+    "source_url": "https://socialwork.uw.edu/admissions/",
+    "notes": "General school enquiries address in the Contact Us block on their admissions page."
+  },
+  {
+    "kind": "university",
+    "org": "the UNC Charlotte Gerontology Program",
+    "department": "Gerontology",
+    "contact_name": "Dr Hancock",
+    "role": "Director, Gerontology Program",
+    "email": "chancock@charlotte.edu",
+    "city": "Charlotte",
+    "state": "NC",
+    "source_url": "https://gerontology.charlotte.edu/leadership/",
+    "notes": "Programme director, listed on the programme's own leadership page. Search results gave this address as chancock@uncc.edu, which is the wrong domain and would have bounced."
+  },
+  {
+    "kind": "university",
+    "org": "the University of Houston Graduate College of Social Work",
+    "department": "Social Work",
+    "email": "gcswinfo@uh.edu",
+    "city": "Houston",
+    "state": "TX",
+    "source_url": "https://www.uh.edu/socialwork/about/contact-us/index.php",
+    "notes": "Published for general information and enquiries on their contact page."
+  },
+  {
+    "kind": "university",
+    "org": "the Ohio State University College of Social Work",
+    "department": "Social Work",
+    "email": "csw@osu.edu",
+    "city": "Columbus",
+    "state": "OH",
+    "source_url": "https://csw.osu.edu/contact/",
+    "notes": "Main college contact address, in both the contact section and the footer."
+  },
+  {
+    "kind": "university",
+    "org": "the Helen Bader School of Social Welfare at UW-Milwaukee",
+    "department": "Social Welfare",
+    "email": "hbssw@uwm.edu",
+    "city": "Milwaukee",
+    "state": "WI",
+    "source_url": "https://uwm.edu/socialwelfare/about/contact/",
+    "notes": "General school contact address on their own contact page."
+  },
+  {
+    "kind": "university",
+    "org": "the University of Denver Graduate School of Social Work",
+    "department": "Social Work",
+    "email": "gssw.communications@du.edu",
+    "city": "Denver",
+    "state": "CO",
+    "source_url": "https://socialwork.du.edu/content/contact-gssw",
+    "notes": "Listed as the main school contact in the department section and the footer."
+  },
+  {
+    "kind": "university",
+    "org": "the Loyola University Chicago School of Social Work",
+    "department": "Social Work",
+    "email": "gpem@luc.edu",
+    "city": "Chicago",
+    "state": "IL",
+    "source_url": "https://www.luc.edu/socialwork/about/contact/",
+    "notes": "Admissions enquiries address on the school's contact page. Weaker fit than a placements or programme contact, so expect a forward rather than an answer."
+  }
+]
