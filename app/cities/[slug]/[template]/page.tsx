@@ -221,7 +221,7 @@ export default async function GeneratedPage({ params }: Props) {
  ))}
  </ul>
  <Link href={`/cities/${slug}`} className="inline-block mt-6 text-sm font-semibold text-teal-700 hover:underline">
- All {page.city.name} resources →
+ Dementia care in {page.city.name} →
  </Link>
  </div>
  </section>
@@ -299,7 +299,7 @@ export default async function GeneratedPage({ params }: Props) {
  <nav className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-slate-600 mb-4" aria-label="Footer">
  <Link href="/" className="hover:text-teal-700">Home</Link>
  <Link href="/cities" className="hover:text-teal-700">All cities</Link>
- <Link href={`/cities/${slug}`} className="hover:text-teal-700">{page.city.name} care</Link>
+ <Link href={`/cities/${slug}`} className="hover:text-teal-700">{page.city.name} dementia care</Link>
  <Link href="/services" className="hover:text-teal-700">Services</Link>
  <Link href="/getting-started" className="hover:text-teal-700">Getting started</Link>
  <Link href="/contact" className="hover:text-teal-700">Contact</Link>
