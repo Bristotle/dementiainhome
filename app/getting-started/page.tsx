@@ -1,10 +1,12 @@
-"use client"
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
 import LeadForm from "@/components/LeadForm"
 import { MessageCircle, Search, Video, Phone } from "lucide-react"
 import { FadeIn, Stagger, StaggerItem } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
+import { getAllCities } from "@/lib/db-cities"
+import { SERVICES_DETAIL } from "@/lib/services"
+import Link from "next/link"
 
 const STEPS = [
   { n: "1", icon: MessageCircle, title: "Tell Us Your Situation", time: "Takes 3 minutes", desc: "Fill out the short form below or call us directly. Tell us about your loved one - their diagnosis, care needs, schedule, and location. A real person reads every submission." },
@@ -13,7 +15,8 @@ const STEPS = [
   { n: "4", icon: Phone, title: "Move Forward When Ready", time: "Zero obligation", desc: "Like a caregiver? We'll help set up a meeting and coordinate the start of care. Not ready yet, or none feel like the right fit? No pressure - we'll keep looking." },
 ]
 
-export default function GettingStartedPage() {
+export default async function GettingStartedPage() {
+  const cities = await getAllCities()
   return (
     <main className="min-h-screen bg-warm-white">
       <Nav />
@@ -68,8 +71,51 @@ export default function GettingStartedPage() {
             </FadeIn>
             <FadeIn delay={0.15} className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl">
               <h3 className="text-lg font-bold text-slate-900 mb-4">Tell us about your situation</h3>
-              <LeadForm cityName="Not specified" cityState="" />
+              <LeadForm pageType="getting-started" sourcePage="/getting-started" />
             </FadeIn>
+          </div>
+        </div>
+      </section>
+
+
+      <section className="max-w-4xl mx-auto px-6 pb-16">
+        <h2 className="text-2xl font-bold text-slate-900 mb-3">Before you fill in the form</h2>
+        <p className="text-slate-600 leading-relaxed mb-8 max-w-2xl">
+          It helps to know what care in your city actually costs, and which kind of care you are
+          asking for. Both guides are free and neither asks for your details.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <h3 className="font-semibold text-slate-900 mb-3">Costs and local help where you are</h3>
+            <ul className="space-y-1.5">
+              {cities.slice(0, 8).map((c) => (
+                <li key={c.slug}>
+                  <Link href={`/cities/${c.slug}`} className="text-sm hover:underline">
+                    Dementia care in {c.name}, {c.state_abbrev}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Link href="/cities" className="inline-block mt-3 text-sm font-semibold hover:underline">
+              All {cities.length} cities we cover
+            </Link>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-slate-900 mb-3">Which kind of care you need</h3>
+            <ul className="space-y-1.5">
+              {SERVICES_DETAIL.map((sv) => (
+                <li key={sv.slug}>
+                  <Link href={`/services/${sv.slug}`} className="text-sm hover:underline">
+                    {sv.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Link href="/contact" className="inline-block mt-3 text-sm font-semibold hover:underline">
+              Or just ask us a question
+            </Link>
           </div>
         </div>
       </section>

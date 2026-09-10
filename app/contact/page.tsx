@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import Link from "next/link"
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
 import { Phone, Mail, Clock } from "lucide-react"
@@ -96,6 +97,37 @@ export default function ContactPage() {
           </FadeIn>
         </div>
       </section>
+      <section className="border-t border-slate-200">
+        <div className="max-w-5xl mx-auto px-6 py-14">
+          <h2 className="text-2xl font-bold text-slate-900 mb-3">Not ready to get in touch yet?</h2>
+          <p className="text-slate-600 leading-relaxed mb-8 max-w-2xl">
+            Most families read for a while before they call anyone. Everything below is free, and
+            none of it asks for your details.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            <div>
+              <h3 className="font-semibold text-slate-900 mb-2">Where you are</h3>
+              <p className="text-sm text-slate-600 mb-2">Costs, Medicaid waivers, memory clinics and support groups, city by city.</p>
+              <Link href="/cities" className="text-sm font-semibold hover:underline">Browse city guides</Link>
+            </div>
+            <div>
+              <h3 className="font-semibold text-slate-900 mb-2">What kind of care</h3>
+              <p className="text-sm text-slate-600 mb-2">Companion care, personal care, overnight, respite and live-in, and what separates them.</p>
+              <Link href="/services" className="text-sm font-semibold hover:underline">Compare types of care</Link>
+            </div>
+            <div>
+              <h3 className="font-semibold text-slate-900 mb-2">If you are just starting</h3>
+              <p className="text-sm text-slate-600 mb-2">What happens after a diagnosis, and what to do in the first year.</p>
+              <Link href="/blog" className="text-sm font-semibold hover:underline">Read the guides</Link>
+            </div>
+          </div>
+          <p className="text-sm text-slate-600 mt-8">
+            Ready when you are: <Link href="/getting-started" className="font-semibold hover:underline">see how matching works</Link>, or
+            read <Link href="/about" className="font-semibold hover:underline">who we are</Link>.
+          </p>
+        </div>
+      </section>
+
       <Footer />
     </main>
   )
