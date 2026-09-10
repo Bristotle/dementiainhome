@@ -47,6 +47,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  }
 }
 
+
+// The city guide templates that have a national service page behind them, and
+// the anchor each should use. Search Console showed seven of the eight service
+// pages outside the index with almost nothing linking to them, while these
+// nine hundred and eighty pages are the site's whole mass.
+//
+// Only templates with a true counterpart are listed. A guide about hospital
+// discharge in Memphis and the national hospital discharge care page are the
+// same subject at two scales; a guide about sundowning is not a service, and
+// gets no link rather than a forced one.
+const SERVICE_FOR_TEMPLATE: Record<string, { slug: string; label: string }> = {
+  "overnight-care-city": { slug: "overnight-care", label: "what overnight dementia care involves" },
+  "24-hour-live-in-care-city": { slug: "24-hour-live-in-care", label: "how 24-hour and live-in care works" },
+  "respite-care-city": { slug: "respite-care", label: "what respite care covers" },
+  "companion-care-city": { slug: "companion-care", label: "what companion care includes" },
+  "hospital-discharge-city": { slug: "hospital-discharge-care", label: "care after a hospital discharge" },
+}
+
 export default async function GeneratedPage({ params }: Props) {
  const { slug, template } = await params
  const page = await getPublishedPage(slug, template)
@@ -223,6 +241,15 @@ export default async function GeneratedPage({ params }: Props) {
  <Link href={`/cities/${slug}`} className="inline-block mt-6 text-sm font-semibold text-teal-700 hover:underline">
  Dementia care in {page.city.name} →
  </Link>
+ {SERVICE_FOR_TEMPLATE[page.template.topic_type] && (
+ <p className="mt-4 text-sm text-slate-600">
+ Not sure this is the right kind of care? Read{" "}
+ <Link href={`/services/${SERVICE_FOR_TEMPLATE[page.template.topic_type].slug}`} className="text-teal-700 font-semibold hover:underline">
+ {SERVICE_FOR_TEMPLATE[page.template.topic_type].label}
+ </Link>
+ , which applies wherever you are.
+ </p>
+ )}
  </div>
  </section>
  )}

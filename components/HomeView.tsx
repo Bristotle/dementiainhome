@@ -245,7 +245,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <h3 className="font-bold text-slate-900 text-base">{s.title}</h3>
  </div>
  <p className="text-slate-500 text-sm leading-relaxed mb-4">{s.desc}</p>
- <Link href={`/services/${s.slug}`} className="text-teal-700 text-sm font-semibold hover:underline">Learn More →</Link>
+ <Link href={`/services/${s.slug}`} className="text-teal-700 text-sm font-semibold hover:underline">About {s.title.toLowerCase()} →</Link>
  </div>
  </div>
  ))}
