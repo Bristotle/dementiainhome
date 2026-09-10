@@ -1,0 +1,34 @@
+[
+  {
+    "kind": "university",
+    "org": "the University of Memphis Department of Social Work",
+    "department": "Social Work",
+    "contact_name": "Dr Elswick",
+    "role": "School Director",
+    "email": "selswick@memphis.edu",
+    "city": "Memphis",
+    "state": "TN",
+    "source_url": "https://www.memphis.edu/socialwork/contact.php",
+    "notes": "School Director, listed on the department's own contact page. Memphis is one of our cities and one of only two pages an AI answer engine has cited so far."
+  },
+  {
+    "kind": "university",
+    "org": "the University of Texas at Arlington School of Social Work",
+    "department": "Social Work",
+    "email": "sswadmissions@uta.edu",
+    "city": "Dallas",
+    "state": "TX",
+    "source_url": "https://www.uta.edu/academics/schools-colleges/social-work/about/contact",
+    "notes": "The only address published on their contact page. Admissions rather than placements, so a forward is the likeliest good outcome. Covers the Dallas metro."
+  },
+  {
+    "kind": "university",
+    "org": "the Boston University School of Social Work",
+    "department": "Social Work",
+    "email": "acadssw@bu.edu",
+    "city": "Boston",
+    "state": "MA",
+    "source_url": "https://www.bu.edu/ssw/about/plan-your-visit/",
+    "notes": "Academic Affairs address, which is the right desk for a placement enquiry. Second Boston target alongside the UMass Boston Gerontology Institute."
+  }
+]
