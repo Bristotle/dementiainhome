@@ -18,6 +18,7 @@ import { config } from "dotenv"
 config({ path: ".env.local" })
 
 import { readFileSync } from "fs"
+import { resolveMx } from "node:dns/promises"
 import { getSupabaseAdmin } from "../lib/ingestion/supabase-admin"
 import { dailyCap, dayOfWarmup, capacityThrough } from "../lib/outreach/warmup"
 import { render, type TemplateId } from "../lib/outreach/templates"
@@ -94,6 +95,30 @@ async function add(file: string) {
     console.error(`source_url is not optional: an address we cannot say where we found is not one we should be sending to.\n`)
     process.exit(1)
   }
+  // Check that each address's domain can receive mail before it is imported,
+  // not after it bounces. A typo in a domain, or a department whose mail host
+  // has gone, costs a bounce against a domain still in warm-up that also
+  // carries the family lead notifications. This is deterministic and free, and
+  // it caught nothing on the first three batches, which is the point: the check
+  // is worth having precisely on the day it does catch something.
+  const domains = [...new Set(parsed.map((t) => t.email.split("@")[1]?.toLowerCase()).filter(Boolean))]
+  const dead: string[] = []
+  await Promise.all(domains.map(async (d) => {
+    try {
+      const mx = await resolveMx(d!)
+      if (!mx || mx.length === 0) dead.push(d!)
+    } catch { dead.push(d!) }
+  }))
+  if (dead.length > 0) {
+    console.error(`\n${dead.length} domain(s) cannot receive mail, so anything sent to them bounces:`)
+    for (const d of dead) {
+      console.error(`  ${d}`)
+      for (const t of parsed.filter((x) => x.email.endsWith("@" + d))) console.error(`    ${t.email}  (${t.org})`)
+    }
+    console.error(`\nCheck the spelling against the source_url. Nothing was imported.\n`)
+    process.exit(1)
+  }
+
   const s = getSupabaseAdmin()
   const { data, error } = await s.from("outreach_targets").upsert(parsed, { onConflict: "email", ignoreDuplicates: true }).select("email")
   if (error) { console.error(`Import failed: ${error.message}`); process.exit(1) }
