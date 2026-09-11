@@ -1,0 +1,56 @@
+[
+  {
+    "kind": "university",
+    "org": "the Wayne State University School of Social Work, Office of Practicum Education",
+    "department": "Social Work",
+    "email": "practicum_education@wayne.edu",
+    "city": "Detroit",
+    "state": "MI",
+    "source_url": "https://socialwork.wayne.edu/practicum/contact",
+    "notes": "The office whose job is placing students, with its own published address. The best-fit desk found so far. Second Wayne State target after the Institute of Gerontology."
+  },
+  {
+    "kind": "university",
+    "org": "the Marquette University College of Nursing",
+    "department": "Nursing",
+    "email": "munursing@marquette.edu",
+    "city": "Milwaukee",
+    "state": "WI",
+    "source_url": "https://www.marquette.edu/nursing/contact.php",
+    "notes": "General college address under Office of the Dean on their contact page. First nursing school target."
+  },
+  {
+    "kind": "university",
+    "org": "the Boston College School of Social Work, Field Education Office",
+    "department": "Social Work",
+    "email": "swfield@bc.edu",
+    "city": "Boston",
+    "state": "MA",
+    "source_url": "https://www.bc.edu/bc-web/schools/ssw/academics/msw-program/field-education.html",
+    "notes": "Field education office address on the MSW field education page. The right desk."
+  },
+  {
+    "kind": "university",
+    "org": "the Cal State Long Beach School of Social Work",
+    "department": "Social Work",
+    "contact_name": "Dr Salas",
+    "role": "Director of Practicum Education",
+    "email": "Susan.Salas@csulb.edu",
+    "city": "Los Angeles",
+    "state": "CA",
+    "source_url": "https://www.csulb.edu/college-of-health-human-services/school-of-social-work/practicum-education-agency-information",
+    "notes": "Named as the practicum contact on the school's own agency information page, which exists for organisations offering placements. Exactly our situation."
+  },
+  {
+    "kind": "university",
+    "org": "the UIC Jane Addams College of Social Work, Field Instruction Office",
+    "department": "Social Work",
+    "contact_name": "Ms McCullough",
+    "role": "Assistant to the Director of Field Instruction",
+    "email": "tashamc@uic.edu",
+    "city": "Chicago",
+    "state": "IL",
+    "source_url": "https://socialwork.uic.edu/academics/field-instruction-at-jane-addams-college/field-office-faculty-staff/",
+    "notes": "Published contact on the field office staff page. Second Chicago target after Loyola."
+  }
+]
