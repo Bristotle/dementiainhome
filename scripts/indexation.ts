@@ -87,16 +87,28 @@ async function searchQueries(token: string, days: number) {
   return ((await res.json()) as { rows?: { keys: string[]; clicks: number; impressions: number; position: number }[] }).rows ?? []
 }
 
+// A run of a hundred inspections takes minutes, and one transient network
+// failure in the middle threw away everything before it. Three attempts with a
+// pause, and a failure after that is recorded as a state rather than thrown,
+// so the run finishes and says how many it could not check.
 async function inspect(token: string, url: string): Promise<string> {
-  const res = await fetch("https://searchconsole.googleapis.com/v1/urlInspection/index:inspect", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ inspectionUrl: url, siteUrl: SITE_URL }),
-    signal: AbortSignal.timeout(60000),
-  })
-  if (!res.ok) return `error ${res.status}`
-  const body = await res.json() as { inspectionResult?: { indexStatusResult?: { coverageState?: string } } }
-  return body.inspectionResult?.indexStatusResult?.coverageState ?? "unknown"
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const res = await fetch("https://searchconsole.googleapis.com/v1/urlInspection/index:inspect", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ inspectionUrl: url, siteUrl: SITE_URL }),
+        signal: AbortSignal.timeout(30000),
+      })
+      if (res.status === 429) { await new Promise((r) => setTimeout(r, 5000 * attempt)); continue }
+      if (!res.ok) return `error ${res.status}`
+      const body = await res.json() as { inspectionResult?: { indexStatusResult?: { coverageState?: string } } }
+      return body.inspectionResult?.indexStatusResult?.coverageState ?? "unknown"
+    } catch {
+      if (attempt < 3) await new Promise((r) => setTimeout(r, 3000 * attempt))
+    }
+  }
+  return "could not check (network)"
 }
 
 async function main() {
@@ -216,6 +228,8 @@ async function main() {
     states[state] = (states[state] ?? 0) + 1
     byKind[page.kind].total++
     const isIndexed = /^Submitted and indexed|^Indexed/i.test(state)
+    const unchecked = state.startsWith("could not check")
+    if (unchecked) { byKind[page.kind].total--; continue }
     if (isIndexed) byKind[page.kind].indexed++
     else notIndexed.push({ url: page.url.replace("https://www.dementiainhome.com", ""), state })
     // Write it back. Guides only: hubs are not rows in the pages table.
