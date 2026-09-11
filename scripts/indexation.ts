@@ -210,11 +210,40 @@ async function main() {
   console.log(`\n=== Index status, sample of ${sample.length} live pages ===`)
   const states: Record<string, number> = {}
   const byKind: Record<string, { indexed: number; total: number }> = { hub: { indexed: 0, total: 0 }, guide: { indexed: 0, total: 0 } }
+  const notIndexed: { url: string; state: string }[] = []
   for (const page of sample) {
     const state = await inspect(token, page.url)
     states[state] = (states[state] ?? 0) + 1
     byKind[page.kind].total++
-    if (/^Submitted and indexed|^Indexed/i.test(state)) byKind[page.kind].indexed++
+    const isIndexed = /^Submitted and indexed|^Indexed/i.test(state)
+    if (isIndexed) byKind[page.kind].indexed++
+    else notIndexed.push({ url: page.url.replace("https://www.dementiainhome.com", ""), state })
+    // Write it back. Guides only: hubs are not rows in the pages table.
+    if (page.kind === "guide") {
+      const path = page.url.replace("https://www.dementiainhome.com", "")
+      const m = path.match(/^\/cities\/([^/]+)\/([^/]+)$/)
+      if (m) {
+        const { data: c } = await supabase.from("cities").select("id").eq("slug", m[1]).maybeSingle()
+        const { data: t } = await supabase.from("master_templates").select("id").eq("topic_type", m[2]).maybeSingle()
+        if (c && t) await supabase.from("pages").update({ indexed: isIndexed }).eq("city_id", c.id).eq("master_template_id", t.id)
+      }
+    }
+  }
+  if (notIndexed.length > 0) {
+    // Grouped by template and by city, because "23% unknown" is a number and
+    // "every page of one template is unknown" is a fix.
+    const byTemplate: Record<string, number> = {}
+    const byCity: Record<string, number> = {}
+    for (const n of notIndexed) {
+      const parts = n.url.split("/")
+      if (parts[3]) byTemplate[parts[3]] = (byTemplate[parts[3]] ?? 0) + 1
+      if (parts[2]) byCity[parts[2]] = (byCity[parts[2]] ?? 0) + 1
+    }
+    const top = (o: Record<string, number>) => Object.entries(o).sort((a, b) => b[1] - a[1]).slice(0, 8)
+    console.log(`\n  not indexed, by template:`)
+    for (const [k, v] of top(byTemplate)) console.log(`    ${String(v).padStart(3)}  ${k}`)
+    console.log(`  not indexed, by city:`)
+    for (const [k, v] of top(byCity)) console.log(`    ${String(v).padStart(3)}  ${k}`)
   }
   for (const [state, n] of Object.entries(states).sort((a, b) => b[1] - a[1])) {
     console.log(`  ${String(n).padStart(3)}  ${Math.round((n / sample.length) * 100).toString().padStart(3)}%  ${state}`)

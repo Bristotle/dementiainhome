@@ -4,6 +4,7 @@ import { SERVICES_DETAIL } from "@/lib/services"
 import { INTERVIEWS } from "@/lib/interviews"
 import { getAllCities, getAllStates } from "@/lib/db-cities"
 import { getPublishedPagesForSitemap } from "@/lib/db-pages"
+import templateDates from "@/lib/generated/template-dates.json"
 
 const BASE_URL = "https://www.dementiainhome.com"
 
@@ -21,24 +22,29 @@ const BASE_URL = "https://www.dementiainhome.com"
 // and only by crawlers, and being correct matters far more than being cached.
 export const dynamic = "force-dynamic"
 
-// Static pages: dated to their last meaningful content update, not build time.
-// Update these dates manually when a page's actual content changes.
-const SITE_LAUNCH_DATE = new Date("2026-07-01")
-const RECENT_UPDATE_DATE = new Date("2026-07-20")
+// A page changes when its data changes or when the template rendering it
+// changes. The template half comes from git, via scripts/template-dates.ts,
+// which runs before every build. The previous version of this file carried a
+// single constant, 20 July, stamped on every hub, state, service and blog page,
+// and it was never moved: seven weeks of substantive changes reported to Google
+// as none. See the script for why that matters on a young domain.
+const T = templateDates as Record<string, string>
+const when = (route: string) => new Date(T[route] ?? "2026-07-01")
+const later = (a: Date, b: Date) => (a > b ? a : b)
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
-    { path: "", lastModified: RECENT_UPDATE_DATE, priority: 1 },
-    { path: "/about", lastModified: SITE_LAUNCH_DATE, priority: 0.7 },
-    { path: "/getting-started", lastModified: SITE_LAUNCH_DATE, priority: 0.8 },
-    { path: "/caregivers", lastModified: SITE_LAUNCH_DATE, priority: 0.8 },
-    { path: "/services", lastModified: RECENT_UPDATE_DATE, priority: 0.85 },
-    { path: "/interviews", lastModified: RECENT_UPDATE_DATE, priority: 0.8 },
-    { path: "/cities", lastModified: RECENT_UPDATE_DATE, priority: 0.9 },
-    { path: "/blog", lastModified: RECENT_UPDATE_DATE, priority: 0.7 },
-    { path: "/contact", lastModified: SITE_LAUNCH_DATE, priority: 0.6 },
-    { path: "/privacy", lastModified: SITE_LAUNCH_DATE, priority: 0.3 },
-    { path: "/terms", lastModified: SITE_LAUNCH_DATE, priority: 0.3 },
+    { path: "", lastModified: when("home"), priority: 1 },
+    { path: "/about", lastModified: when("about"), priority: 0.7 },
+    { path: "/getting-started", lastModified: when("getting_started"), priority: 0.8 },
+    { path: "/caregivers", lastModified: when("caregivers"), priority: 0.8 },
+    { path: "/services", lastModified: when("services_index"), priority: 0.85 },
+    { path: "/interviews", lastModified: when("interviews"), priority: 0.8 },
+    { path: "/cities", lastModified: when("cities_index"), priority: 0.9 },
+    { path: "/blog", lastModified: when("blog_index"), priority: 0.7 },
+    { path: "/contact", lastModified: when("contact"), priority: 0.6 },
+    { path: "/privacy", lastModified: when("privacy"), priority: 0.3 },
+    { path: "/terms", lastModified: when("terms"), priority: 0.3 },
   ].map((r) => ({
     url: `${BASE_URL}${r.path}`,
     lastModified: r.lastModified,
@@ -52,7 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // the same omission as the cities, in a corner nobody checked.
   const serviceRoutes = SERVICES_DETAIL.map((service) => ({
     url: `${BASE_URL}/services/${service.slug}`,
-    lastModified: RECENT_UPDATE_DATE,
+    lastModified: when("service"),
     changeFrequency: "monthly" as const,
     priority: 0.8,
   }))
@@ -62,14 +68,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // submitted, which is what happened with the service pages.
   const interviewRoutes = INTERVIEWS.map((i) => ({
     url: `${BASE_URL}/interviews/${i.slug}`,
-    lastModified: RECENT_UPDATE_DATE,
+    lastModified: when("interviews"),
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }))
 
   const blogRoutes = BLOG_POSTS.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
-    lastModified: RECENT_UPDATE_DATE,
+    lastModified: when("blog"),
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }))
@@ -77,7 +83,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const cities = await getAllCities()
   const cityRoutes = cities.map((city) => ({
     url: `${BASE_URL}/cities/${city.slug}`,
-    lastModified: RECENT_UPDATE_DATE,
+    lastModified: when("hub"),
     changeFrequency: "weekly" as const,
     priority: 0.9,
   }))
@@ -89,7 +95,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const states = await getAllStates()
   const stateRoutes = states.map((state) => ({
     url: `${BASE_URL}/states/${state.slug}`,
-    lastModified: RECENT_UPDATE_DATE,
+    lastModified: when("state"),
     changeFrequency: "weekly" as const,
     priority: 0.85,
   }))
@@ -97,7 +103,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const publishedPages = await getPublishedPagesForSitemap()
   const generatedRoutes = publishedPages.map((p) => ({
     url: `${BASE_URL}/cities/${p.slug}/${p.template}`,
-    lastModified: p.lastModified,
+    lastModified: later(p.lastModified, when("guide")),
     changeFrequency: "monthly" as const,
     priority: 0.8,
   }))

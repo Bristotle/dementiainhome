@@ -31,7 +31,9 @@
     "regate": "tsx scripts/regate.ts",
     "add-waiver": "tsx scripts/add-waiver.ts",
     "add-resources": "tsx scripts/add-resources.ts",
-    "add-city": "tsx scripts/add-city.ts"
+    "add-city": "tsx scripts/add-city.ts",
+    "template-dates": "tsx scripts/template-dates.ts",
+    "prebuild": "tsx scripts/template-dates.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.116.0",
