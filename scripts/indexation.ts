@@ -213,10 +213,19 @@ async function main() {
   // than content.
   const hubs = [...new Set(live.map((p) => p.url.split("/").slice(0, 5).join("/")))].map((url) => ({ url, kind: "hub" as const }))
   const guides = live.map((p) => ({ url: p.url, kind: "guide" as const }))
+  // Once inspected_at exists, sample pages never checked first, so each run
+  // extends coverage instead of re-asking about pages already answered.
+  const { data: seen } = await supabase.from("pages").select("cities!inner(slug), master_templates!inner(topic_type), inspected_at").not("inspected_at", "is", null)
+  const done = new Set<string>()
+  if (seen && Array.isArray(seen)) {
+    for (const r of seen as unknown as { cities: { slug: string }; master_templates: { topic_type: string } }[]) {
+      done.add(`https://www.dementiainhome.com/cities/${r.cities.slug}/${r.master_templates.topic_type}`)
+    }
+  }
   const half = Math.max(1, Math.floor(sampleSize / 2))
   const sample = [
     ...hubs.sort(() => Math.random() - 0.5).slice(0, Math.min(half, hubs.length)),
-    ...guides.sort(() => Math.random() - 0.5).slice(0, sampleSize - Math.min(half, hubs.length)),
+    ...guides.sort(() => Math.random() - 0.5).sort((a, b) => Number(done.has(a.url)) - Number(done.has(b.url))).slice(0, sampleSize - Math.min(half, hubs.length)),
   ]
 
   console.log(`\n=== Index status, sample of ${sample.length} live pages ===`)
@@ -239,7 +248,14 @@ async function main() {
       if (m) {
         const { data: c } = await supabase.from("cities").select("id").eq("slug", m[1]).maybeSingle()
         const { data: t } = await supabase.from("master_templates").select("id").eq("topic_type", m[2]).maybeSingle()
-        if (c && t) await supabase.from("pages").update({ indexed: isIndexed }).eq("city_id", c.id).eq("master_template_id", t.id)
+        if (c && t) {
+          // Write the full state where the columns exist (supabase/index-state.sql),
+          // and only the boolean where they do not yet.
+          const rich = await supabase.from("pages")
+            .update({ indexed: isIndexed, index_state: state, inspected_at: new Date().toISOString() })
+            .eq("city_id", c.id).eq("master_template_id", t.id)
+          if (rich.error) await supabase.from("pages").update({ indexed: isIndexed }).eq("city_id", c.id).eq("master_template_id", t.id)
+        }
       }
     }
   }
