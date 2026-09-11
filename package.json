@@ -33,7 +33,8 @@
     "add-resources": "tsx scripts/add-resources.ts",
     "add-city": "tsx scripts/add-city.ts",
     "template-dates": "tsx scripts/template-dates.ts",
-    "prebuild": "tsx scripts/template-dates.ts"
+    "prebuild": "tsx scripts/template-dates.ts && tsx scripts/site-index.ts",
+    "site-index": "tsx scripts/site-index.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.116.0",

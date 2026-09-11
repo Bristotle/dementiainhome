@@ -1,17 +1,17 @@
 "use client"
 import { Stagger, StaggerItem, MotionLink, hoverShift } from "@/components/motion"
+import siteIndex from "@/lib/generated/site-index.json"
 
-// A short highlight list only - /cities is the complete, database-driven
-// index, and this component is a client component used by client pages, so it
-// cannot fetch the full list itself. The "All cities" link below is what keeps
-// every city within two clicks of any page on the site.
-const CITIES = [
-  { name:"New York", state:"NY", slug:"new-york-ny" },
-  { name:"Los Angeles", state:"CA", slug:"los-angeles-ca" },
-  { name:"Chicago", state:"IL", slug:"chicago-il" },
-  { name:"Houston", state:"TX", slug:"houston-tx" },
-  { name:"Phoenix", state:"AZ", slug:"phoenix-az" },
-]
+// The footer is rendered from client pages, so it cannot read the database. It
+// carried a hardcoded list of five cities from before the site had twenty, the
+// third place that same stale list turned up, and it linked to no state at all.
+// The state hubs sit at the top of the internal link structure and had two or
+// three inbound links each; five of five checked were outside Google's index.
+//
+// This is a snapshot taken before every build by scripts/site-index.ts, so it
+// is as current as the last deploy and cannot drift from the database by hand.
+const STATES = (siteIndex as { states: { name: string; slug: string; abbrev: string }[] }).states
+const CITY_COUNT = (siteIndex as { cities: unknown[] }).cities.length
 
 export default function Footer() {
   return (
@@ -37,13 +37,13 @@ export default function Footer() {
             </div>
           </StaggerItem>
           <StaggerItem>
-            <p className="font-semibold text-white mb-4">Cities</p>
-            <div className="space-y-2 text-sm">
-              {CITIES.map((c) => (
-                <MotionLink key={c.slug} {...hoverShift} href={"/cities/"+c.slug} className="block hover:text-teal-400 transition-colors w-fit">{c.name}, {c.state}</MotionLink>
+            <p className="font-semibold text-white mb-4">Where we cover</p>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
+              {STATES.map((st) => (
+                <MotionLink key={st.slug} {...hoverShift} href={"/states/"+st.slug} className="block hover:text-teal-400 transition-colors w-fit">{st.name}</MotionLink>
               ))}
-              <MotionLink {...hoverShift} href="/cities" className="block text-teal-400 font-semibold hover:text-teal-300 transition-colors w-fit">All cities →</MotionLink>
             </div>
+            <MotionLink {...hoverShift} href="/cities" className="block mt-3 text-sm text-teal-400 font-semibold hover:text-teal-300 transition-colors w-fit">All {CITY_COUNT} cities →</MotionLink>
           </StaggerItem>
           <StaggerItem>
             <p className="font-semibold text-white mb-4">Company</p>

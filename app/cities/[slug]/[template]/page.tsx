@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import type { Metadata } from "next"
+import { stateSlug } from "@/lib/db-cities"
+import siteIndex from "@/lib/generated/site-index.json"
 import { getPublishedPage, getAllPublishedPageParams, getPublishedPagesForCity, getSameGuideInOtherCities, getRelatedGuidesElsewhere, rotateForEvenSpread } from "@/lib/db-pages"
 import { clusterFor, relatedTopics } from "@/lib/topic-clusters"
 import LeadForm from "@/components/LeadForm"
@@ -57,6 +59,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // discharge in Memphis and the national hospital discharge care page are the
 // same subject at two scales; a guide about sundowning is not a service, and
 // gets no link rather than a forced one.
+// Guides whose subject is the state rather than the city. Each links to the
+// state hub, which carries the full waiver detail and every city in the state.
+// State hubs sit at the top of the internal link structure and had two or three
+// inbound links apiece, none from a guide: five of five checked were outside
+// Google's index, three of them never crawled.
+const STATE_TOPICS = new Set(["state-medicaid-waiver", "paying-for-care-state", "state-dementia-care-laws"])
+
 const SERVICE_FOR_TEMPLATE: Record<string, { slug: string; label: string }> = {
   "overnight-care-city": { slug: "overnight-care", label: "what overnight dementia care involves" },
   "24-hour-live-in-care-city": { slug: "24-hour-live-in-care", label: "how 24-hour and live-in care works" },
@@ -122,6 +131,7 @@ export default async function GeneratedPage({ params }: Props) {
  htmlContent: page.content_json.htmlContent,
  citySlug: slug,
  cityName: page.city.name,
+ stateName: page.city.state,
  stateAbbrev: page.city.state_abbrev,
  templateSlug: template,
  publishedAt: page.published_at,
@@ -148,7 +158,9 @@ export default async function GeneratedPage({ params }: Props) {
  <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
  <Link href="/cities" className="text-teal-700 hover:underline">Cities</Link>
  <span className="mx-2 text-slate-300">/</span>
- <Link href={`/cities/${page.city.slug}`} className="text-teal-700 hover:underline">{page.city.name}, {page.city.state_abbrev}</Link>
+ <Link href={`/states/${stateSlug(page.city.state)}`} className="text-teal-700 hover:underline">{page.city.state}</Link>
+ <span className="mx-2 text-slate-300">/</span>
+ <Link href={`/cities/${page.city.slug}`} className="text-teal-700 hover:underline">{page.city.name}</Link>
  </nav>
  </FadeIn>
  <FadeIn delay={0.1}><p className="eyebrow mt-4 mb-2">{page.city.name}, {page.city.state_abbrev}</p></FadeIn>
@@ -241,6 +253,15 @@ export default async function GeneratedPage({ params }: Props) {
  <Link href={`/cities/${slug}`} className="inline-block mt-6 text-sm font-semibold text-teal-700 hover:underline">
  Dementia care in {page.city.name} →
  </Link>
+ {STATE_TOPICS.has(page.template.topic_type) && (
+ <p className="mt-4 text-sm text-slate-600">
+ This applies across the state. See{" "}
+ <Link href={`/states/${stateSlug(page.city.state)}`} className="text-teal-700 font-semibold hover:underline">
+ dementia care in {page.city.state}
+ </Link>
+ {" "}for the Medicaid waiver in full and every city we cover there.
+ </p>
+ )}
  {SERVICE_FOR_TEMPLATE[page.template.topic_type] && (
  <p className="mt-4 text-sm text-slate-600">
  Not sure this is the right kind of care? Read{" "}
@@ -330,6 +351,14 @@ export default async function GeneratedPage({ params }: Props) {
  <Link href="/services" className="hover:text-teal-700">Services</Link>
  <Link href="/getting-started" className="hover:text-teal-700">Getting started</Link>
  <Link href="/contact" className="hover:text-teal-700">Contact</Link>
+ </nav>
+ {/* Every state, on every guide. The state hubs sit at the top of the
+ internal link structure and had two or three inbound links each, none
+ from the 980 guides: five of five checked were outside Google's index. */}
+ <nav className="flex flex-wrap justify-center gap-x-4 gap-y-1.5 text-xs text-slate-500 mb-4" aria-label="States">
+ {(siteIndex as { states: { name: string; slug: string }[] }).states.map((st) => (
+ <Link key={st.slug} href={`/states/${st.slug}`} className="hover:text-teal-700">{st.name}</Link>
+ ))}
  </nav>
  <p className="text-sm text-slate-500">© 2026 Dementia In Home. Serving {page.city.name} and surrounding areas.</p>
  </div>

@@ -56,6 +56,7 @@ export function buildGeneratedPageJsonLd(args: {
   htmlContent: string
   citySlug: string
   cityName: string
+  stateName?: string
   stateAbbrev: string
   templateSlug: string
   publishedAt: string | null
@@ -83,8 +84,11 @@ export function buildGeneratedPageJsonLd(args: {
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
         { "@type": "ListItem", position: 2, name: "Cities", item: `${BASE_URL}/cities` },
-        { "@type": "ListItem", position: 3, name: `${args.cityName}, ${args.stateAbbrev}`, item: `${BASE_URL}/cities/${args.citySlug}` },
-        { "@type": "ListItem", position: 4, name: args.title, item: pageUrl },
+        ...(args.stateName
+          ? [{ "@type": "ListItem", position: 3, name: args.stateName, item: `${BASE_URL}/states/${args.stateName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}` }]
+          : []),
+        { "@type": "ListItem", position: args.stateName ? 4 : 3, name: `${args.cityName}, ${args.stateAbbrev}`, item: `${BASE_URL}/cities/${args.citySlug}` },
+        { "@type": "ListItem", position: args.stateName ? 5 : 4, name: args.title, item: pageUrl },
       ],
     },
   ]

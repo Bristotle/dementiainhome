@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 import { Phone } from "lucide-react"
 import { getCityBySlug, getAllCitySlugs, getAllCities, getCityDemographics, getMedicaidWaiver, getMedicaidCitations, getCityClinics, getCityExperts, stateSlug } from "@/lib/db-cities"
+import siteIndex from "@/lib/generated/site-index.json"
 import { getPublishedPagesForCity } from "@/lib/db-pages"
 import LeadForm from "@/components/LeadForm"
 import Link from "next/link"
@@ -395,12 +396,19 @@ export default async function CityPage({ params }: Props) {
  </section>
 
  <footer className="border-t border-slate-200 bg-white">
- <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+ <div className="max-w-5xl mx-auto px-6 py-8 space-y-4">
+ <nav className="flex gap-x-4 gap-y-1.5 flex-wrap justify-center text-xs text-slate-500" aria-label="States">
+ {(siteIndex as { states: { name: string; slug: string }[] }).states.map((st) => (
+ <Link key={st.slug} href={`/states/${st.slug}`} className="hover:text-teal-700">{st.name}</Link>
+ ))}
+ </nav>
+ <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
  <p className="text-sm text-slate-500">© 2026 Dementia In Home. Serving {city.name} and surrounding areas.</p>
  <div className="flex gap-4 flex-wrap">
  {allCities.map((c) => (
  <MotionLink key={c.slug} {...hoverShift} href={"/cities/"+c.slug} className="text-sm text-slate-500 hover:text-teal-700 transition-colors">{c.name}</MotionLink>
  ))}
+ </div>
  </div>
  </div>
  </footer>
