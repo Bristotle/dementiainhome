@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import type { Metadata } from "next"
-import { stateSlug } from "@/lib/db-cities"
+import { stateSlug, getCityHospitals, getCityExpertsBySpecialty, getCityClinics } from "@/lib/db-cities"
+import { ExpertList, HospitalTable, AgencyTable } from "@/components/GuideProviders"
 import siteIndex from "@/lib/generated/site-index.json"
 import { getPublishedPage, getAllPublishedPageParams, getPublishedPagesForCity, getSameGuideInOtherCities, getRelatedGuidesElsewhere, rotateForEvenSpread } from "@/lib/db-pages"
 import { clusterFor, relatedTopics } from "@/lib/topic-clusters"
@@ -74,6 +75,21 @@ const SERVICE_FOR_TEMPLATE: Record<string, { slug: string; label: string }> = {
   "hospital-discharge-city": { slug: "hospital-discharge-care", label: "care after a hospital discharge" },
 }
 
+
+// Which guide templates should show real named local providers, and which data.
+//
+// Four templates are about providers we actually hold verified records for. The
+// rest are not, and get nothing rather than the nearest available table: a guide
+// about sundowning has no providers, and geriatric care managers and elder law
+// attorneys are held as a single national directory on purpose, because we chose
+// not to name individuals we have not vetted.
+const PROVIDERS_FOR_TEMPLATE: Record<string, { kind: "experts" | "hospitals" | "agencies"; specialty?: string; label?: string }> = {
+  "dementia-specialists-neurologists-city": { kind: "experts", specialty: "neurologist", label: "Neurologists" },
+  "memory-clinics-city": { kind: "hospitals" },
+  "hospitals-memory-units-city": { kind: "hospitals" },
+  "vetted-home-care-agencies-city": { kind: "agencies" },
+}
+
 export default async function GeneratedPage({ params }: Props) {
  const { slug, template } = await params
  const page = await getPublishedPage(slug, template)
@@ -109,10 +125,16 @@ export default async function GeneratedPage({ params }: Props) {
  // independent, so the page paid three round trips end to end for work with no
  // ordering between it - two of which I added today, which is why the guide
  // pages became the slowest on the site.
- const [siblingsRaw, relatedElsewhere, otherCities] = await Promise.all([
+ // Providers are fetched only on the four templates that are about them, so the
+ // other forty-five guides pay nothing for this.
+ const providerSpec = PROVIDERS_FOR_TEMPLATE[page.template.topic_type]
+ const [siblingsRaw, relatedElsewhere, otherCities, experts, hospitals, agencies] = await Promise.all([
  getPublishedPagesForCity(slug),
  getRelatedGuidesElsewhere(slug, related, 5),
  getSameGuideInOtherCities(slug, template),
+ providerSpec?.kind === "experts" ? getCityExpertsBySpecialty(slug, providerSpec.specialty!, 8) : Promise.resolve([]),
+ providerSpec?.kind === "hospitals" ? getCityHospitals(slug, 8) : Promise.resolve([]),
+ providerSpec?.kind === "agencies" ? getCityClinics(slug, 8) : Promise.resolve([]),
  ])
 
  // Same-city siblings, topically adjacent ones first - someone reading about
@@ -233,6 +255,16 @@ export default async function GeneratedPage({ params }: Props) {
  ))}
  </p>
  </div>
+ )}
+
+ {(experts.length > 0 || hospitals.length > 0 || agencies.length > 0) && (
+ <section className="border-t border-slate-200 bg-white">
+ <div className="max-w-3xl mx-auto px-6 py-14">
+ <ExpertList experts={experts} cityName={page.city.name} label={providerSpec?.label ?? "Specialists"} />
+ <HospitalTable hospitals={hospitals} cityName={page.city.name} />
+ <AgencyTable clinics={agencies} cityName={page.city.name} />
+ </div>
+ </section>
  )}
 
  {siblingGuides.length > 0 && (

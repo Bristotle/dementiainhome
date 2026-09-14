@@ -176,3 +176,42 @@ export async function getCityExperts(slug: string, limit = 6): Promise<LocalExpe
   if (error || !data) return []
   return data
 }
+
+export type LocalHospital = {
+  name: string
+  address: string | null
+  phone: string | null
+  source_url: string
+  verified_at: string | null
+}
+
+// Named hospitals with a memory or geriatric unit, from local_resources. 156 rows
+// across the twenty cities, each with a telephone number and an address, verified
+// in August and rendered nowhere.
+//
+// Only the types that are genuinely local are exposed here. elder_law_attorney
+// and geriatric_care_manager are a single national directory repeated across all
+// twenty cities, which was a deliberate decision not to name providers we have
+// not vetted, and presenting them as local listings would undo it.
+export async function getCityHospitals(slug: string, limit = 8): Promise<LocalHospital[]> {
+  const { data, error } = await supabase
+    .from("local_resources")
+    .select("name, address, phone, source_url, verified_at")
+    .eq("city_slug", slug)
+    .eq("resource_type", "hospital_memory_unit")
+    .limit(limit)
+  if (error || !data) return []
+  return data
+}
+
+/** Experts filtered to one specialty, for the guide pages about that specialty. */
+export async function getCityExpertsBySpecialty(slug: string, specialty: string, limit = 8): Promise<LocalExpert[]> {
+  const { data, error } = await supabase
+    .from("experts")
+    .select("name, specialty, npi_number, profile_url, address, source_url")
+    .eq("city_slug", slug)
+    .eq("specialty", specialty)
+    .limit(limit)
+  if (error || !data) return []
+  return data
+}
