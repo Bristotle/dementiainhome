@@ -1,0 +1,34 @@
+[
+  {
+    "kind": "university",
+    "org": "the ASU School of Social Work, Practicum Education Office",
+    "department": "Social Work",
+    "email": "sswfield@asu.edu",
+    "city": "Phoenix",
+    "state": "AZ",
+    "source_url": "https://socialwork.asu.edu/content/affiliated-agencies",
+    "notes": "Published on their affiliated agencies page as the contact for organisations wanting to affiliate with the school, which is exactly our situation. Address is behind Cloudflare email obfuscation on the page, a sitewide setting rather than a per-address decision, and reads plainly to a person visiting it. First Phoenix target."
+  },
+  {
+    "kind": "university",
+    "org": "the University of Denver Graduate School of Social Work, Field Education",
+    "department": "Social Work",
+    "email": "field@du.edu",
+    "city": "Denver",
+    "state": "CO",
+    "source_url": "https://socialwork.du.edu/mswstudents/contact-us",
+    "notes": "Field placement address for the Denver campus, on the school's own student contact page. Better desk than the communications address already contacted there."
+  },
+  {
+    "kind": "university",
+    "org": "the Simmons University School of Social Work, Practicum Education",
+    "department": "Social Work",
+    "contact_name": "Ms Knight",
+    "role": "Director of Practicum Education",
+    "email": "eugenia.knight@simmons.edu",
+    "city": "Boston",
+    "state": "MA",
+    "source_url": "https://internal.simmons.edu/students/academics/ssw/msw-students/practicum-education/faculty-staff",
+    "notes": "Director of Practicum Education on the school's own practicum staff page. Address behind Cloudflare obfuscation, same sitewide setting as ASU. Third Boston target."
+  }
+]
