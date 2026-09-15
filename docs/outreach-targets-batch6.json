@@ -1,0 +1,44 @@
+[
+  {
+    "kind": "university",
+    "org": "the University at Buffalo School of Social Work, Office of Practicum Education",
+    "department": "Social Work",
+    "email": "sw-practicum@buffalo.edu",
+    "city": "Buffalo",
+    "state": "NY",
+    "source_url": "https://socialwork.buffalo.edu/field-educators-liaisons/contact-us.html",
+    "notes": "General practicum office address, on the page written for field educators and liaisons. Second Buffalo target after the school's general enquiries address."
+  },
+  {
+    "kind": "university",
+    "org": "the University of Washington School of Social Work, Office of Field Education",
+    "department": "Social Work",
+    "email": "sswfield@uw.edu",
+    "city": "Seattle",
+    "state": "WA",
+    "source_url": "https://fieldeducation.socialwork.uw.edu/about/contact-us/",
+    "notes": "The field education office's own address. UW admissions replied on 10 September asking whether we wanted to be a practicum site, so this is the team they were routing us to."
+  },
+  {
+    "kind": "university",
+    "org": "the San Diego State University School of Social Work, Field Education",
+    "department": "Social Work",
+    "email": "swfield@sdsu.edu",
+    "city": "San Diego",
+    "state": "CA",
+    "source_url": "https://socialwork.sdsu.edu/field/contacts",
+    "notes": "General field administration address on the school's field contacts page. Behind Cloudflare email obfuscation, a sitewide setting that reads plainly to a person on the page. First San Diego target."
+  },
+  {
+    "kind": "university",
+    "org": "the University of Memphis Department of Social Work, Field Education",
+    "department": "Social Work",
+    "contact_name": "Ms Malone",
+    "role": "MSW Field Director",
+    "email": "ccmalone@memphis.edu",
+    "city": "Memphis",
+    "state": "TN",
+    "source_url": "https://www.memphis.edu/socialwork/community/field.php",
+    "notes": "MSW Field Director, named on the page that tells agencies how to start a Clinical Affiliation Agreement, which is exactly the process we are asking about. Second Memphis target after the school director."
+  }
+]
