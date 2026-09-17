@@ -25,11 +25,17 @@ export const metadata: Metadata = {
   // The homepage had no canonical at all. Declared here so it applies to the
   // root route; every other route type declares its own.
   alternates: { canonical: "/" },
+  // The homepage took zero impressions in twenty-eight days while indexed, for
+  // the same reason five templates did: "Free 72-Hour Caregiver Matching" is how
+  // we describe ourselves, not anything a family types. The city hubs rank for
+  // "in-home dementia care in <city>"; the homepage should own the national
+  // phrase they are the local versions of. The description no longer promises
+  // video profiles, since no caregiver has a signed consent yet.
   title: {
     template: "%s | Dementia In Home",
-    default: "Dementia In Home - Free 72-Hour In-Home Caregiver Matching",
+    default: "In-Home Dementia Care, Vetted Caregivers | Dementia In Home",
   },
-  description: "Find vetted in-home dementia caregivers matched to your family within 72 hours. Free video profiles. Transparent pricing.",
+  description: "Vetted, dementia-trained caregivers for a parent at home, matched free within 72 hours. Guides to costs, Medicaid and local help in 20 US cities.",
   robots: { index: true, follow: true },
   // The site had no Open Graph or Twitter tags at all, so every link shared to
   // a sibling over text, WhatsApp or Facebook - which is exactly how families
@@ -41,13 +47,13 @@ export const metadata: Metadata = {
     siteName: "Dementia In Home",
     locale: "en_US",
     url: "https://www.dementiainhome.com",
-    title: "Dementia In Home - Free 72-Hour In-Home Caregiver Matching",
-    description: "Find vetted in-home dementia caregivers matched to your family within 72 hours. Free video profiles. Transparent pricing.",
+    title: "In-Home Dementia Care, Vetted Caregivers | Dementia In Home",
+    description: "Vetted, dementia-trained caregivers for a parent at home, matched free within 72 hours. Guides to costs, Medicaid and local help in 20 US cities.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dementia In Home - Free 72-Hour In-Home Caregiver Matching",
-    description: "Find vetted in-home dementia caregivers matched to your family within 72 hours. Free video profiles. Transparent pricing.",
+    title: "In-Home Dementia Care, Vetted Caregivers | Dementia In Home",
+    description: "Vetted, dementia-trained caregivers for a parent at home, matched free within 72 hours. Guides to costs, Medicaid and local help in 20 US cities.",
   },
 };
 
