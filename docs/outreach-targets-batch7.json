@@ -1,0 +1,32 @@
+[
+  {
+    "kind": "university",
+    "org": "the Wurzweiler School of Social Work at Yeshiva University, Practicum Education Office",
+    "department": "Social Work",
+    "email": "wsswpracticum@yu.edu",
+    "city": "New York",
+    "state": "NY",
+    "source_url": "https://wurzweiler.yu.edu/programs/msw/practicum-education/",
+    "notes": "Practicum office's own address on its practicum education page. First New York target, which is our largest city and had nothing."
+  },
+  {
+    "kind": "university",
+    "org": "the Ohio State University College of Social Work, Office of Field Education",
+    "department": "Social Work",
+    "email": "cswfield@osu.edu",
+    "city": "Columbus",
+    "state": "OH",
+    "source_url": "https://csw.osu.edu/wp-content/uploads/2024/06/Field-Agency-Information-Guide-2024.25.pdf",
+    "notes": "Field office address as given in the college's own Field Agency Information Guide, the document written for agencies hosting students. Second Columbus target, the right desk this time."
+  },
+  {
+    "kind": "university",
+    "org": "the USC Suzanne Dworak-Peck School of Social Work, Practicum Education",
+    "department": "Social Work",
+    "email": "sswpracticum@usc.edu",
+    "city": "Los Angeles",
+    "state": "CA",
+    "source_url": "https://dworakpeck.usc.edu/about/contact-us",
+    "notes": "Practicum education address under that heading on the school's contact page. USC's gerontology school has already said yes and offered preceptor status; this is the social work school's placement desk."
+  }
+]

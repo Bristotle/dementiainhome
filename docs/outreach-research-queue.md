@@ -87,6 +87,11 @@ Nothing contacted yet, and it is our largest city.
 - Northern Arizona University Department of Occupational Therapy
 
 ### San Antonio
+- **Our Lady of the Lake University, Worden School of Social Service.** Search
+  results give `WordenFieldEdSA@ollusa.edu` as the field education address, sourced
+  to their MSW field manual PDF. The PDF is font-encoded and I could not read it,
+  and no HTML page on ollusa.edu publishes an address. A person opening the manual
+  can confirm it in seconds. Not imported unverified.
 - UT San Antonio Department of Social Work
 - UT Health San Antonio School of Nursing
 - UT Health San Antonio Glenn Biggs Institute for Alzheimer's and Neurodegenerative Diseases
