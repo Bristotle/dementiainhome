@@ -17,10 +17,10 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Flowable, T
 INK = HexColor("#1f2937"); HEAD = HexColor("#0f172a"); TEAL = HexColor("#0f766e")
 AMBER = HexColor("#b45309"); PALE = HexColor("#fffbeb"); LINE = HexColor("#94a3b8")
 
-body = ParagraphStyle("b", fontName="Times-Roman", fontSize=9.6, leading=13.2, textColor=INK, spaceAfter=4)
+body = ParagraphStyle("b", fontName="Times-Roman", fontSize=9.3, leading=12.4, textColor=INK, spaceAfter=3)
 h1 = ParagraphStyle("h1", fontName="Times-Bold", fontSize=15, leading=18, textColor=HEAD, spaceAfter=1)
 sub = ParagraphStyle("sub", fontName="Helvetica-Bold", fontSize=9.2, leading=12, textColor=TEAL, spaceAfter=9)
-h2 = ParagraphStyle("h2", fontName="Helvetica-Bold", fontSize=9.8, leading=12, textColor=HEAD, spaceBefore=7, spaceAfter=2)
+h2 = ParagraphStyle("h2", fontName="Helvetica-Bold", fontSize=9.8, leading=12, textColor=HEAD, spaceBefore=5, spaceAfter=1)
 note = ParagraphStyle("n", parent=body, fontSize=9, leading=12.2, backColor=PALE, borderColor=AMBER, borderWidth=0, leftIndent=8, spaceBefore=4, spaceAfter=6)
 lbl = ParagraphStyle("l", fontName="Helvetica", fontSize=7.8, leading=10, textColor=HexColor("#475569"))
 
@@ -28,7 +28,7 @@ class Field(Flowable):
     """An inline text field with a caption underneath."""
     def __init__(self, name, width, caption, value="", height=15):
         super().__init__(); self.name, self.w, self.cap, self.val, self.h = name, width, caption, value, height
-    def wrap(self, aw, ah): return (self.w, self.h + 11)
+    def wrap(self, aw, ah): return (self.w, self.h + 9)
     def draw(self):
         c = self.canv
         c.acroForm.textfield(name=self.name, x=0, y=11, width=self.w, height=self.h, value=self.val,
@@ -54,7 +54,7 @@ class Inline(Flowable):
                 c.setFont("Helvetica", 7.2); c.setFillColor(HexColor("#475569")); c.drawString(x, 0, cap); x += w + self.gap
 
 doc = SimpleDocTemplate("Dementia-In-Home-Placement-Agreement.pdf", pagesize=A4,
-                        leftMargin=16*mm, rightMargin=16*mm, topMargin=14*mm, bottomMargin=12*mm,
+                        leftMargin=16*mm, rightMargin=16*mm, topMargin=11*mm, bottomMargin=9*mm,
                         title="Student Placement Agreement", author="Dementia In Home")
 S = []
 S.append(Paragraph("Student Placement Agreement", h1))
@@ -86,10 +86,15 @@ S.append(Paragraph("Each party keeps confidential the non-public information of 
 S.append(Paragraph("5. Law", h2))
 S.append(Paragraph("This agreement is governed by the law of the State of Wyoming. Neither party is liable to the other for indirect or consequential loss. It may be replaced by the University's own affiliation agreement if the University prefers its standard form.", body))
 
-S.append(Spacer(1, 8))
+S.append(Spacer(1, 4))
+# Our side carries full name, title and company, pre-filled, with only the date
+# and signature left for him. Theirs is blank throughout.
 sig = Table([
-    [Field("org_signatory", 210, "Signed for Niches LLC, trading as Dementia In Home", "Maxim Pogulaev, Founder"),
-     Field("uni_signatory", 210, "Signed for the University (name and role)")],
+    [Field("org_signatory", 210, "Signed for the Organisation: name and title", "Maxim Pogulaev, Founder and CEO"),
+     Field("uni_signatory", 210, "Signed for the University: name and title")],
+    [Field("org_company", 210, "Company", "Niches LLC, trading as Dementia In Home"),
+     Field("uni_institution", 210, "Institution")],
+    [Field("org_signature", 210, "Signature", height=22), Field("uni_signature", 210, "Signature", height=22)],
     [Field("org_date", 210, "Date"), Field("uni_date", 210, "Date")],
 ], colWidths=[240, 240])
 sig.setStyle(TableStyle([("VALIGN", (0,0), (-1,-1), "TOP"), ("LEFTPADDING", (0,0), (-1,-1), 0), ("BOTTOMPADDING", (0,0), (-1,-1), 4)]))
