@@ -21,7 +21,7 @@ body = ParagraphStyle("b", fontName="Times-Roman", fontSize=9.3, leading=12.4, t
 h1 = ParagraphStyle("h1", fontName="Times-Bold", fontSize=15, leading=18, textColor=HEAD, spaceAfter=1)
 sub = ParagraphStyle("sub", fontName="Helvetica-Bold", fontSize=9.2, leading=12, textColor=TEAL, spaceAfter=9)
 h2 = ParagraphStyle("h2", fontName="Helvetica-Bold", fontSize=9.8, leading=12, textColor=HEAD, spaceBefore=5, spaceAfter=1)
-note = ParagraphStyle("n", parent=body, fontSize=9, leading=12.2, backColor=PALE, borderColor=AMBER, borderWidth=0, leftIndent=8, spaceBefore=4, spaceAfter=6)
+note = ParagraphStyle("n", parent=body)
 lbl = ParagraphStyle("l", fontName="Helvetica", fontSize=7.8, leading=10, textColor=HexColor("#475569"))
 
 class Field(Flowable):
@@ -31,7 +31,8 @@ class Field(Flowable):
     def wrap(self, aw, ah): return (self.w, self.h + 9)
     def draw(self):
         c = self.canv
-        c.acroForm.textfield(name=self.name, x=0, y=11, width=self.w, height=self.h, value=self.val,
+        ax, ay = c.absolutePosition(0, 11)
+        c.acroForm.textfield(name=self.name, x=ax, y=ay, width=self.w, height=self.h, value=self.val,
                              fontName="Helvetica", fontSize=9, borderWidth=0.6, borderColor=LINE,
                              fillColor=white, textColor=black, forceBorder=True)
         c.setFont("Helvetica", 7.6); c.setFillColor(HexColor("#475569")); c.drawString(0, 1, self.cap)
@@ -49,7 +50,8 @@ class Inline(Flowable):
                 c.setFont("Times-Roman", 9.6); c.setFillColor(INK); c.drawString(x, 11, v); x += c.stringWidth(v, "Times-Roman", 9.6) + self.gap
             else:
                 name, w, cap = v
-                c.acroForm.textfield(name=name, x=x, y=8, width=w, height=15, fontName="Helvetica", fontSize=9,
+                ax, ay = c.absolutePosition(x, 8)
+                c.acroForm.textfield(name=name, x=ax, y=ay, width=w, height=15, fontName="Helvetica", fontSize=9,
                                      borderWidth=0.6, borderColor=LINE, fillColor=white, textColor=black, forceBorder=True)
                 c.setFont("Helvetica", 7.2); c.setFillColor(HexColor("#475569")); c.drawString(x, 0, cap); x += w + self.gap
 
@@ -60,9 +62,9 @@ S = []
 S.append(Paragraph("Student Placement Agreement", h1))
 S.append(Paragraph("Niches LLC, trading as Dementia In Home &nbsp;·&nbsp; Unpaid student placement", sub))
 
-S.append(Inline([("t", "Between: Niches LLC, trading as Dementia In Home, of 30 N Gould St Ste R, Sheridan, WY 82801, United States (the Organisation), and")]))
-S.append(Inline([("f", ("university_name", 300, "University name")), ("t", "(the University)."),
-                 ("f", ("effective_date", 90, "Effective from (date)"))]))
+S.append(Paragraph("<b>Between:</b> Niches LLC, trading as Dementia In Home, of 30 N Gould St Ste R, Sheridan, WY 82801, United States (the Organisation), and the University named below.", body))
+S.append(Inline([("f", ("university_name", 320, "University name")), ("f", ("effective_date", 110, "Effective from (date)"))]))
+S.append(Spacer(1, 4))
 S.append(Paragraph("Reviewed annually, or when either party asks.", body))
 
 S.append(Paragraph("1. What the placement is", h2))
@@ -100,5 +102,13 @@ sig = Table([
 sig.setStyle(TableStyle([("VALIGN", (0,0), (-1,-1), "TOP"), ("LEFTPADDING", (0,0), (-1,-1), 0), ("BOTTOMPADDING", (0,0), (-1,-1), 4)]))
 S.append(sig)
 
-doc.build(S)
+def footer(c, d):
+    c.saveState()
+    c.setStrokeColor(LINE); c.setLineWidth(0.5)
+    c.line(16*mm, 9*mm, A4[0]-16*mm, 9*mm)
+    c.setFont("Helvetica", 7.4); c.setFillColor(HexColor("#475569"))
+    c.drawString(16*mm, 5.5*mm, "Niches LLC, trading as Dementia In Home  ·  30 N Gould St Ste R, Sheridan, WY 82801, United States  ·  dementiainhome.com  ·  dementiacompanions.com")
+    c.restoreState()
+
+doc.build(S, onFirstPage=footer, onLaterPages=footer)
 print("built")
