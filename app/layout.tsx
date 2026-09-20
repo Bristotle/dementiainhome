@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { websiteJsonLd } from "@/lib/static-schema";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter, Fraunces, Geist } from "next/font/google";
-import Script from "next/script";
+import Script from "next/script"
+import CookieConsent from "@/components/CookieConsent";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -93,12 +94,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {JSON.stringify(organizationSchema)}
         </Script>
         {children}
+        <CookieConsent />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-Z11TVVZBCL"
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
-          {"window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-Z11TVVZBCL');"}
+          {"window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('consent', 'default', {analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500}); gtag('js', new Date()); gtag('config', 'G-Z11TVVZBCL');"}
         </Script>
         {/* Core Web Vitals from real visitors. Performance was the one line in
             the audit I could not report honestly: three local Lighthouse runs on

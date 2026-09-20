@@ -8,7 +8,7 @@ import { FadeIn, Stagger, StaggerItem, hoverScale } from "@/components/motion"
 import { ShapeBackgroundCompact } from "@/components/ui/shape-background"
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ first_name:"", last_name:"", email:"", phone:"", city:"", message:"" })
+  const [form, setForm] = useState({ first_name:"", last_name:"", email:"", phone:"", city:"", message:"", website:"" })
   const [status, setStatus] = useState<"idle"|"loading"|"success"|"error">("idle")
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) {
@@ -75,6 +75,10 @@ export default function ContactPage() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+                  <div aria-hidden="true" className="absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden">
+                    <label htmlFor="ct_web">Website</label>
+                    <input id="ct_web" name="website" type="text" tabIndex={-1} autoComplete="off" value={form.website} onChange={handleChange} />
+                  </div>
                   <h3 className="text-xl font-bold text-slate-900 mb-6">Send us a message</h3>
                   <div className="grid grid-cols-2 gap-3">
                     <div><label htmlFor="ct_fn" className="block text-xs font-medium text-slate-700 mb-1">First name</label><input id="ct_fn" name="first_name" type="text" required value={form.first_name} onChange={handleChange} className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" /></div>

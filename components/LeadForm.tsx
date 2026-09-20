@@ -26,7 +26,7 @@ export default function LeadForm({ cityName, cityState, pageType, sourcePage }: 
   // relationship and urgency were columns on the leads table from the start but
   // the form never asked for them, so every lead came in without the two fields
   // that decide who to call first and what to send them.
-  const [form, setForm] = useState({ first_name:"", last_name:"", email:"", phone:"", city:"", relationship:"", urgency:"", message:"" })
+  const [form, setForm] = useState({ first_name:"", last_name:"", email:"", phone:"", city:"", relationship:"", urgency:"", message:"", website:"" })
   // Only the four fields the API actually requires are required here. Who
   // needs care and how soon were mandatory selects on a first contact form,
   // for data the endpoint treats as optional - friction on the one action the
@@ -71,6 +71,14 @@ export default function LeadForm({ cityName, cityState, pageType, sourcePage }: 
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+      {/* Honeypot. Hidden from people by CSS and from screen readers by
+          aria-hidden and tabIndex; bots that fill every field fill this one and
+          the API drops the submission. autoComplete off so browsers do not
+          helpfully populate it for a real visitor. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden">
+        <label htmlFor="lf_web">Website</label>
+        <input id="lf_web" name="website" type="text" tabIndex={-1} autoComplete="off" value={form.website} onChange={handleChange} />
+      </div>
       <div className="grid grid-cols-2 gap-3">
         <div><label htmlFor="lf_fn" className="block text-xs font-medium text-slate-700 mb-1">First name</label><input id="lf_fn" name="first_name" type="text" placeholder="Jane" required value={form.first_name} onChange={handleChange} className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" /></div>
         <div><label htmlFor="lf_ln" className="block text-xs font-medium text-slate-700 mb-1">Last name</label><input id="lf_ln" name="last_name" type="text" placeholder="Smith" required value={form.last_name} onChange={handleChange} className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" /></div>

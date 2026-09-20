@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { supabase } from "@/lib/supabase"
+import { getSupabaseAdmin } from "@/lib/ingestion/supabase-admin"
 
 // Every lead notification since this was built has been silently rejected.
 // Resend refuses to send from its shared onboarding@resend.dev address to
@@ -72,18 +72,64 @@ async function sendLeadNotification(lead: {
   return { delivered: false, via: null, error: lastError }
 }
 
+
+// Spam protection, in three layers, none of which a real family will notice.
+//
+// A honeypot: the form renders a field named "website" that is hidden from
+// people and filled in by bots. Anything arriving with it set is dropped with a
+// 200, so the bot believes it succeeded and does not retry.
+//
+// A rate limit per IP, in memory. Serverless instances do not share memory, so
+// this is per instance and resets on cold start; it stops a naive loop and
+// costs nothing, which is the right trade for a form that sees a few
+// submissions a day. A durable limit needs a store and is worth adding when the
+// volume justifies it.
+//
+// An email shape check. The table accepted anything, and the notification goes
+// to that address.
+const WINDOW_MS = 10 * 60 * 1000
+const MAX_PER_WINDOW = 5
+const hits = new Map<string, number[]>()
+
+function rateLimited(ip: string): boolean {
+  const now = Date.now()
+  const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS)
+  recent.push(now)
+  hits.set(ip, recent)
+  if (hits.size > 5000) hits.clear()
+  return recent.length > MAX_PER_WINDOW
+}
+
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+
 export async function POST(request: NextRequest) {
   try {
+    const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "unknown"
+    if (rateLimited(ip)) {
+      return NextResponse.json({ error: "Too many requests. Please try again in a few minutes, or call us." }, { status: 429 })
+    }
+
     const body = await request.json()
-    const { first_name, last_name, email, phone, city, state, message, relationship, urgency, page_type, source_page } = body
+    const { first_name, last_name, email, phone, city, state, message, relationship, urgency, page_type, source_page, website } = body
+
+    if (website) return NextResponse.json({ success: true }, { status: 200 })
+
     if (!first_name || !last_name || !email || !phone) {
       return NextResponse.json({ error: "Please fill in all required fields." }, { status: 400 })
+    }
+    if (typeof email !== "string" || !EMAIL.test(email.trim())) {
+      return NextResponse.json({ error: "That email address does not look right. Please check it." }, { status: 400 })
+    }
+    for (const [k, v] of Object.entries({ first_name, last_name, email, phone, city, state, message })) {
+      if (v != null && (typeof v !== "string" || v.length > 2000)) {
+        return NextResponse.json({ error: `The ${k.replace("_", " ")} field is too long.` }, { status: 400 })
+      }
     }
     // city and state are NOT NULL on the table, and national pages - blog posts,
     // service pages - have neither until the visitor types one. Coercing to an
     // empty string here means a missing value can never turn a real enquiry into
     // a 500, which is the most expensive failure this site is capable of.
-    const { error } = await supabase.from("leads").insert([{
+    const { error } = await getSupabaseAdmin().from("leads").insert([{
       first_name, last_name, email, phone,
       city: city ?? "", state: state ?? "",
       message, relationship, urgency, page_type, source_page,
