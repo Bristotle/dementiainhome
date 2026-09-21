@@ -3,6 +3,7 @@ import Link from "next/link"
 import type { Metadata } from "next"
 import { stateSlug, getCityHospitals, getCityExpertsBySpecialty, getCityClinics } from "@/lib/db-cities"
 import { ExpertList, HospitalTable, AgencyTable } from "@/components/GuideProviders"
+import { GLOSSARY } from "@/lib/glossary"
 import siteIndex from "@/lib/generated/site-index.json"
 import { getPublishedPage, getAllPublishedPageParams, getPublishedPagesForCity, getSameGuideInOtherCities, getRelatedGuidesElsewhere, rotateForEvenSpread } from "@/lib/db-pages"
 import { clusterFor, relatedTopics } from "@/lib/topic-clusters"
@@ -293,6 +294,17 @@ export default async function GeneratedPage({ params }: Props) {
  dementia care in {page.city.state}
  </Link>
  {" "}for the Medicaid waiver in full and every city we cover there.
+ </p>
+ )}
+ {GLOSSARY.filter((g) => g.template === page.template.topic_type).length > 0 && (
+ <p className="mt-4 text-sm text-slate-600">
+ Terms on this page, defined plainly:{" "}
+ {GLOSSARY.filter((g) => g.template === page.template.topic_type).map((g, i, arr) => (
+ <span key={g.slug}>
+ <Link href={`/glossary/${g.slug}`} className="text-teal-700 font-semibold hover:underline">{g.term.replace(/ \(.*\)$/, "")}</Link>{i < arr.length - 1 ? ", " : ""}
+ </span>
+ ))}
+ .
  </p>
  )}
  {SERVICE_FOR_TEMPLATE[page.template.topic_type] && (

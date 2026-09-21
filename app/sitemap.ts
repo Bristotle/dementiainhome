@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next"
 import { BLOG_POSTS } from "@/lib/blog"
 import { SERVICES_DETAIL } from "@/lib/services"
 import { INTERVIEWS } from "@/lib/interviews"
+import { GLOSSARY } from "@/lib/glossary"
 import { getAllCities, getAllStates } from "@/lib/db-cities"
 import { getPublishedPagesForSitemap } from "@/lib/db-pages"
 import templateDates from "@/lib/generated/template-dates.json"
@@ -90,6 +91,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Statistics pages are regenerated from Census data, so their date is the
   // data's verification date rather than a route's last commit.
+  const glossaryRoutes = [
+    { url: `${BASE_URL}/glossary`, lastModified: when("hub"), changeFrequency: "monthly" as const, priority: 0.7 },
+    ...GLOSSARY.map((t) => ({
+      url: `${BASE_URL}/glossary/${t.slug}`,
+      lastModified: when("hub"),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+  ]
+
   const statsRoutes = [
     { url: `${BASE_URL}/statistics`, lastModified: when("hub"), changeFrequency: "monthly" as const, priority: 0.8 },
     ...cities.map((city) => ({
@@ -121,5 +132,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   return [...staticRoutes, ...stateRoutes, ...serviceRoutes, ...interviewRoutes, ...cityRoutes,
-    ...statsRoutes, ...generatedRoutes, ...blogRoutes]
+    ...statsRoutes,
+    ...glossaryRoutes, ...generatedRoutes, ...blogRoutes]
 }
