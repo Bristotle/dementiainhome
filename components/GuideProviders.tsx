@@ -18,6 +18,17 @@ import type { LocalClinic, LocalExpert, LocalHospital } from "@/lib/db-cities"
 // the generated pages are held to.
 
 const note = "text-slate-600 mb-6 max-w-2xl"
+
+// The date the row was last confirmed against its source, shown to the reader.
+// Every provider row has carried verified_at since August and no page showed it.
+// Freshness is the signal that tells a model a page is still safe to cite, and
+// it is the honest thing to tell a family looking at a phone number.
+function Verified({ rows }: { rows: { verified_at?: string | null }[] }) {
+  const dates = rows.map((r) => r.verified_at).filter((d): d is string => Boolean(d)).sort()
+  if (dates.length === 0) return null
+  const latest = new Date(dates[dates.length - 1]).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })
+  return <p className="text-xs text-slate-500 -mt-8 mb-8">Verified against the source {latest}.</p>
+}
 const h2 = "text-2xl font-bold text-slate-900 mb-2"
 const heading = { fontFamily: "var(--font-fraunces)" } as const
 
@@ -40,6 +51,7 @@ export function ExpertList({ experts, cityName, label }: { experts: LocalExpert[
           </li>
         ))}
       </ul>
+      <Verified rows={experts} />
     </>
   )
 }
@@ -75,6 +87,7 @@ export function HospitalTable({ hospitals, cityName }: { hospitals: LocalHospita
           </tbody>
         </table>
       </div>
+      <Verified rows={hospitals} />
     </>
   )
 }
@@ -110,6 +123,7 @@ export function AgencyTable({ clinics, cityName }: { clinics: LocalClinic[]; cit
           </tbody>
         </table>
       </div>
+      <Verified rows={clinics} />
     </>
   )
 }

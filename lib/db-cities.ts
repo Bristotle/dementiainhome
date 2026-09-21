@@ -146,6 +146,7 @@ export type LocalExpert = {
   profile_url: string | null
   address: string | null
   source_url: string
+  verified_at?: string | null
 }
 
 // The city hub fetched demographics, the Medicaid waiver and the guide list,
@@ -170,7 +171,7 @@ export async function getCityClinics(slug: string, limit = 6): Promise<LocalClin
 export async function getCityExperts(slug: string, limit = 6): Promise<LocalExpert[]> {
   const { data, error } = await supabase
     .from("experts")
-    .select("name, specialty, npi_number, profile_url, address, source_url")
+    .select("name, specialty, npi_number, profile_url, address, source_url, verified_at")
     .eq("city_slug", slug)
     .limit(limit)
   if (error || !data) return []
@@ -208,7 +209,7 @@ export async function getCityHospitals(slug: string, limit = 8): Promise<LocalHo
 export async function getCityExpertsBySpecialty(slug: string, specialty: string, limit = 8): Promise<LocalExpert[]> {
   const { data, error } = await supabase
     .from("experts")
-    .select("name, specialty, npi_number, profile_url, address, source_url")
+    .select("name, specialty, npi_number, profile_url, address, source_url, verified_at")
     .eq("city_slug", slug)
     .eq("specialty", specialty)
     .limit(limit)

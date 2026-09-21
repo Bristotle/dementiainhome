@@ -4,6 +4,7 @@ import type { Metadata } from "next"
 import { stateSlug, getCityHospitals, getCityExpertsBySpecialty, getCityClinics } from "@/lib/db-cities"
 import { ExpertList, HospitalTable, AgencyTable } from "@/components/GuideProviders"
 import { GLOSSARY } from "@/lib/glossary"
+import CostCalculator from "@/components/CostCalculator"
 import siteIndex from "@/lib/generated/site-index.json"
 import { getPublishedPage, getAllPublishedPageParams, getPublishedPagesForCity, getSameGuideInOtherCities, getRelatedGuidesElsewhere, rotateForEvenSpread } from "@/lib/db-pages"
 import { clusterFor, relatedTopics } from "@/lib/topic-clusters"
@@ -84,6 +85,9 @@ const SERVICE_FOR_TEMPLATE: Record<string, { slug: string; label: string }> = {
 // about sundowning has no providers, and geriatric care managers and elder law
 // attorneys are held as a single national directory on purpose, because we chose
 // not to name individuals we have not vetted.
+// Guides that are about money get the calculator. Others do not.
+const COST_TEMPLATES = new Set(["cost-of-care-city", "transparent-pricing-city", "hourly-vs-fulltime-care-city", "private-pay-options-city"])
+
 const PROVIDERS_FOR_TEMPLATE: Record<string, { kind: "experts" | "hospitals" | "agencies"; specialty?: string; label?: string }> = {
   "dementia-specialists-neurologists-city": { kind: "experts", specialty: "neurologist", label: "Neurologists" },
   "memory-clinics-city": { kind: "hospitals" },
@@ -257,6 +261,16 @@ export default async function GeneratedPage({ params }: Props) {
  ))}
  </p>
  </div>
+ )}
+
+ {COST_TEMPLATES.has(page.template.topic_type) && (
+ <section className="border-t border-slate-200 bg-white">
+ <div className="max-w-3xl mx-auto px-6 py-14">
+ <h2 className="text-2xl font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>Work out the monthly figure for {page.city.name}</h2>
+ <p className="text-slate-600 mb-6">Set the hours a week; the range updates.</p>
+ <CostCalculator cityName={page.city.name} low={page.city.hourly_rate_low} high={page.city.hourly_rate_high} />
+ </div>
+ </section>
  )}
 
  {(experts.length > 0 || hospitals.length > 0 || agencies.length > 0) && (

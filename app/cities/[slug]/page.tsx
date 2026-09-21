@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation"
 import { Phone } from "lucide-react"
+import CostCalculator from "@/components/CostCalculator"
 import { getCityBySlug, getAllCitySlugs, getAllCities, getCityDemographics, getMedicaidWaiver, getMedicaidCitations, getCityClinics, getCityExperts, stateSlug } from "@/lib/db-cities"
 import siteIndex from "@/lib/generated/site-index.json"
 import { getPublishedPagesForCity } from "@/lib/db-pages"
@@ -147,26 +148,12 @@ export default async function CityPage({ params }: Props) {
 
  <section className="bg-white border-y border-slate-200">
  <div className="max-w-5xl mx-auto px-6 py-12">
- <FadeIn><h2 className="text-2xl font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>What in-home dementia care costs in {city.name}</h2></FadeIn>
- <FadeIn delay={0.05}><p className="text-slate-500 mb-8">Real local rates - no hidden fees.</p></FadeIn>
- <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-6">
- <StaggerItem className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
- <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Light supervision</p>
- <p className="text-3xl font-bold text-slate-900">${city.hourly_rate_low * 20 * 4}<span className="text-base font-normal text-slate-500">/mo</span></p>
- <p className="text-sm text-slate-500 mt-1">~20 hrs/week</p>
- </StaggerItem>
- <StaggerItem className="bg-teal-50 rounded-2xl p-6 border border-teal-200">
- <p className="text-sm font-semibold text-teal-700 uppercase tracking-wide mb-2">Full-time care</p>
- <p className="text-3xl font-bold text-slate-900">${city.hourly_rate_low * 40 * 4}<span className="text-base font-normal text-slate-500">/mo</span></p>
- <p className="text-sm text-slate-500 mt-1">~40 hrs/week</p>
- </StaggerItem>
- <StaggerItem className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
- <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Live-in / 24-hour</p>
- <p className="text-3xl font-bold text-slate-900">$12,000+<span className="text-base font-normal text-slate-500">/mo</span></p>
- <p className="text-sm text-slate-500 mt-1">Around-the-clock</p>
- </StaggerItem>
- </Stagger>
- <p className="text-xs text-slate-500 mt-4">Local rate range: ${city.hourly_rate_low}-${city.hourly_rate_high}/hr.</p>
+ <h2 className="text-2xl font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>What in-home dementia care costs in {city.name}</h2>
+ <p className="text-slate-500 mb-6">Move the slider to the hours you are thinking of. The figures are a range, because the rate is.</p>
+ <CostCalculator cityName={city.name} low={city.hourly_rate_low} high={city.hourly_rate_high} />
+ <p className="text-sm text-slate-600 mt-4">
+ What changes the number, and how families pay it: <Link href={`/cities/${slug}/cost-of-care-city`} className="font-semibold hover:underline">the cost of care in {city.name}</Link>.
+ </p>
  </div>
  </section>
 
@@ -356,6 +343,7 @@ export default async function CityPage({ params }: Props) {
  </tbody>
  </table>
  </div>
+ {(() => { const d = clinics.map((c) => c.verified_at).filter((x): x is string => Boolean(x)).sort().pop(); return d ? <p className="text-xs text-slate-500 -mt-8 mb-8">Verified against Medicare&apos;s records {new Date(d).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}.</p> : null })()}
  </>
  )}
 

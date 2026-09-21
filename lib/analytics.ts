@@ -51,3 +51,14 @@ export function trackFormViewed(params: Pick<LeadEventParams, "page_type" | "cit
     // As above.
   }
 }
+
+/** A named event with a small parameter bag. Used for tool interactions that
+ *  are not leads but say something about intent, like the cost calculator. */
+export function trackEvent(name: string, params: Record<string, string | number | boolean | undefined> = {}): void {
+  if (typeof window === "undefined" || typeof window.gtag !== "function") return
+  try {
+    window.gtag("event", name, params)
+  } catch {
+    // Never let analytics break the page.
+  }
+}
