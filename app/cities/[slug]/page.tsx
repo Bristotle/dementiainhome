@@ -318,6 +318,10 @@ export default async function CityPage({ params }: Props) {
  <div className="max-w-5xl mx-auto px-6 py-14">
  {clinics.length > 0 && (
  <>
+ <p className="mb-8 text-sm text-slate-600">
+ How many people here are living with dementia, how many are alone, and what care costs, sourced and dated:{" "}
+ <Link href={`/cities/${slug}/statistics`} className="font-semibold hover:underline">dementia in {city.name}, {new Date().getFullYear()} statistics</Link>.
+ </p>
  <h2 className="text-2xl font-bold text-slate-900 mb-2" style={{fontFamily:"var(--font-fraunces)"}}>
  Home health providers in {city.name}
  </h2>

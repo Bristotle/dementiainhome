@@ -88,6 +88,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }))
 
+  // Statistics pages are regenerated from Census data, so their date is the
+  // data's verification date rather than a route's last commit.
+  const statsRoutes = [
+    { url: `${BASE_URL}/statistics`, lastModified: when("hub"), changeFrequency: "monthly" as const, priority: 0.8 },
+    ...cities.map((city) => ({
+      url: `${BASE_URL}/cities/${city.slug}/statistics`,
+      lastModified: when("hub"),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+  ]
+
   // lastModified is the page's own publish date, not the time this sitemap was
   // built. Stamping every URL with "now" on an hourly revalidate would tell
   // Google the whole site changes every hour, which teaches it to ignore the
@@ -108,5 +120,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }))
 
-  return [...staticRoutes, ...stateRoutes, ...serviceRoutes, ...interviewRoutes, ...cityRoutes, ...generatedRoutes, ...blogRoutes]
+  return [...staticRoutes, ...stateRoutes, ...serviceRoutes, ...interviewRoutes, ...cityRoutes,
+    ...statsRoutes, ...generatedRoutes, ...blogRoutes]
 }
