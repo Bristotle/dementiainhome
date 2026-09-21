@@ -106,7 +106,13 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
               scale loop through framer-motion that never stopped and never checked
               whether the visitor wanted motion. The same slow drift is now CSS, and
               prefers-reduced-motion turns it off. */}
-              <img src={s.url} alt={s.alt} className="w-full h-full object-cover dih-kenburns" loading={i === 0 ? "eager" : "lazy"} fetchPriority={i === 0 ? "high" : undefined} width="1920" height="1080" />
+              {/* Through next/image rather than a raw img: the optimizer was
+                  configured for Pexels with AVIF and WebP and this element,
+                  the largest on the site, bypassed it. As JPEG it was 158 to
+                  226 KB per slide at 1920 wide on every screen size. sizes 100vw
+                  gives a phone a phone-sized file; priority marks the first
+                  slide as LCP and lets the rest lazy-load. */}
+              <Image src={s.url} alt={s.alt} fill sizes="100vw" priority={i === 0} className="object-cover dih-kenburns" />
  <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-teal-900/45 to-slate-900/10" />
  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-slate-900/20" />
  </div>
