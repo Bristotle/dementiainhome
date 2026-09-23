@@ -462,7 +462,7 @@ export default function HomeView({ cities, featuredGuides = [] }: { cities: City
  <div>
  <p className="font-semibold text-white mb-4">Company</p>
  <div className="space-y-2 text-sm">
- {[["/about","About Us"],["/getting-started","Getting Started"],["/caregivers","Our Caregivers"],["/services","Our Services"],["/blog","Blog & Resources"],["/contact","Contact Us"],["/privacy","Privacy Policy"],["/terms","Terms of Service"]].map(([href,label]) => (
+ {[["/about","About Us"],["/getting-started","Getting Started"],["/caregivers","Our Caregivers"],["/services","Our Services"],["/blog","Blog & Resources"],["/glossary","Dementia Glossary A-Z"],["/statistics","Dementia Statistics"],["/contact","Contact Us"],["/privacy","Privacy Policy"],["/terms","Terms of Service"]].map(([href,label]) => (
  <Link key={label} href={href} className="block hover:text-teal-400 transition-colors">{label}</Link>
  ))}
  </div>

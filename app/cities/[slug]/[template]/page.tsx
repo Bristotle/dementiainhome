@@ -408,6 +408,8 @@ export default async function GeneratedPage({ params }: Props) {
  <Link href="/cities" className="hover:text-teal-700">All cities</Link>
  <Link href={`/cities/${slug}`} className="hover:text-teal-700">{page.city.name} dementia care</Link>
  <Link href="/services" className="hover:text-teal-700">Services</Link>
+ <Link href="/glossary" className="hover:text-teal-700">Glossary</Link>
+ <Link href={`/cities/${slug}/statistics`} className="hover:text-teal-700">{page.city.name} statistics</Link>
  <Link href="/getting-started" className="hover:text-teal-700">Getting started</Link>
  <Link href="/contact" className="hover:text-teal-700">Contact</Link>
  </nav>

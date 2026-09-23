@@ -389,6 +389,14 @@ export default async function CityPage({ params }: Props) {
 
  <footer className="border-t border-slate-200 bg-white">
  <div className="max-w-5xl mx-auto px-6 py-8 space-y-4">
+ <nav className="flex gap-x-4 gap-y-1.5 flex-wrap justify-center text-sm text-slate-600" aria-label="Sections">
+ <Link href="/cities" className="hover:text-teal-700">All cities</Link>
+ <Link href="/services" className="hover:text-teal-700">Services</Link>
+ <Link href="/glossary" className="hover:text-teal-700">Glossary</Link>
+ <Link href={`/cities/${slug}/statistics`} className="hover:text-teal-700">{city.name} statistics</Link>
+ <Link href="/getting-started" className="hover:text-teal-700">Getting started</Link>
+ <Link href="/contact" className="hover:text-teal-700">Contact</Link>
+ </nav>
  <nav className="flex gap-x-4 gap-y-1.5 flex-wrap justify-center text-xs text-slate-500" aria-label="States">
  {(siteIndex as { states: { name: string; slug: string }[] }).states.map((st) => (
  <Link key={st.slug} href={`/states/${st.slug}`} className="hover:text-teal-700">{st.name}</Link>

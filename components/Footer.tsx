@@ -48,7 +48,7 @@ export default function Footer() {
           <StaggerItem>
             <p className="font-semibold text-white mb-4">Company</p>
             <div className="space-y-2 text-sm">
-              {[["/about","About Us"],["/getting-started","Getting Started"],["/caregivers","Our Caregivers"],["/services","Our Services"],["/blog","Blog & Resources"],["/contact","Contact Us"],["/privacy","Privacy Policy"],["/terms","Terms of Service"]].map(([href,label]) => (
+              {[["/about","About Us"],["/getting-started","Getting Started"],["/caregivers","Our Caregivers"],["/services","Our Services"],["/blog","Blog & Resources"],["/glossary","Dementia Glossary A-Z"],["/statistics","Dementia Statistics"],["/contact","Contact Us"],["/privacy","Privacy Policy"],["/terms","Terms of Service"]].map(([href,label]) => (
                 <MotionLink key={label} {...hoverShift} href={href} className="block hover:text-teal-400 transition-colors w-fit">{label}</MotionLink>
               ))}
             </div>
