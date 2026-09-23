@@ -86,3 +86,55 @@ missing its final letter. `/glossary/respite-care` still needs requesting.
 the time they were inspected, two days after going live. That is the fastest
 anything on this site has been indexed, and both are linked from twenty guide
 pages each.
+
+## What actually gets crawled on this domain, 23 September
+
+Three findings from the same day, which together change how to plan work here.
+
+**New URLs are indexed within two days. Existing URLs are re-crawled in weeks.**
+
+The glossary went live on 21 September. By the 23rd, `/glossary`, and the
+sundowning, Medicaid waiver and respite care terms, were all indexed. Nothing on
+this site has been indexed that fast before.
+
+Meanwhile `/cities/houston-tx/overnight-care-city` was last crawled on 29 August
+and `/cities/chicago-il/overnight-care-city` on 3 September, both indexed, both
+carrying a sitemap lastmod of 23 September. The sitemap is correct and current
+for every route type; it is not being acted on quickly for pages Google has
+already assessed.
+
+**So an internal link does not exist until the linking page is re-crawled.**
+
+Contextual links from five guide templates to the national service pages were
+added on 14 September. Google's copies of those guides are from August and
+early September, so from its point of view those links have never existed. That
+is the likeliest reason the service pages remain uncrawled despite the links,
+the sitemap entries and an explicit index request on the 17th.
+
+The glossary worked for the opposite reason: `/glossary` was a new URL, crawled
+within two days, and its thirty-two outbound links were followed from a page
+Google had just fetched.
+
+**Request Indexing does not override this.** Four service pages were requested on
+17 September and none had been crawled seven days later, while three state hubs
+requested the same day were all indexed. The difference is that Google already
+knew the state hubs.
+
+### What this means for planning
+
+Adding pages was the right move, not the risk I called it on Monday. On a domain
+this young, a new URL is the fastest route into the index, and a new index page
+pulls its children in behind it. Fifty-four pages on Monday produced four
+indexed URLs within two days; nine days of internal-linking work on existing
+pages has produced none, because the pages carrying those links have not been
+re-fetched.
+
+The caveat that matters: indexed is not ranked. These pages are in the index
+after two days and have no impressions yet. Speed of indexing says nothing about
+whether they will earn attention.
+
+Two things follow. Where a set of pages needs discovering, give it a new index
+page rather than only adding links to old ones. And the seven service pages are
+the clearest candidate for a decision: they have been in the sitemap since
+1 September, have never been crawled, were requested once without effect, and
+compete with city guides that already rank for the same generic terms.
