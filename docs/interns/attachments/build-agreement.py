@@ -60,29 +60,29 @@ doc = SimpleDocTemplate("Dementia-In-Home-Placement-Agreement.pdf", pagesize=A4,
                         title="Student Placement Agreement", author="Dementia In Home")
 S = []
 S.append(Paragraph("Student Placement Agreement", h1))
-S.append(Paragraph("Niches LLC, trading as Dementia In Home &nbsp;·&nbsp; Unpaid student placement", sub))
+S.append(Paragraph("Niches LLC dba Dementia In Home &nbsp;·&nbsp; Unpaid student placement", sub))
 
-S.append(Paragraph("<b>Between:</b> Niches LLC, trading as Dementia In Home, of 30 N Gould St Ste R, Sheridan, WY 82801, United States (the Organisation), and the University named below.", body))
+S.append(Paragraph("<b>Between:</b> Niches LLC dba Dementia In Home, of 30 N Gould St Ste R, Sheridan, WY 82801, United States (the Organization), and the University named below.", body))
 S.append(Inline([("f", ("university_name", 320, "University name")), ("f", ("effective_date", 110, "Effective from (date)"))]))
 S.append(Spacer(1, 4))
 S.append(Paragraph("Reviewed annually, or when either party asks.", body))
 
 S.append(Paragraph("1. What the placement is", h2))
-S.append(Paragraph("The Organisation will host students of the University in an unpaid, remote placement of approximately 10 hours a week, arranged around the student's timetable.", body))
-S.append(Paragraph("The student identifies dementia clinicians in a given city from public sources, invites them to be interviewed, records a video interview of 30 to 60 minutes from a question set the Organisation supplies and sends to the clinician in advance, and prepares it for publication on dementiainhome.com and dementiacompanions.com with a written summary and a signed release from the clinician.", body))
+S.append(Paragraph("The Organization will host students of the University in an unpaid, remote placement of approximately 10 hours a week, arranged around the student's timetable.", body))
+S.append(Paragraph("The student identifies dementia clinicians in a given city from public sources, invites them to be interviewed, records a video interview of 30 to 60 minutes from a question set the Organization supplies and sends to the clinician in advance, and prepares it for publication on dementiainhome.com and dementiacompanions.com with a written summary and a signed release from the clinician.", body))
 S.append(Paragraph("The majority of the work is research and interviewing dementia experts, and preparing valuable content for other dementia experts and for families dealing with the disease. Students may also be asked to follow up with experts on partnership and collaboration, which is part of the same work.", body))
 
 S.append(Paragraph("2. Supervision, and its limits", h2))
-S.append(Paragraph("The Organisation provides day-to-day task supervision: setting the work, reviewing each interview and write-up, and being available to answer questions during agreed hours.", body))
-S.append(Paragraph("<b>The Organisation does not currently employ a licensed social worker and does not provide clinical or licensure supervision.</b> Where the University requires a placement to be supervised by an MSW or other licensed practitioner, the University retains that responsibility, or the placement proceeds on a voluntary basis outside the accredited practicum route. The Organisation will not represent otherwise to a student or to a licensing body.", note))
-S.append(Paragraph("Academic assessment, learning objectives and evaluation of the student remain with the University. The Organisation will complete any evaluation form the University provides and will report any concern about a student promptly.", body))
+S.append(Paragraph("The Organization provides day-to-day task supervision: setting the work, reviewing each interview and write-up, and being available to answer questions during agreed hours.", body))
+S.append(Paragraph("<b>The Organization does not currently employ a licensed social worker and does not provide clinical or licensure supervision.</b> Where the University requires a placement to be supervised by an MSW or other licensed practitioner, the University retains that responsibility, or the placement proceeds on a voluntary basis outside the accredited practicum route. The Organization will not represent otherwise to a student or to a licensing body.", note))
+S.append(Paragraph("Academic assessment, learning objectives and evaluation of the student remain with the University. The Organization will complete any evaluation form the University provides and will report any concern about a student promptly.", body))
 
 S.append(Paragraph("3. The student", h2))
-S.append(Paragraph("The student is not an employee, worker, contractor or agent of the Organisation, is not paid, and acquires no entitlement to payment, benefits or future engagement. Either party or the student may end the placement at any time, in writing, without penalty.", body))
-S.append(Paragraph("Work produced by the student is published with the student credited as interviewer. The student may use it in a portfolio without restriction. The Organisation will provide a reference on request at the end of the placement.", body))
+S.append(Paragraph("The student is not an employee, worker, contractor or agent of the Organization, is not paid, and acquires no entitlement to payment, benefits or future engagement. Either party or the student may end the placement at any time, in writing, without penalty.", body))
+S.append(Paragraph("Work produced by the student is published with the student credited as interviewer. The student may use it in a portfolio without restriction. The Organization will provide a reference on request at the end of the placement.", body))
 
 S.append(Paragraph("4. Consent, confidentiality and conduct", h2))
-S.append(Paragraph("No interview is published without a signed release from the clinician, who may withdraw it at any time. Students follow the Organisation's standing rule that no interviewee is asked to endorse or recommend its services, and published material does not suggest that they do.", body))
+S.append(Paragraph("No interview is published without a signed release from the clinician, who may withdraw it at any time. Students follow the Organization's standing rule that no interviewee is asked to endorse or recommend its services, and published material does not suggest that they do.", body))
 S.append(Paragraph("Each party keeps confidential the non-public information of the other, and complies with applicable data protection and student-record law. Neither party discriminates on any protected ground in relation to this placement.", body))
 
 S.append(Paragraph("5. Law", h2))
@@ -92,9 +92,9 @@ S.append(Spacer(1, 4))
 # Our side carries full name, title and company, pre-filled, with only the date
 # and signature left for him. Theirs is blank throughout.
 sig = Table([
-    [Field("org_signatory", 210, "Signed for the Organisation: name and title", "Maxim Pogulaev, Founder and CEO"),
+    [Field("org_signatory", 210, "Signed for the Organization: name and title", "Maxim Pogulaev, Founder and CEO"),
      Field("uni_signatory", 210, "Signed for the University: name and title")],
-    [Field("org_company", 210, "Company", "Niches LLC, trading as Dementia In Home"),
+    [Field("org_company", 210, "Company", "Niches LLC dba Dementia In Home"),
      Field("uni_institution", 210, "Institution")],
     [Field("org_signature", 210, "Signature", height=22), Field("uni_signature", 210, "Signature", height=22)],
     [Field("org_date", 210, "Date"), Field("uni_date", 210, "Date")],
@@ -107,7 +107,7 @@ def footer(c, d):
     c.setStrokeColor(LINE); c.setLineWidth(0.5)
     c.line(16*mm, 9*mm, A4[0]-16*mm, 9*mm)
     c.setFont("Helvetica", 7.4); c.setFillColor(HexColor("#475569"))
-    c.drawString(16*mm, 5.5*mm, "Niches LLC, trading as Dementia In Home  ·  30 N Gould St Ste R, Sheridan, WY 82801, United States  ·  dementiainhome.com  ·  dementiacompanions.com")
+    c.drawString(16*mm, 5.5*mm, "Niches LLC dba Dementia In Home  ·  30 N Gould St Ste R, Sheridan, WY 82801, United States  ·  dementiainhome.com  ·  dementiacompanions.com")
     c.restoreState()
 
 doc.build(S, onFirstPage=footer, onLaterPages=footer)
