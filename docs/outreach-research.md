@@ -39,6 +39,23 @@ Roughly one verified address per four attempts, so a list of 200 is a few days
 of steady work. It is a good first task for an intern, which is neat, because
 the list is what recruits the interns.
 
+## The check that does not exist
+
+The importer resolves MX before accepting a file, so a typo in a domain cannot
+reach the send queue. It cannot tell whether the mailbox exists.
+`field@ssw.rutgers.edu` was read off the page Rutgers writes for organisations
+offering placements, passed the MX check because the domain accepts mail through
+Outlook, and hard bounced on 23 September: the address is published and stale.
+
+There is no way to verify a mailbox short of probing it over SMTP, which is
+itself the behaviour of a spammer. So the practical rules are: prefer a general
+office address over a named individual, prefer one that appears on more than one
+page, and check `npm run outreach -- delivery` after every batch, before the
+next one goes out.
+
+One bad address in forty-four is worth fixing and not worth stopping for. Three
+before a hundred sends means the list, not the address.
+
 ## Priority order
 
 Departments in the twenty cities we already have pages for, because an intern

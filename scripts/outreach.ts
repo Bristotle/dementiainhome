@@ -366,8 +366,21 @@ async function delivery(limit = 30) {
   for (const [state, n] of Object.entries(tally)) console.log(`  ${String(n).padStart(3)}  ${state}`)
   const bad = Object.entries(tally).filter(([k]) => /bounce|complain/.test(k)).reduce((a, [, n]) => a + n, 0)
   const rate = ((bad / rows.length) * 100).toFixed(1)
-  console.log(`\n  bounce/complaint rate ${rate}%`)
-  console.log(bad === 0 ? "  clean.\n" : Number(rate) > 2 ? "  ABOVE 2%: stop sending and clean the list before the next batch.\n" : "  under 2%, but check each one above.\n")
+  console.log(`\n  ${bad} of ${rows.length} bounced or complained, ${rate}%`)
+  // A rate without its denominator misleads. Mailbox providers act on about 2%
+  // measured over real volume; at 44 sends a single stale address is 2.3% and
+  // says nothing about list quality. Below 100 sends the count is the number to
+  // read, not the percentage.
+  if (bad === 0) {
+    console.log("  clean.\n")
+  } else if (rows.length < 100) {
+    console.log(`  Too few sends to read a rate. ${bad} bad address${bad === 1 ? "" : "es"} in ${rows.length} is worth fixing, not worth stopping for.`)
+    console.log(`  Stop and clean the list if this reaches 3 or more before 100 sends.\n`)
+  } else if (Number(rate) > 2) {
+    console.log("  ABOVE 2% over meaningful volume: stop sending and clean the list before the next batch.\n")
+  } else {
+    console.log("  under 2%, but check each one above.\n")
+  }
 }
 
 async function main() {
