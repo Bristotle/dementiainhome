@@ -1,0 +1,22 @@
+[
+  {
+    "kind": "university",
+    "org": "the Case Western Reserve Mandel School, Field Education",
+    "department": "Social Work",
+    "email": "mandelfield@case.edu",
+    "city": "Cleveland",
+    "state": "OH",
+    "source_url": "https://case.edu/socialwork/academics/field-education",
+    "notes": "Field education office address on its own page. Cleveland is not one of our twenty cities, but the placement and the interviews are remote, so the desk matters more than the metro. Field offices have been the best-performing target type: Wayne State replied within a day and escalated us to its director."
+  },
+  {
+    "kind": "university",
+    "org": "the Rutgers School of Social Work, Office of Field Education",
+    "department": "Social Work",
+    "email": "field@ssw.rutgers.edu",
+    "city": "New Brunswick",
+    "state": "NJ",
+    "source_url": "https://socialwork.rutgers.edu/info/field-community-partners",
+    "notes": "Published on the page written for field and community partners, which is organisations offering placements. Within reach of the New York metro."
+  }
+]
