@@ -55,6 +55,28 @@ sixteen are large public institutions that are likely to be among them.
 `[HOURS PER WEEK]` and `[TERM]`. This has to be a number a student can hold
 against a timetable.
 
+## The supervisor question, answered
+
+Wayne State's Director of Practicum Education answered this on 16 September and
+it is less restrictive than assumed. The Practicum Instructor named on record
+must be either an MSW with a social work licence and two years post-degree
+experience, **or** an MSW with at least five years of professional experience and
+no licence at all. Day-to-day supervision of the student can be anyone the
+organisation thinks appropriate.
+
+Wayne State does not provide instructors, but has a staff member willing to act
+as one for organisations that need it. She would be working directly for us
+rather than for the university, and we would pay her fee.
+
+So this is a cost decision rather than a hiring one, and it is the CEO's. The fee
+is not yet known. The same arrangement is likely to exist at other schools, and
+is worth asking about wherever the social work route is blocked.
+
+Separately, San Diego State suggested on the same day that undergraduate
+gerontology students are a better fit than social work students. A gerontology
+practicum may not carry the MSW requirement at all, which would be a second route
+around it.
+
 ## Also outstanding
 
 - **The consent release has not been reviewed by a lawyer.** It is written to be
