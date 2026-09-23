@@ -38,7 +38,7 @@ export default function BlogPage() {
           <p className="text-slate-600 mb-6">Skip the reading and talk to a real person.</p>
           <div className="flex flex-wrap gap-3 justify-center">
             <MotionLink {...hoverScale} href="/#get-matched" className="px-8 py-3 rounded-xl bg-teal-700 text-white font-semibold hover:bg-teal-800 transition-colors">Get Free Caregiver Profiles</MotionLink>
-            <a href="tel:8005550100" className="px-8 py-3 rounded-xl border border-teal-600 text-teal-700 font-semibold hover:bg-teal-50 transition-colors">Call (800) 555-0100</a>
+            <a href="tel:+17864325758" className="px-8 py-3 rounded-xl border border-teal-600 text-teal-700 font-semibold hover:bg-teal-50 transition-colors">Call (786) 432-5758</a>
           </div>
         </FadeIn>
       </section>
