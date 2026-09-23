@@ -33,7 +33,19 @@ export default async function StatisticsPage() {
     url: "https://www.dementiainhome.com/statistics",
     dateModified: new Date().toISOString().slice(0, 10),
     creator: { "@type": "Organization", name: "Dementia In Home", url: "https://www.dementiainhome.com" },
-    hasPart: all.map((s) => ({ "@type": "Dataset", name: `Dementia statistics for ${s.city.name}, ${s.city.state_abbrev}`, url: `https://www.dementiainhome.com/cities/${s.city.slug}/statistics` })),
+    license: "https://www.census.gov/data/developers/about/terms-of-service.html",
+    // Every nested Dataset needs its own description: Google treats a Dataset
+    // without one as invalid, and the first validation run flagged all twenty
+    // as critical errors while the parent passed. creator and license are
+    // optional but were also reported missing, so they are set here too.
+    hasPart: all.map((s) => ({
+      "@type": "Dataset",
+      name: `Dementia statistics for ${s.city.name}, ${s.city.state_abbrev}`,
+      description: `Population aged 65 and over, 85 and over, seniors living alone, median household income and estimated dementia prevalence for ${s.city.name}, ${s.city.state}, from US Census ACS 5-year estimates.`,
+      url: `https://www.dementiainhome.com/cities/${s.city.slug}/statistics`,
+      creator: { "@type": "Organization", name: "Dementia In Home", url: "https://www.dementiainhome.com" },
+      license: "https://www.census.gov/data/developers/about/terms-of-service.html",
+    })),
   }
 
   return (
