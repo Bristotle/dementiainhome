@@ -237,7 +237,7 @@ export function buildCityLocalBusinessJsonLd(args: {
     "@context": "https://schema.org",
     "@type": "MedicalBusiness",
     name: `Dementia In Home - ${cityName}`,
-    description: `In-home dementia care matching for families in ${cityName}, ${stateAbbrev}. Free caregiver video profiles within 72 hours.`,
+    description: `In-home dementia care matching for families in ${cityName}, ${stateAbbrev}. Vetted, dementia-trained caregivers matched free within 72 hours.`,
     url,
     telephone: "+1-786-432-5758",
     email: "hello@dementiainhome.com",

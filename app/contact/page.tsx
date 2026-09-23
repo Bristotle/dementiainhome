@@ -42,9 +42,9 @@ export default function ContactPage() {
             <h2 className="text-2xl font-bold text-slate-900 mb-8">Get in touch</h2>
             <Stagger className="space-y-6 mb-8">
               {[
-                { icon:Phone, label:"Call or text", value:"(786) 432-5758", href:"tel:+17864325758", note:"Available 24/7 - real people answer every call" },
+                { icon:Phone, label:"Call or text", value:"(786) 432-5758", href:"tel:+17864325758", note:"A real person answers, not a bot or a voicemail tree" },
                 { icon:Mail, label:"Email us", value:"hello@dementiainhome.com", href:"mailto:hello@dementiainhome.com", note:"We respond within 24 hours" },
-                { icon:Clock, label:"Hours", value:"Monday to Sunday: 8AM - 9PM", href:null, note:"Emergency placement inquiries accepted 24/7" },
+                { icon:Clock, label:"Hours", value:"Monday to Sunday: 8AM - 9PM", href:null, note:"Urgent placement enquiries are picked up outside these hours" },
               ].map((item) => (
                 <StaggerItem key={item.label} className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center flex-shrink-0">

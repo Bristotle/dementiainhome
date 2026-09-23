@@ -20,7 +20,7 @@ export function websiteJsonLd() {
     name: "Dementia In Home",
     url: BASE,
     description:
-      "In-home dementia care matching. Free caregiver video profiles within 72 hours, with local costs and resources for every city we serve.",
+      "In-home dementia care matching. Vetted, dementia-trained caregivers matched free within 72 hours, with local costs, Medicaid guidance and resources for every city we serve.",
     publisher: ORG,
     inLanguage: "en-US",
   }
