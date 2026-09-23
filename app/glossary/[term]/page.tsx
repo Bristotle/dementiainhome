@@ -3,7 +3,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
-import { GLOSSARY, getTerm } from "@/lib/glossary"
+import { GLOSSARY, getTerm, GROUP_LABELS, letterOf } from "@/lib/glossary"
 import { getAllCities } from "@/lib/db-cities"
 import { SERVICES_DETAIL } from "@/lib/services"
 
@@ -37,7 +37,11 @@ export default async function TermPage({ params }: Props) {
   if (!t) notFound()
   const cities = t.template ? await getAllCities() : []
   const service = t.service ? SERVICES_DETAIL.find((s) => s.slug === t.service) : undefined
-  const related = (t.related ?? []).map(getTerm).filter((r): r is NonNullable<typeof r> => Boolean(r))
+  const named = (t.related ?? []).map(getTerm).filter((r): r is NonNullable<typeof r> => Boolean(r))
+  // Fill out to six with others from the same subject, so every term is a way
+  // into the rest of the glossary rather than a dead end.
+  const sameGroup = GLOSSARY.filter((g) => g.group === t.group && g.slug !== t.slug && !named.some((n) => n.slug === g.slug))
+  const related = [...named, ...sameGroup].slice(0, 6)
   const plain = t.term.replace(/ \(.*\)$/, "")
 
   const jsonLd = [
@@ -74,9 +78,10 @@ export default async function TermPage({ params }: Props) {
           <nav aria-label="Breadcrumb" className="text-sm text-slate-500 mb-5">
             <Link href="/" className="hover:underline">Home</Link> <span aria-hidden>/</span>{" "}
             <Link href="/glossary" className="hover:underline">Glossary</Link> <span aria-hidden>/</span>{" "}
+            <Link href={`/glossary#letter-${letterOf(t)}`} className="hover:underline">{letterOf(t)}</Link> <span aria-hidden>/</span>{" "}
             <span className="text-slate-700">{t.term}</span>
           </nav>
-          <p className="eyebrow mb-3">Glossary</p>
+          <p className="eyebrow mb-3">{GROUP_LABELS[t.group]}</p>
           <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight mb-5" style={{ fontFamily: "var(--font-fraunces)" }}>
             What is {plain}?
           </h1>
@@ -90,11 +95,15 @@ export default async function TermPage({ params }: Props) {
         <h2 className="text-xl font-bold text-slate-900 mt-8 mb-2" style={{ fontFamily: "var(--font-fraunces)" }}>Why it matters</h2>
         <p className="text-slate-700 leading-relaxed">{t.matters}</p>
 
-        {t.source && (
-          <p className="mt-6 text-sm text-slate-500">
-            Further reading: <a href={t.source.url} target="_blank" rel="noopener noreferrer" className="font-semibold hover:underline">{t.source.label}</a>
-          </p>
-        )}
+        <h2 className="text-xl font-bold text-slate-900 mt-10 mb-2" style={{ fontFamily: "var(--font-fraunces)" }}>Sources</h2>
+        <p className="text-slate-600 mb-3 text-sm">Where to check this, and where to read more. All external and all authoritative.</p>
+        <ul className="space-y-1.5 text-sm">
+          {t.sources.map((src) => (
+            <li key={src.url}>
+              <a href={src.url} target="_blank" rel="noopener noreferrer" className="font-semibold hover:underline">{src.label}</a>
+            </li>
+          ))}
+        </ul>
 
         {service && (
           <p className="mt-8 text-slate-700">
@@ -128,7 +137,7 @@ export default async function TermPage({ params }: Props) {
         )}
 
         <p className="mt-12 text-sm text-slate-600">
-          <Link href="/glossary" className="font-semibold hover:underline">All terms</Link>
+          <Link href="/glossary" className="font-semibold hover:underline">All {GLOSSARY.length} terms, A to Z</Link>
         </p>
       </article>
       <Footer />
