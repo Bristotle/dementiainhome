@@ -1,0 +1,38 @@
+[
+  {
+    "kind": "university",
+    "org": "the Georgia State University Gerontology Institute",
+    "department": "Gerontology",
+    "contact_name": "Dr Tann",
+    "role": "Internship Coordinator",
+    "email": "dtann@gsu.edu",
+    "city": "Atlanta",
+    "state": "GA",
+    "source_url": "https://gerontology.gsu.edu/internships/becoming-an-internship-site/",
+    "notes": "Named on a page titled Becoming an Internship Site, written for organisations in exactly our position. Requirements are 140 hours over a term and a supervisor who orients, mentors and evaluates: no MSW, no licence. Address behind Cloudflare obfuscation."
+  },
+  {
+    "kind": "university",
+    "org": "the Bowling Green State University Gerontology Program",
+    "department": "Gerontology",
+    "contact_name": "Dr Stelle",
+    "role": "Coordinator, Gerontology Program",
+    "email": "cstelle@bgsu.edu",
+    "city": "Bowling Green",
+    "state": "OH",
+    "source_url": "https://www.bgsu.edu/health-and-human-services/programs/department-of-human-services/gerontology.html",
+    "notes": "Programme coordinator on the programme's own page. Practicum is a minimum of 400 hours, which is far more than our 10 hours a week implies, so the hours question has to be raised early."
+  },
+  {
+    "kind": "university",
+    "org": "the Ithaca College Gerontology Institute",
+    "department": "Gerontology",
+    "contact_name": "Ms Darling",
+    "role": "Ithaca College and Longview Partnership Coordinator",
+    "email": "adarling@ithaca.edu",
+    "city": "Ithaca",
+    "state": "NY",
+    "source_url": "https://www.ithaca.edu/gerontology-institute/faculty-and-staff",
+    "notes": "The only address published on the institute's faculty and staff page. She coordinates a partnership between the college and a retirement community, so placements with outside organisations are already part of the role."
+  }
+]
