@@ -138,3 +138,34 @@ page rather than only adding links to old ones. And the seven service pages are
 the clearest candidate for a decision: they have been in the sitemap since
 1 September, have never been crawled, were requested once without effect, and
 compete with city guides that already rank for the same generic terms.
+
+## Correction, 24 September: the control caught up
+
+Yesterday I reported the state hub arm as three requested and indexed against one
+control never crawled, and read it as evidence that Request Indexing works. On
+the 24th `/states/arizona`, the control, is indexed and was crawled on the 23rd.
+It got there without a request, one to six days after the three that had one.
+
+So the honest version is smaller: a request appears to bring a crawl forward by
+days on a page Google already knows about. It does not decide whether the page
+gets indexed. Both arms ended up indexed within a week of each other.
+
+That still leaves the service pages as the real finding, and it is unchanged:
+four requested on 17 September, none crawled a week later, while two controls
+reached "discovered" on their own.
+
+## The glossary, three days on
+
+A sample of fourteen of the ninety-two terms: three indexed, four discovered and
+not yet indexed, seven still unknown to Google. The index page itself was
+crawled on the 23rd, and terms have moved from unknown to discovered since, so
+the hub is doing what it was built to do. It is doing it gradually rather than in
+one pass.
+
+The twenty city statistics pages are still unknown despite `/statistics` being
+crawled on the 23rd and linking all of them, which says the same thing: a hub
+crawl starts discovery rather than completing it.
+
+Worth remembering when reading this in a fortnight: my reading on the 23rd was
+too confident on one day's data, and the correction came from checking again
+rather than from anything new happening.
