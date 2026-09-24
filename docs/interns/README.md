@@ -1,14 +1,20 @@
 # Intern programme
 
-Sixteen university departments were contacted on 10 September 2026 about
-supplying interns to record interviews with dementia clinicians. All sixteen
-delivered. This directory is what has to exist before the first one says yes.
+Forty-seven university departments have been contacted since 10 September 2026
+about supplying interns to record interviews with dementia clinicians. Seven
+replied. USC Leonard Davis circulated the description on 23 September and nine
+students applied within about twenty-six hours, which is the first time this
+programme has produced an actual person rather than a conversation.
+
+This directory is what happens next.
 
 | File | What it is | Who reads it |
 | --- | --- | --- |
 | `placement-description.md` | The role, for a placements board | Placements officers, students |
 | `interview-questions.md` | The question set and the rules | Interns |
 | `consent-release.md` | Publication consent | Clinicians |
+| `onboarding.md` | Application to first published interview | Whoever runs the programme |
+| `attachments/` | The two PDFs that go to universities and students | Placements officers, students |
 | `student-blurb.md` | The role, forwarded to students | Students |
 
 The publishing side already exists: `lib/interviews.ts` and the pages under
