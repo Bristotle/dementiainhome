@@ -169,3 +169,41 @@ crawl starts discovery rather than completing it.
 Worth remembering when reading this in a fortnight: my reading on the 23rd was
 too confident on one day's data, and the correction came from checking again
 rather than from anything new happening.
+
+## 25 September: the city hubs are being judged on old copies
+
+Every city hub is indexed, and nineteen of twenty were last crawled before
+9 September, when the provider tables went live. Three of them, Chicago, New
+York and Phoenix, were last crawled on **4 August**. Detroit has never been
+crawled at all and sits at discovered.
+
+So Google is ranking a version of the site's highest commercial-intent pages
+that predates the provider tables, the statistics link, the cost calculator and
+the footer navigation. On the two oldest, Chicago and New York, a guide page
+currently outranks the hub for the city's own head term: "chicago dementia care"
+returns the hospitals and memory units guide at position 85.
+
+Ten of the fourteen head terms checked send the query to a page other than the
+city hub. Where the hub does win, in Houston, Los Angeles and Charlotte, the
+crawl is more recent.
+
+This is the best use found so far for the ten daily index requests. A request
+brings a crawl forward by days on a page Google already knows, which is exactly
+what these are, and the city hubs are the pages that matter commercially.
+
+Order to request, oldest crawl first:
+
+1. `/cities/detroit-mi` (never crawled)
+2. `/cities/chicago-il` (4 August)
+3. `/cities/new-york-ny` (4 August)
+4. `/cities/phoenix-az` (4 August)
+5. `/cities/los-angeles-ca` (20 August)
+6. `/cities/houston-tx` (21 August)
+7. `/cities/philadelphia-pa` (25 August)
+8. `/cities/dallas-tx` (29 August)
+9. `/cities/memphis-tn` (29 August)
+10. `/cities/tucson-az` (29 August)
+
+The remaining nine the following day. Read the result by checking the crawl date
+again a week later, and whether the hub has taken back its own head term in
+Chicago and New York.
