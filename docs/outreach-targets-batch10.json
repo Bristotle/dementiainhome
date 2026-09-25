@@ -1,0 +1,66 @@
+[
+  {
+    "kind": "university",
+    "org": "the University of Nebraska Omaha Department of Gerontology",
+    "department": "Gerontology",
+    "contact_name": "Ms Ford",
+    "role": "Gerontology Advisor and Program Coordinator",
+    "email": "hford@unomaha.edu",
+    "city": "Omaha",
+    "state": "NE",
+    "source_url": "https://www.unomaha.edu/college-of-public-affairs-and-community-service/gerontology/academics/bachelor-gerontology.php",
+    "notes": "Named advisor for the undergraduate gerontology degree. Second contact at Omaha: the department's general address was written on 10 September and did not reply. USC produced nine applicants from one email to a student services manager, which is the same role type."
+  },
+  {
+    "kind": "university",
+    "org": "the USF School of Aging Studies",
+    "department": "Aging Studies",
+    "email": "htcadvise@usf.edu",
+    "city": "Tampa",
+    "state": "FL",
+    "source_url": "https://www.usf.edu/cbcs/aging-studies/advising/",
+    "notes": "The advising address on the school's own advising page. Second contact at USF: the graduate admissions address was written on 10 September and did not reply."
+  },
+  {
+    "kind": "university",
+    "org": "the Cleveland State University Gerontological Studies program",
+    "department": "Gerontological Studies",
+    "email": "gerontology@csuohio.edu",
+    "city": "Cleveland",
+    "state": "OH",
+    "source_url": "https://health.csuohio.edu/health-sci/gerontological-studies",
+    "notes": "General programme address on its own page."
+  },
+  {
+    "kind": "university",
+    "org": "the UMass Boston Department of Gerontology",
+    "department": "Gerontology",
+    "email": "gerontology@umb.edu",
+    "city": "Boston",
+    "state": "MA",
+    "source_url": "https://www.umb.edu/nursing-health-sciences/departments-centers/gerontology/",
+    "notes": "The teaching department, distinct from the Gerontology Institute contacted on 10 September. Students sit in the department."
+  },
+  {
+    "kind": "university",
+    "org": "the Towson University Gerontology Program",
+    "department": "Gerontology",
+    "contact_name": "Dr Weil",
+    "role": "Gerontology Program Coordinator",
+    "email": "jweil@towson.edu",
+    "city": "Baltimore",
+    "state": "MD",
+    "source_url": "https://www.towson.edu/chp/departments/health-sciences/undergrad/gerontology/",
+    "notes": "Programme coordinator, published plainly. The page also names an internship coordinator but writes the address as atjones AT_TOWSON, which would mean guessing the pattern, so it is not used."
+  },
+  {
+    "kind": "university",
+    "org": "the Sacramento State Gerontology Department",
+    "department": "Gerontology",
+    "email": "ssis-gero-sc@csus.edu",
+    "city": "Sacramento",
+    "state": "CA",
+    "source_url": "https://www.csus.edu/college/social-sciences-interdisciplinary-studies/gerontology-studies/",
+    "notes": "The address the department gives for questions and for booking advising, which is the student-facing desk."
+  }
+]
