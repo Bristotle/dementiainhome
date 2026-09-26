@@ -34,7 +34,8 @@
     "add-city": "tsx scripts/add-city.ts",
     "template-dates": "tsx scripts/template-dates.ts",
     "prebuild": "tsx scripts/template-dates.ts && tsx scripts/site-index.ts",
-    "site-index": "tsx scripts/site-index.ts"
+    "site-index": "tsx scripts/site-index.ts",
+    "fl:ingest": "tsx scripts/ingest-fl-specialists.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.116.0",
